@@ -41,10 +41,20 @@ const About = () => {
                 et inspirants pour la jeunesse, les familles, les communautés et toute l'Afrique.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Fort de plus de douze années d'expérience de terrain, j'ai parcouru les zones rurales pour 
-                comprendre en profondeur les réalités, les défis et les potentiels inexploités de nos producteurs. 
-                De cette immersion est née une vision claire : bâtir un écosystème agricole intégré, où chaque 
-                jeune Africain peut se développer durablement depuis son lieu d'origine, grâce à l'agriculture.
+                De 2012 à 2024, j'ai parcouru plus de 360 localités à travers 8 régions de Côte d'Ivoire — 
+                Loh-Djiboua, Gôh, Nawa, Gboklè, Grands-Ponts, Agnéby-Tiassa, Haut-Sassandra et Marahoué — 
+                me mettant en contact direct et permanent avec les communautés rurales, dans les villages, 
+                campements et hameaux, afin de comprendre en profondeur les réalités, les défis et les 
+                potentiels inexploités de nos producteurs.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Soit 12 années d'immersion totale au cœur du monde paysan : à écouter, observer, apprendre et construire.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                De cette expérience est née une vision claire et structurée : bâtir un écosystème agricole intégré, 
+                où chaque jeune Africain peut se développer durablement depuis son lieu d'origine grâce à l'agriculture 
+                — un modèle qui allie financement, accompagnement technique, formation, transformation locale et impact 
+                humain durable.
               </p>
             </div>
 
