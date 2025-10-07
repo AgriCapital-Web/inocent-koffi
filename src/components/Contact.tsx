@@ -54,8 +54,14 @@ const Contact = () => {
           <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-foreground">
             Travaillons <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Ensemble</span>
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Prêt à démarrer votre projet ? Contactez-moi pour discuter de vos objectifs
+          <p className="text-lg text-muted-foreground mb-4">
+            Vous souhaitez rejoindre ou soutenir un projet agricole à fort impact positif, alliant rentabilité, autonomisation des agriculteurs, amélioration des conditions de vie des communautés rurales et préservation de l'environnement ?
+          </p>
+          <p className="text-lg text-muted-foreground mb-2">
+            👉 Contactez-moi pour bâtir ensemble un modèle durable et transformateur pour l'Afrique.
+          </p>
+          <p className="text-xl font-semibold text-foreground">
+            Ensemble, Réinventons l'Agriculture Africaine pour un Futur Durable.
           </p>
         </div>
 

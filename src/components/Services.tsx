@@ -9,13 +9,13 @@ const services = [
   },
   {
     icon: TrendingUp,
-    title: "Modèles Agricoles Intégrés",
-    description: "Conception et déploiement d'écosystèmes agricoles durables, valorisant les producteurs et créant de la prospérité partagée."
+    title: "Innovation",
+    description: "Écosystèmes agricoles et services intégrés durables pour l'Afrique."
   },
   {
     icon: Target,
     title: "Financement & Investissement",
-    description: "Structuration de mécanismes de financement innovants pour soutenir les projets agricoles à fort impact."
+    description: "Structuration de mécanismes de financement innovants pour soutenir les projets agricoles à fort impact, au service des producteurs et de l'amélioration des conditions de vie des communautés rurales."
   },
   {
     icon: Lightbulb,
