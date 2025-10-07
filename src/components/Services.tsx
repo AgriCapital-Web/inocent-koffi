@@ -1,26 +1,26 @@
-import { Handshake, TrendingUp, Settings, Sprout } from "lucide-react";
+import { Handshake, TrendingUp, Target, Lightbulb } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const services = [
   {
     icon: Handshake,
-    title: "Partenariats Stratégiques",
-    description: "Développement de relations d'affaires durables et création de synergies pour une croissance mutuelle."
-  },
-  {
-    icon: Sprout,
-    title: "Développement d'Entreprise",
-    description: "Accompagnement dans la croissance et l'expansion de votre activité avec des stratégies innovantes."
-  },
-  {
-    icon: Settings,
-    title: "Optimisation de Processus",
-    description: "Amélioration de vos opérations et processus pour une efficacité et productivité maximales."
+    title: "Partenariats Stratégiques à Impact",
+    description: "Construction d'alliances durables pour catalyser la transformation agricole et générer un impact positif à grande échelle."
   },
   {
     icon: TrendingUp,
-    title: "Stratégie de Croissance",
-    description: "Élaboration de plans stratégiques sur mesure pour atteindre vos objectifs business ambitieux."
+    title: "Modèles Agricoles Intégrés",
+    description: "Conception et déploiement d'écosystèmes agricoles durables, valorisant les producteurs et créant de la prospérité partagée."
+  },
+  {
+    icon: Target,
+    title: "Financement & Investissement",
+    description: "Structuration de mécanismes de financement innovants pour soutenir les projets agricoles à fort impact."
+  },
+  {
+    icon: Lightbulb,
+    title: "Accompagnement Terrain",
+    description: "Plus de 12 ans d'expérience auprès des communautés rurales pour transformer les défis en opportunités de développement."
   }
 ];
 
@@ -30,10 +30,10 @@ const Services = () => {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-foreground">
-            Mes <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Services</span>
+            Mon <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Expertise</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Des solutions professionnelles adaptées à vos besoins pour propulser votre entreprise vers le succès
+            Leadership visionnaire pour une agriculture africaine prospère et durable
           </p>
         </div>
 

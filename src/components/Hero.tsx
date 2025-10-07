@@ -27,7 +27,7 @@ const Hero = () => {
           <div className="order-1 lg:order-2 text-center lg:text-left space-y-6">
             <div className="inline-block">
               <span className="px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-semibold">
-                Professionnel · Entrepreneur
+                Visionnaire Agro-Impact · Transformation Agricole
               </span>
             </div>
             
@@ -39,8 +39,7 @@ const Hero = () => {
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-lg mx-auto lg:mx-0">
-              Expert en développement d'affaires et conseil stratégique. 
-              Transformons ensemble vos ambitions en succès concrets.
+              Transformation Agricole pour une Afrique Prospère | Partenariats Stratégiques & Modèles Durables
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">

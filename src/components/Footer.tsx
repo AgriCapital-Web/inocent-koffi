@@ -7,7 +7,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Inocent KOFFI. Tous droits réservés.
           </p>
           <p className="text-xs opacity-75 mt-2">
-            Développement d'affaires · Conseil stratégique · Côte d'Ivoire
+            Transformation Agricole · Partenariats Stratégiques · Afrique Prospère
           </p>
         </div>
       </div>

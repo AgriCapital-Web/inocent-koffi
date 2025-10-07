@@ -4,18 +4,18 @@ const About = () => {
   const values = [
     {
       icon: Target,
-      title: "Excellence",
-      description: "Un engagement envers la qualité dans chaque projet"
+      title: "Impact",
+      description: "Transformation agricole à fort impact économique, sociétal et environnemental"
     },
     {
       icon: Users,
-      title: "Collaboration",
-      description: "Ensemble vers la réussite de vos objectifs"
+      title: "Innovation",
+      description: "Modèles agricoles intégrés et durables pour l'Afrique"
     },
     {
       icon: Award,
-      title: "Intégrité",
-      description: "Transparence et éthique professionnelle"
+      title: "Solidarité",
+      description: "Prospérité partagée et valorisation des producteurs"
     }
   ];
 
@@ -32,16 +32,19 @@ const About = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Professionnel passionné par le développement d'affaires et l'innovation stratégique, 
-                je me consacre à accompagner les entreprises et entrepreneurs dans leur quête d'excellence.
+                Passionné par la transformation agricole à fort impact économique, sociétal et environnemental, 
+                je considère l'agriculture comme le socle de toute économie durable.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Basé à Daloa, dans la région du Haut-Sassandra en Côte d'Ivoire, j'apporte mon expertise 
-                pour transformer les défis en opportunités de croissance durable.
+                Mon engagement repose sur une conviction forte : les agriculteurs ne doivent plus lutter seuls 
+                pour survivre, mais devenir des modèles de réussite et de prospérité — des acteurs respectés 
+                et inspirants pour la jeunesse, les familles, les communautés et toute l'Afrique.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Mon approche combine vision stratégique, méthodologie éprouvée et engagement personnel 
-                pour garantir des résultats concrets et mesurables.
+                Fort de plus de douze années d'expérience de terrain, j'ai parcouru les zones rurales pour 
+                comprendre en profondeur les réalités, les défis et les potentiels inexploités de nos producteurs. 
+                De cette immersion est née une vision claire : bâtir un écosystème agricole intégré, où chaque 
+                jeune Africain peut se développer durablement depuis son lieu d'origine, grâce à l'agriculture.
               </p>
             </div>
 
