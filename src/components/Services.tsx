@@ -9,8 +9,8 @@ const services = [
   },
   {
     icon: TrendingUp,
-    title: "Modèles Agricoles & services Intégrés",
-    description: "Conception et déploiement d'écosystèmes agricoles durables, valorisant les producteurs et créant de la prospérité partagée."
+    title: "Innovation",
+    description: "Écosystèmes agricoles et services intégrés durables pour l'Afrique."
   },
   {
     icon: Target,
