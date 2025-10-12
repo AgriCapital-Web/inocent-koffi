@@ -1,8 +1,54 @@
 import { Mail, Phone, MapPin, Facebook, Linkedin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+const formSchema = z.object({
+  name: z.string().trim().min(1, { message: "Le nom est requis" }).max(100, { message: "Le nom doit contenir moins de 100 caractères" }),
+  email: z.string().trim().email({ message: "Email invalide" }).max(255, { message: "L'email doit contenir moins de 255 caractères" }),
+  phone: z.string().trim().max(20, { message: "Le téléphone doit contenir moins de 20 caractères" }).optional(),
+  message: z.string().trim().min(1, { message: "Le message est requis" }).max(1000, { message: "Le message doit contenir moins de 1000 caractères" })
+});
 
 const Contact = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      message: ""
+    }
+  });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([{
+          name: values.name,
+          email: values.email,
+          phone: values.phone || null,
+          message: values.message
+        }]);
+
+      if (error) throw error;
+
+      toast.success("Message envoyé avec succès ! Je vous répondrai bientôt.");
+      form.reset();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error("Erreur lors de l'envoi du message. Veuillez réessayer.");
+    }
+  };
+
   const contactInfo = [
     {
       icon: Mail,
@@ -68,6 +114,85 @@ const Contact = () => {
         <div className="max-w-4xl mx-auto">
           <Card className="backdrop-blur-sm bg-card/80 border-border/50 shadow-2xl">
             <CardContent className="p-8 lg:p-12">
+              {/* Contact Form */}
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold mb-6 text-foreground">Envoyez-moi un message</h3>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nom complet</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Votre nom" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input type="email" placeholder="votre@email.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Téléphone (optionnel)</FormLabel>
+                          <FormControl>
+                            <Input type="tel" placeholder="+225 XX XX XX XX XX" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Message</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Décrivez votre projet ou votre demande..."
+                              className="min-h-[120px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button 
+                      type="submit" 
+                      size="lg" 
+                      className="w-full md:w-auto"
+                      disabled={form.formState.isSubmitting}
+                    >
+                      {form.formState.isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
+                    </Button>
+                  </form>
+                </Form>
+              </div>
+
+              <div className="border-t border-border/50 pt-8 mb-8">
+                <h3 className="text-xl font-bold mb-6 text-center text-foreground">Ou contactez-moi directement</h3>
+              </div>
+
               <div className="grid md:grid-cols-2 gap-8 mb-12">
                 {contactInfo.map((info, index) => {
                   const Icon = info.icon;
