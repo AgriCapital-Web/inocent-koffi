@@ -38,13 +38,6 @@ const Hero = () => {
               </span>
             </h1>
 
-            <p className="text-xl text-muted-foreground max-w-lg mx-auto lg:mx-0">
-              Le partenaire idéal des producteurs agricoles
-            </p>
-            
-            <p className="text-base text-muted-foreground/80 max-w-lg mx-auto lg:mx-0">
-              AGRICAPITAL SARL - Capital social de 5 000 000 FCFA | Daloa, Haut-Sassandra | Accompagnement agricole et services intégrés
-            </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
               <Button 
