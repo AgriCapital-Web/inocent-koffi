@@ -32,6 +32,11 @@ const About = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">Fondateur et Directeur Général d'AGRICAPITAL SARL</strong>, entreprise au capital social de 5 000 000 FCFA, 
+                basée à Daloa (Haut-Sassandra), spécialisée dans l'accompagnement agricole et services intégrés. 
+                Le partenaire idéal des producteurs agricoles.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 Passionné par la transformation agricole à fort impact économique, sociétal et environnemental, 
                 je considère l'agriculture comme le socle de toute économie durable.
               </p>

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin } from "lucide-react";
-import profilePhoto from "@/assets/profile-photo.png";
+import profilePhoto from "@/assets/profile-photo.jpg";
 
 const Hero = () => {
   return (
@@ -27,7 +27,7 @@ const Hero = () => {
           <div className="order-1 lg:order-2 text-center lg:text-left space-y-6">
             <div className="inline-block">
               <span className="px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-semibold">
-                Visionnaire Agro-Impact · Transformation Agricole
+                Fondateur & DG AGRICAPITAL SARL
               </span>
             </div>
             
@@ -39,7 +39,11 @@ const Hero = () => {
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-lg mx-auto lg:mx-0">
-              Transformation Agricole pour une Afrique Prospère | Partenariats Stratégiques & Modèles Durables
+              Le partenaire idéal des producteurs agricoles
+            </p>
+            
+            <p className="text-base text-muted-foreground/80 max-w-lg mx-auto lg:mx-0">
+              AGRICAPITAL SARL - Capital social de 5 000 000 FCFA | Daloa, Haut-Sassandra | Accompagnement agricole et services intégrés
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
