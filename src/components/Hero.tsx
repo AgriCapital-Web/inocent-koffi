@@ -16,8 +16,11 @@ const Hero = () => {
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-accent/20">
                 <img 
                   src={profilePhoto} 
-                  alt="Inocent KOFFI - Professionnel" 
+                  alt="Inocent KOFFI - Fondateur et Directeur Général AGRICAPITAL SARL" 
                   className="w-full h-auto max-w-md object-cover"
+                  loading="eager"
+                  width="500"
+                  height="600"
                 />
               </div>
             </div>
