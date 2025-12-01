@@ -292,12 +292,16 @@ const Testimonials = () => {
                                 <Upload className="w-5 h-5 text-muted-foreground" />
                               </div>
                               {photoPreview && (
-                                <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-primary">
+                                <div className="relative w-40 h-40 rounded-xl overflow-hidden border-4 border-primary shadow-lg">
                                   <img
                                     src={photoPreview}
-                                    alt="Preview"
+                                    alt="Prévisualisation de votre photo"
                                     className="w-full h-full object-cover"
+                                    loading="lazy"
                                   />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-end justify-center pb-2">
+                                    <span className="text-white text-xs font-semibold">Votre photo</span>
+                                  </div>
                                 </div>
                               )}
                             </div>

@@ -41,6 +41,45 @@ export type Database = {
         }
         Relationships: []
       }
+      partnership_requests: {
+        Row: {
+          company_name: string
+          contact_name: string
+          created_at: string
+          email: string
+          id: string
+          message: string
+          partnership_type: string
+          phone: string
+          status: string
+          website: string | null
+        }
+        Insert: {
+          company_name: string
+          contact_name: string
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          partnership_type: string
+          phone: string
+          status?: string
+          website?: string | null
+        }
+        Update: {
+          company_name?: string
+          contact_name?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          partnership_type?: string
+          phone?: string
+          status?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           created_at: string
