@@ -1,26 +1,21 @@
-import { Handshake, TrendingUp, Target, Lightbulb } from "lucide-react";
+import { TrendingUp, Target, Lightbulb } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const services = [
   {
-    icon: Handshake,
-    title: "Partenariats Stratégiques à Impact",
-    description: "Construction d'alliances durables pour catalyser la transformation agricole et générer un impact positif à grande échelle."
+    icon: Target,
+    title: "Impact",
+    description: "Transformation agricole à fort impact économique, social, communautaire et environnemental."
   },
   {
     icon: TrendingUp,
-    title: "Innovation",
-    description: "Écosystèmes agricoles et services intégrés durables pour l'Afrique."
-  },
-  {
-    icon: Target,
     title: "Financement & Investissement",
-    description: "Structuration de mécanismes de financement innovants pour soutenir les projets agricoles à fort impact, au service des producteurs et de l'amélioration des conditions de vie des communautés rurales."
+    description: "Structuration de mécanismes de financement innovants pour soutenir les projets agricoles à fort impact, au service des producteurs, du développement des communautés rurales, du renforcement de la sécurité alimentaire et de la croissance de l'économie nationale."
   },
   {
     icon: Lightbulb,
     title: "Accompagnement Terrain",
-    description: "Plus de 12 ans d'expérience auprès des communautés rurales pour transformer les défis en opportunités de développement."
+    description: "Plus de 12 années d'immersion au cœur des communautés rurales, transformant les réalités du terrain en solutions concrètes de développement agricole."
   }
 ];
 
@@ -37,7 +32,7 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
