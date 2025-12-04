@@ -1,11 +1,20 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Partnership from "@/components/Partnership";
 import { Helmet } from "react-helmet-async";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Package, GraduationCap, Factory, Users, Heart, Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TrendingUp, Package, GraduationCap, Factory, Users, Heart, Globe, Handshake } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const Partenariat = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
   const partnerTypes = [
     {
       icon: TrendingUp,
@@ -62,9 +71,20 @@ const Partenariat = () => {
                 <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-foreground">
                   Devenez Notre <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Partenaire</span>
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed">
+                <p className="text-xl text-muted-foreground leading-relaxed mb-8">
                   Rejoignez-nous dans notre mission de transformer durablement l'agriculture africaine et de bâtir un modèle agricole inclusif, structuré et sans barrière financière.
                 </p>
+                <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="lg" className="bg-gradient-to-r from-primary to-primary/90">
+                      <Handshake className="w-5 h-5 mr-2" />
+                      Soumettre une Demande de Partenariat
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <Partnership />
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </section>
@@ -98,8 +118,30 @@ const Partenariat = () => {
             </div>
           </section>
 
-          {/* Partnership Form */}
-          <Partnership />
+          {/* CTA Section */}
+          <section className="py-20 bg-primary text-primary-foreground">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+                  Prêt à Nous Rejoindre ?
+                </h2>
+                <p className="text-xl mb-8 opacity-90">
+                  Ensemble, transformons l'agriculture africaine et créons un impact durable pour les communautés rurales.
+                </p>
+                <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="lg" variant="secondary" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                      <Handshake className="w-5 h-5 mr-2" />
+                      Soumettre une Demande
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <Partnership />
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+          </section>
         </main>
         <Footer />
       </div>

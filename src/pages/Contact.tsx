@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ContactForm from "@/components/Contact";
+import ContactForm from "@/components/ContactForm";
 import { Helmet } from "react-helmet-async";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, MapPin, Globe, Clock } from "lucide-react";
@@ -89,10 +89,16 @@ const Contact = () => {
           </section>
 
           {/* Contact Form */}
-          <ContactForm />
+          <section className="py-12 bg-secondary/30">
+            <div className="container mx-auto px-4">
+              <div className="max-w-2xl mx-auto">
+                <ContactForm />
+              </div>
+            </div>
+          </section>
 
           {/* Availability */}
-          <section className="py-12 bg-secondary/30">
+          <section className="py-12 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-2xl mx-auto text-center">
                 <div className="flex items-center justify-center gap-2 mb-4">

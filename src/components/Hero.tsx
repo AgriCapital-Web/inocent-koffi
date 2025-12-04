@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.jpg";
 
 const Hero = () => {
@@ -41,6 +42,9 @@ const Hero = () => {
               </span>
             </h1>
 
+            <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
+              12 années d'immersion au cœur des communautés rurales ivoiriennes pour bâtir une agriculture africaine prospère et durable.
+            </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
               <Button 
@@ -49,7 +53,10 @@ const Hero = () => {
                 className="bg-gradient-to-r from-primary to-primary/90 hover:shadow-lg transition-all"
                 asChild
               >
-                <a href="#contact">Me Contacter</a>
+                <Link to="/contact">
+                  Me Contacter
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Link>
               </Button>
               <Button 
                 variant="outline" 
@@ -57,7 +64,7 @@ const Hero = () => {
                 className="border-2 hover:bg-accent/10"
                 asChild
               >
-                <a href="#services">Mes Services</a>
+                <Link to="/a-propos">En Savoir Plus</Link>
               </Button>
             </div>
 

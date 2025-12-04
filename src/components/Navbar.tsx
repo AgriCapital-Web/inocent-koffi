@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,13 +17,16 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: "#about", label: "À Propos" },
-    { href: "#services", label: "Services" },
-    { href: "#portfolio", label: "Portfolio" },
-    { href: "#partnership", label: "Partenariat" },
-    { href: "#testimonials", label: "Témoignages" },
-    { href: "#contact", label: "Contact" },
+    { href: "/a-propos", label: "À Propos" },
+    { href: "/vision", label: "Vision" },
+    { href: "/agricapital", label: "AGRICAPITAL" },
+    { href: "/projets", label: "Projets" },
+    { href: "/partenariat", label: "Partenariat" },
+    { href: "/blog", label: "Blog" },
+    { href: "/contact", label: "Contact" },
   ];
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <nav
@@ -34,23 +39,27 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a
-            href="#"
+          <Link
+            to="/"
             className="text-xl font-bold text-foreground hover:text-primary transition-colors"
           >
             Inocent KOFFI
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                to={link.href}
+                className={`text-sm font-medium transition-colors ${
+                  isActive(link.href)
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
+                }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <Button
               variant="default"
@@ -58,13 +67,13 @@ const Navbar = () => {
               className="bg-gradient-to-r from-primary to-primary/90"
               asChild
             >
-              <a href="#contact">Me Contacter</a>
+              <Link to="/contact">Me Contacter</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-foreground"
+            className="lg:hidden text-foreground"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -74,16 +83,20 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-4 border-t border-border/50">
+          <div className="lg:hidden py-4 space-y-4 border-t border-border/50 bg-background/95 backdrop-blur-md">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
-                className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                to={link.href}
+                className={`block text-sm font-medium transition-colors ${
+                  isActive(link.href)
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <Button
               variant="default"
@@ -91,9 +104,9 @@ const Navbar = () => {
               className="w-full bg-gradient-to-r from-primary to-primary/90"
               asChild
             >
-              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
                 Me Contacter
-              </a>
+              </Link>
             </Button>
           </div>
         )}
