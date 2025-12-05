@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Facebook, Linkedin, Mail, MapPin, Phone, ExternalLink } from "lucide-react";
+import { Facebook, Linkedin, Mail, MapPin, Phone, ExternalLink, Twitter } from "lucide-react";
+import SocialShare from "@/components/SocialShare";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -119,14 +120,11 @@ const Footer = () => {
         <div className="border-t border-primary-foreground/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-80">
             <p>© {currentYear} Inocent KOFFI. Tous droits réservés.</p>
+            <SocialShare className="opacity-90" />
             <div className="flex items-center gap-4">
               <Link to="/mentions-legales" className="hover:opacity-100 transition-opacity">
                 Mentions Légales
               </Link>
-              <span className="hidden md:inline">·</span>
-              <span className="text-center md:text-right">
-                AGRICAPITAL SARL · Transformation Agricole
-              </span>
             </div>
           </div>
         </div>

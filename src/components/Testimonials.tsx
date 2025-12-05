@@ -79,24 +79,7 @@ const Testimonials = () => {
     try {
       let photoUrl = null;
 
-      // Upload photo if provided
-      if (data.photo && data.photo.length > 0) {
-        const file = data.photo[0];
-        const fileExt = file.name.split(".").pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `testimonials/${fileName}`;
-
-        toast({
-          title: "Téléchargement de la photo...",
-          description: "Veuillez patienter",
-        });
-
-        // Note: This requires storage bucket setup
-        // For now, we'll just proceed without photo upload
-        // You can enable this once storage is configured
-      }
-
-      const { error } = await supabase.from("testimonials").insert({
+      const insertData = {
         first_name: data.firstName,
         last_name: data.lastName,
         email: data.email,
@@ -105,9 +88,20 @@ const Testimonials = () => {
         message: data.message,
         rating: data.rating,
         photo_url: photoUrl,
-      });
+      };
+
+      const { error } = await supabase.from("testimonials").insert(insertData);
 
       if (error) throw error;
+
+      // Send email notification
+      try {
+        await supabase.functions.invoke("send-notification", {
+          body: { type: "testimonial", data: insertData },
+        });
+      } catch (emailError) {
+        console.error("Email notification failed:", emailError);
+      }
 
       toast({
         title: "Témoignage envoyé avec succès ! ✅",

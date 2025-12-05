@@ -59,7 +59,7 @@ const Partnership = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.from("partnership_requests").insert({
+      const insertData = {
         company_name: data.companyName,
         contact_name: data.contactName,
         email: data.email,
@@ -67,9 +67,20 @@ const Partnership = () => {
         partnership_type: data.partnershipType,
         message: data.message,
         website: data.website || null,
-      });
+      };
+
+      const { error } = await supabase.from("partnership_requests").insert(insertData);
 
       if (error) throw error;
+
+      // Send email notification
+      try {
+        await supabase.functions.invoke("send-notification", {
+          body: { type: "partnership", data: insertData },
+        });
+      } catch (emailError) {
+        console.error("Email notification failed:", emailError);
+      }
 
       toast({
         title: "Demande de partenariat envoyée ! ✅",

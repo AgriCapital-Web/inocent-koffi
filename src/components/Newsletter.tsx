@@ -44,6 +44,15 @@ const Newsletter = () => {
           throw error;
         }
       } else {
+        // Send email notification
+        try {
+          await supabase.functions.invoke("send-notification", {
+            body: { type: "newsletter", data: { email } },
+          });
+        } catch (emailError) {
+          console.error("Email notification failed:", emailError);
+        }
+
         setIsSubscribed(true);
         setEmail("");
         toast({

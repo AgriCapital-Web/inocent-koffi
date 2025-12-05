@@ -45,14 +45,25 @@ const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.from("contact_messages").insert({
+      const insertData = {
         name: data.name,
         email: data.email,
         phone: data.phone || null,
         message: data.message,
-      });
+      };
+
+      const { error } = await supabase.from("contact_messages").insert(insertData);
 
       if (error) throw error;
+
+      // Send email notification
+      try {
+        await supabase.functions.invoke("send-notification", {
+          body: { type: "contact", data: insertData },
+        });
+      } catch (emailError) {
+        console.error("Email notification failed:", emailError);
+      }
 
       toast({
         title: "Message envoyé avec succès ! ✅",
