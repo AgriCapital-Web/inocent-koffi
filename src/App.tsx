@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { LanguageProvider } from "@/hooks/useLanguage";
 import Home from "./pages/Home";
 import APropos from "./pages/APropos";
 import Vision from "./pages/Vision";
@@ -19,6 +20,23 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// All routes with language support
+const routes = [
+  { path: "/", element: <Home /> },
+  { path: "/a-propos", element: <APropos /> },
+  { path: "/vision", element: <Vision /> },
+  { path: "/agricapital", element: <Agricapital /> },
+  { path: "/projets", element: <Projets /> },
+  { path: "/partenariat", element: <Partenariat /> },
+  { path: "/blog", element: <Blog /> },
+  { path: "/contact", element: <Contact /> },
+  { path: "/login", element: <Login /> },
+  { path: "/admin", element: <Admin /> },
+  { path: "/mentions-legales", element: <MentionsLegales /> },
+];
+
+const languageCodes = ["fr", "en", "es", "de", "zh", "ar"];
+
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
@@ -26,21 +44,33 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/a-propos" element={<APropos />} />
-            <Route path="/vision" element={<Vision />} />
-            <Route path="/agricapital" element={<Agricapital />} />
-            <Route path="/projets" element={<Projets />} />
-            <Route path="/partenariat" element={<Partenariat />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/mentions-legales" element={<MentionsLegales />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <LanguageProvider>
+            <Routes>
+              {/* Base routes */}
+              {routes.map((route) => (
+                <Route key={route.path} path={route.path} element={route.element} />
+              ))}
+              
+              {/* Language prefix routes (e.g., /fr, /en, /es) */}
+              {languageCodes.map((lang) => (
+                <Route key={lang} path={`/${lang}`} element={<Home />} />
+              ))}
+              
+              {/* Routes with language suffix (e.g., /a-propos/fr) */}
+              {routes.slice(1, -2).map((route) => 
+                languageCodes.map((lang) => (
+                  <Route 
+                    key={`${route.path}/${lang}`} 
+                    path={`${route.path}/${lang}`} 
+                    element={route.element} 
+                  />
+                ))
+              )}
+              
+              {/* Catch-all */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </LanguageProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

@@ -3,11 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import LanguageSelector from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,16 +20,16 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: "/a-propos", label: "À Propos" },
-    { href: "/vision", label: "Vision" },
+    { href: "/a-propos", label: t("nav.about") },
+    { href: "/vision", label: t("nav.vision") },
     { href: "/agricapital", label: "AGRICAPITAL" },
-    { href: "/projets", label: "Projets" },
-    { href: "/partenariat", label: "Partenariat" },
-    { href: "/blog", label: "Blog" },
-    { href: "/contact", label: "Contact" },
+    { href: "/projets", label: t("nav.projects") },
+    { href: "/partenariat", label: t("nav.partnership") },
+    { href: "/blog", label: t("nav.blog") },
+    { href: "/contact", label: t("nav.contact") },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname.startsWith(path);
 
   return (
     <nav
@@ -62,24 +64,28 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            <LanguageSelector />
             <Button
               variant="default"
               size="sm"
               className="bg-gradient-to-r from-primary to-primary/90"
               asChild
             >
-              <Link to="/contact">Me Contacter</Link>
+              <Link to="/contact">{t("nav.contactMe")}</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden text-foreground"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="lg:hidden flex items-center gap-2">
+            <LanguageSelector />
+            <button
+              className="text-foreground"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -106,7 +112,7 @@ const Navbar = () => {
               asChild
             >
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                Me Contacter
+                {t("nav.contactMe")}
               </Link>
             </Button>
           </div>

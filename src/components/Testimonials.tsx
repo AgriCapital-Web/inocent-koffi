@@ -4,13 +4,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Quote, Upload, Star, CheckCircle2 } from "lucide-react";
+import { Quote, Upload, Star, CheckCircle2, User, Camera } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -70,6 +69,8 @@ const Testimonials = () => {
         setPhotoPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+    } else {
+      setPhotoPreview(null);
     }
   };
 
@@ -166,7 +167,7 @@ const Testimonials = () => {
                 ))}
               </div>
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Informations</span>
+                <span>Photo & Infos</span>
                 <span>Localisation</span>
                 <span>Témoignage</span>
               </div>
@@ -174,15 +175,76 @@ const Testimonials = () => {
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                {/* Step 1: Personal Info */}
+                {/* Step 1: Photo & Personal Info */}
                 {currentStep === 1 && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                     <div className="flex items-center gap-3 mb-6">
-                      <Quote className="w-6 h-6 text-primary" />
-                      <h3 className="text-xl font-bold">Vos Informations</h3>
+                      <Camera className="w-6 h-6 text-primary" />
+                      <h3 className="text-xl font-bold">Photo & Informations</h3>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Photo Upload - First Field */}
+                    <FormField
+                      control={form.control}
+                      name="photo"
+                      render={({ field: { onChange, value, ...field } }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold">Votre Photo (optionnel)</FormLabel>
+                          <FormControl>
+                            <div className="space-y-4">
+                              {/* Photo Preview Area */}
+                              <div className="flex flex-col items-center gap-4">
+                                <div 
+                                  className={`relative w-32 h-32 rounded-full overflow-hidden border-4 transition-all ${
+                                    photoPreview 
+                                      ? "border-primary shadow-lg" 
+                                      : "border-dashed border-muted-foreground/50 bg-muted"
+                                  }`}
+                                >
+                                  {photoPreview ? (
+                                    <>
+                                      <img
+                                        src={photoPreview}
+                                        alt="Prévisualisation"
+                                        className="w-full h-full object-cover"
+                                      />
+                                      <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <Camera className="w-8 h-8 text-white" />
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground">
+                                      <User className="w-12 h-12 mb-1" />
+                                      <span className="text-xs">Photo</span>
+                                    </div>
+                                  )}
+                                </div>
+                                
+                                <div className="flex items-center gap-3">
+                                  <Input
+                                    type="file"
+                                    accept={ACCEPTED_IMAGE_TYPES.join(",")}
+                                    onChange={(e) => {
+                                      onChange(e.target.files);
+                                      handlePhotoChange(e);
+                                    }}
+                                    {...field}
+                                    className="cursor-pointer max-w-[250px]"
+                                    id="photo-upload"
+                                  />
+                                </div>
+                                <p className="text-xs text-muted-foreground text-center">
+                                  Formats: JPG, PNG, WebP • Max 5MB
+                                </p>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                       <FormField
                         control={form.control}
                         name="firstName"
@@ -242,12 +304,12 @@ const Testimonials = () => {
                   </div>
                 )}
 
-                {/* Step 2: Location & Photo */}
+                {/* Step 2: Location */}
                 {currentStep === 2 && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                     <div className="flex items-center gap-3 mb-6">
                       <Quote className="w-6 h-6 text-primary" />
-                      <h3 className="text-xl font-bold">Localisation & Photo</h3>
+                      <h3 className="text-xl font-bold">Votre Localisation</h3>
                     </div>
 
                     <FormField
@@ -258,47 +320,6 @@ const Testimonials = () => {
                           <FormLabel>Localité / Village *</FormLabel>
                           <FormControl>
                             <Input placeholder="Ex: Daloa, Yamoussoukro..." {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="photo"
-                      render={({ field: { onChange, value, ...field } }) => (
-                        <FormItem>
-                          <FormLabel>Photo (optionnel)</FormLabel>
-                          <FormControl>
-                            <div className="space-y-4">
-                              <div className="flex items-center gap-4">
-                                <Input
-                                  type="file"
-                                  accept={ACCEPTED_IMAGE_TYPES.join(",")}
-                                  onChange={(e) => {
-                                    onChange(e.target.files);
-                                    handlePhotoChange(e);
-                                  }}
-                                  {...field}
-                                  className="cursor-pointer"
-                                />
-                                <Upload className="w-5 h-5 text-muted-foreground" />
-                              </div>
-                              {photoPreview && (
-                                <div className="relative w-40 h-40 rounded-xl overflow-hidden border-4 border-primary shadow-lg">
-                                  <img
-                                    src={photoPreview}
-                                    alt="Prévisualisation de votre photo"
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
-                                  />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-end justify-center pb-2">
-                                    <span className="text-white text-xs font-semibold">Votre photo</span>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
