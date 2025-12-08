@@ -13,7 +13,8 @@ import { useToast } from "@/hooks/use-toast";
 import { 
   Users, MessageSquare, Handshake, Star, Mail, 
   LogOut, Search, Check, X, Trash2, Eye, 
-  BarChart3, TrendingUp, Calendar, Download, FileText, Plus
+  BarChart3, TrendingUp, Calendar, Download, FileText, Plus,
+  LayoutDashboard, Image, Globe, Settings
 } from "lucide-react";
 import {
   Table,
@@ -31,8 +32,12 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area } from "recharts";
 import RichTextEditor from "@/components/RichTextEditor";
+import AdminAnalytics from "@/components/admin/AdminAnalytics";
+import AdminSettings from "@/components/admin/AdminSettings";
+import AdminMedia from "@/components/admin/AdminMedia";
+import AdminSEO from "@/components/admin/AdminSEO";
 
 interface Testimonial {
   id: string;
@@ -89,7 +94,7 @@ interface BlogPost {
   created_at: string;
 }
 
-const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', '#10B981', '#F59E0B', '#EF4444'];
+const COLORS = ['hsl(220, 50%, 20%)', 'hsl(45, 90%, 55%)', '#10B981', '#F59E0B', '#EF4444'];
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -99,6 +104,7 @@ const Admin = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItem, setSelectedItem] = useState<Testimonial | PartnershipRequest | ContactMessage | null>(null);
   const [dialogType, setDialogType] = useState<string>("");
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   // Blog editor state
   const [showBlogEditor, setShowBlogEditor] = useState(false);
@@ -140,7 +146,6 @@ const Admin = () => {
         return;
       }
 
-      // Check if user has admin role
       const { data: roles, error: rolesError } = await supabase
         .from("user_roles")
         .select("role")
@@ -199,7 +204,6 @@ const Admin = () => {
     });
   };
 
-  // Export to CSV
   const exportToCSV = (data: any[], filename: string) => {
     if (data.length === 0) return;
     
@@ -216,6 +220,8 @@ const Admin = () => {
     link.href = URL.createObjectURL(blob);
     link.download = `${filename}_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
+    
+    toast({ title: "Export réussi", description: `${filename}.csv téléchargé` });
   };
 
   const handleApproveTestimonial = async (id: string, approved: boolean) => {
@@ -351,41 +357,6 @@ const Admin = () => {
     });
   };
 
-  // Chart data
-  const partnershipTypeData = partnerships.reduce((acc, p) => {
-    const existing = acc.find(item => item.name === p.partnership_type);
-    if (existing) {
-      existing.value += 1;
-    } else {
-      acc.push({ name: p.partnership_type, value: 1 });
-    }
-    return acc;
-  }, [] as { name: string; value: number }[]);
-
-  const monthlyData = [...Array(6)].map((_, i) => {
-    const date = new Date();
-    date.setMonth(date.getMonth() - (5 - i));
-    const month = date.toLocaleDateString('fr-FR', { month: 'short' });
-    const monthStart = new Date(date.getFullYear(), date.getMonth(), 1);
-    const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    
-    return {
-      name: month,
-      testimonials: testimonials.filter(t => {
-        const d = new Date(t.created_at);
-        return d >= monthStart && d <= monthEnd;
-      }).length,
-      partnerships: partnerships.filter(p => {
-        const d = new Date(p.created_at);
-        return d >= monthStart && d <= monthEnd;
-      }).length,
-      contacts: contacts.filter(c => {
-        const d = new Date(c.created_at);
-        return d >= monthStart && d <= monthEnd;
-      }).length,
-    };
-  });
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -396,6 +367,19 @@ const Admin = () => {
 
   if (!isAdmin) return null;
 
+  const menuItems = [
+    { id: "dashboard", icon: <LayoutDashboard className="h-4 w-4" />, label: "Tableau de bord" },
+    { id: "testimonials", icon: <Star className="h-4 w-4" />, label: "Témoignages" },
+    { id: "partnerships", icon: <Handshake className="h-4 w-4" />, label: "Partenariats" },
+    { id: "contacts", icon: <MessageSquare className="h-4 w-4" />, label: "Messages" },
+    { id: "newsletter", icon: <Mail className="h-4 w-4" />, label: "Newsletter" },
+    { id: "blog", icon: <FileText className="h-4 w-4" />, label: "Blog" },
+    { id: "media", icon: <Image className="h-4 w-4" />, label: "Médias" },
+    { id: "analytics", icon: <BarChart3 className="h-4 w-4" />, label: "Analytiques" },
+    { id: "seo", icon: <Globe className="h-4 w-4" />, label: "SEO" },
+    { id: "settings", icon: <Settings className="h-4 w-4" />, label: "Paramètres" },
+  ];
+
   return (
     <>
       <Helmet>
@@ -403,186 +387,212 @@ const Admin = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <div className="min-h-screen bg-muted/30">
-        {/* Header */}
-        <header className="bg-card border-b sticky top-0 z-50">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <h1 className="text-xl font-bold text-primary">AGRICAPITAL Admin</h1>
-              <Badge variant="secondary">Super Admin</Badge>
-            </div>
-            <Button variant="outline" onClick={handleLogout}>
+      <div className="min-h-screen bg-muted/30 flex">
+        {/* Sidebar */}
+        <aside className="w-64 bg-card border-r min-h-screen p-4 hidden lg:block fixed left-0 top-0">
+          <div className="mb-8">
+            <h1 className="text-xl font-bold text-primary">AGRICAPITAL</h1>
+            <p className="text-sm text-muted-foreground">Administration</p>
+          </div>
+          <nav className="space-y-1">
+            {menuItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-left ${
+                  activeTab === item.id
+                    ? "bg-primary text-primary-foreground shadow-md"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                {item.icon}
+                <span className="font-medium text-sm">{item.label}</span>
+              </button>
+            ))}
+          </nav>
+          <div className="absolute bottom-4 left-4 right-4">
+            <Button variant="outline" onClick={handleLogout} className="w-full">
               <LogOut className="h-4 w-4 mr-2" />
               Déconnexion
             </Button>
           </div>
-        </header>
+        </aside>
 
-        <main className="container mx-auto px-4 py-8">
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Témoignages</CardTitle>
-                <Star className="h-4 w-4 text-yellow-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stats.totalTestimonials}</div>
-                <p className="text-xs text-muted-foreground">
-                  {stats.pendingTestimonials} en attente
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Partenariats</CardTitle>
-                <Handshake className="h-4 w-4 text-blue-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stats.totalPartnerships}</div>
-                <p className="text-xs text-muted-foreground">
-                  {stats.pendingPartnerships} en attente
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Messages</CardTitle>
-                <MessageSquare className="h-4 w-4 text-green-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stats.totalContacts}</div>
-                <p className="text-xs text-muted-foreground">Messages reçus</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Newsletter</CardTitle>
-                <Mail className="h-4 w-4 text-purple-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stats.totalSubscribers}</div>
-                <p className="text-xs text-muted-foreground">Abonnés actifs</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5" />
-                  Activité Mensuelle
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={monthlyData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="testimonials" stroke="hsl(var(--primary))" name="Témoignages" />
-                    <Line type="monotone" dataKey="partnerships" stroke="#10B981" name="Partenariats" />
-                    <Line type="monotone" dataKey="contacts" stroke="#F59E0B" name="Messages" />
-                  </LineChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5" />
-                  Types de Partenariats
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={partnershipTypeData}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {partnershipTypeData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Search & Export */}
-          <div className="flex flex-wrap gap-4 mb-6">
-            <div className="relative flex-1 min-w-[200px]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Rechercher..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+        {/* Main Content */}
+        <main className="flex-1 lg:ml-64">
+          {/* Header */}
+          <header className="bg-card border-b sticky top-0 z-50 px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <h2 className="text-lg font-semibold capitalize">
+                  {menuItems.find(m => m.id === activeTab)?.label || "Dashboard"}
+                </h2>
+                <Badge variant="secondary">Super Admin</Badge>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="relative hidden md:block">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Rechercher..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 w-64"
+                  />
+                </div>
+                <Button variant="outline" size="sm" className="lg:hidden" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={() => exportToCSV(testimonials, 'testimonials')}>
-                <Download className="h-4 w-4 mr-2" />
-                Export Témoignages
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => exportToCSV(partnerships, 'partnerships')}>
-                <Download className="h-4 w-4 mr-2" />
-                Export Partenariats
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => exportToCSV(subscribers, 'newsletter')}>
-                <Download className="h-4 w-4 mr-2" />
-                Export Newsletter
-              </Button>
-            </div>
-          </div>
+          </header>
 
-          {/* Tabs */}
-          <Tabs defaultValue="testimonials" className="space-y-4">
-            <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
-              <TabsTrigger value="testimonials">
-                <Star className="h-4 w-4 mr-2" />
-                Témoignages
-              </TabsTrigger>
-              <TabsTrigger value="partnerships">
-                <Handshake className="h-4 w-4 mr-2" />
-                Partenariats
-              </TabsTrigger>
-              <TabsTrigger value="contacts">
-                <MessageSquare className="h-4 w-4 mr-2" />
-                Messages
-              </TabsTrigger>
-              <TabsTrigger value="newsletter">
-                <Mail className="h-4 w-4 mr-2" />
-                Newsletter
-              </TabsTrigger>
-              <TabsTrigger value="blog">
-                <FileText className="h-4 w-4 mr-2" />
-                Blog
-              </TabsTrigger>
-            </TabsList>
+          <div className="p-6">
+            {/* Dashboard */}
+            {activeTab === "dashboard" && (
+              <div className="space-y-6">
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <Card className="hover:shadow-lg transition-shadow">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                      <CardTitle className="text-sm font-medium">Témoignages</CardTitle>
+                      <Star className="h-4 w-4 text-yellow-500" />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{stats.totalTestimonials}</div>
+                      <p className="text-xs text-muted-foreground">
+                        {stats.pendingTestimonials} en attente
+                      </p>
+                    </CardContent>
+                  </Card>
 
-            {/* Testimonials Tab */}
-            <TabsContent value="testimonials">
+                  <Card className="hover:shadow-lg transition-shadow">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                      <CardTitle className="text-sm font-medium">Partenariats</CardTitle>
+                      <Handshake className="h-4 w-4 text-blue-500" />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{stats.totalPartnerships}</div>
+                      <p className="text-xs text-muted-foreground">
+                        {stats.pendingPartnerships} en attente
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-shadow">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                      <CardTitle className="text-sm font-medium">Messages</CardTitle>
+                      <MessageSquare className="h-4 w-4 text-green-500" />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{stats.totalContacts}</div>
+                      <p className="text-xs text-muted-foreground">Messages reçus</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-shadow">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                      <CardTitle className="text-sm font-medium">Newsletter</CardTitle>
+                      <Mail className="h-4 w-4 text-purple-500" />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{stats.totalSubscribers}</div>
+                      <p className="text-xs text-muted-foreground">Abonnés actifs</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <Button variant="outline" onClick={() => exportToCSV(testimonials, 'testimonials')} className="h-auto py-4 flex-col gap-2">
+                    <Download className="h-5 w-5" />
+                    <span className="text-xs">Export Témoignages</span>
+                  </Button>
+                  <Button variant="outline" onClick={() => exportToCSV(partnerships, 'partnerships')} className="h-auto py-4 flex-col gap-2">
+                    <Download className="h-5 w-5" />
+                    <span className="text-xs">Export Partenariats</span>
+                  </Button>
+                  <Button variant="outline" onClick={() => exportToCSV(contacts, 'contacts')} className="h-auto py-4 flex-col gap-2">
+                    <Download className="h-5 w-5" />
+                    <span className="text-xs">Export Messages</span>
+                  </Button>
+                  <Button variant="outline" onClick={() => exportToCSV(subscribers, 'newsletter')} className="h-auto py-4 flex-col gap-2">
+                    <Download className="h-5 w-5" />
+                    <span className="text-xs">Export Newsletter</span>
+                  </Button>
+                </div>
+
+                {/* Recent Activity */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">Derniers Témoignages</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {testimonials.slice(0, 5).map(t => (
+                          <div key={t.id} className="flex items-center gap-3">
+                            {t.photo_url ? (
+                              <img src={t.photo_url} alt="" className="w-10 h-10 rounded-full object-cover" />
+                            ) : (
+                              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                {t.first_name[0]}
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium truncate">{t.first_name} {t.last_name}</p>
+                              <p className="text-xs text-muted-foreground truncate">{t.message.substring(0, 50)}...</p>
+                            </div>
+                            <Badge variant={t.is_approved ? "default" : "secondary"} className="text-xs">
+                              {t.is_approved ? "✓" : "..."}
+                            </Badge>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">Dernières Demandes de Partenariat</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {partnerships.slice(0, 5).map(p => (
+                          <div key={p.id} className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                              <Handshake className="h-5 w-5" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium truncate">{p.company_name}</p>
+                              <p className="text-xs text-muted-foreground">{p.partnership_type}</p>
+                            </div>
+                            <Badge 
+                              variant={p.status === "approved" ? "default" : p.status === "rejected" ? "destructive" : "secondary"}
+                              className="text-xs"
+                            >
+                              {p.status === "pending" ? "..." : p.status === "approved" ? "✓" : "✗"}
+                            </Badge>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
+
+            {/* Testimonials */}
+            {activeTab === "testimonials" && (
               <Card>
-                <CardHeader>
-                  <CardTitle>Gestion des Témoignages</CardTitle>
-                  <CardDescription>Approuvez ou modifiez les témoignages reçus</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Gestion des Témoignages</CardTitle>
+                    <CardDescription>Approuvez ou modifiez les témoignages reçus</CardDescription>
+                  </div>
+                  <Button variant="outline" onClick={() => exportToCSV(testimonials, 'testimonials')}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export CSV
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <Table>
@@ -670,14 +680,20 @@ const Admin = () => {
                   </Table>
                 </CardContent>
               </Card>
-            </TabsContent>
+            )}
 
-            {/* Partnerships Tab */}
-            <TabsContent value="partnerships">
+            {/* Partnerships */}
+            {activeTab === "partnerships" && (
               <Card>
-                <CardHeader>
-                  <CardTitle>Demandes de Partenariat</CardTitle>
-                  <CardDescription>Gérez les demandes de partenariat reçues</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Demandes de Partenariat</CardTitle>
+                    <CardDescription>Gérez les demandes de partenariat reçues</CardDescription>
+                  </div>
+                  <Button variant="outline" onClick={() => exportToCSV(partnerships, 'partnerships')}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export CSV
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <Table>
@@ -755,14 +771,20 @@ const Admin = () => {
                   </Table>
                 </CardContent>
               </Card>
-            </TabsContent>
+            )}
 
-            {/* Contacts Tab */}
-            <TabsContent value="contacts">
+            {/* Contacts */}
+            {activeTab === "contacts" && (
               <Card>
-                <CardHeader>
-                  <CardTitle>Messages de Contact</CardTitle>
-                  <CardDescription>Consultez les messages reçus</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Messages de Contact</CardTitle>
+                    <CardDescription>Consultez les messages reçus</CardDescription>
+                  </div>
+                  <Button variant="outline" onClick={() => exportToCSV(contacts, 'contacts')}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export CSV
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <Table>
@@ -805,14 +827,20 @@ const Admin = () => {
                   </Table>
                 </CardContent>
               </Card>
-            </TabsContent>
+            )}
 
-            {/* Newsletter Tab */}
-            <TabsContent value="newsletter">
+            {/* Newsletter */}
+            {activeTab === "newsletter" && (
               <Card>
-                <CardHeader>
-                  <CardTitle>Abonnés Newsletter</CardTitle>
-                  <CardDescription>Liste des abonnés à la newsletter</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Abonnés Newsletter</CardTitle>
+                    <CardDescription>Liste des abonnés à la newsletter</CardDescription>
+                  </div>
+                  <Button variant="outline" onClick={() => exportToCSV(subscribers, 'newsletter')}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export CSV
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <Table>
@@ -841,10 +869,10 @@ const Admin = () => {
                   </Table>
                 </CardContent>
               </Card>
-            </TabsContent>
+            )}
 
-            {/* Blog Tab */}
-            <TabsContent value="blog">
+            {/* Blog */}
+            {activeTab === "blog" && (
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <div>
@@ -919,8 +947,27 @@ const Admin = () => {
                   </Table>
                 </CardContent>
               </Card>
-            </TabsContent>
-          </Tabs>
+            )}
+
+            {/* Media */}
+            {activeTab === "media" && <AdminMedia />}
+
+            {/* Analytics */}
+            {activeTab === "analytics" && (
+              <AdminAnalytics 
+                testimonials={testimonials}
+                partnerships={partnerships}
+                contacts={contacts}
+                subscribers={subscribers}
+              />
+            )}
+
+            {/* SEO */}
+            {activeTab === "seo" && <AdminSEO />}
+
+            {/* Settings */}
+            {activeTab === "settings" && <AdminSettings />}
+          </div>
         </main>
       </div>
 
@@ -938,11 +985,22 @@ const Admin = () => {
             <div className="space-y-4">
               {dialogType === "testimonial" && (
                 <>
+                  <div className="flex items-center gap-4 mb-4">
+                    {(selectedItem as Testimonial).photo_url && (
+                      <img 
+                        src={(selectedItem as Testimonial).photo_url!} 
+                        alt="" 
+                        className="w-20 h-20 rounded-full object-cover"
+                      />
+                    )}
+                    <div>
+                      <p className="font-bold text-lg">{(selectedItem as Testimonial).first_name} {(selectedItem as Testimonial).last_name}</p>
+                      <p className="text-muted-foreground">{(selectedItem as Testimonial).locality}</p>
+                    </div>
+                  </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <div><strong>Nom:</strong> {(selectedItem as Testimonial).first_name} {(selectedItem as Testimonial).last_name}</div>
                     <div><strong>Email:</strong> {(selectedItem as Testimonial).email}</div>
                     <div><strong>Téléphone:</strong> {(selectedItem as Testimonial).phone || "-"}</div>
-                    <div><strong>Localité:</strong> {(selectedItem as Testimonial).locality}</div>
                     <div><strong>Note:</strong> {"⭐".repeat((selectedItem as Testimonial).rating || 5)}</div>
                   </div>
                   <div>
