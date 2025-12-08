@@ -80,6 +80,26 @@ const Testimonials = () => {
     try {
       let photoUrl = null;
 
+      // Upload photo to Supabase Storage if provided
+      if (data.photo && data.photo.length > 0) {
+        const file = data.photo[0];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+        
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('testimonials')
+          .upload(fileName, file);
+        
+        if (uploadError) {
+          console.error('Upload error:', uploadError);
+        } else {
+          const { data: urlData } = supabase.storage
+            .from('testimonials')
+            .getPublicUrl(fileName);
+          photoUrl = urlData.publicUrl;
+        }
+      }
+
       const insertData = {
         first_name: data.firstName,
         last_name: data.lastName,
