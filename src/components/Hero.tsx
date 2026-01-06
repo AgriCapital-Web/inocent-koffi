@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.jpg";
+import SocialShare from "@/components/SocialShare";
 
 const Hero = () => {
   return (
@@ -68,8 +69,13 @@ const Hero = () => {
               </Button>
             </div>
 
+            {/* Social Share Buttons */}
+            <div className="pt-4">
+              <SocialShare className="justify-center lg:justify-start" />
+            </div>
+
             {/* Quick Contact Info */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-6 text-sm text-muted-foreground justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-4 pt-2 text-sm text-muted-foreground justify-center lg:justify-start">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-accent" />
                 <span>Daloa, Côte d'Ivoire</span>

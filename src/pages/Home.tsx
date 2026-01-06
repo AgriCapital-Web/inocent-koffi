@@ -1,16 +1,26 @@
+import { lazy, Suspense } from "react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
-import About from "@/components/About";
-import TestimonialsDisplay from "@/components/TestimonialsDisplay";
-import PhotoGallery from "@/components/PhotoGallery";
-import Newsletter from "@/components/Newsletter";
-import Footer from "@/components/Footer";
+import NewYearPopup from "@/components/NewYearPopup";
 import { useLanguage } from "@/hooks/useLanguage";
 
+// Lazy load components for better performance
+const About = lazy(() => import("@/components/About"));
+const Services = lazy(() => import("@/components/Services"));
+const PhotoGallery = lazy(() => import("@/components/PhotoGallery"));
+const TestimonialsDisplay = lazy(() => import("@/components/TestimonialsDisplay"));
+const Newsletter = lazy(() => import("@/components/Newsletter"));
+const Footer = lazy(() => import("@/components/Footer"));
+
+const LoadingFallback = () => (
+  <div className="min-h-[200px] flex items-center justify-center">
+    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
 const Home = () => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   
   const getMetaContent = () => {
     const meta = {
@@ -85,15 +95,31 @@ const Home = () => {
         <link rel="alternate" hrefLang="ar" href={`${baseUrl}/ar`} />
         <link rel="alternate" hrefLang="x-default" href={baseUrl} />
       </Helmet>
+      
+      {/* New Year Popup */}
+      <NewYearPopup />
+      
       <div className="min-h-screen">
         <Navbar />
         <Hero />
-        <About />
-        <Services />
-        <PhotoGallery />
-        <TestimonialsDisplay />
-        <Newsletter />
-        <Footer />
+        <Suspense fallback={<LoadingFallback />}>
+          <About />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <Services />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <PhotoGallery />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <TestimonialsDisplay />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <Newsletter />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <Footer />
+        </Suspense>
       </div>
     </>
   );

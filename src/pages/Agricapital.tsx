@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NurserySection from "@/components/NurserySection";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -148,6 +149,9 @@ const Agricapital = () => {
               </div>
             </div>
           </section>
+
+          {/* Nursery Section - New! */}
+          <NurserySection />
 
           {/* Actions Menées */}
           <section className="py-20 bg-background">
