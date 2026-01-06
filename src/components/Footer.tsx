@@ -66,6 +66,7 @@ const Footer = () => {
                 <li key={index}>
                   <Link
                     to={link.href}
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     className="text-sm opacity-90 hover:opacity-100 hover:translate-x-1 inline-block transition-all"
                   >
                     {link.label}

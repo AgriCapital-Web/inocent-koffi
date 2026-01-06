@@ -10,6 +10,7 @@ const About = lazy(() => import("@/components/About"));
 const Services = lazy(() => import("@/components/Services"));
 const PhotoGallery = lazy(() => import("@/components/PhotoGallery"));
 const TestimonialsDisplay = lazy(() => import("@/components/TestimonialsDisplay"));
+const FAQ = lazy(() => import("@/components/FAQ"));
 const Newsletter = lazy(() => import("@/components/Newsletter"));
 const Footer = lazy(() => import("@/components/Footer"));
 
@@ -113,6 +114,9 @@ const Home = () => {
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <TestimonialsDisplay />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <FAQ />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <Newsletter />

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LanguageSelector from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
@@ -9,6 +9,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
+    { href: "/", label: t("nav.home") },
     { href: "/a-propos", label: t("nav.about") },
     { href: "/vision", label: t("nav.vision") },
     { href: "/agricapital", label: "AGRICAPITAL" },
@@ -29,7 +31,17 @@ const Navbar = () => {
     { href: "/contact", label: t("nav.contact") },
   ];
 
-  const isActive = (path: string) => location.pathname.startsWith(path);
+  const isActive = (path: string) => {
+    if (path === "/") return location.pathname === "/";
+    return location.pathname.startsWith(path);
+  };
+
+  const handleNavClick = (href: string) => {
+    setIsMobileMenuOpen(false);
+    // Navigate first, then scroll to top
+    navigate(href);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <nav
@@ -44,6 +56,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="text-xl font-bold text-foreground hover:text-primary transition-colors"
           >
             Inocent KOFFI
@@ -52,9 +65,9 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
-              <Link
+              <button
                 key={link.href}
-                to={link.href}
+                onClick={() => handleNavClick(link.href)}
                 className={`text-sm font-medium transition-colors ${
                   isActive(link.href)
                     ? "text-primary"
@@ -62,17 +75,9 @@ const Navbar = () => {
                 }`}
               >
                 {link.label}
-              </Link>
+              </button>
             ))}
             <LanguageSelector />
-            <Button
-              variant="default"
-              size="sm"
-              className="bg-gradient-to-r from-primary to-primary/90"
-              asChild
-            >
-              <Link to="/contact">{t("nav.contactMe")}</Link>
-            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -92,29 +97,18 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden py-4 space-y-4 border-t border-border/50 bg-background/95 backdrop-blur-md">
             {navLinks.map((link) => (
-              <Link
+              <button
                 key={link.href}
-                to={link.href}
-                className={`block text-sm font-medium transition-colors ${
+                onClick={() => handleNavClick(link.href)}
+                className={`block w-full text-left text-sm font-medium transition-colors ${
                   isActive(link.href)
                     ? "text-primary"
                     : "text-muted-foreground hover:text-primary"
                 }`}
-                onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.label}
-              </Link>
+              </button>
             ))}
-            <Button
-              variant="default"
-              size="sm"
-              className="w-full bg-gradient-to-r from-primary to-primary/90"
-              asChild
-            >
-              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                {t("nav.contactMe")}
-              </Link>
-            </Button>
           </div>
         )}
       </div>
