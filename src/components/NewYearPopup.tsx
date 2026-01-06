@@ -8,8 +8,8 @@ const NewYearPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Popup expires on January 31, 2025 at 23:59:59
-    const expirationDate = new Date('2025-01-31T23:59:59');
+    // Popup expires on January 31, 2026 at 23:59:59
+    const expirationDate = new Date('2026-01-31T23:59:59');
     const now = new Date();
     
     // Check if popup should be shown
@@ -59,7 +59,7 @@ const NewYearPopup = () => {
             {/* Year */}
             <div className="mb-4">
               <span className="text-7xl sm:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary-foreground to-accent">
-                2025
+                2026
               </span>
             </div>
 
@@ -87,7 +87,7 @@ const NewYearPopup = () => {
 
             {/* Message */}
             <p className="text-primary-foreground/90 text-sm sm:text-base leading-relaxed mb-6 max-w-sm mx-auto">
-              Je vous souhaite une année 2025 remplie de succès, de santé et de prospérité. 
+              Je vous souhaite une année 2026 remplie de succès, de santé et de prospérité. 
               Ensemble, continuons à transformer l'agriculture africaine !
             </p>
 

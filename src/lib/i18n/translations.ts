@@ -100,6 +100,23 @@ export const translations: Record<Language, Record<string, string>> = {
     'footer.legal': 'Mentions Légales',
     'footer.privacy': 'Politique de Confidentialité',
     
+    // FAQ
+    'faq.badge': 'FAQ',
+    'faq.title': 'Questions Fréquentes',
+    'faq.description': 'Trouvez les réponses aux questions les plus fréquemment posées sur AGRICAPITAL et notre mission.',
+    'faq.q1': 'Qu\'est-ce qu\'AGRICAPITAL ?',
+    'faq.a1': 'AGRICAPITAL SARL est une entreprise ivoirienne fondée par Inocent KOFFI, dédiée à la transformation durable de l\'agriculture africaine. Nous accompagnons les producteurs agricoles à travers un modèle intégré combinant financement, formation technique et accès aux marchés.',
+    'faq.q2': 'Comment puis-je devenir partenaire ?',
+    'faq.a2': 'Vous pouvez devenir partenaire en remplissant le formulaire sur notre page Partenariat. Nous acceptons les partenaires investisseurs, techniques, institutionnels et distributeurs. Notre équipe vous contactera pour discuter des opportunités de collaboration.',
+    'faq.q3': 'Quelles sont les zones d\'intervention d\'AGRICAPITAL ?',
+    'faq.a3': 'Nous intervenons principalement dans la région du Haut-Sassandra en Côte d\'Ivoire, avec notre siège à Daloa. Notre expertise couvre 8 régions et plus de 360 localités à travers le pays.',
+    'faq.q4': 'Quelles cultures sont concernées par vos activités ?',
+    'faq.a4': 'Notre pépinière de 50 hectares produit principalement des plants de palmier à huile de haute qualité. Nous accompagnons également les producteurs de cacao, de café et d\'autres cultures vivrières.',
+    'faq.q5': 'Comment contacter Inocent KOFFI ?',
+    'faq.a5': 'Vous pouvez contacter Inocent KOFFI par email à Inocent.koffi@agricapital.ci ou par téléphone au +225 07 59 56 60 87. Vous pouvez également utiliser le formulaire de contact sur notre site.',
+    'faq.q6': 'AGRICAPITAL offre-t-il des opportunités d\'investissement ?',
+    'faq.a6': 'Oui, AGRICAPITAL propose des opportunités d\'investissement dans le secteur agricole ivoirien avec des rendements attractifs. Contactez-nous pour en savoir plus sur nos plans d\'investissement et les conditions de partenariat.',
+    
     // Common
     'common.readMore': 'En savoir plus',
     'common.learnMore': 'En savoir plus',
@@ -207,6 +224,23 @@ export const translations: Record<Language, Record<string, string>> = {
     'footer.rights': 'All rights reserved',
     'footer.legal': 'Legal Notice',
     'footer.privacy': 'Privacy Policy',
+    
+    // FAQ
+    'faq.badge': 'FAQ',
+    'faq.title': 'Frequently Asked Questions',
+    'faq.description': 'Find answers to the most frequently asked questions about AGRICAPITAL and our mission.',
+    'faq.q1': 'What is AGRICAPITAL?',
+    'faq.a1': 'AGRICAPITAL SARL is an Ivorian company founded by Inocent KOFFI, dedicated to the sustainable transformation of African agriculture. We support agricultural producers through an integrated model combining financing, technical training and market access.',
+    'faq.q2': 'How can I become a partner?',
+    'faq.a2': 'You can become a partner by filling out the form on our Partnership page. We accept investor, technical, institutional and distributor partners. Our team will contact you to discuss collaboration opportunities.',
+    'faq.q3': 'What are AGRICAPITAL\'s areas of intervention?',
+    'faq.a3': 'We mainly operate in the Haut-Sassandra region of Côte d\'Ivoire, with our headquarters in Daloa. Our expertise covers 8 regions and more than 360 localities across the country.',
+    'faq.q4': 'What crops are covered by your activities?',
+    'faq.a4': 'Our 50-hectare nursery mainly produces high-quality oil palm seedlings. We also support cocoa, coffee and other food crop producers.',
+    'faq.q5': 'How can I contact Inocent KOFFI?',
+    'faq.a5': 'You can contact Inocent KOFFI by email at Inocent.koffi@agricapital.ci or by phone at +225 07 59 56 60 87. You can also use the contact form on our website.',
+    'faq.q6': 'Does AGRICAPITAL offer investment opportunities?',
+    'faq.a6': 'Yes, AGRICAPITAL offers investment opportunities in the Ivorian agricultural sector with attractive returns. Contact us to learn more about our investment plans and partnership conditions.',
     
     // Common
     'common.readMore': 'Read more',
@@ -316,6 +350,23 @@ export const translations: Record<Language, Record<string, string>> = {
     'footer.legal': 'Aviso Legal',
     'footer.privacy': 'Política de Privacidad',
     
+    // FAQ
+    'faq.badge': 'FAQ',
+    'faq.title': 'Preguntas Frecuentes',
+    'faq.description': 'Encuentre respuestas a las preguntas más frecuentes sobre AGRICAPITAL y nuestra misión.',
+    'faq.q1': '¿Qué es AGRICAPITAL?',
+    'faq.a1': 'AGRICAPITAL SARL es una empresa marfileña fundada por Inocent KOFFI, dedicada a la transformación sostenible de la agricultura africana. Apoyamos a los productores agrícolas a través de un modelo integrado que combina financiamiento, formación técnica y acceso a mercados.',
+    'faq.q2': '¿Cómo puedo convertirme en socio?',
+    'faq.a2': 'Puede convertirse en socio completando el formulario en nuestra página de Asociación. Aceptamos socios inversores, técnicos, institucionales y distribuidores. Nuestro equipo se comunicará con usted para discutir oportunidades de colaboración.',
+    'faq.q3': '¿Cuáles son las áreas de intervención de AGRICAPITAL?',
+    'faq.a3': 'Operamos principalmente en la región de Haut-Sassandra en Costa de Marfil, con nuestra sede en Daloa. Nuestra experiencia cubre 8 regiones y más de 360 localidades en todo el país.',
+    'faq.q4': '¿Qué cultivos cubren sus actividades?',
+    'faq.a4': 'Nuestro vivero de 50 hectáreas produce principalmente plántulas de palma aceitera de alta calidad. También apoyamos a productores de cacao, café y otros cultivos alimentarios.',
+    'faq.q5': '¿Cómo puedo contactar a Inocent KOFFI?',
+    'faq.a5': 'Puede contactar a Inocent KOFFI por correo electrónico en Inocent.koffi@agricapital.ci o por teléfono al +225 07 59 56 60 87. También puede usar el formulario de contacto en nuestro sitio web.',
+    'faq.q6': '¿AGRICAPITAL ofrece oportunidades de inversión?',
+    'faq.a6': 'Sí, AGRICAPITAL ofrece oportunidades de inversión en el sector agrícola marfileño con rendimientos atractivos. Contáctenos para obtener más información sobre nuestros planes de inversión y condiciones de asociación.',
+    
     // Common
     'common.readMore': 'Leer más',
     'common.learnMore': 'Más información',
@@ -423,6 +474,23 @@ export const translations: Record<Language, Record<string, string>> = {
     'footer.rights': 'Alle Rechte vorbehalten',
     'footer.legal': 'Impressum',
     'footer.privacy': 'Datenschutz',
+    
+    // FAQ
+    'faq.badge': 'FAQ',
+    'faq.title': 'Häufig Gestellte Fragen',
+    'faq.description': 'Finden Sie Antworten auf die häufigsten Fragen zu AGRICAPITAL und unserer Mission.',
+    'faq.q1': 'Was ist AGRICAPITAL?',
+    'faq.a1': 'AGRICAPITAL SARL ist ein ivorisches Unternehmen, das von Inocent KOFFI gegründet wurde und sich der nachhaltigen Transformation der afrikanischen Landwirtschaft widmet. Wir unterstützen landwirtschaftliche Produzenten durch ein integriertes Modell, das Finanzierung, technische Ausbildung und Marktzugang kombiniert.',
+    'faq.q2': 'Wie kann ich Partner werden?',
+    'faq.a2': 'Sie können Partner werden, indem Sie das Formular auf unserer Partnerschaftsseite ausfüllen. Wir akzeptieren Investoren-, Technik-, institutionelle und Vertriebspartner. Unser Team wird Sie kontaktieren, um Kooperationsmöglichkeiten zu besprechen.',
+    'faq.q3': 'Was sind die Interventionsbereiche von AGRICAPITAL?',
+    'faq.a3': 'Wir sind hauptsächlich in der Region Haut-Sassandra der Elfenbeinküste tätig, mit unserem Hauptsitz in Daloa. Unsere Expertise umfasst 8 Regionen und mehr als 360 Ortschaften im ganzen Land.',
+    'faq.q4': 'Welche Kulturen werden von Ihren Aktivitäten abgedeckt?',
+    'faq.a4': 'Unsere 50 Hektar große Baumschule produziert hauptsächlich hochwertige Ölpalmsetzlinge. Wir unterstützen auch Kakao-, Kaffee- und andere Nahrungsmittelproduzenten.',
+    'faq.q5': 'Wie kann ich Inocent KOFFI kontaktieren?',
+    'faq.a5': 'Sie können Inocent KOFFI per E-Mail unter Inocent.koffi@agricapital.ci oder telefonisch unter +225 07 59 56 60 87 erreichen. Sie können auch das Kontaktformular auf unserer Website verwenden.',
+    'faq.q6': 'Bietet AGRICAPITAL Investitionsmöglichkeiten?',
+    'faq.a6': 'Ja, AGRICAPITAL bietet Investitionsmöglichkeiten im ivorischen Agrarsektor mit attraktiven Renditen. Kontaktieren Sie uns, um mehr über unsere Investitionspläne und Partnerschaftsbedingungen zu erfahren.',
     
     // Common
     'common.readMore': 'Mehr lesen',
@@ -532,6 +600,23 @@ export const translations: Record<Language, Record<string, string>> = {
     'footer.legal': '法律声明',
     'footer.privacy': '隐私政策',
     
+    // FAQ
+    'faq.badge': '常见问题',
+    'faq.title': '常见问题解答',
+    'faq.description': '找到关于AGRICAPITAL和我们使命的常见问题的答案。',
+    'faq.q1': '什么是AGRICAPITAL？',
+    'faq.a1': 'AGRICAPITAL SARL是由Inocent KOFFI创立的科特迪瓦公司，致力于非洲农业的可持续转型。我们通过综合模式支持农业生产者，结合融资、技术培训和市场准入。',
+    'faq.q2': '我如何成为合作伙伴？',
+    'faq.a2': '您可以通过填写我们合作页面上的表格成为合作伙伴。我们接受投资者、技术、机构和分销商合作伙伴。我们的团队将与您联系讨论合作机会。',
+    'faq.q3': 'AGRICAPITAL的干预区域是什么？',
+    'faq.a3': '我们主要在科特迪瓦的Haut-Sassandra地区运营，总部设在达洛阿。我们的专业知识覆盖全国8个地区和360多个地方。',
+    'faq.q4': '您的活动涵盖哪些作物？',
+    'faq.a4': '我们50公顷的苗圃主要生产优质油棕苗。我们还支持可可、咖啡和其他粮食作物生产者。',
+    'faq.q5': '我如何联系Inocent KOFFI？',
+    'faq.a5': '您可以通过电子邮件Inocent.koffi@agricapital.ci或电话+225 07 59 56 60 87联系Inocent KOFFI。您也可以使用我们网站上的联系表格。',
+    'faq.q6': 'AGRICAPITAL是否提供投资机会？',
+    'faq.a6': '是的，AGRICAPITAL在科特迪瓦农业部门提供具有吸引力回报的投资机会。联系我们了解更多关于我们的投资计划和合作条件。',
+    
     // Common
     'common.readMore': '阅读更多',
     'common.learnMore': '了解更多',
@@ -639,6 +724,23 @@ export const translations: Record<Language, Record<string, string>> = {
     'footer.rights': 'جميع الحقوق محفوظة',
     'footer.legal': 'إشعار قانوني',
     'footer.privacy': 'سياسة الخصوصية',
+    
+    // FAQ
+    'faq.badge': 'الأسئلة الشائعة',
+    'faq.title': 'الأسئلة المتكررة',
+    'faq.description': 'اعثر على إجابات للأسئلة الأكثر شيوعًا حول أجريكابيتال ومهمتنا.',
+    'faq.q1': 'ما هو أجريكابيتال؟',
+    'faq.a1': 'أجريكابيتال هي شركة إيفوارية أسسها إينوسنت كوفي، مكرسة للتحول المستدام للزراعة الأفريقية. نحن ندعم المنتجين الزراعيين من خلال نموذج متكامل يجمع بين التمويل والتدريب التقني والوصول إلى الأسواق.',
+    'faq.q2': 'كيف يمكنني أن أصبح شريكًا؟',
+    'faq.a2': 'يمكنك أن تصبح شريكًا من خلال ملء النموذج في صفحة الشراكة. نحن نقبل شركاء المستثمرين والتقنيين والمؤسسيين والموزعين. سيتواصل فريقنا معك لمناقشة فرص التعاون.',
+    'faq.q3': 'ما هي مناطق تدخل أجريكابيتال؟',
+    'faq.a3': 'نعمل بشكل رئيسي في منطقة هوت-ساساندرا في ساحل العاج، مع مقرنا الرئيسي في دالوا. خبرتنا تغطي 8 مناطق وأكثر من 360 منطقة في جميع أنحاء البلاد.',
+    'faq.q4': 'ما هي المحاصيل التي تغطيها أنشطتكم؟',
+    'faq.a4': 'تنتج مشتلنا البالغة مساحتها 50 هكتارًا بشكل رئيسي شتلات نخيل الزيت عالية الجودة. نحن ندعم أيضًا منتجي الكاكاو والقهوة والمحاصيل الغذائية الأخرى.',
+    'faq.q5': 'كيف يمكنني الاتصال بإينوسنت كوفي؟',
+    'faq.a5': 'يمكنك الاتصال بإينوسنت كوفي عبر البريد الإلكتروني Inocent.koffi@agricapital.ci أو عبر الهاتف +225 07 59 56 60 87. يمكنك أيضًا استخدام نموذج الاتصال على موقعنا.',
+    'faq.q6': 'هل يقدم أجريكابيتال فرص استثمارية؟',
+    'faq.a6': 'نعم، يقدم أجريكابيتال فرص استثمارية في القطاع الزراعي الإيفواري مع عوائد جذابة. اتصل بنا لمعرفة المزيد عن خطط الاستثمار وشروط الشراكة.',
     
     // Common
     'common.readMore': 'اقرأ المزيد',

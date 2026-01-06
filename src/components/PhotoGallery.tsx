@@ -8,7 +8,7 @@ interface GalleryImage {
   id: string;
   src: string;
   alt: string;
-  category: 'launch' | 'community' | 'training';
+  category: 'launch' | 'community' | 'training' | 'nursery';
 }
 
 const galleryImages: GalleryImage[] = [
@@ -24,12 +24,16 @@ const galleryImages: GalleryImage[] = [
   { id: '10', src: '/images/gallery/community-3.png', alt: 'Réunion communautaire - Sensibilisation', category: 'community' },
   { id: '11', src: '/images/gallery/community-4.jpg', alt: 'Réunion communautaire - Engagement', category: 'community' },
   { id: '12', src: '/images/gallery/community-5.jpg', alt: 'Réunion communautaire - Partenariat local', category: 'community' },
+  // Pépinière et évolution du projet
+  { id: '13', src: '/images/nursery-palm.jpg', alt: 'Pépinière de palmiers à huile - 50 hectares', category: 'nursery' },
+  { id: '14', src: '/images/palm-oil-production.jpg', alt: 'Production de palmiers - Évolution du projet', category: 'nursery' },
 ];
 
 const filters = [
   { key: 'all', label: 'Toutes' },
   { key: 'launch', label: 'Lancement' },
   { key: 'community', label: 'Communauté' },
+  { key: 'nursery', label: 'Pépinière' },
   { key: 'training', label: 'Formations' },
 ];
 
