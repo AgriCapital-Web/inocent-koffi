@@ -9,6 +9,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 const About = lazy(() => import("@/components/About"));
 const Services = lazy(() => import("@/components/Services"));
 const PhotoGallery = lazy(() => import("@/components/PhotoGallery"));
+const BlogPreview = lazy(() => import("@/components/BlogPreview"));
 const TestimonialsDisplay = lazy(() => import("@/components/TestimonialsDisplay"));
 const FAQ = lazy(() => import("@/components/FAQ"));
 const Newsletter = lazy(() => import("@/components/Newsletter"));
@@ -114,6 +115,9 @@ const Home = () => {
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <TestimonialsDisplay />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <BlogPreview />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <FAQ />
