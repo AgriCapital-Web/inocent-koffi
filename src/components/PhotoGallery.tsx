@@ -12,6 +12,7 @@ interface GalleryImage {
 }
 
 const galleryImages: GalleryImage[] = [
+  // Lancement
   { id: '1', src: '/images/gallery/launch-1.jpg', alt: 'Lancement AGRICAPITAL - Installation pépinière', category: 'launch' },
   { id: '2', src: '/images/gallery/launch-2.jpg', alt: 'Lancement AGRICAPITAL - Équipe terrain', category: 'launch' },
   { id: '3', src: '/images/gallery/launch-3.jpg', alt: 'Lancement AGRICAPITAL - Partenaires locaux', category: 'launch' },
@@ -19,14 +20,27 @@ const galleryImages: GalleryImage[] = [
   { id: '5', src: '/images/gallery/launch-5.jpg', alt: 'Lancement AGRICAPITAL - Site de pépinière', category: 'launch' },
   { id: '6', src: '/images/gallery/launch-6.jpg', alt: 'Lancement AGRICAPITAL - Sensibilisation', category: 'launch' },
   { id: '7', src: '/images/gallery/launch-7.jpg', alt: 'Lancement AGRICAPITAL - Opérations techniques', category: 'launch' },
-  { id: '8', src: '/images/gallery/community-1.jpg', alt: 'Réunion communautaire - Village 1', category: 'community' },
-  { id: '9', src: '/images/gallery/community-2.jpg', alt: 'Réunion communautaire - Producteurs', category: 'community' },
-  { id: '10', src: '/images/gallery/community-3.png', alt: 'Réunion communautaire - Sensibilisation', category: 'community' },
-  { id: '11', src: '/images/gallery/community-4.jpg', alt: 'Réunion communautaire - Engagement', category: 'community' },
-  { id: '12', src: '/images/gallery/community-5.jpg', alt: 'Réunion communautaire - Partenariat local', category: 'community' },
+  // Jalons du projet
+  { id: '8', src: '/images/gallery/jalon-1.jpg', alt: 'Jalon du projet - Évolution pépinière Nov 2025', category: 'launch' },
+  { id: '9', src: '/images/gallery/jalon-2.jpg', alt: 'Jalon du projet - Installation système irrigation', category: 'launch' },
+  { id: '10', src: '/images/gallery/jalon-3.jpg', alt: 'Jalon du projet - Équipe technique sur le terrain', category: 'launch' },
+  { id: '11', src: '/images/gallery/jalon-4.jpg', alt: 'Jalon du projet - Plants Tenera certifiés', category: 'launch' },
+  // Communauté
+  { id: '12', src: '/images/gallery/community-1.jpg', alt: 'Réunion communautaire - Village 1', category: 'community' },
+  { id: '13', src: '/images/gallery/community-2.jpg', alt: 'Réunion communautaire - Producteurs', category: 'community' },
+  { id: '14', src: '/images/gallery/community-3.png', alt: 'Réunion communautaire - Sensibilisation', category: 'community' },
+  { id: '15', src: '/images/gallery/community-4.jpg', alt: 'Réunion communautaire - Engagement', category: 'community' },
+  { id: '16', src: '/images/gallery/community-5.jpg', alt: 'Réunion communautaire - Partenariat local', category: 'community' },
+  { id: '17', src: '/images/gallery/community-meeting-1.jpg', alt: 'Rassemblement communautaire - Haut-Sassandra', category: 'community' },
+  { id: '18', src: '/images/gallery/community-meeting-2.jpg', alt: 'Rassemblement communautaire - Producteurs locaux', category: 'community' },
+  { id: '19', src: '/images/gallery/community-meeting-3.png', alt: 'Rassemblement communautaire - Sensibilisation rurale', category: 'community' },
+  { id: '20', src: '/images/gallery/community-meeting-4.jpg', alt: 'Rassemblement communautaire - Engagement des villages', category: 'community' },
+  { id: '21', src: '/images/gallery/community-meeting-5.jpg', alt: 'Rassemblement communautaire - Partenariat terrain', category: 'community' },
   // Pépinière et évolution du projet
-  { id: '13', src: '/images/nursery-palm.jpg', alt: 'Pépinière de palmiers à huile - 50 hectares', category: 'nursery' },
-  { id: '14', src: '/images/palm-oil-production.jpg', alt: 'Production de palmiers - Évolution du projet', category: 'nursery' },
+  { id: '22', src: '/images/gallery/nursery-1.jpg', alt: 'Pépinière de palmiers à huile - 100+ hectares', category: 'nursery' },
+  { id: '23', src: '/images/gallery/nursery-2.jpg', alt: 'Pépinière AgriCapital - Décembre 2025', category: 'nursery' },
+  { id: '24', src: '/images/nursery-palm.jpg', alt: 'Plants de palmiers - Modèle inclusif', category: 'nursery' },
+  { id: '25', src: '/images/palm-oil-production.jpg', alt: 'Production de palmiers - Évolution du projet', category: 'nursery' },
 ];
 
 const filters = [

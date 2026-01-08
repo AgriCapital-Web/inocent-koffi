@@ -12,6 +12,7 @@ import Agricapital from "./pages/Agricapital";
 import Projets from "./pages/Projets";
 import Partenariat from "./pages/Partenariat";
 import Blog from "./pages/Blog";
+import BlogArticle from "./pages/BlogArticle";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
@@ -29,6 +30,7 @@ const routes = [
   { path: "/projets", element: <Projets /> },
   { path: "/partenariat", element: <Partenariat /> },
   { path: "/blog", element: <Blog /> },
+  { path: "/blog/:slug", element: <BlogArticle /> },
   { path: "/contact", element: <Contact /> },
   { path: "/login", element: <Login /> },
   { path: "/admin", element: <Admin /> },

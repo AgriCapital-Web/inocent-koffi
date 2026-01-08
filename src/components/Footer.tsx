@@ -121,7 +121,6 @@ const Footer = () => {
         <div className="border-t border-primary-foreground/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-80">
             <p>© {currentYear} Inocent KOFFI. Tous droits réservés.</p>
-            <SocialShare className="opacity-90" />
             <div className="flex items-center gap-4">
               <Link to="/mentions-legales" className="hover:opacity-100 transition-opacity">
                 Mentions Légales
