@@ -17,6 +17,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import MentionsLegales from "./pages/MentionsLegales";
+import Evolution from "./pages/Evolution";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const routes = [
   { path: "/login", element: <Login /> },
   { path: "/admin", element: <Admin /> },
   { path: "/mentions-legales", element: <MentionsLegales /> },
+  { path: "/evolution", element: <Evolution /> },
 ];
 
 const languageCodes = ["fr", "en", "es", "de", "zh", "ar"];

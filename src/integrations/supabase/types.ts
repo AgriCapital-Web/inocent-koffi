@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_comments: {
+        Row: {
+          author_email: string
+          author_name: string
+          content: string
+          created_at: string
+          id: string
+          is_approved: boolean
+          post_id: string
+          updated_at: string
+        }
+        Insert: {
+          author_email: string
+          author_name: string
+          content: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          post_id: string
+          updated_at?: string
+        }
+        Update: {
+          author_email?: string
+          author_name?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          post_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_posts: {
         Row: {
           author_id: string | null
@@ -80,6 +121,45 @@ export type Database = {
           message?: string
           name?: string
           phone?: string | null
+        }
+        Relationships: []
+      }
+      database_backups: {
+        Row: {
+          backup_name: string
+          backup_type: string
+          created_at: string
+          created_by: string | null
+          file_format: string
+          file_size: number | null
+          id: string
+          notes: string | null
+          status: string
+          tables_included: string[] | null
+        }
+        Insert: {
+          backup_name: string
+          backup_type?: string
+          created_at?: string
+          created_by?: string | null
+          file_format?: string
+          file_size?: number | null
+          id?: string
+          notes?: string | null
+          status?: string
+          tables_included?: string[] | null
+        }
+        Update: {
+          backup_name?: string
+          backup_type?: string
+          created_at?: string
+          created_by?: string | null
+          file_format?: string
+          file_size?: number | null
+          id?: string
+          notes?: string | null
+          status?: string
+          tables_included?: string[] | null
         }
         Relationships: []
       }

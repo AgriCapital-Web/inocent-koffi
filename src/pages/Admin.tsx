@@ -38,6 +38,8 @@ import AdminAnalytics from "@/components/admin/AdminAnalytics";
 import AdminSettings from "@/components/admin/AdminSettings";
 import AdminMedia from "@/components/admin/AdminMedia";
 import AdminSEO from "@/components/admin/AdminSEO";
+import AdminDatabase from "@/components/admin/AdminDatabase";
+import AdminComments from "@/components/admin/AdminComments";
 
 interface Testimonial {
   id: string;
@@ -374,7 +376,9 @@ const Admin = () => {
     { id: "contacts", icon: <MessageSquare className="h-4 w-4" />, label: "Messages" },
     { id: "newsletter", icon: <Mail className="h-4 w-4" />, label: "Newsletter" },
     { id: "blog", icon: <FileText className="h-4 w-4" />, label: "Blog" },
+    { id: "comments", icon: <MessageSquare className="h-4 w-4" />, label: "Commentaires" },
     { id: "media", icon: <Image className="h-4 w-4" />, label: "Médias" },
+    { id: "database", icon: <Users className="h-4 w-4" />, label: "Base de données" },
     { id: "analytics", icon: <BarChart3 className="h-4 w-4" />, label: "Analytiques" },
     { id: "seo", icon: <Globe className="h-4 w-4" />, label: "SEO" },
     { id: "settings", icon: <Settings className="h-4 w-4" />, label: "Paramètres" },
@@ -951,6 +955,12 @@ const Admin = () => {
 
             {/* Media */}
             {activeTab === "media" && <AdminMedia />}
+
+            {/* Comments */}
+            {activeTab === "comments" && <AdminComments />}
+
+            {/* Database */}
+            {activeTab === "database" && <AdminDatabase />}
 
             {/* Analytics */}
             {activeTab === "analytics" && (
