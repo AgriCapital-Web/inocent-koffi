@@ -14,7 +14,7 @@ import {
   Users, MessageSquare, Handshake, Star, Mail, 
   LogOut, Search, Check, X, Trash2, Eye, 
   BarChart3, TrendingUp, Calendar, Download, FileText, Plus,
-  LayoutDashboard, Image, Globe, Settings
+  LayoutDashboard, Image, Globe, Settings, Database
 } from "lucide-react";
 import {
   Table,
@@ -40,6 +40,7 @@ import AdminMedia from "@/components/admin/AdminMedia";
 import AdminSEO from "@/components/admin/AdminSEO";
 import AdminDatabase from "@/components/admin/AdminDatabase";
 import AdminComments from "@/components/admin/AdminComments";
+import AdminMobileMenu from "@/components/admin/AdminMobileMenu";
 
 interface Testimonial {
   id: string;
@@ -378,7 +379,7 @@ const Admin = () => {
     { id: "blog", icon: <FileText className="h-4 w-4" />, label: "Blog" },
     { id: "comments", icon: <MessageSquare className="h-4 w-4" />, label: "Commentaires" },
     { id: "media", icon: <Image className="h-4 w-4" />, label: "Médias" },
-    { id: "database", icon: <Users className="h-4 w-4" />, label: "Base de données" },
+    { id: "database", icon: <Database className="h-4 w-4" />, label: "Base de données" },
     { id: "analytics", icon: <BarChart3 className="h-4 w-4" />, label: "Analytiques" },
     { id: "seo", icon: <Globe className="h-4 w-4" />, label: "SEO" },
     { id: "settings", icon: <Settings className="h-4 w-4" />, label: "Paramètres" },
@@ -425,15 +426,21 @@ const Admin = () => {
         {/* Main Content */}
         <main className="flex-1 lg:ml-64">
           {/* Header */}
-          <header className="bg-card border-b sticky top-0 z-50 px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <h2 className="text-lg font-semibold capitalize">
+          <header className="bg-card border-b sticky top-0 z-50 px-4 sm:px-6 py-4">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 sm:gap-4">
+                {/* Mobile Menu */}
+                <AdminMobileMenu 
+                  activeTab={activeTab} 
+                  onTabChange={setActiveTab} 
+                  onLogout={handleLogout} 
+                />
+                <h2 className="text-base sm:text-lg font-semibold capitalize truncate">
                   {menuItems.find(m => m.id === activeTab)?.label || "Dashboard"}
                 </h2>
-                <Badge variant="secondary">Super Admin</Badge>
+                <Badge variant="secondary" className="hidden sm:inline-flex">Super Admin</Badge>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 sm:gap-4">
                 <div className="relative hidden md:block">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -443,9 +450,6 @@ const Admin = () => {
                     className="pl-10 w-64"
                   />
                 </div>
-                <Button variant="outline" size="sm" className="lg:hidden" onClick={handleLogout}>
-                  <LogOut className="h-4 w-4" />
-                </Button>
               </div>
             </div>
           </header>
