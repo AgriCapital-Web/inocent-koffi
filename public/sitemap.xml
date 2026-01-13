@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/en" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/de" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/zh" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/ar" />
+    <image:image>
+      <image:loc>https://ikoffi.agricapital.ci/images/founder-inocent-koffi.jpg</image:loc>
+      <image:title>Inocent KOFFI - Fondateur AGRICAPITAL SARL</image:title>
+      <image:caption>Inocent KOFFI, Fondateur et Directeur Général d'AGRICAPITAL SARL, entrepreneur agricole ivoirien</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- About Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/a-propos</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://ikoffi.agricapital.ci/images/founder-inocent-koffi.jpg</image:loc>
+      <image:title>Inocent KOFFI - Parcours et Expertise</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Vision Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/vision</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- AGRICAPITAL Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/agricapital</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://ikoffi.agricapital.ci/images/agricapital-poster.jpg</image:loc>
+      <image:title>AGRICAPITAL SARL - Entreprise agricole ivoirienne</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://ikoffi.agricapital.ci/images/nursery-palm.jpg</image:loc>
+      <image:title>Pépinière de palmiers - AGRICAPITAL</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Projects Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/projets</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://ikoffi.agricapital.ci/images/gallery/nursery-palm-real.jpg</image:loc>
+      <image:title>Projets agricoles AGRICAPITAL</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Evolution Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/evolution</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://ikoffi.agricapital.ci/images/gallery/jalon-1.jpg</image:loc>
+      <image:title>Évolution du projet AGRICAPITAL</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Partnership Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/partenariat</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Blog Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/blog</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Contact Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/contact</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Legal Page -->
+  <url>
+    <loc>https://ikoffi.agricapital.ci/mentions-legales</loc>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

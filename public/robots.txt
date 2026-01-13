@@ -1,8 +1,18 @@
+# Robots.txt for ikoffi.agricapital.ci
+# Inocent KOFFI - AGRICAPITAL SARL
+
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /og-image.png
+Allow: /og-image-profile.png
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -10,5 +20,26 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
 User-agent: *
 Allow: /
+Crawl-delay: 2
+
+# Block admin area
+User-agent: *
+Disallow: /admin
+Disallow: /login
+
+# Sitemap location
+Sitemap: https://ikoffi.agricapital.ci/sitemap.xml
+
+# Host
+Host: https://ikoffi.agricapital.ci

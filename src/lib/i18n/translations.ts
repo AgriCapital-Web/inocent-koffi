@@ -125,6 +125,38 @@ export const translations: Record<Language, Record<string, string>> = {
     'common.previous': 'Précédent',
     'common.share': 'Partager',
     
+    // Evolution
+    'evolution.badge': 'Évolution',
+    'evolution.title': 'Notre Parcours',
+    'evolution.description': 'Découvrez les étapes clés de notre développement et les jalons importants de notre projet.',
+    'evolution.timeline': 'Chronologie du Projet',
+    
+    // Blog
+    'blog.badge': 'Blog',
+    'blog.title': 'Actualités & Articles',
+    'blog.description': 'Les dernières nouvelles sur l\'agriculture africaine et AGRICAPITAL.',
+    'blog.readMore': 'Lire la suite',
+    'blog.relatedPosts': 'Articles similaires',
+    'blog.noPostsYet': 'Aucun article pour le moment.',
+    'blog.comingSoon': 'Articles à venir bientôt...',
+    
+    // Comments
+    'comments.title': 'Commentaires',
+    'comments.leave': 'Laisser un commentaire',
+    'comments.noComments': 'Aucun commentaire pour le moment. Soyez le premier à commenter !',
+    'comments.success': 'Commentaire envoyé',
+    'comments.pending': 'Votre commentaire sera visible après modération.',
+    'comments.error': 'Erreur',
+    'comments.errorMessage': 'Impossible d\'envoyer le commentaire.',
+    'comments.required': 'Champs requis',
+    'comments.fillAll': 'Veuillez remplir tous les champs.',
+    'comments.submit': 'Envoyer le commentaire',
+    'comments.moderation': 'Votre commentaire sera visible après modération par l\'administrateur.',
+    'comments.namePlaceholder': 'Votre nom',
+    'comments.emailPlaceholder': 'votre@email.com',
+    'comments.comment': 'Commentaire',
+    'comments.commentPlaceholder': 'Partagez vos réflexions...',
+    
     // SEO
     'seo.home.title': 'Inocent KOFFI - Fondateur & DG AGRICAPITAL SARL | Transformation Agricole',
     'seo.home.description': 'Inocent KOFFI, Fondateur et Directeur Général d\'AGRICAPITAL SARL. 12 ans d\'expérience terrain auprès des producteurs agricoles en Côte d\'Ivoire.',
@@ -250,6 +282,38 @@ export const translations: Record<Language, Record<string, string>> = {
     'common.previous': 'Previous',
     'common.share': 'Share',
     
+    // Evolution
+    'evolution.badge': 'Evolution',
+    'evolution.title': 'Our Journey',
+    'evolution.description': 'Discover the key stages of our development and the important milestones of our project.',
+    'evolution.timeline': 'Project Timeline',
+    
+    // Blog
+    'blog.badge': 'Blog',
+    'blog.title': 'News & Articles',
+    'blog.description': 'The latest news on African agriculture and AGRICAPITAL.',
+    'blog.readMore': 'Read more',
+    'blog.relatedPosts': 'Related articles',
+    'blog.noPostsYet': 'No articles yet.',
+    'blog.comingSoon': 'Articles coming soon...',
+    
+    // Comments
+    'comments.title': 'Comments',
+    'comments.leave': 'Leave a comment',
+    'comments.noComments': 'No comments yet. Be the first to comment!',
+    'comments.success': 'Comment sent',
+    'comments.pending': 'Your comment will be visible after moderation.',
+    'comments.error': 'Error',
+    'comments.errorMessage': 'Unable to send comment.',
+    'comments.required': 'Required fields',
+    'comments.fillAll': 'Please fill in all fields.',
+    'comments.submit': 'Submit comment',
+    'comments.moderation': 'Your comment will be visible after moderation by the administrator.',
+    'comments.namePlaceholder': 'Your name',
+    'comments.emailPlaceholder': 'your@email.com',
+    'comments.comment': 'Comment',
+    'comments.commentPlaceholder': 'Share your thoughts...',
+    
     // SEO
     'seo.home.title': 'Inocent KOFFI - Founder & CEO AGRICAPITAL SARL | Agricultural Transformation',
     'seo.home.description': 'Inocent KOFFI, Founder and CEO of AGRICAPITAL SARL. 12 years of field experience with agricultural producers in Côte d\'Ivoire.',
@@ -374,6 +438,38 @@ export const translations: Record<Language, Record<string, string>> = {
     'common.next': 'Siguiente',
     'common.previous': 'Anterior',
     'common.share': 'Compartir',
+    
+    // Evolution
+    'evolution.badge': 'Evolución',
+    'evolution.title': 'Nuestro Recorrido',
+    'evolution.description': 'Descubra las etapas clave de nuestro desarrollo y los hitos importantes de nuestro proyecto.',
+    'evolution.timeline': 'Cronología del Proyecto',
+    
+    // Blog
+    'blog.badge': 'Blog',
+    'blog.title': 'Noticias y Artículos',
+    'blog.description': 'Las últimas noticias sobre agricultura africana y AGRICAPITAL.',
+    'blog.readMore': 'Leer más',
+    'blog.relatedPosts': 'Artículos relacionados',
+    'blog.noPostsYet': 'No hay artículos todavía.',
+    'blog.comingSoon': 'Artículos próximamente...',
+    
+    // Comments
+    'comments.title': 'Comentarios',
+    'comments.leave': 'Dejar un comentario',
+    'comments.noComments': 'No hay comentarios todavía. ¡Sea el primero en comentar!',
+    'comments.success': 'Comentario enviado',
+    'comments.pending': 'Su comentario será visible después de la moderación.',
+    'comments.error': 'Error',
+    'comments.errorMessage': 'No se pudo enviar el comentario.',
+    'comments.required': 'Campos requeridos',
+    'comments.fillAll': 'Por favor complete todos los campos.',
+    'comments.submit': 'Enviar comentario',
+    'comments.moderation': 'Su comentario será visible después de la moderación por el administrador.',
+    'comments.namePlaceholder': 'Su nombre',
+    'comments.emailPlaceholder': 'su@email.com',
+    'comments.comment': 'Comentario',
+    'comments.commentPlaceholder': 'Comparta sus pensamientos...',
     
     // SEO
     'seo.home.title': 'Inocent KOFFI - Fundador y DG AGRICAPITAL SARL | Transformación Agrícola',

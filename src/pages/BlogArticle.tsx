@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Newsletter from "@/components/Newsletter";
 import SocialShare from "@/components/SocialShare";
+import BlogComments from "@/components/BlogComments";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -216,7 +217,7 @@ const BlogArticle = () => {
                 <div>
                   <h3 className="font-semibold mb-2">Partagez cet article</h3>
                   <SocialShare 
-                    url={`https://www.ikoffi.agricapital.ci/blog/${post.slug}`}
+                    url={`https://ikoffi.agricapital.ci/blog/${post.slug}`}
                     title={post.title}
                     description={post.excerpt || ''}
                   />
@@ -228,6 +229,9 @@ const BlogArticle = () => {
                 </Button>
               </div>
             </div>
+
+            {/* Comments Section */}
+            <BlogComments postId={post.id} postSlug={post.slug} />
           </article>
 
           {/* Related Posts */}
