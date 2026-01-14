@@ -18,7 +18,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import MentionsLegales from "./pages/MentionsLegales";
-import Evolution from "./pages/Evolution";
+import Evolution from "./pages/EvolutionEnhanced";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

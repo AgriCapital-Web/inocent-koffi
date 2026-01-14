@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/dialog";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area } from "recharts";
 import RichTextEditor from "@/components/RichTextEditor";
+import AdminBlogEnhanced from "@/components/admin/AdminBlogEnhanced";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
 import AdminSettings from "@/components/admin/AdminSettings";
 import AdminMedia from "@/components/admin/AdminMedia";

@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
       blog_comments: {
         Row: {
           author_email: string
@@ -55,47 +82,111 @@ export type Database = {
           },
         ]
       }
+      blog_media: {
+        Row: {
+          created_at: string
+          file_name: string
+          file_size: number | null
+          file_type: string
+          file_url: string
+          id: string
+          post_id: string | null
+          sort_order: number | null
+        }
+        Insert: {
+          created_at?: string
+          file_name: string
+          file_size?: number | null
+          file_type: string
+          file_url: string
+          id?: string
+          post_id?: string | null
+          sort_order?: number | null
+        }
+        Update: {
+          created_at?: string
+          file_name?: string
+          file_size?: number | null
+          file_type?: string
+          file_url?: string
+          id?: string
+          post_id?: string | null
+          sort_order?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_media_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_posts: {
         Row: {
+          author: string | null
           author_id: string | null
+          auto_save_data: Json | null
+          category_id: string | null
           content: string
           created_at: string
           excerpt: string | null
           featured_image: string | null
+          hashtags: string[] | null
           id: string
           is_published: boolean
           published_at: string | null
           slug: string
+          tagline: string | null
           title: string
           updated_at: string
         }
         Insert: {
+          author?: string | null
           author_id?: string | null
+          auto_save_data?: Json | null
+          category_id?: string | null
           content: string
           created_at?: string
           excerpt?: string | null
           featured_image?: string | null
+          hashtags?: string[] | null
           id?: string
           is_published?: boolean
           published_at?: string | null
           slug: string
+          tagline?: string | null
           title: string
           updated_at?: string
         }
         Update: {
+          author?: string | null
           author_id?: string | null
+          auto_save_data?: Json | null
+          category_id?: string | null
           content?: string
           created_at?: string
           excerpt?: string | null
           featured_image?: string | null
+          hashtags?: string[] | null
           id?: string
           is_published?: boolean
           published_at?: string | null
           slug?: string
+          tagline?: string | null
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "blog_categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       contact_messages: {
         Row: {
