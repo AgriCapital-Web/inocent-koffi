@@ -2,9 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/hooks/useLanguage";
+import { useEffect } from "react";
 import Home from "./pages/Home";
 import APropos from "./pages/APropos";
 import Vision from "./pages/Vision";
@@ -41,6 +42,52 @@ const routes = [
 
 const languageCodes = ["fr", "en", "es", "de", "zh", "ar"];
 
+const AppRoutes = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Normalize URLs typed manually (case, double slashes, trailing slash)
+  useEffect(() => {
+    const raw = location.pathname;
+    const normalized = raw
+      .replace(/\/{2,}/g, "/")
+      .replace(/\/$/, "")
+      .toLowerCase();
+
+    if (raw !== normalized) {
+      navigate(normalized || "/", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
+  return (
+    <Routes>
+      {/* Base routes */}
+      {routes.map((route) => (
+        <Route key={route.path} path={route.path} element={route.element} />
+      ))}
+
+      {/* Language prefix routes (e.g., /fr, /en, /es) */}
+      {languageCodes.map((lang) => (
+        <Route key={lang} path={`/${lang}`} element={<Home />} />
+      ))}
+
+      {/* Routes with language suffix (e.g., /a-propos/fr) */}
+      {routes.slice(1, -2).map((route) =>
+        languageCodes.map((lang) => (
+          <Route
+            key={`${route.path}/${lang}`}
+            path={`${route.path}/${lang}`}
+            element={route.element}
+          />
+        )),
+      )}
+
+      {/* Catch-all */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
+
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
@@ -49,31 +96,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <LanguageProvider>
-            <Routes>
-              {/* Base routes */}
-              {routes.map((route) => (
-                <Route key={route.path} path={route.path} element={route.element} />
-              ))}
-              
-              {/* Language prefix routes (e.g., /fr, /en, /es) */}
-              {languageCodes.map((lang) => (
-                <Route key={lang} path={`/${lang}`} element={<Home />} />
-              ))}
-              
-              {/* Routes with language suffix (e.g., /a-propos/fr) */}
-              {routes.slice(1, -2).map((route) => 
-                languageCodes.map((lang) => (
-                  <Route 
-                    key={`${route.path}/${lang}`} 
-                    path={`${route.path}/${lang}`} 
-                    element={route.element} 
-                  />
-                ))
-              )}
-              
-              {/* Catch-all */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AppRoutes />
           </LanguageProvider>
         </BrowserRouter>
       </TooltipProvider>
