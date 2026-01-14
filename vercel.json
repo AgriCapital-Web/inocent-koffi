@@ -1,4 +1,19 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/Admin", "destination": "/admin", "permanent": true },
+    { "source": "/Blog", "destination": "/blog", "permanent": true },
+    { "source": "/Evolution", "destination": "/evolution", "permanent": true },
+    { "source": "/Projets", "destination": "/projets", "permanent": true },
+    { "source": "/Contact", "destination": "/contact", "permanent": true },
+    { "source": "/A-Propos", "destination": "/a-propos", "permanent": true },
+    { "source": "/Partenariat", "destination": "/partenariat", "permanent": true },
+    { "source": "/Agricapital", "destination": "/agricapital", "permanent": true },
+    { "source": "/Vision", "destination": "/vision", "permanent": true },
+    { "source": "/Login", "destination": "/login", "permanent": true },
+    { "source": "/:path+/", "destination": "/:path+", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
