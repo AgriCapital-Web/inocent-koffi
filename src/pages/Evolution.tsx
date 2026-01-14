@@ -9,38 +9,66 @@ const Evolution = () => {
     {
       date: "19 Novembre 2025",
       title: "Lancement Officiel des Activités Terrain",
-      description: "Démarrage effectif des opérations d'AGRICAPITAL sur le terrain. Cette journée a réuni les premiers souscripteurs, partenaires locaux et membres de l'équipe autour d'un objectif commun : transformer durablement l'agriculture dans la région du Haut-Sassandra.",
+      description:
+        "Démarrage effectif des opérations d'AGRICAPITAL sur le terrain. Cette journée a réuni les premiers souscripteurs, partenaires locaux et membres de l'équipe autour d'un objectif commun : transformer durablement l'agriculture dans la région du Haut-Sassandra.",
       status: "completed",
-      images: ["/images/gallery/launch-1.jpg", "/images/gallery/launch-2.jpg", "/images/gallery/launch-3.jpg"]
+      images: [
+        "/images/gallery/launch-1.jpg",
+        "/images/gallery/launch-2.jpg",
+        "/images/gallery/launch-3.jpg",
+        "/images/gallery/launch-4.jpg",
+        "/images/gallery/launch-5.jpg",
+        "/images/gallery/launch-6.jpg",
+        "/images/gallery/launch-7.jpg",
+      ],
     },
     {
       date: "19 Nov - 24 Déc 2025",
       title: "Installation de la Pépinière 100+ Hectares",
-      description: "Installation complète de notre site de pépinière de plus de 100 hectares avec système d'irrigation moderne et semences certifiées Tenera.",
+      description:
+        "Installation complète de notre site de pépinière de plus de 100 hectares avec système d'irrigation moderne et semences certifiées Tenera.",
       status: "completed",
-      images: ["/images/gallery/nursery-dec-2025-1.jpg", "/images/gallery/nursery-palm-real.jpg"]
+      images: [
+        "/images/gallery/nursery-dec-2025-1.jpg",
+        "/images/gallery/nursery-palm-real.jpg",
+        "/images/gallery/nursery-1.jpg",
+        "/images/gallery/nursery-2.jpg",
+      ],
     },
     {
       date: "Janvier - Mars 2026",
       title: "Phase de Germination et Suivi",
-      description: "Suivi intensif des germinations et préparation des substrats. Formation continue des équipes techniques.",
+      description:
+        "Suivi intensif des germinations et préparation des substrats. Formation continue des équipes techniques.",
       status: "in_progress",
-      images: ["/images/gallery/jalon-1.jpg", "/images/gallery/jalon-2.jpg"]
+      images: [
+        "/images/gallery/jalon-1.jpg",
+        "/images/gallery/jalon-2.jpg",
+        "/images/gallery/jalon-3.jpg",
+      ],
     },
     {
       date: "Avril - Juin 2026",
       title: "Croissance Pré-Pépinière",
-      description: "Développement des plants en pré-pépinière avec irrigation contrôlée et suivi phytosanitaire rigoureux.",
+      description:
+        "Développement des plants en pré-pépinière avec irrigation contrôlée et suivi phytosanitaire rigoureux.",
       status: "upcoming",
-      images: ["/images/gallery/jalon-3.jpg", "/images/gallery/jalon-4.jpg"]
+      images: [
+        "/images/gallery/jalon-4.jpg",
+        "/images/gallery/jalon-5.jpg",
+      ],
     },
     {
       date: "Juillet - Décembre 2026",
       title: "Maturation et Distribution",
-      description: "Plants prêts pour la mise en terre avec 12-14 feuilles développées. Distribution aux producteurs partenaires.",
+      description:
+        "Plants prêts pour la mise en terre avec 12-14 feuilles développées. Distribution aux producteurs partenaires.",
       status: "upcoming",
-      images: ["/images/gallery/jalon-5.jpg", "/images/gallery/jalon-6.jpg"]
-    }
+      images: [
+        "/images/gallery/jalon-6.jpg",
+        "/images/gallery/jalon-7.jpg",
+      ],
+    },
   ];
 
   const stats = [

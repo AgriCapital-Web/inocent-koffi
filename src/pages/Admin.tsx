@@ -428,17 +428,21 @@ const Admin = () => {
           {/* Header */}
           <header className="bg-card border-b sticky top-0 z-50 px-4 sm:px-6 py-4">
             <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-2 sm:gap-4 min-w-0">
                 {/* Mobile Menu */}
-                <AdminMobileMenu 
-                  activeTab={activeTab} 
-                  onTabChange={setActiveTab} 
-                  onLogout={handleLogout} 
-                />
-                <h2 className="text-base sm:text-lg font-semibold capitalize truncate">
-                  {menuItems.find(m => m.id === activeTab)?.label || "Dashboard"}
+                <div className="flex-shrink-0">
+                  <AdminMobileMenu
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                    onLogout={handleLogout}
+                  />
+                </div>
+                <h2 className="min-w-0 text-base sm:text-lg font-semibold capitalize truncate">
+                  {menuItems.find((m) => m.id === activeTab)?.label || "Dashboard"}
                 </h2>
-                <Badge variant="secondary" className="hidden sm:inline-flex">Super Admin</Badge>
+                <Badge variant="secondary" className="hidden sm:inline-flex flex-shrink-0">
+                  Super Admin
+                </Badge>
               </div>
               <div className="flex items-center gap-2 sm:gap-4">
                 <div className="relative hidden md:block">

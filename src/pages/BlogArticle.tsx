@@ -102,12 +102,12 @@ const BlogArticle = () => {
       <Helmet>
         <title>{post.title} - Blog AGRICAPITAL | Inocent KOFFI</title>
         <meta name="description" content={post.excerpt || post.title} />
-        <link rel="canonical" href={`https://www.ikoffi.agricapital.ci/blog/${post.slug}`} />
+        <link rel="canonical" href={`https://ikoffi.agricapital.ci/blog/${post.slug}`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt || post.title} />
         {post.featured_image && <meta property="og:image" content={post.featured_image} />}
-        <meta property="og:url" content={`https://www.ikoffi.agricapital.ci/blog/${post.slug}`} />
+        <meta property="og:url" content={`https://ikoffi.agricapital.ci/blog/${post.slug}`} />
         <meta property="article:published_time" content={post.published_at || post.created_at} />
         <meta property="article:author" content="Inocent KOFFI" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -125,20 +125,20 @@ const BlogArticle = () => {
             "author": {
               "@type": "Person",
               "name": "Inocent KOFFI",
-              "url": "https://www.ikoffi.agricapital.ci"
+              "url": "https://ikoffi.agricapital.ci"
             },
             "publisher": {
               "@type": "Organization",
               "name": "AGRICAPITAL SARL",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://www.ikoffi.agricapital.ci/favicon.png"
+                "url": "https://ikoffi.agricapital.ci/favicon.png"
               }
             },
             "description": post.excerpt || post.title,
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://www.ikoffi.agricapital.ci/blog/${post.slug}`
+              "@id": `https://ikoffi.agricapital.ci/blog/${post.slug}`
             }
           })}
         </script>
