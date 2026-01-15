@@ -139,6 +139,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'blog.relatedPosts': 'Articles similaires',
     'blog.noPostsYet': 'Aucun article pour le moment.',
     'blog.comingSoon': 'Articles à venir bientôt...',
+    'blog.featured': 'Publications à la Une',
+    'blog.thoughts': 'Réflexions & Vision',
+    'blog.thoughtsDesc': 'Des réflexions sur l\'agriculture, l\'entrepreneuriat et la transformation de l\'Afrique',
+    'blog.viewAll': 'Voir tous les articles',
     
     // Comments
     'comments.title': 'Commentaires',
@@ -296,6 +300,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'blog.relatedPosts': 'Related articles',
     'blog.noPostsYet': 'No articles yet.',
     'blog.comingSoon': 'Articles coming soon...',
+    'blog.featured': 'Featured Publications',
+    'blog.thoughts': 'Thoughts & Vision',
+    'blog.thoughtsDesc': 'Reflections on agriculture, entrepreneurship and the transformation of Africa',
+    'blog.viewAll': 'View all articles',
     
     // Comments
     'comments.title': 'Comments',

@@ -8,6 +8,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 // Lazy load components for better performance
 const About = lazy(() => import("@/components/About"));
 const Services = lazy(() => import("@/components/Services"));
+const FeaturedPosts = lazy(() => import("@/components/FeaturedPosts"));
 const PhotoGallery = lazy(() => import("@/components/PhotoGallery"));
 const BlogPreview = lazy(() => import("@/components/BlogPreview"));
 const TestimonialsDisplay = lazy(() => import("@/components/TestimonialsDisplay"));
@@ -61,7 +62,7 @@ const Home = () => {
   };
 
   const meta = getMetaContent();
-  const baseUrl = "https://www.ikoffi.agricapital.ci";
+  const baseUrl = "https://ikoffi.agricapital.ci";
 
   return (
     <>
@@ -109,6 +110,9 @@ const Home = () => {
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <Services />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <FeaturedPosts />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <PhotoGallery />
