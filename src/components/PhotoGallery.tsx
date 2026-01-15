@@ -74,19 +74,18 @@ const PhotoGallery = () => {
   };
 
   return (
-    <section id="gallery" className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background">
+    <section id="gallery" className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto max-w-7xl">
-        <div className="text-center mb-12 space-y-4">
-          <Badge variant="outline" className="mb-4">
+        <div className="text-center mb-8 sm:mb-12 space-y-3 sm:space-y-4">
+          <Badge variant="outline" className="mb-3 sm:mb-4">
             <Camera className="w-3 h-3 mr-1" />
             En Images
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
             Galerie Photo
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Découvrez les moments clés du lancement d'AGRICAPITAL SARL, le 19 novembre 2025. 
-            Une journée marquant le début d'une nouvelle ère pour l'agriculture dans le Haut-Sassandra.
+          <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
+            Découvrez les moments clés du lancement d'AGRICAPITAL SARL, le 19 novembre 2025.
           </p>
         </div>
 
