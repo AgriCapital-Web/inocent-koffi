@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { content, action } = await req.json();
+    const { content, action, topic } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -45,18 +45,59 @@ ${content}`;
 
 RÈGLES DE FORMATAGE:
 - Créer des paragraphes lisibles et bien espacés
-- Ajouter des sous-titres (## en markdown) quand pertinent
-- Mettre en **gras** les idées fortes
-- Utiliser *l'italique* pour les citations ou nuances
+- Ajouter des sous-titres (utilise <h2> ou <h3> en HTML) quand pertinent
+- Mettre en <strong>gras</strong> les idées fortes
+- Utiliser <em>l'italique</em> pour les citations ou nuances
+- Utiliser <blockquote> pour les citations importantes
+- Utiliser <ul> et <li> pour les listes
 - Améliorer la lisibilité sans dénaturer la pensée de l'auteur
 - Conserver le message et les idées originales
 - Structurer de manière logique avec introduction, développement, conclusion
+- Retourne du HTML valide, pas du Markdown
 
 IMPORTANT: Le fondateur s'appelle Inocent KOFFI (pas "Innocent")`;
 
-      userPrompt = `Restructure cet article de manière professionnelle:
+      userPrompt = `Restructure cet article de manière professionnelle en HTML:
 
 ${content}`;
+    } else if (action === "generate_full_article") {
+      systemPrompt = `Tu es un rédacteur en chef professionnel travaillant pour Inocent KOFFI, Fondateur et Directeur Général d'AGRICAPITAL SARL, une entreprise spécialisée dans la transformation agricole en Côte d'Ivoire.
+
+Tu génères des articles de blog complets, structurés et professionnels à partir d'une idée ou d'un sujet.
+
+STYLE ET TON:
+- Professionnel, inspirant et visionnaire
+- Leadership et vision stratégique
+- Focus sur l'agriculture, l'entrepreneuriat africain, la souveraineté alimentaire
+- Citations pertinentes (notamment de Félix Houphouët-Boigny si approprié)
+- Émojis subtils pour les points clés (📌, 👉, 🌱, 💡)
+
+STRUCTURE HTML:
+- <h2> pour les titres de sections
+- <h3> pour les sous-sections
+- <p> pour les paragraphes
+- <strong> pour les idées fortes
+- <em> pour l'italique
+- <blockquote> pour les citations
+- <ul><li> pour les listes
+
+IMPORTANT: 
+- Le fondateur s'appelle Inocent KOFFI (pas "Innocent")
+- Longueur: 800-1500 mots
+- Termine par une signature ou une pensée conclusive
+
+Réponds en JSON valide avec cette structure:
+{
+  "title": "Titre professionnel et impactant",
+  "tagline": "Phrase d'accroche",
+  "content": "<h2>Introduction</h2><p>...</p>...",
+  "excerpt": "Résumé en 2 phrases",
+  "hashtags": ["hashtag1", "hashtag2", "hashtag3", "hashtag4", "hashtag5"]
+}`;
+
+      userPrompt = topic 
+        ? `Génère un article complet sur ce sujet: ${topic}\n\nIdées additionnelles: ${content || 'Aucune'}`
+        : `Génère un article complet à partir de ces idées: ${content}`;
     } else {
       throw new Error("Action non reconnue");
     }
@@ -100,7 +141,7 @@ ${content}`;
     const data = await response.json();
     const aiContent = data.choices?.[0]?.message?.content;
 
-    if (action === "generate_meta") {
+    if (action === "generate_meta" || action === "generate_full_article") {
       // Parse JSON response
       const jsonMatch = aiContent.match(/\{[\s\S]*\}/);
       if (jsonMatch) {

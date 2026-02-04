@@ -5,13 +5,14 @@ import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Newsletter from "@/components/Newsletter";
-import SocialShare from "@/components/SocialShare";
-import BlogComments from "@/components/BlogComments";
+import SocialSharePopup from "@/components/SocialSharePopup";
+import BlogCommentsEnhanced from "@/components/BlogCommentsEnhanced";
+import BlogLikes from "@/components/BlogLikes";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, Clock, ArrowLeft, User, Tag } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, User, Tag, Share2 } from "lucide-react";
 
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -96,18 +97,19 @@ const BlogArticle = () => {
     month: 'long',
     year: 'numeric'
   }) : '';
+  const articleUrl = `https://ikoffi.agricapital.ci/blog/${post.slug}`;
 
   return (
     <>
       <Helmet>
         <title>{post.title} - Blog AGRICAPITAL | Inocent KOFFI</title>
         <meta name="description" content={post.excerpt || post.title} />
-        <link rel="canonical" href={`https://ikoffi.agricapital.ci/blog/${post.slug}`} />
+        <link rel="canonical" href={articleUrl} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt || post.title} />
         {post.featured_image && <meta property="og:image" content={post.featured_image} />}
-        <meta property="og:url" content={`https://ikoffi.agricapital.ci/blog/${post.slug}`} />
+        <meta property="og:url" content={articleUrl} />
         <meta property="article:published_time" content={post.published_at || post.created_at} />
         <meta property="article:author" content="Inocent KOFFI" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -138,7 +140,7 @@ const BlogArticle = () => {
             "description": post.excerpt || post.title,
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://ikoffi.agricapital.ci/blog/${post.slug}`
+              "@id": articleUrl
             }
           })}
         </script>
@@ -163,14 +165,20 @@ const BlogArticle = () => {
                 Article
               </Badge>
               
-              <h1 className="text-3xl md:text-5xl font-bold mb-6 text-foreground leading-tight">
+              <h1 className="text-3xl md:text-5xl font-bold mb-4 text-foreground leading-tight">
                 {post.title}
               </h1>
+
+              {post.tagline && (
+                <p className="text-xl text-primary font-medium mb-4 italic">
+                  {post.tagline}
+                </p>
+              )}
 
               <div className="flex flex-wrap items-center gap-4 text-muted-foreground mb-6">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" />
-                  <span>Inocent KOFFI</span>
+                  <span>{post.author || "Inocent KOFFI"}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
@@ -182,20 +190,39 @@ const BlogArticle = () => {
                 </div>
               </div>
 
-              {/* Social Share */}
-              <div className="flex items-center gap-2 mb-6">
-                <span className="text-sm text-muted-foreground">Partager:</span>
-                <SocialShare 
-                  url={`https://www.ikoffi.agricapital.ci/blog/${post.slug}`}
+              {/* Hashtags */}
+              {post.hashtags && post.hashtags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {post.hashtags.map((tag: string, index: number) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Social interactions */}
+              <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+                <BlogLikes postId={post.id} />
+                <SocialSharePopup 
+                  url={articleUrl}
                   title={post.title}
                   description={post.excerpt || ''}
-                />
+                >
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Share2 className="w-4 h-4" />
+                    Partager
+                  </Button>
+                </SocialSharePopup>
               </div>
             </header>
 
             {/* Featured Image */}
             {post.featured_image && (
-              <div className="relative mb-10 rounded-2xl overflow-hidden shadow-xl">
+              <div className="relative mb-10 rounded-2xl overflow-hidden shadow-xl border-l-4 border-t-4 border-l-accent border-t-accent border-r-4 border-b-4 border-r-primary border-b-primary">
                 <img 
                   src={post.featured_image} 
                   alt={post.title}
@@ -207,20 +234,25 @@ const BlogArticle = () => {
 
             {/* Content */}
             <div 
-              className="prose prose-lg max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-img:rounded-xl"
+              className="prose prose-lg max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-img:rounded-xl prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
             {/* Share at bottom */}
             <div className="mt-12 pt-8 border-t">
               <div className="flex items-center justify-between flex-wrap gap-4">
-                <div>
-                  <h3 className="font-semibold mb-2">Partagez cet article</h3>
-                  <SocialShare 
-                    url={`https://ikoffi.agricapital.ci/blog/${post.slug}`}
+                <div className="flex items-center gap-4">
+                  <BlogLikes postId={post.id} />
+                  <SocialSharePopup 
+                    url={articleUrl}
                     title={post.title}
                     description={post.excerpt || ''}
-                  />
+                  >
+                    <Button variant="outline" className="gap-2">
+                      <Share2 className="w-4 h-4" />
+                      Partager cet article
+                    </Button>
+                  </SocialSharePopup>
                 </div>
                 <Button asChild>
                   <Link to="/blog">
@@ -231,7 +263,7 @@ const BlogArticle = () => {
             </div>
 
             {/* Comments Section */}
-            <BlogComments postId={post.id} postSlug={post.slug} />
+            <BlogCommentsEnhanced postId={post.id} />
           </article>
 
           {/* Related Posts */}
@@ -241,7 +273,7 @@ const BlogArticle = () => {
                 <h2 className="text-2xl font-bold mb-8 text-center">Articles similaires</h2>
                 <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
                   {relatedPosts.map((related) => (
-                    <Card key={related.id} className="group overflow-hidden hover:shadow-lg transition-all">
+                    <Card key={related.id} className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer" onClick={() => window.location.href = `/blog/${related.slug}`}>
                       {related.featured_image && (
                         <div className="relative h-40 overflow-hidden">
                           <img 
@@ -257,7 +289,7 @@ const BlogArticle = () => {
                           {related.published_at && new Date(related.published_at).toLocaleDateString('fr-FR')}
                         </p>
                         <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">
-                          <Link to={`/blog/${related.slug}`}>{related.title}</Link>
+                          {related.title}
                         </h3>
                       </CardContent>
                     </Card>

@@ -106,13 +106,13 @@ const Home = () => {
         <Navbar />
         <Hero />
         <Suspense fallback={<LoadingFallback />}>
+          <FeaturedPosts />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
           <About />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <Services />
-        </Suspense>
-        <Suspense fallback={<LoadingFallback />}>
-          <FeaturedPosts />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <PhotoGallery />

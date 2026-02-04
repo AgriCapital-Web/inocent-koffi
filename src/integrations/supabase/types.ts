@@ -45,6 +45,8 @@ export type Database = {
         Row: {
           author_email: string
           author_name: string
+          author_phone: string | null
+          author_photo: string | null
           content: string
           created_at: string
           id: string
@@ -55,6 +57,8 @@ export type Database = {
         Insert: {
           author_email: string
           author_name: string
+          author_phone?: string | null
+          author_photo?: string | null
           content: string
           created_at?: string
           id?: string
@@ -65,6 +69,8 @@ export type Database = {
         Update: {
           author_email?: string
           author_name?: string
+          author_phone?: string | null
+          author_photo?: string | null
           content?: string
           created_at?: string
           id?: string
@@ -75,6 +81,44 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "blog_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_likes: {
+        Row: {
+          author_name: string | null
+          author_phone: string | null
+          created_at: string
+          id: string
+          post_id: string
+          reaction_type: string
+          session_id: string | null
+        }
+        Insert: {
+          author_name?: string | null
+          author_phone?: string | null
+          created_at?: string
+          id?: string
+          post_id: string
+          reaction_type?: string
+          session_id?: string | null
+        }
+        Update: {
+          author_name?: string | null
+          author_phone?: string | null
+          created_at?: string
+          id?: string
+          post_id?: string
+          reaction_type?: string
+          session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_likes_post_id_fkey"
             columns: ["post_id"]
             isOneToOne: false
             referencedRelation: "blog_posts"
