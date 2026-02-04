@@ -1,6 +1,15 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ],
   "redirects": [
     { "source": "/Admin", "destination": "/admin", "permanent": true },
     { "source": "/Blog", "destination": "/blog", "permanent": true },
@@ -15,6 +24,18 @@
     { "source": "/:path+/", "destination": "/:path+", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/blog/:slug", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/evolution", "destination": "/index.html" },
+    { "source": "/a-propos", "destination": "/index.html" },
+    { "source": "/vision", "destination": "/index.html" },
+    { "source": "/agricapital", "destination": "/index.html" },
+    { "source": "/projets", "destination": "/index.html" },
+    { "source": "/partenariat", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" },
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/mentions-legales", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

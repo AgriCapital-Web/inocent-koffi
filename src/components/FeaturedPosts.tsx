@@ -1,14 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 
 const FeaturedPosts = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   const posts = [
     {
       id: 1,
+      slug: "numerique-ia-afrique-essentiel",
       title: "Numérique, IA, start-up… et si l'Afrique remettait l'essentiel au centre ?",
       excerpt: "Aujourd'hui, on nous explique partout que le numérique est la richesse de demain. On encourage massivement les jeunes à se tourner vers le digital, les start-up, l'IA, le code… Mais ce n'est pas toute la vérité. Aucune grande puissance économique ne s'est construite uniquement sur des lignes de code.",
       quote: "Un homme qui a faim n'est pas un homme libre. — Félix Houphouët-Boigny",
@@ -19,6 +21,7 @@ const FeaturedPosts = () => {
     },
     {
       id: 2,
+      slug: "entrepreneur-porteur-vision",
       title: "Être entrepreneur ne se résume pas à avoir une idée",
       excerpt: "Il existe deux postures : les porteurs de projet et les porteurs de vision. Les premiers identifient un besoin et exécutent. Les seconds interrogent le sens, la durabilité et l'impact à long terme. La vraie différence n'est pas dans la taille du projet, mais dans la profondeur de la vision.",
       quote: "Être entrepreneur, c'est créer de la valeur. Être porteur de vision, c'est inscrire cette valeur dans le temps et dans la société.",
@@ -28,6 +31,11 @@ const FeaturedPosts = () => {
       role: "Fondateur & DG – AGRICAPITAL SARL",
     },
   ];
+
+  const handlePostClick = (slug: string) => {
+    navigate(`/blog/${slug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <section className="py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-background via-muted/30 to-background">
@@ -50,7 +58,8 @@ const FeaturedPosts = () => {
           {posts.map((post) => (
             <article
               key={post.id}
-              className="group relative bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border-l-4 border-t-4 border-l-accent border-t-accent border-r-4 border-b-4 border-r-primary border-b-primary"
+              onClick={() => handlePostClick(post.slug)}
+              className="group relative bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border-l-4 border-t-4 border-l-accent border-t-accent border-r-4 border-b-4 border-r-primary border-b-primary cursor-pointer"
             >
               {/* Image Container */}
               <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
@@ -95,10 +104,11 @@ const FeaturedPosts = () => {
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-xs sm:text-sm">
                     IK
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="font-semibold text-foreground text-sm sm:text-base truncate">{post.author}</p>
                     <p className="text-xs sm:text-sm text-muted-foreground truncate">{post.role}</p>
                   </div>
+                  <ArrowRight className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </div>
             </article>

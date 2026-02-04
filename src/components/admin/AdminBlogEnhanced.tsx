@@ -78,6 +78,8 @@ const AdminBlogEnhanced = () => {
   const [uploading, setUploading] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [structureLoading, setStructureLoading] = useState(false);
+  const [generateLoading, setGenerateLoading] = useState(false);
+  const [topicInput, setTopicInput] = useState("");
   
   // Form state
   const [title, setTitle] = useState("");
@@ -267,6 +269,40 @@ const AdminBlogEnhanced = () => {
     }
   };
 
+  // AI: Generate complete article from topic/idea  
+  const handleGenerateFullArticle = async () => {
+    if (!content.trim() && !topicInput.trim()) {
+      toast({ title: "Erreur", description: "Entrez un sujet ou des idées pour générer l'article", variant: "destructive" });
+      return;
+    }
+    
+    setGenerateLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
+        body: { 
+          content: content.trim() || "", 
+          topic: topicInput.trim() || "",
+          action: 'generate_full_article' 
+        }
+      });
+      
+      if (error) throw error;
+      
+      if (data.title) setTitle(data.title);
+      if (data.tagline) setTagline(data.tagline);
+      if (data.content) setContent(data.content);
+      if (data.excerpt) setExcerpt(data.excerpt);
+      if (data.hashtags) setHashtags(data.hashtags);
+      if (!slug && data.title) setSlug(generateSlug(data.title));
+      
+      toast({ title: "Article généré !", description: "L'article complet a été créé par l'IA" });
+    } catch (error: any) {
+      toast({ title: "Erreur IA", description: error.message, variant: "destructive" });
+    } finally {
+      setGenerateLoading(false);
+    }
+  };
+
   const handleMediaUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -407,26 +443,60 @@ const AdminBlogEnhanced = () => {
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* AI Actions */}
-          <div className="flex flex-wrap gap-2 p-4 bg-muted/50 rounded-lg border border-dashed">
-            <Button 
-              variant="outline" 
-              onClick={handleGenerateMeta}
-              disabled={aiLoading || !content.trim()}
-              className="gap-2"
-            >
-              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-              Générer titre, accroche & hashtags
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={handleStructureArticle}
-              disabled={structureLoading || !content.trim()}
-              className="gap-2"
-            >
-              {structureLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
-              Structurer l'article professionnellement
-            </Button>
+          {/* AI Generation Section */}
+          <div className="p-4 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-xl border-2 border-dashed border-primary/30">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="w-5 h-5 text-primary" />
+              <h3 className="font-semibold text-lg">Assistant IA Éditorial</h3>
+            </div>
+            
+            {/* Quick topic input for full generation */}
+            <div className="space-y-3 mb-4">
+              <Label className="text-sm font-medium">Sujet ou idée (pour génération complète)</Label>
+              <div className="flex gap-2">
+                <Input
+                  value={topicInput}
+                  onChange={(e) => setTopicInput(e.target.value)}
+                  placeholder="Ex: L'importance de la souveraineté alimentaire en Afrique..."
+                  className="flex-1"
+                />
+                <Button 
+                  onClick={handleGenerateFullArticle}
+                  disabled={generateLoading || (!content.trim() && !topicInput.trim())}
+                  className="gap-2 bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90"
+                >
+                  {generateLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                  Générer l'article complet
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                💡 Entrez un sujet ou des idées brèves, l'IA génèrera un article complet avec titre, structure et hashtags.
+              </p>
+            </div>
+
+            {/* Other AI actions */}
+            <div className="flex flex-wrap gap-2 pt-3 border-t border-primary/20">
+              <Button 
+                variant="outline" 
+                onClick={handleGenerateMeta}
+                disabled={aiLoading || !content.trim()}
+                className="gap-2"
+                size="sm"
+              >
+                {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Hash className="w-4 h-4" />}
+                Générer titre & hashtags
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={handleStructureArticle}
+                disabled={structureLoading || !content.trim()}
+                className="gap-2"
+                size="sm"
+              >
+                {structureLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+                Structurer le texte
+              </Button>
+            </div>
           </div>
 
           {/* Category Selection */}
