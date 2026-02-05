@@ -2,23 +2,9 @@
   publish = "dist"
   command = "npm run build"
 
-# Handle client-side routing
-[[redirects]]
-  from = "/admin"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/blog/*"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/evolution"
-  to = "/index.html"
-  status = 200
-
+# SPA fallback - MUST be last and catch all routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = true
