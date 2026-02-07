@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { content, action, topic } = await req.json();
+    const { content, action, topic, categories } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -34,11 +34,17 @@ Tu dois TOUJOURS répondre en JSON valide avec cette structure exacte:
 {
   "title": "Titre professionnel et impactant (max 80 caractères)",
   "tagline": "Phrase d'accroche éditoriale et inspirante (max 160 caractères)",
-  "hashtags": ["hashtag1", "hashtag2", "hashtag3", "hashtag4", "hashtag5"]
+  "hashtags": ["hashtag1", "hashtag2", "hashtag3", "hashtag4", "hashtag5"],
+  "excerpt": "Résumé professionnel en 2-3 phrases (max 200 caractères)",
+  "suggested_category": "nom de la catégorie la plus pertinente"
 }`;
 
-      userPrompt = `Analyse ce contenu et génère un titre, une phrase d'accroche et 5 hashtags pertinents:
+      const catList = categories?.map((c: any) => c.name).join(', ') || '';
+      userPrompt = `Analyse ce contenu et génère un titre, une phrase d'accroche, un résumé, la catégorie la plus pertinente et 5 hashtags pertinents.
 
+Catégories disponibles: ${catList}
+
+Contenu:
 ${content}`;
     } else if (action === "structure_article") {
       systemPrompt = `Tu es un rédacteur en chef professionnel. Tu restructures les articles de manière professionnelle.
@@ -61,9 +67,11 @@ IMPORTANT: Le fondateur s'appelle Inocent KOFFI (pas "Innocent")`;
 
 ${content}`;
     } else if (action === "generate_full_article") {
+      const catList = categories?.map((c: any) => c.name).join(', ') || '';
+      
       systemPrompt = `Tu es un rédacteur en chef professionnel travaillant pour Inocent KOFFI, Fondateur et Directeur Général d'AGRICAPITAL SARL, une entreprise spécialisée dans la transformation agricole en Côte d'Ivoire.
 
-Tu génères des articles de blog complets, structurés et professionnels à partir d'une idée ou d'un sujet.
+Tu génères des articles de blog complets, structurés et professionnels à partir d'une idée ou d'un sujet, ou même d'un texte brut non structuré.
 
 STYLE ET TON:
 - Professionnel, inspirant et visionnaire
@@ -75,16 +83,21 @@ STYLE ET TON:
 STRUCTURE HTML:
 - <h2> pour les titres de sections
 - <h3> pour les sous-sections
-- <p> pour les paragraphes
+- <p> pour les paragraphes (bien séparés et aérés)
 - <strong> pour les idées fortes
 - <em> pour l'italique
 - <blockquote> pour les citations
-- <ul><li> pour les listes
+- <ul><li> pour les listes à puces
+- <ol><li> pour les listes numérotées
+- <table><thead><tbody><tr><th><td> pour les tableaux si le contexte l'exige
 
 IMPORTANT: 
 - Le fondateur s'appelle Inocent KOFFI (pas "Innocent")
 - Longueur: 800-1500 mots
+- Le contenu doit être immédiatement publiable
 - Termine par une signature ou une pensée conclusive
+
+Catégories disponibles: ${catList}
 
 Réponds en JSON valide avec cette structure:
 {
@@ -92,12 +105,13 @@ Réponds en JSON valide avec cette structure:
   "tagline": "Phrase d'accroche",
   "content": "<h2>Introduction</h2><p>...</p>...",
   "excerpt": "Résumé en 2 phrases",
-  "hashtags": ["hashtag1", "hashtag2", "hashtag3", "hashtag4", "hashtag5"]
+  "hashtags": ["hashtag1", "hashtag2", "hashtag3", "hashtag4", "hashtag5"],
+  "suggested_category": "nom de la catégorie la plus pertinente"
 }`;
 
       userPrompt = topic 
         ? `Génère un article complet sur ce sujet: ${topic}\n\nIdées additionnelles: ${content || 'Aucune'}`
-        : `Génère un article complet à partir de ces idées: ${content}`;
+        : `Analyse ce texte brut et génère un article complet, professionnel et structuré. L'IA doit comprendre le contexte, structurer l'information, et remplir TOUS les champs automatiquement:\n\n${content}`;
     } else {
       throw new Error("Action non reconnue");
     }
@@ -142,7 +156,6 @@ Réponds en JSON valide avec cette structure:
     const aiContent = data.choices?.[0]?.message?.content;
 
     if (action === "generate_meta" || action === "generate_full_article") {
-      // Parse JSON response
       const jsonMatch = aiContent.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
@@ -152,7 +165,6 @@ Réponds en JSON valide avec cette structure:
       }
       throw new Error("Invalid AI response format");
     } else {
-      // Return structured content
       return new Response(JSON.stringify({ content: aiContent }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });

@@ -7,10 +7,13 @@ import { Helmet } from "react-helmet-async";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Calendar, Clock, ArrowRight, Search, Tag, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar, Clock, ArrowRight, Search, Tag, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguage";
+
+const POSTS_PER_PAGE = 12;
 
 const Blog = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,6 +21,7 @@ const Blog = () => {
   
   const categorySlug = searchParams.get("category") || "";
   const searchQuery = searchParams.get("q") || "";
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
   const [localSearch, setLocalSearch] = useState(searchQuery);
 
   // Fetch categories
@@ -28,7 +32,6 @@ const Blog = () => {
         .from('blog_categories')
         .select('*')
         .order('name');
-      
       if (error) throw error;
       return data;
     }
@@ -43,32 +46,27 @@ const Blog = () => {
         .select('*, blog_categories(id, name, slug, color)')
         .eq('is_published', true)
         .order('published_at', { ascending: false });
-      
       if (error) throw error;
       return data;
     }
   });
 
-  // Get current category for SEO
   const currentCategory = useMemo(() => {
     if (!categorySlug || !categories) return null;
     return categories.find(c => c.slug === categorySlug);
   }, [categorySlug, categories]);
 
-  // Filter posts by category and search
+  // Filter posts
   const filteredPosts = useMemo(() => {
     if (!posts) return [];
-    
     let filtered = posts;
     
-    // Filter by category
     if (categorySlug) {
       filtered = filtered.filter(post => 
         (post.blog_categories as any)?.slug === categorySlug
       );
     }
     
-    // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(post =>
@@ -82,6 +80,24 @@ const Blog = () => {
     return filtered;
   }, [posts, categorySlug, searchQuery]);
 
+  // Pagination
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const paginatedPosts = useMemo(() => {
+    const start = (currentPage - 1) * POSTS_PER_PAGE;
+    return filteredPosts.slice(start, start + POSTS_PER_PAGE);
+  }, [filteredPosts, currentPage]);
+
+  const goToPage = (page: number) => {
+    const params = new URLSearchParams(searchParams);
+    if (page <= 1) {
+      params.delete("page");
+    } else {
+      params.set("page", String(page));
+    }
+    setSearchParams(params);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams(searchParams);
@@ -90,6 +106,7 @@ const Blog = () => {
     } else {
       params.delete("q");
     }
+    params.delete("page");
     setSearchParams(params);
   };
 
@@ -100,6 +117,7 @@ const Blog = () => {
     } else {
       params.set("category", slug);
     }
+    params.delete("page");
     setSearchParams(params);
   };
 
@@ -108,7 +126,6 @@ const Blog = () => {
     setLocalSearch("");
   };
 
-  // Dynamic SEO based on category
   const pageTitle = currentCategory 
     ? `${currentCategory.name} - Blog Inocent KOFFI`
     : "Blog - Inocent KOFFI | Actualités Agriculture Africaine";
@@ -121,24 +138,20 @@ const Blog = () => {
     ? `https://ikoffi.agricapital.ci/blog?category=${currentCategory.slug}`
     : "https://ikoffi.agricapital.ci/blog";
 
+  const getReadingTime = (content: string) => Math.max(2, Math.ceil(content.split(' ').length / 200));
+
   return (
     <>
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
         <link rel="canonical" href={canonicalUrl} />
-        
-        {/* Open Graph */}
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="blog" />
-        
-        {/* Twitter */}
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDescription} />
-        
-        {/* Structured Data for Blog */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -146,14 +159,8 @@ const Blog = () => {
             "name": pageTitle,
             "description": pageDescription,
             "url": canonicalUrl,
-            "author": {
-              "@type": "Person",
-              "name": "Inocent KOFFI"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AGRICAPITAL SARL"
-            }
+            "author": { "@type": "Person", "name": "Inocent KOFFI" },
+            "publisher": { "@type": "Organization", "name": "AGRICAPITAL SARL" }
           })}
         </script>
       </Helmet>
@@ -168,11 +175,9 @@ const Blog = () => {
                 <Badge variant="outline" className="mb-4">Blog</Badge>
                 <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-foreground">
                   {currentCategory ? (
-                    <>
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                        {currentCategory.name}
-                      </span>
-                    </>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                      {currentCategory.name}
+                    </span>
                   ) : (
                     <>
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Actualités</span> & Perspectives
@@ -183,7 +188,6 @@ const Blog = () => {
                   {currentCategory?.description || "Réflexions, analyses et actualités sur la transformation agricole en Afrique"}
                 </p>
 
-                {/* Search Bar */}
                 <form onSubmit={handleSearch} className="max-w-xl mx-auto">
                   <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -201,6 +205,7 @@ const Blog = () => {
                           setLocalSearch("");
                           const params = new URLSearchParams(searchParams);
                           params.delete("q");
+                          params.delete("page");
                           setSearchParams(params);
                         }}
                         className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full"
@@ -254,16 +259,13 @@ const Blog = () => {
                 ))}
               </div>
 
-              {/* Active Filters */}
               {(categorySlug || searchQuery) && (
                 <div className="flex items-center justify-center gap-2 mt-4">
                   <span className="text-sm text-muted-foreground">Filtres actifs:</span>
                   {categorySlug && currentCategory && (
                     <Badge variant="secondary" className="gap-1">
                       {currentCategory.name}
-                      <button onClick={() => handleCategoryClick("")}>
-                        <X className="w-3 h-3" />
-                      </button>
+                      <button onClick={() => handleCategoryClick("")}><X className="w-3 h-3" /></button>
                     </Badge>
                   )}
                   {searchQuery && (
@@ -272,6 +274,7 @@ const Blog = () => {
                       <button onClick={() => {
                         const params = new URLSearchParams(searchParams);
                         params.delete("q");
+                        params.delete("page");
                         setSearchParams(params);
                         setLocalSearch("");
                       }}>
@@ -279,10 +282,7 @@ const Blog = () => {
                       </button>
                     </Badge>
                   )}
-                  <button 
-                    onClick={clearFilters}
-                    className="text-sm text-primary hover:underline ml-2"
-                  >
+                  <button onClick={clearFilters} className="text-sm text-primary hover:underline ml-2">
                     Tout effacer
                   </button>
                 </div>
@@ -294,7 +294,6 @@ const Blog = () => {
           <section className="py-16 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
-                {/* Results count */}
                 {!isLoading && posts && (
                   <p className="text-muted-foreground mb-8 text-center">
                     {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''} trouvé{filteredPosts.length !== 1 ? 's' : ''}
@@ -316,21 +315,27 @@ const Blog = () => {
                       </Card>
                     ))}
                   </div>
-                ) : filteredPosts.length > 0 ? (
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredPosts.map((post) => (
-                      <Card 
-                        key={post.id}
-                        className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-border/50 hover:border-accent/50"
-                      >
-                        {post.featured_image && (
-                          <div className="relative h-48 overflow-hidden">
-                            <img 
-                              src={post.featured_image} 
-                              alt={post.title}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                              loading="lazy"
-                            />
+                ) : paginatedPosts.length > 0 ? (
+                  <>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {paginatedPosts.map((post) => (
+                        <Card 
+                          key={post.id}
+                          className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-border/50 hover:border-accent/50"
+                        >
+                          <div className="relative h-48 overflow-hidden bg-muted">
+                            {post.featured_image ? (
+                              <img 
+                                src={post.featured_image} 
+                                alt={post.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                loading="lazy"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20">
+                                <span className="text-4xl font-bold text-primary/30">IK</span>
+                              </div>
+                            )}
                             {(post.blog_categories as any)?.name && (
                               <Badge 
                                 className="absolute top-3 left-3"
@@ -343,46 +348,100 @@ const Blog = () => {
                               </Badge>
                             )}
                           </div>
-                        )}
-                        <CardContent className="p-6 space-y-4">
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4" />
-                              <span>{new Date(post.published_at || post.created_at).toLocaleDateString('fr-FR')}</span>
+                          <CardContent className="p-6 space-y-4">
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                              <div className="flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                <span>{new Date(post.published_at || post.created_at).toLocaleDateString('fr-FR')}</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Clock className="w-4 h-4" />
+                                <span>{getReadingTime(post.content)} min</span>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-4 h-4" />
-                              <span>5 min</span>
-                            </div>
-                          </div>
-                          <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                            {post.title}
-                          </h3>
-                          {post.excerpt && (
-                            <p className="text-muted-foreground line-clamp-2">
-                              {post.excerpt}
-                            </p>
-                          )}
-                          {post.hashtags && post.hashtags.length > 0 && (
-                            <div className="flex flex-wrap gap-1">
-                              {post.hashtags.slice(0, 3).map((tag: string, idx: number) => (
-                                <span key={idx} className="text-xs text-primary">
-                                  #{tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                          <a 
-                            href={`/blog/${post.slug}`}
-                            className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
-                          >
-                            Lire la suite
-                            <ArrowRight className="w-4 h-4" />
-                          </a>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
+                            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                              {post.title}
+                            </h3>
+                            {post.excerpt && (
+                              <p className="text-muted-foreground line-clamp-2">{post.excerpt}</p>
+                            )}
+                            {post.hashtags && post.hashtags.length > 0 && (
+                              <div className="flex flex-wrap gap-1">
+                                {post.hashtags.slice(0, 3).map((tag: string, idx: number) => (
+                                  <span key={idx} className="text-xs text-primary">#{tag}</span>
+                                ))}
+                              </div>
+                            )}
+                            <a 
+                              href={`/blog/${post.slug}`}
+                              className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
+                            >
+                              Lire la suite
+                              <ArrowRight className="w-4 h-4" />
+                            </a>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                      <div className="flex items-center justify-center gap-2 mt-12">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => goToPage(currentPage - 1)}
+                          disabled={currentPage <= 1}
+                          className="gap-1"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                          Précédent
+                        </Button>
+                        
+                        <div className="flex items-center gap-1">
+                          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                            // Show first, last, current, and adjacent pages
+                            if (
+                              page === 1 || 
+                              page === totalPages || 
+                              Math.abs(page - currentPage) <= 1
+                            ) {
+                              return (
+                                <Button
+                                  key={page}
+                                  variant={page === currentPage ? "default" : "outline"}
+                                  size="sm"
+                                  onClick={() => goToPage(page)}
+                                  className="w-9 h-9 p-0"
+                                >
+                                  {page}
+                                </Button>
+                              );
+                            }
+                            // Show ellipsis
+                            if (
+                              (page === 2 && currentPage > 3) ||
+                              (page === totalPages - 1 && currentPage < totalPages - 2)
+                            ) {
+                              return <span key={page} className="px-1 text-muted-foreground">…</span>;
+                            }
+                            return null;
+                          })}
+                        </div>
+
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => goToPage(currentPage + 1)}
+                          disabled={currentPage >= totalPages}
+                          className="gap-1"
+                        >
+                          Suivant
+                          <ChevronRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <div className="text-center py-20">
                     <div className="w-20 h-20 rounded-full bg-secondary flex items-center justify-center mx-auto mb-6">
@@ -398,10 +457,7 @@ const Blog = () => {
                       }
                     </p>
                     {(categorySlug || searchQuery) && (
-                      <button
-                        onClick={clearFilters}
-                        className="text-primary hover:underline font-medium"
-                      >
+                      <button onClick={clearFilters} className="text-primary hover:underline font-medium">
                         Voir tous les articles
                       </button>
                     )}
@@ -411,7 +467,6 @@ const Blog = () => {
             </div>
           </section>
 
-          {/* Newsletter */}
           <Newsletter />
         </main>
         <Footer />
