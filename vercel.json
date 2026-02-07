@@ -1,9 +1,6 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite",
-  "cleanUrls": true,
-  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
@@ -19,18 +16,6 @@
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     }
-  ],
-  "redirects": [
-    { "source": "/Admin", "destination": "/admin", "permanent": true },
-    { "source": "/Blog", "destination": "/blog", "permanent": true },
-    { "source": "/Evolution", "destination": "/evolution", "permanent": true },
-    { "source": "/Projets", "destination": "/projets", "permanent": true },
-    { "source": "/Contact", "destination": "/contact", "permanent": true },
-    { "source": "/A-Propos", "destination": "/a-propos", "permanent": true },
-    { "source": "/Partenariat", "destination": "/partenariat", "permanent": true },
-    { "source": "/Agricapital", "destination": "/agricapital", "permanent": true },
-    { "source": "/Vision", "destination": "/vision", "permanent": true },
-    { "source": "/Login", "destination": "/login", "permanent": true }
   ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
