@@ -215,6 +215,12 @@ const AdminBlogEnhanced = () => {
     }
   });
 
+  const findCategoryByName = (name: string) => {
+    if (!name || !categories) return null;
+    const lower = name.toLowerCase();
+    return categories.find(c => c.name.toLowerCase().includes(lower) || lower.includes(c.name.toLowerCase()));
+  };
+
   // AI: Generate title, tagline, hashtags
   const handleGenerateMeta = async () => {
     if (!content.trim()) {
@@ -225,7 +231,7 @@ const AdminBlogEnhanced = () => {
     setAiLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
-        body: { content, action: 'generate_meta' }
+        body: { content, action: 'generate_meta', categories: categories?.map(c => ({ id: c.id, name: c.name })) }
       });
       
       if (error) throw error;
@@ -233,9 +239,16 @@ const AdminBlogEnhanced = () => {
       if (data.title) setTitle(data.title);
       if (data.tagline) setTagline(data.tagline);
       if (data.hashtags) setHashtags(data.hashtags);
+      if (data.excerpt) setExcerpt(data.excerpt);
       if (!slug && data.title) setSlug(generateSlug(data.title));
       
-      toast({ title: "Métadonnées générées", description: "Titre, accroche et hashtags créés par l'IA" });
+      // Auto-select category
+      if (data.suggested_category && !categoryId) {
+        const match = findCategoryByName(data.suggested_category);
+        if (match) setCategoryId(match.id);
+      }
+      
+      toast({ title: "Métadonnées générées", description: "Titre, accroche, catégorie et hashtags créés par l'IA" });
     } catch (error: any) {
       toast({ title: "Erreur IA", description: error.message, variant: "destructive" });
     } finally {
@@ -282,7 +295,8 @@ const AdminBlogEnhanced = () => {
         body: { 
           content: content.trim() || "", 
           topic: topicInput.trim() || "",
-          action: 'generate_full_article' 
+          action: 'generate_full_article',
+          categories: categories?.map(c => ({ id: c.id, name: c.name }))
         }
       });
       
@@ -295,7 +309,13 @@ const AdminBlogEnhanced = () => {
       if (data.hashtags) setHashtags(data.hashtags);
       if (!slug && data.title) setSlug(generateSlug(data.title));
       
-      toast({ title: "Article généré !", description: "L'article complet a été créé par l'IA" });
+      // Auto-select category
+      if (data.suggested_category) {
+        const match = findCategoryByName(data.suggested_category);
+        if (match) setCategoryId(match.id);
+      }
+      
+      toast({ title: "Article généré !", description: "L'article complet a été créé par l'IA avec catégorie auto-sélectionnée" });
     } catch (error: any) {
       toast({ title: "Erreur IA", description: error.message, variant: "destructive" });
     } finally {
