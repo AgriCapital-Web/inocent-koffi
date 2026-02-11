@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_views: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          finished_reading: boolean | null
+          id: string
+          post_id: string
+          reading_progress: number | null
+          referrer: string | null
+          session_id: string | null
+          time_spent_seconds: number | null
+          user_agent: string | null
+          visitor_ip: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          finished_reading?: boolean | null
+          id?: string
+          post_id: string
+          reading_progress?: number | null
+          referrer?: string | null
+          session_id?: string | null
+          time_spent_seconds?: number | null
+          user_agent?: string | null
+          visitor_ip?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          finished_reading?: boolean | null
+          id?: string
+          post_id?: string
+          reading_progress?: number | null
+          referrer?: string | null
+          session_id?: string | null
+          time_spent_seconds?: number | null
+          user_agent?: string | null
+          visitor_ip?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_views_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_categories: {
         Row: {
           color: string | null
@@ -185,6 +238,7 @@ export type Database = {
           tagline: string | null
           title: string
           updated_at: string
+          view_count: number | null
         }
         Insert: {
           author?: string | null
@@ -203,6 +257,7 @@ export type Database = {
           tagline?: string | null
           title: string
           updated_at?: string
+          view_count?: number | null
         }
         Update: {
           author?: string | null
@@ -221,6 +276,7 @@ export type Database = {
           tagline?: string | null
           title?: string
           updated_at?: string
+          view_count?: number | null
         }
         Relationships: [
           {
@@ -385,6 +441,30 @@ export type Database = {
           id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          id: string
+          setting_key: string
+          setting_value: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          setting_key: string
+          setting_value?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          setting_key?: string
+          setting_value?: Json
+          updated_at?: string
+          updated_by?: string | null
         }
         Relationships: []
       }

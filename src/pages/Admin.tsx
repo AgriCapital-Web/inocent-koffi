@@ -42,6 +42,7 @@ import AdminSEO from "@/components/admin/AdminSEO";
 import AdminDatabase from "@/components/admin/AdminDatabase";
 import AdminComments from "@/components/admin/AdminComments";
 import AdminMobileMenu from "@/components/admin/AdminMobileMenu";
+import AdminArticleStats from "@/components/admin/AdminArticleStats";
 
 interface Testimonial {
   id: string;
@@ -382,6 +383,7 @@ const Admin = () => {
     { id: "media", icon: <Image className="h-4 w-4" />, label: "Médias" },
     { id: "database", icon: <Database className="h-4 w-4" />, label: "Base de données" },
     { id: "analytics", icon: <BarChart3 className="h-4 w-4" />, label: "Analytiques" },
+    { id: "article-stats", icon: <Eye className="h-4 w-4" />, label: "Stats Articles" },
     { id: "seo", icon: <Globe className="h-4 w-4" />, label: "SEO" },
     { id: "settings", icon: <Settings className="h-4 w-4" />, label: "Paramètres" },
   ];
@@ -884,83 +886,8 @@ const Admin = () => {
               </Card>
             )}
 
-            {/* Blog */}
-            {activeTab === "blog" && (
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <div>
-                    <CardTitle>Gestion du Blog</CardTitle>
-                    <CardDescription>Créez et gérez vos articles de blog</CardDescription>
-                  </div>
-                  <Button onClick={() => openBlogEditor()}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Nouvel Article
-                  </Button>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Titre</TableHead>
-                        <TableHead>Statut</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {blogPosts
-                        .filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()))
-                        .map((post) => (
-                          <TableRow key={post.id}>
-                            <TableCell className="font-medium">{post.title}</TableCell>
-                            <TableCell>
-                              <Badge variant={post.is_published ? "default" : "secondary"}>
-                                {post.is_published ? "Publié" : "Brouillon"}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>{formatDate(post.created_at)}</TableCell>
-                            <TableCell>
-                              <div className="flex gap-2">
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => openBlogEditor(post)}
-                                >
-                                  <Eye className="h-4 w-4" />
-                                </Button>
-                                {!post.is_published ? (
-                                  <Button
-                                    size="sm"
-                                    variant="default"
-                                    onClick={() => handlePublishBlog(post.id, true)}
-                                  >
-                                    <Check className="h-4 w-4" />
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    size="sm"
-                                    variant="secondary"
-                                    onClick={() => handlePublishBlog(post.id, false)}
-                                  >
-                                    <X className="h-4 w-4" />
-                                  </Button>
-                                )}
-                                <Button
-                                  size="sm"
-                                  variant="destructive"
-                                  onClick={() => handleDeleteBlog(post.id)}
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            )}
+            {/* Blog - use enhanced editor */}
+            {activeTab === "blog" && <AdminBlogEnhanced />}
 
             {/* Media */}
             {activeTab === "media" && <AdminMedia />}
@@ -983,6 +910,9 @@ const Admin = () => {
 
             {/* SEO */}
             {activeTab === "seo" && <AdminSEO />}
+
+            {/* Article Stats */}
+            {activeTab === "article-stats" && <AdminArticleStats />}
 
             {/* Settings */}
             {activeTab === "settings" && <AdminSettings />}

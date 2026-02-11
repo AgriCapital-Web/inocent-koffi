@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,199 +6,202 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Save, Bell, Mail, Shield, Globe, Palette } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Save, Bell, Shield, Globe, Palette, Loader2 } from "lucide-react";
 
 const AdminSettings = () => {
   const { toast } = useToast();
-  const [settings, setSettings] = useState({
-    siteName: "Inocent KOFFI - AGRICAPITAL",
-    siteDescription: "Consultant agricole avec 12 ans d'expertise terrain",
-    contactEmail: "Inocent.koffi@agricapital.ci",
-    enableNotifications: true,
-    enableNewsletter: true,
-    autoApproveTestimonials: false,
-    maintenanceMode: false,
-    primaryColor: "#1e3a5f",
-    accentColor: "#d4a72c",
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  const [general, setGeneral] = useState({
+    site_name: "Inocent KOFFI - AGRICAPITAL",
+    contact_email: "Inocent.koffi@agricapital.ci",
+    phone: "",
+    address: "Abidjan, Côte d'Ivoire",
+    social_facebook: "",
+    social_linkedin: "",
+    social_twitter: "",
   });
 
-  const handleSave = () => {
-    toast({
-      title: "Paramètres sauvegardés",
-      description: "Vos modifications ont été enregistrées.",
-    });
+  const [appearance, setAppearance] = useState({
+    primary_color: "#1e3a5f",
+    accent_color: "#d4a72c",
+    font_family: "Inter",
+    show_newsletter: true,
+    show_testimonials: true,
+  });
+
+  const [notifications, setNotifications] = useState({
+    enable_notifications: true,
+    enable_newsletter: true,
+    auto_approve_testimonials: false,
+    maintenance_mode: false,
+  });
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('*');
+      
+      if (error) throw error;
+      
+      data?.forEach((setting: any) => {
+        if (setting.setting_key === 'general') setGeneral(prev => ({ ...prev, ...setting.setting_value }));
+        if (setting.setting_key === 'appearance') setAppearance(prev => ({ ...prev, ...setting.setting_value }));
+        if (setting.setting_key === 'notifications') setNotifications(prev => ({ ...prev, ...setting.setting_value }));
+      });
+    } catch (e) {
+      console.error("Error loading settings:", e);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const updates = [
+        { setting_key: 'general', setting_value: general },
+        { setting_key: 'appearance', setting_value: appearance },
+        { setting_key: 'notifications', setting_value: notifications },
+      ];
+
+      for (const update of updates) {
+        const { error } = await supabase
+          .from('site_settings')
+          .upsert({ 
+            setting_key: update.setting_key, 
+            setting_value: update.setting_value,
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'setting_key' });
+        if (error) throw error;
+      }
+
+      toast({ title: "Paramètres sauvegardés", description: "Les modifications sont appliquées sur tout le site." });
+    } catch (error: any) {
+      toast({ title: "Erreur", description: error.message, variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
 
   return (
     <div className="space-y-6">
-      {/* General Settings */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Globe className="h-5 w-5" />
-            Paramètres Généraux
-          </CardTitle>
-          <CardDescription>Configuration de base du site</CardDescription>
+          <CardTitle className="flex items-center gap-2"><Globe className="h-5 w-5" />Paramètres Généraux</CardTitle>
+          <CardDescription>Configuration de base du site — appliquée automatiquement partout</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="siteName">Nom du Site</Label>
-              <Input
-                id="siteName"
-                value={settings.siteName}
-                onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
-              />
+              <Label>Nom du Site</Label>
+              <Input value={general.site_name} onChange={(e) => setGeneral({ ...general, site_name: e.target.value })} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="contactEmail">Email de Contact</Label>
-              <Input
-                id="contactEmail"
-                type="email"
-                value={settings.contactEmail}
-                onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
+              <Label>Email de Contact</Label>
+              <Input type="email" value={general.contact_email} onChange={(e) => setGeneral({ ...general, contact_email: e.target.value })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Téléphone</Label>
+              <Input value={general.phone} onChange={(e) => setGeneral({ ...general, phone: e.target.value })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Adresse</Label>
+              <Input value={general.address} onChange={(e) => setGeneral({ ...general, address: e.target.value })} />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <Label>Facebook URL</Label>
+              <Input value={general.social_facebook} onChange={(e) => setGeneral({ ...general, social_facebook: e.target.value })} placeholder="https://facebook.com/..." />
+            </div>
+            <div className="space-y-2">
+              <Label>LinkedIn URL</Label>
+              <Input value={general.social_linkedin} onChange={(e) => setGeneral({ ...general, social_linkedin: e.target.value })} placeholder="https://linkedin.com/in/..." />
+            </div>
+            <div className="space-y-2">
+              <Label>Twitter URL</Label>
+              <Input value={general.social_twitter} onChange={(e) => setGeneral({ ...general, social_twitter: e.target.value })} placeholder="https://twitter.com/..." />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Bell className="h-5 w-5" />Notifications & Modération</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {[
+            { label: "Notifications par Email", desc: "Recevoir des notifications pour les nouveaux messages", key: "enable_notifications" as const },
+            { label: "Newsletter", desc: "Activer le formulaire d'inscription", key: "enable_newsletter" as const },
+            { label: "Approbation Automatique", desc: "Approuver automatiquement les témoignages", key: "auto_approve_testimonials" as const },
+            { label: "Mode Maintenance", desc: "Activer le mode maintenance", key: "maintenance_mode" as const },
+          ].map(item => (
+            <div key={item.key} className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label>{item.label}</Label>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              </div>
+              <Switch
+                checked={notifications[item.key] as boolean}
+                onCheckedChange={(checked) => setNotifications({ ...notifications, [item.key]: checked })}
               />
             </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="siteDescription">Description du Site</Label>
-            <Textarea
-              id="siteDescription"
-              value={settings.siteDescription}
-              onChange={(e) => setSettings({ ...settings, siteDescription: e.target.value })}
-              rows={3}
-            />
-          </div>
+          ))}
         </CardContent>
       </Card>
 
-      {/* Notification Settings */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Bell className="h-5 w-5" />
-            Notifications
-          </CardTitle>
-          <CardDescription>Gérez les paramètres de notifications</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Notifications par Email</Label>
-              <p className="text-sm text-muted-foreground">
-                Recevoir des notifications pour les nouveaux messages
-              </p>
-            </div>
-            <Switch
-              checked={settings.enableNotifications}
-              onCheckedChange={(checked) => setSettings({ ...settings, enableNotifications: checked })}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Newsletter</Label>
-              <p className="text-sm text-muted-foreground">
-                Activer le formulaire d'inscription à la newsletter
-              </p>
-            </div>
-            <Switch
-              checked={settings.enableNewsletter}
-              onCheckedChange={(checked) => setSettings({ ...settings, enableNewsletter: checked })}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Moderation Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
-            Modération
-          </CardTitle>
-          <CardDescription>Paramètres de modération du contenu</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Approbation Automatique</Label>
-              <p className="text-sm text-muted-foreground">
-                Approuver automatiquement les nouveaux témoignages
-              </p>
-            </div>
-            <Switch
-              checked={settings.autoApproveTestimonials}
-              onCheckedChange={(checked) => setSettings({ ...settings, autoApproveTestimonials: checked })}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Mode Maintenance</Label>
-              <p className="text-sm text-muted-foreground">
-                Activer le mode maintenance (site inaccessible)
-              </p>
-            </div>
-            <Switch
-              checked={settings.maintenanceMode}
-              onCheckedChange={(checked) => setSettings({ ...settings, maintenanceMode: checked })}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Theme Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Palette className="h-5 w-5" />
-            Apparence
-          </CardTitle>
-          <CardDescription>Personnalisez les couleurs du site</CardDescription>
+          <CardTitle className="flex items-center gap-2"><Palette className="h-5 w-5" />Apparence</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="primaryColor">Couleur Principale</Label>
+              <Label>Couleur Principale</Label>
               <div className="flex gap-2">
-                <Input
-                  id="primaryColor"
-                  type="color"
-                  value={settings.primaryColor}
-                  onChange={(e) => setSettings({ ...settings, primaryColor: e.target.value })}
-                  className="w-16 h-10 p-1"
-                />
-                <Input
-                  value={settings.primaryColor}
-                  onChange={(e) => setSettings({ ...settings, primaryColor: e.target.value })}
-                  className="flex-1"
-                />
+                <Input type="color" value={appearance.primary_color} onChange={(e) => setAppearance({ ...appearance, primary_color: e.target.value })} className="w-16 h-10 p-1" />
+                <Input value={appearance.primary_color} onChange={(e) => setAppearance({ ...appearance, primary_color: e.target.value })} className="flex-1" />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="accentColor">Couleur d'Accent</Label>
+              <Label>Couleur d'Accent</Label>
               <div className="flex gap-2">
-                <Input
-                  id="accentColor"
-                  type="color"
-                  value={settings.accentColor}
-                  onChange={(e) => setSettings({ ...settings, accentColor: e.target.value })}
-                  className="w-16 h-10 p-1"
-                />
-                <Input
-                  value={settings.accentColor}
-                  onChange={(e) => setSettings({ ...settings, accentColor: e.target.value })}
-                  className="flex-1"
-                />
+                <Input type="color" value={appearance.accent_color} onChange={(e) => setAppearance({ ...appearance, accent_color: e.target.value })} className="w-16 h-10 p-1" />
+                <Input value={appearance.accent_color} onChange={(e) => setAppearance({ ...appearance, accent_color: e.target.value })} className="flex-1" />
               </div>
             </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label>Afficher Newsletter</Label>
+              <p className="text-sm text-muted-foreground">Afficher la section newsletter sur les pages</p>
+            </div>
+            <Switch checked={appearance.show_newsletter} onCheckedChange={(checked) => setAppearance({ ...appearance, show_newsletter: checked })} />
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label>Afficher Témoignages</Label>
+              <p className="text-sm text-muted-foreground">Afficher la section témoignages</p>
+            </div>
+            <Switch checked={appearance.show_testimonials} onCheckedChange={(checked) => setAppearance({ ...appearance, show_testimonials: checked })} />
           </div>
         </CardContent>
       </Card>
 
-      {/* Save Button */}
       <div className="flex justify-end">
-        <Button onClick={handleSave} size="lg">
-          <Save className="h-4 w-4 mr-2" />
+        <Button onClick={handleSave} size="lg" disabled={saving}>
+          {saving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Save className="h-4 w-4 mr-2" />}
           Sauvegarder les Paramètres
         </Button>
       </div>

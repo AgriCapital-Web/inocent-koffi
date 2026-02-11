@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, ArrowRight, Search, Tag, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar, Clock, ArrowRight, Search, Tag, X, ChevronLeft, ChevronRight, Eye } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -357,6 +357,10 @@ const Blog = () => {
                               <div className="flex items-center gap-1">
                                 <Clock className="w-4 h-4" />
                                 <span>{getReadingTime(post.content)} min</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Eye className="w-4 h-4" />
+                                <span>{(post as any).view_count || 0}</span>
                               </div>
                             </div>
                             <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">

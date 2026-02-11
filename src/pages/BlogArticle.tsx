@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
@@ -12,10 +13,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, Clock, ArrowLeft, User, Tag, Share2 } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, User, Tag, Share2, Eye } from "lucide-react";
 
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
+  const viewTracked = useRef(false);
+  const viewId = useRef<string | null>(null);
+  const startTime = useRef(Date.now());
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [readingProgress, setReadingProgress] = useState(0);
 
   const { data: post, isLoading, error } = useQuery({
     queryKey: ['blog-post', slug],
@@ -26,7 +32,6 @@ const BlogArticle = () => {
         .eq('slug', slug)
         .eq('is_published', true)
         .single();
-      
       if (error) throw error;
       return data;
     },
@@ -38,7 +43,7 @@ const BlogArticle = () => {
     queryFn: async () => {
       const { data } = await supabase
         .from('blog_posts')
-        .select('id, title, slug, featured_image, published_at, excerpt')
+        .select('id, title, slug, featured_image, published_at, excerpt, view_count')
         .eq('is_published', true)
         .neq('slug', slug)
         .order('published_at', { ascending: false })
@@ -47,6 +52,61 @@ const BlogArticle = () => {
     },
     enabled: !!slug,
   });
+
+  // Track view on mount
+  useEffect(() => {
+    if (!post || viewTracked.current) return;
+    viewTracked.current = true;
+    startTime.current = Date.now();
+
+    const sessionId = localStorage.getItem('session_id') || (() => {
+      const id = crypto.randomUUID();
+      localStorage.setItem('session_id', id);
+      return id;
+    })();
+
+    supabase.from('article_views').insert({
+      post_id: post.id,
+      session_id: sessionId,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent,
+    }).select('id').single().then(({ data }) => {
+      if (data) viewId.current = data.id;
+    });
+  }, [post]);
+
+  // Track reading progress
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const handleScroll = () => {
+      const el = contentRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const totalHeight = el.scrollHeight;
+      const scrolled = Math.max(0, -rect.top + windowHeight);
+      const progress = Math.min(100, Math.round((scrolled / totalHeight) * 100));
+      setReadingProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [post]);
+
+  // Update view on unmount
+  useEffect(() => {
+    return () => {
+      if (viewId.current) {
+        const timeSpent = Math.round((Date.now() - startTime.current) / 1000);
+        supabase.from('article_views').update({
+          reading_progress: readingProgress,
+          time_spent_seconds: timeSpent,
+          finished_reading: readingProgress >= 90,
+        }).eq('id', viewId.current).then(() => {});
+      }
+    };
+  }, [readingProgress]);
 
   if (isLoading) {
     return (
@@ -78,12 +138,7 @@ const BlogArticle = () => {
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-4">Article non trouvé</h1>
             <p className="text-muted-foreground mb-6">L'article que vous recherchez n'existe pas ou a été supprimé.</p>
-            <Button asChild>
-              <Link to="/blog">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Retour au blog
-              </Link>
-            </Button>
+            <Button asChild><Link to="/blog"><ArrowLeft className="w-4 h-4 mr-2" />Retour au blog</Link></Button>
           </div>
         </main>
         <Footer />
@@ -93,9 +148,7 @@ const BlogArticle = () => {
 
   const readingTime = Math.ceil(post.content.split(' ').length / 200);
   const publishedDate = post.published_at ? new Date(post.published_at).toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
+    day: 'numeric', month: 'long', year: 'numeric'
   }) : '';
   const articleUrl = `https://ikoffi.agricapital.ci/blog/${post.slug}`;
 
@@ -124,149 +177,79 @@ const BlogArticle = () => {
             "image": post.featured_image,
             "datePublished": post.published_at || post.created_at,
             "dateModified": post.created_at,
-            "author": {
-              "@type": "Person",
-              "name": "Inocent KOFFI",
-              "url": "https://ikoffi.agricapital.ci"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AGRICAPITAL SARL",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://ikoffi.agricapital.ci/favicon.png"
-              }
-            },
+            "author": { "@type": "Person", "name": "Inocent KOFFI", "url": "https://ikoffi.agricapital.ci" },
+            "publisher": { "@type": "Organization", "name": "AGRICAPITAL SARL", "logo": { "@type": "ImageObject", "url": "https://ikoffi.agricapital.ci/favicon.png" } },
             "description": post.excerpt || post.title,
-            "mainEntityOfPage": {
-              "@type": "WebPage",
-              "@id": articleUrl
-            }
+            "mainEntityOfPage": { "@type": "WebPage", "@id": articleUrl }
           })}
         </script>
       </Helmet>
 
+      {/* Reading progress bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-muted z-[100]">
+        <div className="h-full bg-primary transition-all duration-150" style={{ width: `${readingProgress}%` }} />
+      </div>
+
       <div className="min-h-screen">
         <Navbar />
         <main className="pt-20">
-          <article className="container mx-auto px-4 py-12 max-w-4xl">
-            {/* Back button */}
+          <article className="container mx-auto px-4 py-12 max-w-4xl" ref={contentRef}>
             <Button variant="ghost" asChild className="mb-6">
-              <Link to="/blog">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Retour au blog
-              </Link>
+              <Link to="/blog"><ArrowLeft className="w-4 h-4 mr-2" />Retour au blog</Link>
             </Button>
 
-            {/* Header */}
             <header className="mb-8">
-              <Badge variant="outline" className="mb-4">
-                <Tag className="w-3 h-3 mr-1" />
-                Article
-              </Badge>
-              
-              <h1 className="text-3xl md:text-5xl font-bold mb-4 text-foreground leading-tight">
-                {post.title}
-              </h1>
-
-              {post.tagline && (
-                <p className="text-xl text-primary font-medium mb-4 italic">
-                  {post.tagline}
-                </p>
-              )}
+              <Badge variant="outline" className="mb-4"><Tag className="w-3 h-3 mr-1" />Article</Badge>
+              <h1 className="text-3xl md:text-5xl font-bold mb-4 text-foreground leading-tight">{post.title}</h1>
+              {post.tagline && <p className="text-xl text-primary font-medium mb-4 italic">{post.tagline}</p>}
 
               <div className="flex flex-wrap items-center gap-4 text-muted-foreground mb-6">
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  <span>{post.author || "Inocent KOFFI"}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  <time dateTime={post.published_at || post.created_at}>{publishedDate}</time>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  <span>{readingTime} min de lecture</span>
-                </div>
+                <div className="flex items-center gap-2"><User className="w-4 h-4" /><span>{post.author || "Inocent KOFFI"}</span></div>
+                <div className="flex items-center gap-2"><Calendar className="w-4 h-4" /><time dateTime={post.published_at || post.created_at}>{publishedDate}</time></div>
+                <div className="flex items-center gap-2"><Clock className="w-4 h-4" /><span>{readingTime} min de lecture</span></div>
+                <div className="flex items-center gap-2"><Eye className="w-4 h-4" /><span>{post.view_count || 0} vues</span></div>
               </div>
 
-              {/* Hashtags */}
               {post.hashtags && post.hashtags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {post.hashtags.map((tag: string, index: number) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                    >
-                      #{tag}
-                    </span>
+                  {post.hashtags.map((tag: string, i: number) => (
+                    <span key={i} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">#{tag}</span>
                   ))}
                 </div>
               )}
 
-              {/* Social interactions */}
               <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
                 <BlogLikes postId={post.id} />
-                <SocialSharePopup 
-                  url={articleUrl}
-                  title={post.title}
-                  description={post.excerpt || ''}
-                >
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <Share2 className="w-4 h-4" />
-                    Partager
-                  </Button>
+                <SocialSharePopup url={articleUrl} title={post.title} description={post.excerpt || ''}>
+                  <Button variant="outline" size="sm" className="gap-2"><Share2 className="w-4 h-4" />Partager</Button>
                 </SocialSharePopup>
               </div>
             </header>
 
-            {/* Featured Image */}
             {post.featured_image && (
               <div className="relative mb-10 rounded-2xl overflow-hidden shadow-xl border-l-4 border-t-4 border-l-accent border-t-accent border-r-4 border-b-4 border-r-primary border-b-primary">
-                <img 
-                  src={post.featured_image} 
-                  alt={post.title}
-                  className="w-full h-auto max-h-[500px] object-cover"
-                  loading="eager"
-                />
+                <img src={post.featured_image} alt={post.title} className="w-full h-auto max-h-[500px] object-cover" loading="eager" />
               </div>
             )}
 
-            {/* Content */}
-            <div 
-              className="prose prose-lg max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-img:rounded-xl prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-img:rounded-xl prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg"
+              dangerouslySetInnerHTML={{ __html: post.content }} />
 
-            {/* Share at bottom */}
             <div className="mt-12 pt-8 border-t">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
                   <BlogLikes postId={post.id} />
-                  <SocialSharePopup 
-                    url={articleUrl}
-                    title={post.title}
-                    description={post.excerpt || ''}
-                  >
-                    <Button variant="outline" className="gap-2">
-                      <Share2 className="w-4 h-4" />
-                      Partager cet article
-                    </Button>
+                  <SocialSharePopup url={articleUrl} title={post.title} description={post.excerpt || ''}>
+                    <Button variant="outline" className="gap-2"><Share2 className="w-4 h-4" />Partager cet article</Button>
                   </SocialSharePopup>
                 </div>
-                <Button asChild>
-                  <Link to="/blog">
-                    Voir plus d'articles
-                  </Link>
-                </Button>
+                <Button asChild><Link to="/blog">Voir plus d'articles</Link></Button>
               </div>
             </div>
 
-            {/* Comments Section */}
             <BlogCommentsEnhanced postId={post.id} />
           </article>
 
-          {/* Related Posts */}
           {relatedPosts && relatedPosts.length > 0 && (
             <section className="py-16 bg-muted/30">
               <div className="container mx-auto px-4">
@@ -276,21 +259,15 @@ const BlogArticle = () => {
                     <Card key={related.id} className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer" onClick={() => window.location.href = `/blog/${related.slug}`}>
                       {related.featured_image && (
                         <div className="relative h-40 overflow-hidden">
-                          <img 
-                            src={related.featured_image} 
-                            alt={related.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            loading="lazy"
-                          />
+                          <img src={related.featured_image} alt={related.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
                         </div>
                       )}
                       <CardContent className="p-4">
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {related.published_at && new Date(related.published_at).toLocaleDateString('fr-FR')}
-                        </p>
-                        <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">
-                          {related.title}
-                        </h3>
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm text-muted-foreground">{related.published_at && new Date(related.published_at).toLocaleDateString('fr-FR')}</p>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground"><Eye className="w-3 h-3" />{related.view_count || 0}</div>
+                        </div>
+                        <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">{related.title}</h3>
                       </CardContent>
                     </Card>
                   ))}
