@@ -11,11 +11,75 @@ serve(async (req) => {
   }
 
   try {
-    const { content, action, topic, categories } = await req.json();
+    const { content, action, topic, categories, generateImage } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
+    }
+
+    // Handle image generation
+    if (action === "generate_image") {
+      const imagePrompt = content || topic || "Professional agriculture business photo";
+      
+      const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash-image",
+          messages: [
+            { 
+              role: "user", 
+              content: `Generate a professional, realistic, high-quality photograph for an article about: ${imagePrompt}. The image should be clean, professional, without any text overlay, watermarks, or artificial effects. Style: photojournalistic, natural lighting, African agriculture context. Aspect ratio 16:9.` 
+            }
+          ],
+          modalities: ["image", "text"]
+        }),
+      });
+
+      if (!imageResponse.ok) {
+        const errorText = await imageResponse.text();
+        console.error("Image generation error:", imageResponse.status, errorText);
+        throw new Error(`Image generation failed: ${imageResponse.status}`);
+      }
+
+      const imageData = await imageResponse.json();
+      const imageUrl = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+      
+      if (!imageUrl) {
+        throw new Error("No image generated");
+      }
+
+      // Upload the base64 image to Supabase Storage
+      const base64Data = imageUrl.replace(/^data:image\/\w+;base64,/, "");
+      const imageBytes = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+      const fileName = `ai-generated/${Date.now()}-${Math.random().toString(36).substr(2, 9)}.png`;
+
+      const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      const { error: uploadError } = await supabase.storage
+        .from("blog-media")
+        .upload(fileName, imageBytes, {
+          contentType: "image/png",
+          upsert: false,
+        });
+
+      if (uploadError) {
+        console.error("Upload error:", uploadError);
+        throw new Error("Failed to upload generated image");
+      }
+
+      const { data: urlData } = supabase.storage.from("blog-media").getPublicUrl(fileName);
+
+      return new Response(JSON.stringify({ imageUrl: urlData.publicUrl }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     let systemPrompt = "";
@@ -60,6 +124,7 @@ RÈGLES DE FORMATAGE:
 - Conserver le message et les idées originales
 - Structurer de manière logique avec introduction, développement, conclusion
 - Retourne du HTML valide, pas du Markdown
+- Les paragraphes doivent être bien aérés avec des espaces entre eux
 
 IMPORTANT: Le fondateur s'appelle Inocent KOFFI (pas "Innocent")`;
 
@@ -71,7 +136,12 @@ ${content}`;
       
       systemPrompt = `Tu es un rédacteur en chef professionnel travaillant pour Inocent KOFFI, Fondateur et Directeur Général d'AGRICAPITAL SARL, une entreprise spécialisée dans la transformation agricole en Côte d'Ivoire.
 
-Tu génères des articles de blog complets, structurés et professionnels à partir d'une idée ou d'un sujet, ou même d'un texte brut non structuré.
+Tu génères des articles de blog complets, structurés et professionnels à partir d'une idée ou d'un sujet, ou même d'un texte brut non structuré, ou même d'un SIMPLE MOT.
+
+CAPACITÉS:
+- Si l'utilisateur donne juste un mot ou une phrase courte (ex: "pépinière", "forum agricole"), tu dois développer un article complet de 800-1500 mots
+- Tu dois comprendre le contexte agricole africain et AGRICAPITAL
+- Tu dois produire du contenu immédiatement publiable, professionnel, sans effet "généré par IA"
 
 STYLE ET TON:
 - Professionnel, inspirant et visionnaire
@@ -90,6 +160,14 @@ STRUCTURE HTML:
 - <ul><li> pour les listes à puces
 - <ol><li> pour les listes numérotées
 - <table><thead><tbody><tr><th><td> pour les tableaux si le contexte l'exige
+- Bien aérer le contenu avec des espaces entre les sections
+
+QUALITÉ:
+- Paragraphes bien espacés, jamais de blocs compacts
+- Hiérarchie visuelle claire
+- Contenu fluide et agréable à lire
+- Immédiatement publiable sans retouche
+- Pas de balisage visible, pas de markdown
 
 IMPORTANT: 
 - Le fondateur s'appelle Inocent KOFFI (pas "Innocent")
@@ -101,8 +179,8 @@ Catégories disponibles: ${catList}
 
 Réponds en JSON valide avec cette structure:
 {
-  "title": "Titre professionnel et impactant",
-  "tagline": "Phrase d'accroche",
+  "title": "TITRE EN MAJUSCULES PROFESSIONNEL ET IMPACTANT",
+  "tagline": "Phrase d'accroche en italique, engageante et claire",
   "content": "<h2>Introduction</h2><p>...</p>...",
   "excerpt": "Résumé en 2 phrases",
   "hashtags": ["hashtag1", "hashtag2", "hashtag3", "hashtag4", "hashtag5"],
