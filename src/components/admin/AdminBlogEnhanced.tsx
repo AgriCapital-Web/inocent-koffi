@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -9,10 +9,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import RichTextEditor from "@/components/RichTextEditor";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { 
   Plus, Edit, Trash2, Eye, EyeOff, Save, X, 
   Upload, Calendar, FileText, Search, Sparkles, 
-  Wand2, Hash, Loader2, FolderOpen
+  Wand2, Hash, Loader2, Image as ImageIcon, ImageOff, CheckCircle2, Video
 } from "lucide-react";
 import {
   Table,
@@ -65,6 +72,134 @@ interface BlogCategory {
 
 const AUTO_SAVE_KEY = "blog_editor_autosave";
 
+// ─── Generate Popup ───────────────────────────────────────────────────────────
+const GeneratePopup = ({
+  open,
+  onClose,
+  onGenerate,
+  isLoading,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onGenerate: (withImage: boolean) => void;
+  isLoading: boolean;
+}) => (
+  <Dialog open={open} onOpenChange={onClose}>
+    <DialogContent className="sm:max-w-md">
+      <DialogHeader>
+        <DialogTitle className="flex items-center gap-2 text-xl">
+          <Sparkles className="w-6 h-6 text-primary" />
+          Générer avec l'IA
+        </DialogTitle>
+        <DialogDescription>
+          L'IA va analyser votre texte et remplir automatiquement tous les champs du formulaire : titre, accroche, catégorie, hashtags, contenu structuré...
+        </DialogDescription>
+      </DialogHeader>
+
+      <div className="space-y-4 mt-2">
+        <p className="text-sm font-medium text-foreground">Souhaitez-vous une image générée par l'IA ?</p>
+
+        <div className="grid grid-cols-1 gap-3">
+          <button
+            onClick={() => onGenerate(true)}
+            disabled={isLoading}
+            className="group relative flex items-start gap-4 p-4 border-2 border-border rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-left disabled:opacity-50"
+          >
+            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+              {isLoading ? <Loader2 className="w-6 h-6 animate-spin text-primary" /> : <ImageIcon className="w-6 h-6 text-primary" />}
+            </div>
+            <div>
+              <p className="font-semibold text-foreground">Avec image générée par IA</p>
+              <p className="text-sm text-muted-foreground mt-1">L'IA génère une image réaliste, professionnelle et cohérente avec le sujet de l'article.</p>
+              <div className="flex flex-wrap gap-1 mt-2">
+                {["Réaliste", "Professionnelle", "Sans watermark"].map(tag => (
+                  <span key={tag} className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => onGenerate(false)}
+            disabled={isLoading}
+            className="group flex items-start gap-4 p-4 border-2 border-border rounded-xl hover:border-muted-foreground hover:bg-muted/30 transition-all text-left disabled:opacity-50"
+          >
+            <div className="flex-shrink-0 w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+              <ImageOff className="w-6 h-6 text-muted-foreground" />
+            </div>
+            <div>
+              <p className="font-semibold text-foreground">Sans image</p>
+              <p className="text-sm text-muted-foreground mt-1">Génération rapide du contenu texte uniquement. Vous pourrez ajouter une image manuellement.</p>
+            </div>
+          </button>
+        </div>
+
+        {isLoading && (
+          <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg">
+            <Loader2 className="w-5 h-5 animate-spin text-primary flex-shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-primary">Génération en cours...</p>
+              <p className="text-xs text-muted-foreground">L'IA analyse et structure votre contenu. Cela peut prendre 15–30 secondes.</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </DialogContent>
+  </Dialog>
+);
+
+// ─── Media Item Component ─────────────────────────────────────────────────────
+const MediaItem = ({
+  url,
+  name,
+  type,
+  onRemove,
+  onSetFeatured,
+  isFeatured,
+}: {
+  url: string;
+  name: string;
+  type: string;
+  onRemove: () => void;
+  onSetFeatured: () => void;
+  isFeatured: boolean;
+}) => {
+  const isVideo = type.startsWith("video/");
+  return (
+    <div className={`relative rounded-lg overflow-hidden border-2 transition-all ${isFeatured ? "border-primary shadow-md" : "border-border"}`}>
+      {isVideo ? (
+        <video src={url} className="w-full h-32 object-cover" controls={false} muted />
+      ) : (
+        <img src={url} alt={name} className="w-full h-32 object-cover" loading="lazy" />
+      )}
+      <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+        <button
+          onClick={onSetFeatured}
+          className="flex items-center gap-1 text-xs bg-primary text-primary-foreground px-2 py-1 rounded-full"
+        >
+          <CheckCircle2 className="w-3 h-3" />
+          {isFeatured ? "Image principale" : "Définir principale"}
+        </button>
+        <button onClick={onRemove} className="flex items-center gap-1 text-xs bg-destructive text-destructive-foreground px-2 py-1 rounded-full">
+          <X className="w-3 h-3" />
+          Supprimer
+        </button>
+      </div>
+      {isFeatured && (
+        <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+          <CheckCircle2 className="w-3 h-3" /> Principale
+        </div>
+      )}
+      {isVideo && (
+        <div className="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+          <Video className="w-3 h-3" /> Vidéo
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 const AdminBlogEnhanced = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -76,10 +211,13 @@ const AdminBlogEnhanced = () => {
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [generatePopupOpen, setGeneratePopupOpen] = useState(false);
+  const [generateLoading, setGenerateLoading] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [structureLoading, setStructureLoading] = useState(false);
-  const [generateLoading, setGenerateLoading] = useState(false);
-  const [topicInput, setTopicInput] = useState("");
+
+  // Media gallery state
+  const [mediaFiles, setMediaFiles] = useState<Array<{ url: string; name: string; type: string }>>([]);
   
   // Form state
   const [title, setTitle] = useState("");
@@ -92,91 +230,61 @@ const AdminBlogEnhanced = () => {
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [author, setAuthor] = useState("Inocent KOFFI");
 
-  // Fetch categories
   const { data: categories } = useQuery({
     queryKey: ['blog-categories'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('blog_categories')
-        .select('*')
-        .order('name');
+      const { data, error } = await supabase.from('blog_categories').select('*').order('name');
       if (error) throw error;
       return data as BlogCategory[];
     }
   });
 
-  // Fetch posts
   const { data: posts, isLoading } = useQuery({
     queryKey: ['admin-blog-posts'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await supabase.from('blog_posts').select('*').order('created_at', { ascending: false });
       if (error) throw error;
       return data as BlogPost[];
     }
   });
 
-  // Auto-save effect
+  // Auto-save
   useEffect(() => {
-    if (showEditor) {
-      const autoSaveData = {
-        title, slug, content, excerpt, featuredImage, 
-        categoryId, tagline, hashtags, author,
-        savedAt: new Date().toISOString()
-      };
-      localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(autoSaveData));
-    }
-  }, [title, slug, content, excerpt, featuredImage, categoryId, tagline, hashtags, author, showEditor]);
+    if (!showEditor) return;
+    const data = { title, slug, content, excerpt, featuredImage, categoryId, tagline, hashtags, author, mediaFiles, savedAt: new Date().toISOString() };
+    localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(data));
+  }, [title, slug, content, excerpt, featuredImage, categoryId, tagline, hashtags, author, mediaFiles, showEditor]);
 
-  // Restore auto-save on mount
   useEffect(() => {
-    if (showEditor && !editingPost) {
-      const saved = localStorage.getItem(AUTO_SAVE_KEY);
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          const savedTime = new Date(data.savedAt);
-          const now = new Date();
-          const hoursDiff = (now.getTime() - savedTime.getTime()) / (1000 * 60 * 60);
-          
-          if (hoursDiff < 24 && data.content) {
-            setTitle(data.title || "");
-            setSlug(data.slug || "");
-            setContent(data.content || "");
-            setExcerpt(data.excerpt || "");
-            setFeaturedImage(data.featuredImage || "");
-            setCategoryId(data.categoryId || "");
-            setTagline(data.tagline || "");
-            setHashtags(data.hashtags || []);
-            setAuthor(data.author || "Inocent KOFFI");
-            toast({ title: "Brouillon restauré", description: "Votre travail précédent a été récupéré." });
-          }
-        } catch (e) {
-          console.error("Error restoring auto-save:", e);
-        }
+    if (!showEditor || editingPost) return;
+    const saved = localStorage.getItem(AUTO_SAVE_KEY);
+    if (!saved) return;
+    try {
+      const data = JSON.parse(saved);
+      const hoursDiff = (Date.now() - new Date(data.savedAt).getTime()) / 3600000;
+      if (hoursDiff < 24 && data.content) {
+        setTitle(data.title || ""); setSlug(data.slug || ""); setContent(data.content || "");
+        setExcerpt(data.excerpt || ""); setFeaturedImage(data.featuredImage || "");
+        setCategoryId(data.categoryId || ""); setTagline(data.tagline || "");
+        setHashtags(data.hashtags || []); setAuthor(data.author || "Inocent KOFFI");
+        setMediaFiles(data.mediaFiles || []);
+        toast({ title: "Brouillon restauré", description: "Votre travail précédent a été récupéré." });
       }
-    }
+    } catch {}
   }, [showEditor, editingPost]);
 
   const saveMutation = useMutation({
     mutationFn: async (postData: any) => {
       if (editingPost) {
-        const { error } = await supabase
-          .from('blog_posts')
-          .update(postData)
-          .eq('id', editingPost.id);
+        const { error } = await supabase.from('blog_posts').update(postData).eq('id', editingPost.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from('blog_posts')
-          .insert([postData]);
+        const { error } = await supabase.from('blog_posts').insert([postData]);
         if (error) throw error;
       }
     },
     onSuccess: () => {
-      toast({ title: editingPost ? "Article mis à jour" : "Article créé" });
+      toast({ title: editingPost ? "Article mis à jour ✓" : "Article créé ✓" });
       queryClient.invalidateQueries({ queryKey: ['admin-blog-posts'] });
       localStorage.removeItem(AUTO_SAVE_KEY);
       resetForm();
@@ -188,13 +296,7 @@ const AdminBlogEnhanced = () => {
 
   const publishMutation = useMutation({
     mutationFn: async ({ id, publish }: { id: string; publish: boolean }) => {
-      const { error } = await supabase
-        .from('blog_posts')
-        .update({ 
-          is_published: publish, 
-          published_at: publish ? new Date().toISOString() : null 
-        })
-        .eq('id', id);
+      const { error } = await supabase.from('blog_posts').update({ is_published: publish, published_at: publish ? new Date().toISOString() : null }).eq('id', id);
       if (error) throw error;
     },
     onSuccess: (_, { publish }) => {
@@ -215,91 +317,80 @@ const AdminBlogEnhanced = () => {
     }
   });
 
+  const generateSlug = (text: string) =>
+    text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+
   const findCategoryByName = (name: string) => {
     if (!name || !categories) return null;
     const lower = name.toLowerCase();
     return categories.find(c => c.name.toLowerCase().includes(lower) || lower.includes(c.name.toLowerCase()));
   };
 
-  // AI: Generate title, tagline, hashtags
+  // ── AI: Generate meta ──────────────────────────────────────────────────────
   const handleGenerateMeta = async () => {
     if (!content.trim()) {
-      toast({ title: "Erreur", description: "Rédigez d'abord le contenu de l'article", variant: "destructive" });
+      toast({ title: "Contenu requis", description: "Rédigez ou collez votre texte d'abord", variant: "destructive" });
       return;
     }
-    
     setAiLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
         body: { content, action: 'generate_meta', categories: categories?.map(c => ({ id: c.id, name: c.name })) }
       });
-      
       if (error) throw error;
-      
       if (data.title) setTitle(data.title);
       if (data.tagline) setTagline(data.tagline);
       if (data.hashtags) setHashtags(data.hashtags);
       if (data.excerpt) setExcerpt(data.excerpt);
       if (!slug && data.title) setSlug(generateSlug(data.title));
-      
-      // Auto-select category
       if (data.suggested_category && !categoryId) {
         const match = findCategoryByName(data.suggested_category);
         if (match) setCategoryId(match.id);
       }
-      
-      toast({ title: "Métadonnées générées", description: "Titre, accroche, catégorie et hashtags créés par l'IA" });
-    } catch (error: any) {
-      toast({ title: "Erreur IA", description: error.message, variant: "destructive" });
+      toast({ title: "Métadonnées générées ✓" });
+    } catch (e: any) {
+      toast({ title: "Erreur IA", description: e.message, variant: "destructive" });
     } finally {
       setAiLoading(false);
     }
   };
 
-  // AI: Structure article professionally
+  // ── AI: Structure article ─────────────────────────────────────────────────
   const handleStructureArticle = async () => {
     if (!content.trim()) {
-      toast({ title: "Erreur", description: "Rédigez d'abord le contenu de l'article", variant: "destructive" });
+      toast({ title: "Contenu requis", variant: "destructive" });
       return;
     }
-    
     setStructureLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
         body: { content, action: 'structure_article' }
       });
-      
       if (error) throw error;
-      
-      if (data.content) {
-        setContent(data.content);
-        toast({ title: "Article structuré", description: "L'article a été reformaté professionnellement" });
-      }
-    } catch (error: any) {
-      toast({ title: "Erreur IA", description: error.message, variant: "destructive" });
+      if (data.content) { setContent(data.content); toast({ title: "Article structuré ✓" }); }
+    } catch (e: any) {
+      toast({ title: "Erreur IA", description: e.message, variant: "destructive" });
     } finally {
       setStructureLoading(false);
     }
   };
 
-  // AI: Generate complete article from topic/idea  
-  const handleGenerateFullArticle = async () => {
-    if (!content.trim() && !topicInput.trim()) {
-      toast({ title: "Erreur", description: "Entrez un sujet ou des idées pour générer l'article", variant: "destructive" });
+  // ── AI: Generate full article ─────────────────────────────────────────────
+  const handleGenerateFullArticle = async (withImage: boolean) => {
+    if (!content.trim()) {
+      toast({ title: "Texte requis", description: "Entrez au moins un mot dans le contenu", variant: "destructive" });
       return;
     }
-    
     setGenerateLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
         body: { 
-          content: content.trim() || "", 
-          topic: topicInput.trim() || "",
+          content: content.trim(),
           action: 'generate_full_article',
+          generateImage: withImage,
           categories: categories?.map(c => ({ id: c.id, name: c.name }))
         }
       });
-      
       if (error) throw error;
       
       if (data.title) setTitle(data.title);
@@ -308,83 +399,79 @@ const AdminBlogEnhanced = () => {
       if (data.excerpt) setExcerpt(data.excerpt);
       if (data.hashtags) setHashtags(data.hashtags);
       if (!slug && data.title) setSlug(generateSlug(data.title));
-      
-      // Auto-select category
       if (data.suggested_category) {
         const match = findCategoryByName(data.suggested_category);
         if (match) setCategoryId(match.id);
       }
-      
-      toast({ title: "Article généré !", description: "L'article complet a été créé par l'IA avec catégorie auto-sélectionnée" });
-    } catch (error: any) {
-      toast({ title: "Erreur IA", description: error.message, variant: "destructive" });
+      if (withImage && data.imageUrl) {
+        setFeaturedImage(data.imageUrl);
+        setMediaFiles(prev => [{ url: data.imageUrl, name: "ia-generated.png", type: "image/png" }, ...prev]);
+        toast({ title: "Article + image générés ✓", description: "L'article complet et l'image ont été créés par l'IA" });
+      } else {
+        toast({ title: "Article généré ✓", description: "L'IA a rempli tous les champs automatiquement" });
+      }
+      setGeneratePopupOpen(false);
+    } catch (e: any) {
+      toast({ title: "Erreur IA", description: e.message, variant: "destructive" });
     } finally {
       setGenerateLoading(false);
     }
   };
 
+  // ── Media upload ──────────────────────────────────────────────────────────
   const handleMediaUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
-
-    const file = files[0];
-    const maxSize = 500 * 1024 * 1024; // 500 MB
-    
-    if (file.size > maxSize) {
-      toast({ title: "Erreur", description: "Le fichier ne doit pas dépasser 500 Mo", variant: "destructive" });
-      return;
-    }
-
     setUploading(true);
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
-      const filePath = `posts/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('blog-media')
-        .upload(filePath, file);
+    const uploaded: Array<{ url: string; name: string; type: string }> = [];
 
-      if (uploadError) throw uploadError;
-
-      const { data } = supabase.storage.from('blog-media').getPublicUrl(filePath);
-      setFeaturedImage(data.publicUrl);
-      toast({ title: "Fichier téléchargé" });
-    } catch (error: any) {
-      toast({ title: "Erreur", description: error.message, variant: "destructive" });
-    } finally {
-      setUploading(false);
+    for (const file of Array.from(files)) {
+      const isVideo = file.type.startsWith("video/");
+      const maxSize = isVideo ? 500 * 1024 * 1024 : 20 * 1024 * 1024;
+      if (file.size > maxSize) {
+        toast({ title: "Fichier trop volumineux", description: `${file.name}: max ${isVideo ? "500 Mo" : "20 Mo"}`, variant: "destructive" });
+        continue;
+      }
+      try {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+        const filePath = `posts/${fileName}`;
+        const { error: uploadError } = await supabase.storage.from('blog-media').upload(filePath, file);
+        if (uploadError) throw uploadError;
+        const { data } = supabase.storage.from('blog-media').getPublicUrl(filePath);
+        uploaded.push({ url: data.publicUrl, name: file.name, type: file.type });
+      } catch (e: any) {
+        toast({ title: "Erreur upload", description: e.message, variant: "destructive" });
+      }
     }
+
+    if (uploaded.length > 0) {
+      setMediaFiles(prev => [...prev, ...uploaded]);
+      if (!featuredImage && uploaded[0].type.startsWith("image/")) {
+        setFeaturedImage(uploaded[0].url);
+      }
+      toast({ title: `${uploaded.length} fichier(s) téléchargé(s)` });
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const generateSlug = (text: string) => {
-    return text
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim();
-  };
-
-  const handleTitleChange = (value: string) => {
-    setTitle(value);
-    if (!editingPost && !slug) {
-      setSlug(generateSlug(value));
+  const handleRemoveMedia = (url: string) => {
+    setMediaFiles(prev => prev.filter(m => m.url !== url));
+    if (featuredImage === url) {
+      const remaining = mediaFiles.filter(m => m.url !== url && m.type.startsWith("image/"));
+      setFeaturedImage(remaining.length > 0 ? remaining[0].url : "");
     }
   };
 
   const handleSave = () => {
     if (!title.trim() || !content.trim()) {
-      toast({ title: "Erreur", description: "Le titre et le contenu sont requis", variant: "destructive" });
-      return;
+      toast({ title: "Titre et contenu requis", variant: "destructive" }); return;
     }
     if (!categoryId) {
-      toast({ title: "Erreur", description: "La catégorie est obligatoire", variant: "destructive" });
-      return;
+      toast({ title: "Catégorie obligatoire", variant: "destructive" }); return;
     }
-
     saveMutation.mutate({
       title: title.trim(),
       slug: slug.trim() || generateSlug(title),
@@ -401,31 +488,19 @@ const AdminBlogEnhanced = () => {
   const openEditor = (post?: BlogPost) => {
     if (post) {
       setEditingPost(post);
-      setTitle(post.title);
-      setSlug(post.slug);
-      setContent(post.content);
-      setExcerpt(post.excerpt || "");
-      setFeaturedImage(post.featured_image || "");
-      setCategoryId(post.category_id || "");
-      setTagline(post.tagline || "");
-      setHashtags(post.hashtags || []);
-      setAuthor(post.author || "Inocent KOFFI");
+      setTitle(post.title); setSlug(post.slug); setContent(post.content);
+      setExcerpt(post.excerpt || ""); setFeaturedImage(post.featured_image || "");
+      setCategoryId(post.category_id || ""); setTagline(post.tagline || "");
+      setHashtags(post.hashtags || []); setAuthor(post.author || "Inocent KOFFI");
+      if (post.featured_image) setMediaFiles([{ url: post.featured_image, name: "image.jpg", type: "image/jpeg" }]);
     }
     setShowEditor(true);
   };
 
   const resetForm = () => {
-    setShowEditor(false);
-    setEditingPost(null);
-    setTitle("");
-    setSlug("");
-    setContent("");
-    setExcerpt("");
-    setFeaturedImage("");
-    setCategoryId("");
-    setTagline("");
-    setHashtags([]);
-    setAuthor("Inocent KOFFI");
+    setShowEditor(false); setEditingPost(null); setTitle(""); setSlug(""); setContent("");
+    setExcerpt(""); setFeaturedImage(""); setCategoryId(""); setTagline("");
+    setHashtags([]); setAuthor("Inocent KOFFI"); setMediaFiles([]);
   };
 
   const filteredPosts = posts?.filter(post => 
@@ -433,259 +508,222 @@ const AdminBlogEnhanced = () => {
     post.excerpt?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString("fr-FR", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
+  const formatDate = (date: string) =>
+    new Date(date).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
 
-  const getCategoryById = (id: string | null) => {
-    return categories?.find(c => c.id === id);
-  };
+  const getCategoryById = (id: string | null) => categories?.find(c => c.id === id);
 
+  // ── EDITOR VIEW ───────────────────────────────────────────────────────────
   if (showEditor) {
     return (
-      <Card className="border-l-4 border-l-primary">
-        <CardHeader className="flex flex-row items-center justify-between flex-wrap gap-4">
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5" />
-            {editingPost ? "Modifier l'article" : "Nouvel article"}
-          </CardTitle>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs">
-              Sauvegarde auto activée
-            </Badge>
-            <Button variant="ghost" size="icon" onClick={resetForm}>
-              <X className="w-5 h-5" />
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* AI Generation Section */}
-          <div className="p-4 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-xl border-2 border-dashed border-primary/30">
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="w-5 h-5 text-primary" />
-              <h3 className="font-semibold text-lg">Assistant IA Éditorial</h3>
+      <>
+        <GeneratePopup
+          open={generatePopupOpen}
+          onClose={() => { if (!generateLoading) setGeneratePopupOpen(false); }}
+          onGenerate={handleGenerateFullArticle}
+          isLoading={generateLoading}
+        />
+
+        <Card className="border-l-4 border-l-primary">
+          <CardHeader className="flex flex-row items-center justify-between flex-wrap gap-4">
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              {editingPost ? "Modifier l'article" : "Nouvel article"}
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="text-xs">Sauvegarde auto</Badge>
+              <Button variant="ghost" size="icon" onClick={resetForm}>
+                <X className="w-5 h-5" />
+              </Button>
             </div>
-            
-            {/* Quick topic input for full generation */}
-            <div className="space-y-3 mb-4">
-              <Label className="text-sm font-medium">Sujet ou idée (pour génération complète)</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={topicInput}
-                  onChange={(e) => setTopicInput(e.target.value)}
-                  placeholder="Ex: L'importance de la souveraineté alimentaire en Afrique..."
-                  className="flex-1"
-                />
-                <Button 
-                  onClick={handleGenerateFullArticle}
-                  disabled={generateLoading || (!content.trim() && !topicInput.trim())}
-                  className="gap-2 bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90"
-                >
-                  {generateLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                  Générer l'article complet
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            {/* ── AI SECTION ── */}
+            <div className="p-5 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 rounded-xl border-2 border-dashed border-primary/30">
+              <div className="flex items-center gap-2 mb-4">
+                <Sparkles className="w-5 h-5 text-primary" />
+                <h3 className="font-bold text-lg">🧠 Assistant IA Éditorial</h3>
+                <Badge variant="outline" className="text-xs ml-auto">Moteur éditorial intelligent</Badge>
+              </div>
+
+              <div className="bg-background/80 rounded-lg p-3 mb-4 border border-primary/10">
+                <p className="text-sm text-muted-foreground">
+                  <strong className="text-foreground">💡 Mode d'emploi :</strong> Écrivez librement votre texte ci-dessous — même un seul mot suffit (ex: "pépinière", "forum agricole 2026"). L'IA analyse et remplit automatiquement TOUS les champs.
+                </p>
+              </div>
+
+              {/* MAIN GENERATE BUTTON */}
+              <Button
+                onClick={() => setGeneratePopupOpen(true)}
+                disabled={!content.trim() || generateLoading}
+                size="lg"
+                className="w-full gap-2 bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 shadow-lg font-bold text-base mb-4"
+              >
+                <Sparkles className="w-5 h-5" />
+                ✨ Générer l'article complet
+              </Button>
+
+              <div className="flex flex-wrap gap-2 pt-3 border-t border-primary/20">
+                <Button variant="outline" onClick={handleGenerateMeta} disabled={aiLoading || !content.trim()} size="sm" className="gap-2">
+                  {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Hash className="w-4 h-4" />}
+                  Générer titre & métadonnées
+                </Button>
+                <Button variant="outline" onClick={handleStructureArticle} disabled={structureLoading || !content.trim()} size="sm" className="gap-2">
+                  {structureLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+                  Structurer le texte
                 </Button>
               </div>
+            </div>
+
+            {/* ── CONTENT (first so user writes here) ── */}
+            <div className="space-y-2">
+              <Label className="text-base font-semibold">
+                ✍️ Contenu <span className="text-destructive">*</span>
+              </Label>
               <p className="text-xs text-muted-foreground">
-                💡 Entrez un sujet ou des idées brèves, l'IA génèrera un article complet avec titre, structure et hashtags.
+                Écrivez librement — même un seul mot. L'IA s'occupe du reste lors de la génération.
               </p>
-            </div>
-
-            {/* Other AI actions */}
-            <div className="flex flex-wrap gap-2 pt-3 border-t border-primary/20">
-              <Button 
-                variant="outline" 
-                onClick={handleGenerateMeta}
-                disabled={aiLoading || !content.trim()}
-                className="gap-2"
-                size="sm"
-              >
-                {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Hash className="w-4 h-4" />}
-                Générer titre & hashtags
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={handleStructureArticle}
-                disabled={structureLoading || !content.trim()}
-                className="gap-2"
-                size="sm"
-              >
-                {structureLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
-                Structurer le texte
-              </Button>
-            </div>
-          </div>
-
-          {/* Category Selection */}
-          <div className="space-y-2">
-            <Label htmlFor="category">Catégorie *</Label>
-            <Select value={categoryId} onValueChange={setCategoryId}>
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionnez une catégorie" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories?.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.id}>
-                    <div className="flex items-center gap-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
-                        style={{ backgroundColor: cat.color }}
-                      />
-                      {cat.name}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Title & Tagline */}
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">Titre *</Label>
-              <Input
-                id="title"
-                value={title}
-                onChange={(e) => handleTitleChange(e.target.value)}
-                placeholder="Titre de l'article"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="tagline">Phrase d'accroche</Label>
-              <Input
-                id="tagline"
-                value={tagline}
-                onChange={(e) => setTagline(e.target.value)}
-                placeholder="Phrase d'accroche impactante"
-              />
-            </div>
-          </div>
-
-          {/* Slug & Author */}
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="slug">Slug (URL)</Label>
-              <Input
-                id="slug"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                placeholder="url-de-larticle"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="author">Auteur</Label>
-              <Input
-                id="author"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                placeholder="Inocent KOFFI"
-              />
-            </div>
-          </div>
-
-          {/* Hashtags */}
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2">
-              <Hash className="w-4 h-4" />
-              Hashtags
-            </Label>
-            <Input
-              value={hashtags.join(", ")}
-              onChange={(e) => setHashtags(e.target.value.split(",").map(h => h.trim()).filter(Boolean))}
-              placeholder="#Agriculture, #Leadership, #Afrique"
-            />
-            {hashtags.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-2">
-                {hashtags.map((tag, i) => (
-                  <Badge key={i} variant="secondary" className="text-xs">
-                    #{tag.replace('#', '')}
-                  </Badge>
-                ))}
+              <div className="border rounded-lg shadow-sm">
+                <RichTextEditor
+                  content={content}
+                  onChange={setContent}
+                  placeholder="Écrivez ici... Ex: pépinière, forum agricole 2026, lancement d'un partenariat... L'IA structurera et enrichira automatiquement."
+                />
               </div>
-            )}
-          </div>
-
-          {/* Excerpt */}
-          <div className="space-y-2">
-            <Label htmlFor="excerpt">Résumé / Extrait</Label>
-            <Textarea
-              id="excerpt"
-              value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
-              placeholder="Résumé court de l'article (affiché dans les listes)"
-              rows={2}
-            />
-          </div>
-
-          {/* Featured Image */}
-          <div className="space-y-2">
-            <Label>Image à la une</Label>
-            <div className="flex items-center gap-4">
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleMediaUpload}
-                accept="image/*,video/*,.pdf,.doc,.docx,.ppt,.pptx"
-                className="hidden"
-              />
-              <Button 
-                variant="outline" 
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploading}
-                className="gap-2"
-              >
-                <Upload className="w-4 h-4" />
-                {uploading ? "Téléchargement..." : "Télécharger (max 500 Mo)"}
-              </Button>
             </div>
-            {featuredImage && (
-              <div className="relative w-full h-48 rounded-lg overflow-hidden mt-2 border">
-                <img src={featuredImage} alt="Preview" className="w-full h-full object-cover" />
+
+            {/* ── CATEGORY ── */}
+            <div className="space-y-2">
+              <Label>Catégorie <span className="text-destructive">*</span></Label>
+              <Select value={categoryId} onValueChange={setCategoryId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionnez une catégorie" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories?.map((cat) => (
+                    <SelectItem key={cat.id} value={cat.id}>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }} />
+                        {cat.name}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* ── TITLE & TAGLINE ── */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Titre <span className="text-destructive">*</span></Label>
+                <Input value={title} onChange={(e) => { setTitle(e.target.value); if (!editingPost && !slug) setSlug(generateSlug(e.target.value)); }} placeholder="Titre (généré par l'IA)" className="font-semibold" />
+              </div>
+              <div className="space-y-2">
+                <Label>Phrase d'accroche <span className="text-xs text-muted-foreground">(italique)</span></Label>
+                <Input value={tagline} onChange={(e) => setTagline(e.target.value)} placeholder="Phrase d'accroche impactante..." className="italic" />
+              </div>
+            </div>
+
+            {/* ── SLUG & AUTHOR ── */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Slug URL</Label>
+                <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="url-de-larticle" />
+              </div>
+              <div className="space-y-2">
+                <Label>Auteur</Label>
+                <Input value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="Inocent KOFFI" />
+              </div>
+            </div>
+
+            {/* ── HASHTAGS ── */}
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2"><Hash className="w-4 h-4" />Hashtags</Label>
+              <Input
+                value={hashtags.join(", ")}
+                onChange={(e) => setHashtags(e.target.value.split(",").map(h => h.trim()).filter(Boolean))}
+                placeholder="Agriculture, Leadership, Afrique..."
+              />
+              {hashtags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {hashtags.map((tag, i) => (
+                    <Badge key={i} variant="secondary" className="text-xs">#{tag.replace('#', '')}</Badge>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ── EXCERPT ── */}
+            <div className="space-y-2">
+              <Label>Résumé / Extrait</Label>
+              <Textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} placeholder="Résumé court affiché dans les listes d'articles..." rows={2} />
+            </div>
+
+            {/* ── MEDIA GALLERY ── */}
+            <div className="space-y-3">
+              <Label className="text-base font-semibold">🖼️ Médias (images & vidéos)</Label>
+              <p className="text-xs text-muted-foreground">Upload multiple autorisé • Images: 20 Mo max • Vidéos: 500 Mo max</p>
+
+              <div className="flex items-center gap-3">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleMediaUpload}
+                  accept="image/*,video/*"
+                  multiple
+                  className="hidden"
+                />
                 <Button
-                  variant="destructive"
-                  size="icon"
-                  className="absolute top-2 right-2"
-                  onClick={() => setFeaturedImage("")}
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="gap-2 flex-1"
                 >
-                  <X className="w-4 h-4" />
+                  {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  {uploading ? "Téléchargement..." : "Ajouter images & vidéos"}
                 </Button>
               </div>
-            )}
-          </div>
 
-          {/* Content */}
-          <div className="space-y-2">
-            <Label>Contenu *</Label>
-            <p className="text-xs text-muted-foreground">
-              Rédigez librement votre texte, puis utilisez l'IA pour structurer et générer les métadonnées.
-            </p>
-            <div className="border rounded-lg">
-              <RichTextEditor
-                content={content}
-                onChange={setContent}
-                placeholder="Rédigez votre article ici... L'IA structurera et générera le titre automatiquement."
-              />
+              {mediaFiles.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {mediaFiles.map((media, i) => (
+                    <MediaItem
+                      key={`${media.url}-${i}`}
+                      url={media.url}
+                      name={media.name}
+                      type={media.type}
+                      isFeatured={media.url === featuredImage}
+                      onSetFeatured={() => media.type.startsWith("image/") && setFeaturedImage(media.url)}
+                      onRemove={() => handleRemoveMedia(media.url)}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {featuredImage && (
+                <p className="text-xs text-muted-foreground flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-primary" />
+                  Image principale sélectionnée
+                </p>
+              )}
             </div>
-          </div>
 
-          {/* Actions */}
-          <div className="flex flex-wrap justify-end gap-4 pt-4 border-t">
-            <Button variant="outline" onClick={resetForm}>
-              Annuler
-            </Button>
-            <Button onClick={handleSave} disabled={saveMutation.isPending} className="gap-2">
-              <Save className="w-4 h-4" />
-              {saveMutation.isPending ? "Enregistrement..." : "Enregistrer"}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            {/* ── ACTIONS ── */}
+            <div className="flex flex-wrap justify-end gap-4 pt-4 border-t">
+              <Button variant="outline" onClick={resetForm}>Annuler</Button>
+              <Button onClick={handleSave} disabled={saveMutation.isPending} className="gap-2 min-w-[160px]">
+                {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                {saveMutation.isPending ? "Enregistrement..." : "Enregistrer"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </>
     );
   }
 
+  // ── LIST VIEW ─────────────────────────────────────────────────────────────
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -713,7 +751,7 @@ const AdminBlogEnhanced = () => {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="text-center py-8">Chargement...</div>
+            <div className="text-center py-8 text-muted-foreground">Chargement...</div>
           ) : filteredPosts && filteredPosts.length > 0 ? (
             <div className="overflow-x-auto">
               <Table>
@@ -733,35 +771,37 @@ const AdminBlogEnhanced = () => {
                       <TableRow key={post.id}>
                         <TableCell>
                           <div className="flex items-center gap-3">
-                            {post.featured_image && (
-                              <img 
-                                src={post.featured_image} 
+                            {post.featured_image ? (
+                              <img
+                                src={post.featured_image}
                                 alt={post.title}
-                                className="w-12 h-12 rounded object-cover hidden sm:block"
+                                className="w-12 h-12 rounded object-cover hidden sm:block flex-shrink-0"
+                                loading="lazy"
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                               />
+                            ) : (
+                              <div className="w-12 h-12 rounded bg-gradient-to-br from-primary/20 to-accent/20 hidden sm:flex items-center justify-center flex-shrink-0">
+                                <FileText className="w-5 h-5 text-primary/50" />
+                              </div>
                             )}
                             <div className="min-w-0">
-                              <p className="font-medium truncate">{post.title}</p>
-                              <p className="text-sm text-muted-foreground truncate">/{post.slug}</p>
+                              <p className="font-medium truncate max-w-[200px]">{post.title}</p>
+                              <p className="text-xs text-muted-foreground truncate">/{post.slug}</p>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
                           {category && (
-                            <Badge 
-                              variant="outline"
-                              style={{ borderColor: category.color, color: category.color }}
-                            >
+                            <Badge variant="outline" style={{ borderColor: category.color, color: category.color }}>
                               {category.name}
                             </Badge>
                           )}
                         </TableCell>
                         <TableCell>
-                          {post.is_published ? (
-                            <Badge variant="default" className="bg-green-600">Publié</Badge>
-                          ) : (
-                            <Badge variant="secondary">Brouillon</Badge>
-                          )}
+                          {post.is_published
+                            ? <Badge variant="default" className="bg-primary">Publié</Badge>
+                            : <Badge variant="secondary">Brouillon</Badge>
+                          }
                         </TableCell>
                         <TableCell className="hidden sm:table-cell">
                           <div className="flex items-center gap-1 text-sm text-muted-foreground">
@@ -771,27 +811,13 @@ const AdminBlogEnhanced = () => {
                         </TableCell>
                         <TableCell>
                           <div className="flex justify-end gap-1 sm:gap-2">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => publishMutation.mutate({ id: post.id, publish: !post.is_published })}
-                              title={post.is_published ? "Dépublier" : "Publier"}
-                            >
+                            <Button variant="ghost" size="icon" onClick={() => publishMutation.mutate({ id: post.id, publish: !post.is_published })} title={post.is_published ? "Dépublier" : "Publier"}>
                               {post.is_published ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => openEditor(post)}
-                            >
+                            <Button variant="ghost" size="icon" onClick={() => openEditor(post)}>
                               <Edit className="w-4 h-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="text-destructive"
-                              onClick={() => { setPostToDelete(post.id); setDeleteDialogOpen(true); }}
-                            >
+                            <Button variant="ghost" size="icon" className="text-destructive" onClick={() => { setPostToDelete(post.id); setDeleteDialogOpen(true); }}>
                               <Trash2 className="w-4 h-4" />
                             </Button>
                           </div>
@@ -807,8 +833,7 @@ const AdminBlogEnhanced = () => {
               <FileText className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground">Aucun article pour le moment</p>
               <Button className="mt-4 gap-2" onClick={() => openEditor()}>
-                <Plus className="w-4 h-4" />
-                Créer le premier article
+                <Plus className="w-4 h-4" />Créer le premier article
               </Button>
             </div>
           )}
@@ -819,16 +844,11 @@ const AdminBlogEnhanced = () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Supprimer l'article ?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Cette action est irréversible. L'article sera définitivement supprimé.
-            </AlertDialogDescription>
+            <AlertDialogDescription>Cette action est irréversible.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Annuler</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => postToDelete && deleteMutation.mutate(postToDelete)}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
+            <AlertDialogAction onClick={() => postToDelete && deleteMutation.mutate(postToDelete)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
               Supprimer
             </AlertDialogAction>
           </AlertDialogFooter>

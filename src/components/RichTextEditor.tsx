@@ -11,11 +11,12 @@ import { Table } from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { 
   Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Undo, Redo, 
-  Link as LinkIcon, Image as ImageIcon, Heading1, Heading2, Heading3,
+  Link as LinkIcon, Heading1, Heading2, Heading3,
   AlignLeft, AlignCenter, AlignRight, Highlighter, Palette,
   Table as TableIcon, Plus, Minus, Trash2
 } from 'lucide-react';
@@ -41,7 +42,9 @@ const HIGHLIGHT_COLORS = [
 const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        heading: { levels: [1, 2, 3] },
+      }),
       Link.configure({ openOnClick: false }),
       Image,
       Underline,
@@ -60,27 +63,30 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm max-w-none min-h-[300px] p-4 focus:outline-none [&_table]:border-collapse [&_table]:w-full [&_td]:border [&_td]:border-border [&_td]:p-2 [&_th]:border [&_th]:border-border [&_th]:p-2 [&_th]:bg-muted/50 [&_th]:font-bold',
+        class: 'prose prose-sm max-w-none min-h-[320px] p-5 focus:outline-none',
+        'data-placeholder': placeholder || 'Écrivez votre contenu ici...',
       },
     },
   });
 
-  if (!editor) {
-    return null;
-  }
+  // Sync external content changes (e.g. from AI generation)
+  useEffect(() => {
+    if (!editor) return;
+    const current = editor.getHTML();
+    if (content !== current && content !== '<p></p>') {
+      // Use setTimeout to avoid conflicts with ongoing editor transactions
+      const timer = setTimeout(() => {
+        editor.commands.setContent(content);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [content]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!editor) return null;
 
   const addLink = () => {
     const url = window.prompt('URL du lien:');
-    if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
-    }
-  };
-
-  const addImage = () => {
-    const url = window.prompt('URL de l\'image:');
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
+    if (url) editor.chain().focus().setLink({ href: url }).run();
   };
 
   const insertTable = () => {
@@ -99,37 +105,37 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
       onClick={onClick}
       disabled={disabled}
       title={title}
-      className="h-8 w-8 p-0"
+      className="h-8 w-8 p-0 flex-shrink-0"
     >
       {children}
     </Button>
   );
 
   return (
-    <div className="border rounded-lg overflow-hidden bg-background">
+    <div className="border rounded-lg overflow-hidden bg-background shadow-sm">
       {/* Toolbar */}
-      <div className="flex flex-wrap gap-0.5 p-2 border-b bg-muted/50">
+      <div className="flex flex-wrap gap-0.5 p-2 border-b bg-muted/50 sticky top-0 z-10">
         {/* Text Formatting */}
-        <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} title="Gras">
+        <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} title="Gras (Ctrl+B)">
           <Bold className="h-4 w-4" />
         </ToolbarButton>
-        <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} title="Italique">
+        <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} title="Italique (Ctrl+I)">
           <Italic className="h-4 w-4" />
         </ToolbarButton>
-        <ToolbarButton onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} title="Souligné">
+        <ToolbarButton onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} title="Souligné (Ctrl+U)">
           <UnderlineIcon className="h-4 w-4" />
         </ToolbarButton>
 
         <div className="w-px bg-border mx-1 self-stretch" />
 
         {/* Headings */}
-        <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive('heading', { level: 1 })} title="Titre 1">
+        <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive('heading', { level: 1 })} title="Titre H1">
           <Heading1 className="h-4 w-4" />
         </ToolbarButton>
-        <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Titre 2">
+        <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Titre H2">
           <Heading2 className="h-4 w-4" />
         </ToolbarButton>
-        <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })} title="Titre 3">
+        <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })} title="Titre H3">
           <Heading3 className="h-4 w-4" />
         </ToolbarButton>
 
@@ -181,10 +187,7 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
                 />
               ))}
             </div>
-            <button
-              onClick={() => editor.chain().focus().unsetColor().run()}
-              className="mt-2 text-xs text-muted-foreground hover:text-foreground"
-            >
+            <button onClick={() => editor.chain().focus().unsetColor().run()} className="mt-2 text-xs text-muted-foreground hover:text-foreground block">
               Réinitialiser
             </button>
           </PopoverContent>
@@ -209,10 +212,7 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
                 />
               ))}
             </div>
-            <button
-              onClick={() => editor.chain().focus().unsetHighlight().run()}
-              className="mt-2 text-xs text-muted-foreground hover:text-foreground"
-            >
+            <button onClick={() => editor.chain().focus().unsetHighlight().run()} className="mt-2 text-xs text-muted-foreground hover:text-foreground block">
               Retirer
             </button>
           </PopoverContent>
@@ -220,33 +220,39 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
 
         <div className="w-px bg-border mx-1 self-stretch" />
 
-        {/* Media & Table */}
+        {/* Link & Table */}
         <ToolbarButton onClick={addLink} active={editor.isActive('link')} title="Lien">
           <LinkIcon className="h-4 w-4" />
         </ToolbarButton>
-        <ToolbarButton onClick={addImage} title="Image">
-          <ImageIcon className="h-4 w-4" />
-        </ToolbarButton>
-        
+
         <Popover>
           <PopoverTrigger asChild>
-            <Button type="button" variant="ghost" size="sm" className="h-8 w-8 p-0" title="Tableau">
+            <Button type="button" variant={editor.isActive('table') ? 'secondary' : 'ghost'} size="sm" className="h-8 w-8 p-0" title="Tableau">
               <TableIcon className="h-4 w-4" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-2" align="start">
+          <PopoverContent className="w-52 p-2" align="start">
+            <p className="text-xs font-semibold mb-2 text-foreground">Tableau</p>
             <div className="space-y-1">
-              <button onClick={insertTable} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full">
-                <Plus className="h-3 w-3" /> Insérer un tableau
+              <button onClick={insertTable} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted rounded w-full text-left">
+                <Plus className="h-3 w-3" /> Insérer un tableau 3×3
               </button>
               {editor.isActive('table') && (
                 <>
+                  <div className="border-t my-1" />
+                  <button onClick={() => editor.chain().focus().addColumnBefore().run()} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full">
+                    <Plus className="h-3 w-3" /> Colonne avant
+                  </button>
                   <button onClick={() => editor.chain().focus().addColumnAfter().run()} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full">
-                    <Plus className="h-3 w-3" /> Ajouter colonne
+                    <Plus className="h-3 w-3" /> Colonne après
+                  </button>
+                  <button onClick={() => editor.chain().focus().addRowBefore().run()} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full">
+                    <Plus className="h-3 w-3" /> Ligne avant
                   </button>
                   <button onClick={() => editor.chain().focus().addRowAfter().run()} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full">
-                    <Plus className="h-3 w-3" /> Ajouter ligne
+                    <Plus className="h-3 w-3" /> Ligne après
                   </button>
+                  <div className="border-t my-1" />
                   <button onClick={() => editor.chain().focus().deleteColumn().run()} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full text-destructive">
                     <Minus className="h-3 w-3" /> Supprimer colonne
                   </button>
@@ -255,6 +261,12 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
                   </button>
                   <button onClick={() => editor.chain().focus().deleteTable().run()} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full text-destructive">
                     <Trash2 className="h-3 w-3" /> Supprimer tableau
+                  </button>
+                  <button onClick={() => editor.chain().focus().mergeCells().run()} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full">
+                    Fusionner cellules
+                  </button>
+                  <button onClick={() => editor.chain().focus().splitCell().run()} className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-muted rounded w-full">
+                    Diviser cellule
                   </button>
                 </>
               )}
@@ -265,14 +277,18 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
         <div className="flex-1" />
 
         {/* Undo/Redo */}
-        <ToolbarButton onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} title="Annuler">
+        <ToolbarButton onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} title="Annuler (Ctrl+Z)">
           <Undo className="h-4 w-4" />
         </ToolbarButton>
-        <ToolbarButton onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} title="Rétablir">
+        <ToolbarButton onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} title="Rétablir (Ctrl+Y)">
           <Redo className="h-4 w-4" />
         </ToolbarButton>
       </div>
-      <EditorContent editor={editor} />
+
+      {/* Editor Area */}
+      <div className="relative">
+        <EditorContent editor={editor} className="[&_.ProseMirror]:min-h-[320px] [&_.ProseMirror]:p-5 [&_.ProseMirror]:focus:outline-none [&_.ProseMirror_h1]:text-2xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:my-4 [&_.ProseMirror_h2]:text-xl [&_.ProseMirror_h2]:font-bold [&_.ProseMirror_h2]:my-3 [&_.ProseMirror_h3]:text-lg [&_.ProseMirror_h3]:font-semibold [&_.ProseMirror_h3]:my-2 [&_.ProseMirror_p]:my-3 [&_.ProseMirror_p]:leading-7 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-6 [&_.ProseMirror_ul]:my-3 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-6 [&_.ProseMirror_ol]:my-3 [&_.ProseMirror_li]:my-1 [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-accent [&_.ProseMirror_blockquote]:pl-4 [&_.ProseMirror_blockquote]:italic [&_.ProseMirror_blockquote]:my-4 [&_.ProseMirror_table]:w-full [&_.ProseMirror_table]:border-collapse [&_.ProseMirror_table]:my-4 [&_.ProseMirror_th]:border [&_.ProseMirror_th]:border-border [&_.ProseMirror_th]:p-3 [&_.ProseMirror_th]:bg-primary [&_.ProseMirror_th]:text-primary-foreground [&_.ProseMirror_th]:font-semibold [&_.ProseMirror_td]:border [&_.ProseMirror_td]:border-border [&_.ProseMirror_td]:p-3 [&_.ProseMirror_td]:align-top [&_.ProseMirror_tr:nth-child(even)_td]:bg-muted/30" />
+      </div>
     </div>
   );
 };
