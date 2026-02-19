@@ -11,247 +11,258 @@ serve(async (req) => {
   }
 
   try {
-    const { content, action, topic, categories, generateImage } = await req.json();
+    const { content, action, categories, generateImage } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
-    }
 
-    // Handle image generation
-    if (action === "generate_image") {
-      const imagePrompt = content || topic || "Professional agriculture business photo";
-      
-      const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash-image",
-          messages: [
-            { 
-              role: "user", 
-              content: `Generate a professional, realistic, high-quality photograph for an article about: ${imagePrompt}. The image should be clean, professional, without any text overlay, watermarks, or artificial effects. Style: photojournalistic, natural lighting, African agriculture context. Aspect ratio 16:9.` 
-            }
-          ],
-          modalities: ["image", "text"]
-        }),
-      });
+    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY non configuré");
 
-      if (!imageResponse.ok) {
-        const errorText = await imageResponse.text();
-        console.error("Image generation error:", imageResponse.status, errorText);
-        throw new Error(`Image generation failed: ${imageResponse.status}`);
-      }
+    const catList = categories?.map((c: any) => c.name).join(', ') || 'Agriculture, Leadership, Actualités';
 
-      const imageData = await imageResponse.json();
-      const imageUrl = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
-      
-      if (!imageUrl) {
-        throw new Error("No image generated");
-      }
+    // ── IMAGE GENERATION ─────────────────────────────────────────────────────
+    async function generateAIImage(topic: string): Promise<string | null> {
+      try {
+        const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+        const supabase = createClient(
+          Deno.env.get("SUPABASE_URL")!,
+          Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+        );
 
-      // Upload the base64 image to Supabase Storage
-      const base64Data = imageUrl.replace(/^data:image\/\w+;base64,/, "");
-      const imageBytes = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-      const fileName = `ai-generated/${Date.now()}-${Math.random().toString(36).substr(2, 9)}.png`;
-
-      const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
-      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-      const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-      const supabase = createClient(supabaseUrl, supabaseKey);
-
-      const { error: uploadError } = await supabase.storage
-        .from("blog-media")
-        .upload(fileName, imageBytes, {
-          contentType: "image/png",
-          upsert: false,
+        const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${LOVABLE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "google/gemini-2.5-flash-image",
+            messages: [{
+              role: "user",
+              content: `Photographie professionnelle et réaliste pour un article sur : "${topic}". 
+              Contexte africain, agriculture ivoirienne, ambiance naturelle. 
+              Style : photojournalisme, lumière naturelle, sobre et élégant. 
+              Aucun texte, aucun watermark, aucun effet artificiel. Ratio 16:9.`
+            }],
+            modalities: ["image", "text"]
+          }),
         });
 
-      if (uploadError) {
-        console.error("Upload error:", uploadError);
-        throw new Error("Failed to upload generated image");
+        if (!imageResponse.ok) {
+          console.error("Image gen error:", imageResponse.status);
+          return null;
+        }
+
+        const imageData = await imageResponse.json();
+        const imageUrl = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+        if (!imageUrl) return null;
+
+        const base64Data = imageUrl.replace(/^data:image\/\w+;base64,/, "");
+        const imageBytes = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+        const fileName = `ai-generated/${Date.now()}-${Math.random().toString(36).substr(2, 9)}.png`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("blog-media")
+          .upload(fileName, imageBytes, { contentType: "image/png", upsert: false });
+
+        if (uploadError) { console.error("Upload error:", uploadError); return null; }
+
+        const { data: urlData } = supabase.storage.from("blog-media").getPublicUrl(fileName);
+        return urlData.publicUrl;
+      } catch (e) {
+        console.error("generateAIImage error:", e);
+        return null;
       }
-
-      const { data: urlData } = supabase.storage.from("blog-media").getPublicUrl(fileName);
-
-      return new Response(JSON.stringify({ imageUrl: urlData.publicUrl }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
     }
 
-    let systemPrompt = "";
-    let userPrompt = "";
+    // ── SYSTEM PROMPTS ────────────────────────────────────────────────────────
+    const BRAND_CONTEXT = `
+Tu travailles pour Inocent KOFFI (jamais "Innocent"), Fondateur et Directeur Général d'AGRICAPITAL SARL, entreprise spécialisée dans la transformation agricole en Côte d'Ivoire.
+Contexte: agriculture africaine, palmier à huile, pépinière, souveraineté alimentaire, entrepreneuriat.
+    `.trim();
 
-    if (action === "generate_meta") {
-      systemPrompt = `Tu es un rédacteur en chef professionnel pour un blog de leadership et agriculture africaine. 
-Tu génères des métadonnées pour les articles de blog.
+    const HTML_RULES = `
+RÈGLES HTML STRICTES:
+- Utilise UNIQUEMENT du HTML valide. JAMAIS de Markdown (pas d'astérisques **, pas de ###, pas de backticks).
+- <h2 style="font-size:1.5em;font-weight:bold;margin:1.5em 0 0.8em;color:#1e3a5f;"> pour sections
+- <h3 style="font-size:1.2em;font-weight:600;margin:1.2em 0 0.6em;color:#1e3a5f;"> pour sous-sections
+- <p style="margin:0 0 1.2em;line-height:1.8;"> pour paragraphes
+- <strong> pour les idées clés
+- <em> pour citations ou nuances
+- <blockquote style="border-left:4px solid #d4a72c;padding:1em 1.5em;margin:1.5em 0;background:#fffbf0;border-radius:0 8px 8px 0;font-style:italic;"> pour citations
+- <ul style="margin:0 0 1.2em;padding-left:1.5em;"> <li style="margin-bottom:0.5em;"> pour listes
+- <ol style="margin:0 0 1.2em;padding-left:1.5em;"> <li style="margin-bottom:0.5em;"> pour listes numérotées
 
-IMPORTANT: 
-- Le fondateur s'appelle Inocent KOFFI (pas "Innocent")
-- Le ton doit être professionnel, inspirant et visionnaire
-- Les hashtags doivent être pertinents pour LinkedIn et Twitter
+TABLEAUX AVANCÉS (utiliser quand pertinent pour comparaisons, données chiffrées, fiches techniques):
+<div style="overflow-x:auto;margin:1.5em 0;">
+<table style="width:100%;border-collapse:collapse;font-size:0.95em;box-shadow:0 2px 8px rgba(0,0,0,0.08);border-radius:8px;overflow:hidden;">
+  <thead>
+    <tr style="background:#1e3a5f;color:white;">
+      <th style="padding:12px 16px;text-align:left;font-weight:600;">Colonne 1</th>
+      <th style="padding:12px 16px;text-align:left;font-weight:600;">Colonne 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#ffffff;">
+      <td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;">Donnée</td>
+      <td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;">Valeur</td>
+    </tr>
+    <tr style="background:#f8fafc;">
+      <td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;">Donnée</td>
+      <td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;">Valeur</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
-Tu dois TOUJOURS répondre en JSON valide avec cette structure exacte:
-{
-  "title": "Titre professionnel et impactant (max 80 caractères)",
-  "tagline": "Phrase d'accroche éditoriale et inspirante (max 160 caractères)",
-  "hashtags": ["hashtag1", "hashtag2", "hashtag3", "hashtag4", "hashtag5"],
-  "excerpt": "Résumé professionnel en 2-3 phrases (max 200 caractères)",
-  "suggested_category": "nom de la catégorie la plus pertinente"
-}`;
+TIMELINE (pour événements):
+<div style="position:relative;padding-left:2em;margin:1.5em 0;">
+  <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(#1e3a5f,#d4a72c);"></div>
+  <div style="position:relative;margin-bottom:1.5em;">
+    <div style="position:absolute;left:-2.5em;top:4px;width:12px;height:12px;border-radius:50%;background:#1e3a5f;border:2px solid white;box-shadow:0 0 0 2px #1e3a5f;"></div>
+    <strong>2024</strong> — Événement important
+  </div>
+</div>
 
-      const catList = categories?.map((c: any) => c.name).join(', ') || '';
-      userPrompt = `Analyse ce contenu et génère un titre, une phrase d'accroche, un résumé, la catégorie la plus pertinente et 5 hashtags pertinents.
+SÉPARATEUR DE SECTION:
+<div style="border:none;height:2px;background:linear-gradient(to right,#1e3a5f,#d4a72c,transparent);margin:2em 0;"></div>
 
-Catégories disponibles: ${catList}
-
-Contenu:
-${content}`;
-    } else if (action === "structure_article") {
-      systemPrompt = `Tu es un rédacteur en chef professionnel. Tu restructures les articles de manière professionnelle.
-
-RÈGLES DE FORMATAGE:
-- Créer des paragraphes lisibles et bien espacés
-- Ajouter des sous-titres (utilise <h2> ou <h3> en HTML) quand pertinent
-- Mettre en <strong>gras</strong> les idées fortes
-- Utiliser <em>l'italique</em> pour les citations ou nuances
-- Utiliser <blockquote> pour les citations importantes
-- Utiliser <ul> et <li> pour les listes
-- Améliorer la lisibilité sans dénaturer la pensée de l'auteur
-- Conserver le message et les idées originales
-- Structurer de manière logique avec introduction, développement, conclusion
-- Retourne du HTML valide, pas du Markdown
-- Les paragraphes doivent être bien aérés avec des espaces entre eux
-
-IMPORTANT: Le fondateur s'appelle Inocent KOFFI (pas "Innocent")`;
-
-      userPrompt = `Restructure cet article de manière professionnelle en HTML:
-
-${content}`;
-    } else if (action === "generate_full_article") {
-      const catList = categories?.map((c: any) => c.name).join(', ') || '';
-      
-      systemPrompt = `Tu es un rédacteur en chef professionnel travaillant pour Inocent KOFFI, Fondateur et Directeur Général d'AGRICAPITAL SARL, une entreprise spécialisée dans la transformation agricole en Côte d'Ivoire.
-
-Tu génères des articles de blog complets, structurés et professionnels à partir d'une idée ou d'un sujet, ou même d'un texte brut non structuré, ou même d'un SIMPLE MOT.
-
-CAPACITÉS:
-- Si l'utilisateur donne juste un mot ou une phrase courte (ex: "pépinière", "forum agricole"), tu dois développer un article complet de 800-1500 mots
-- Tu dois comprendre le contexte agricole africain et AGRICAPITAL
-- Tu dois produire du contenu immédiatement publiable, professionnel, sans effet "généré par IA"
-
-STYLE ET TON:
-- Professionnel, inspirant et visionnaire
-- Leadership et vision stratégique
-- Focus sur l'agriculture, l'entrepreneuriat africain, la souveraineté alimentaire
-- Citations pertinentes (notamment de Félix Houphouët-Boigny si approprié)
-- Émojis subtils pour les points clés (📌, 👉, 🌱, 💡)
-
-STRUCTURE HTML:
-- <h2> pour les titres de sections
-- <h3> pour les sous-sections
-- <p> pour les paragraphes (bien séparés et aérés)
-- <strong> pour les idées fortes
-- <em> pour l'italique
-- <blockquote> pour les citations
-- <ul><li> pour les listes à puces
-- <ol><li> pour les listes numérotées
-- <table><thead><tbody><tr><th><td> pour les tableaux si le contexte l'exige
-- Bien aérer le contenu avec des espaces entre les sections
+BOÎTE MISE EN VALEUR:
+<div style="background:linear-gradient(135deg,#f0f4ff,#fefce8);border:1px solid #d4a72c;border-radius:12px;padding:1.5em;margin:1.5em 0;">
+  <p style="margin:0;font-weight:600;">💡 Point clé</p>
+  <p style="margin:0.5em 0 0;">Contenu important ici</p>
+</div>
 
 QUALITÉ:
-- Paragraphes bien espacés, jamais de blocs compacts
-- Hiérarchie visuelle claire
-- Contenu fluide et agréable à lire
-- Immédiatement publiable sans retouche
-- Pas de balisage visible, pas de markdown
+- Paragraphes TOUJOURS séparés, jamais de blocs compacts
+- Emojis subtils : 📌 👉 🌱 💡 📊 🎯 ✅
+- Hiérarchie visuelle claire, articles de 800-1500 mots
+- Immédiatement publiable, sans retouche
+    `.trim();
 
-IMPORTANT: 
-- Le fondateur s'appelle Inocent KOFFI (pas "Innocent")
-- Longueur: 800-1500 mots
-- Le contenu doit être immédiatement publiable
-- Termine par une signature ou une pensée conclusive
-
+    // ── ACTION: GENERATE META ─────────────────────────────────────────────
+    if (action === "generate_meta") {
+      const systemPrompt = `${BRAND_CONTEXT}
+Tu génères des métadonnées JSON pour des articles de blog.
 Catégories disponibles: ${catList}
-
-Réponds en JSON valide avec cette structure:
+Retourne UNIQUEMENT ce JSON valide:
 {
-  "title": "TITRE EN MAJUSCULES PROFESSIONNEL ET IMPACTANT",
-  "tagline": "Phrase d'accroche en italique, engageante et claire",
-  "content": "<h2>Introduction</h2><p>...</p>...",
-  "excerpt": "Résumé en 2 phrases",
-  "hashtags": ["hashtag1", "hashtag2", "hashtag3", "hashtag4", "hashtag5"],
+  "title": "TITRE EN MAJUSCULES, IMPACTANT (max 80 car)",
+  "tagline": "Phrase d'accroche en italique, claire et engageante (max 160 car)",
+  "hashtags": ["hashtag1","hashtag2","hashtag3","hashtag4","hashtag5"],
+  "excerpt": "Résumé 2-3 phrases professionnelles (max 200 car)",
   "suggested_category": "nom de la catégorie la plus pertinente"
 }`;
 
-      userPrompt = topic 
-        ? `Génère un article complet sur ce sujet: ${topic}\n\nIdées additionnelles: ${content || 'Aucune'}`
-        : `Analyse ce texte brut et génère un article complet, professionnel et structuré. L'IA doit comprendre le contexte, structurer l'information, et remplir TOUS les champs automatiquement:\n\n${content}`;
-    } else {
-      throw new Error("Action non reconnue");
+      const response = await callAI(LOVABLE_API_KEY, systemPrompt, `Analyse et génère les métadonnées pour:\n\n${content}`);
+      const parsed = extractJSON(response);
+      return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt },
-        ],
-        temperature: 0.7,
-      }),
-    });
+    // ── ACTION: STRUCTURE ARTICLE ─────────────────────────────────────────
+    if (action === "structure_article") {
+      const systemPrompt = `${BRAND_CONTEXT}
+Tu restructures un texte brut en HTML professionnel.
+${HTML_RULES}
+Retourne uniquement le HTML structuré, sans commentaire.`;
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
-      
-      if (response.status === 429) {
-        return new Response(
-          JSON.stringify({ error: "Limite de requêtes atteinte. Réessayez dans quelques instants." }),
-          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
-      if (response.status === 402) {
-        return new Response(
-          JSON.stringify({ error: "Crédits insuffisants. Veuillez recharger votre compte." }),
-          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
-      
-      throw new Error(`AI gateway error: ${response.status}`);
+      const response = await callAI(LOVABLE_API_KEY, systemPrompt, `Restructure ce texte:\n\n${content}`);
+      return new Response(JSON.stringify({ content: response }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const data = await response.json();
-    const aiContent = data.choices?.[0]?.message?.content;
+    // ── ACTION: GENERATE FULL ARTICLE ─────────────────────────────────────
+    if (action === "generate_full_article") {
+      const systemPrompt = `${BRAND_CONTEXT}
 
-    if (action === "generate_meta" || action === "generate_full_article") {
-      const jsonMatch = aiContent.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        return new Response(JSON.stringify(parsed), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      throw new Error("Invalid AI response format");
-    } else {
-      return new Response(JSON.stringify({ content: aiContent }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+Tu es un rédacteur en chef d'élite. À partir de N'IMPORTE QUEL texte — même un seul mot — tu génères un article complet, professionnel, immédiatement publiable.
+
+${HTML_RULES}
+
+STRUCTURE DE L'ARTICLE:
+1. Introduction percutante (2-3 paragraphes)
+2. 3-5 sections avec <h2>
+3. Sous-sections avec <h3> si pertinent
+4. Utilise un tableau si le sujet s'y prête (comparaisons, données, fiche technique)
+5. Liste(s) à puces pour les points clés
+6. Citation inspirante en <blockquote>
+7. Conclusion avec appel à l'action
+
+Catégories disponibles: ${catList}
+
+Retourne UNIQUEMENT ce JSON valide (PAS de markdown dans le JSON, le content doit être du HTML):
+{
+  "title": "TITRE EN MAJUSCULES PROFESSIONNEL",
+  "tagline": "Phrase d'accroche en italique",
+  "content": "<h2>...</h2><p>...</p>...",
+  "excerpt": "Résumé en 2 phrases",
+  "hashtags": ["tag1","tag2","tag3","tag4","tag5"],
+  "suggested_category": "nom catégorie"
+}`;
+
+      const userPrompt = content.trim().split(/\s+/).length < 20
+        ? `Développe un article complet sur ce sujet : "${content.trim()}". Contexte: AGRICAPITAL, agriculture ivoirienne.`
+        : `Transforme ce texte brut en article complet et professionnel:\n\n${content}`;
+
+      // Generate article and image in parallel
+      const articlePromise = callAI(LOVABLE_API_KEY, systemPrompt, userPrompt);
+      const imagePromise = generateImage ? generateAIImage(content.slice(0, 200)) : Promise.resolve(null);
+
+      const [articleResponse, imageUrl] = await Promise.all([articlePromise, imagePromise]);
+      const parsed = extractJSON(articleResponse);
+
+      if (imageUrl) parsed.imageUrl = imageUrl;
+
+      return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
+
+    return new Response(JSON.stringify({ error: "Action non reconnue" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+
   } catch (error) {
     console.error("blog-ai-assistant error:", error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: error instanceof Error ? error.message : "Erreur inconnue" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+async function callAI(apiKey: string, systemPrompt: string, userPrompt: string): Promise<string> {
+  const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "google/gemini-3-flash-preview",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+      temperature: 0.7,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("AI gateway error:", response.status, errorText);
+    if (response.status === 429) throw new Error("Limite de requêtes atteinte. Réessayez dans quelques instants.");
+    if (response.status === 402) throw new Error("Crédits insuffisants. Veuillez recharger votre compte.");
+    throw new Error(`Erreur IA: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content || "";
+}
+
+function extractJSON(text: string): any {
+  // Try to extract JSON from markdown code blocks or raw text
+  const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (codeBlockMatch) {
+    try { return JSON.parse(codeBlockMatch[1].trim()); } catch {}
+  }
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    try { return JSON.parse(jsonMatch[0]); } catch {}
+  }
+  throw new Error("Format de réponse IA invalide");
+}

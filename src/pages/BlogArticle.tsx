@@ -227,13 +227,32 @@ const BlogArticle = () => {
             </header>
 
             {post.featured_image && (
-              <div className="relative mb-10 rounded-2xl overflow-hidden shadow-xl border-l-4 border-t-4 border-l-accent border-t-accent border-r-4 border-b-4 border-r-primary border-b-primary">
-                <img src={post.featured_image} alt={post.title} className="w-full h-auto max-h-[500px] object-cover" loading="eager" />
+              <div className="relative mb-10 rounded-2xl overflow-hidden shadow-xl">
+                {post.featured_image.match(/\.(mp4|webm|ogg|mov)(\?|$)/i) ? (
+                  <video
+                    src={post.featured_image}
+                    className="w-full h-auto max-h-[500px] object-cover"
+                    controls
+                    preload="metadata"
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={post.featured_image}
+                    alt={post.title}
+                    className="w-full h-auto max-h-[500px] object-cover"
+                    loading="eager"
+                    decoding="async"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                )}
               </div>
             )}
 
-            <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-img:rounded-xl prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg"
-              dangerouslySetInnerHTML={{ __html: post.content }} />
+            <div
+              className="article-content max-w-none"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
 
             <div className="mt-12 pt-8 border-t">
               <div className="flex items-center justify-between flex-wrap gap-4">
