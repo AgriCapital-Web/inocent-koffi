@@ -354,6 +354,95 @@ export type Database = {
         }
         Relationships: []
       }
+      forum_replies: {
+        Row: {
+          author_email: string | null
+          author_name: string
+          author_photo: string | null
+          content: string
+          created_at: string
+          id: string
+          is_approved: boolean
+          topic_id: string
+        }
+        Insert: {
+          author_email?: string | null
+          author_name: string
+          author_photo?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          topic_id: string
+        }
+        Update: {
+          author_email?: string | null
+          author_name?: string
+          author_photo?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          topic_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_replies_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "forum_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_topics: {
+        Row: {
+          author_email: string | null
+          author_name: string
+          author_photo: string | null
+          category: string
+          content: string
+          created_at: string
+          id: string
+          is_locked: boolean
+          is_pinned: boolean
+          reply_count: number
+          title: string
+          updated_at: string
+          view_count: number
+        }
+        Insert: {
+          author_email?: string | null
+          author_name: string
+          author_photo?: string | null
+          category?: string
+          content: string
+          created_at?: string
+          id?: string
+          is_locked?: boolean
+          is_pinned?: boolean
+          reply_count?: number
+          title: string
+          updated_at?: string
+          view_count?: number
+        }
+        Update: {
+          author_email?: string | null
+          author_name?: string
+          author_photo?: string | null
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_locked?: boolean
+          is_pinned?: boolean
+          reply_count?: number
+          title?: string
+          updated_at?: string
+          view_count?: number
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           email: string

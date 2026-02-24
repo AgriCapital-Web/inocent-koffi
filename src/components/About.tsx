@@ -1,21 +1,26 @@
-import { Award, Target, Users } from "lucide-react";
+import { Award, Target, Users, Code, Brain } from "lucide-react";
 
 const About = () => {
   const values = [
     {
       icon: Target,
-      title: "Impact",
+      title: "Impact Agricole",
       description: "Transformation agricole à fort impact économique, sociétal et environnemental"
     },
     {
       icon: Users,
-      title: "Innovation",
+      title: "Innovation & Solidarité",
       description: "Modèles agricoles intégrés et durables pour l'Afrique"
     },
     {
-      icon: Award,
-      title: "Solidarité",
-      description: "Prospérité partagée et valorisation des producteurs"
+      icon: Code,
+      title: "Développement Tech",
+      description: "Applications web, e-commerce, CRM et solutions IA sur mesure"
+    },
+    {
+      icon: Brain,
+      title: "Intelligence Artificielle",
+      description: "Intégration IA, automatisation et outils intelligents pour entreprises"
     }
   ];
 
@@ -32,9 +37,10 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-start">
             <div className="space-y-4 sm:space-y-6">
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
-                <strong className="text-foreground">Fondateur et Directeur Général d'AGRICAPITAL SARL</strong>, entreprise au capital social de 5 000 000 FCFA, 
-                basée à Daloa (Haut-Sassandra), spécialisée dans l'accompagnement agricole et services intégrés. 
-                Le partenaire idéal des producteurs agricoles.
+                <strong className="text-foreground">Fondateur et Directeur Général d'AGRICAPITAL SARL</strong> et 
+                <strong className="text-foreground"> Développeur Full Stack Freelance</strong>, je combine expertise terrain agricole et compétences technologiques avancées. 
+                Basé à Daloa (Haut-Sassandra), je conçois des applications web, CRM, e-commerce et solutions IA 
+                tout en dirigeant une entreprise d'accompagnement agricole au capital de 5 000 000 FCFA.
               </p>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
                 Passionné par la transformation agricole à fort impact économique, sociétal et environnemental, 

@@ -19,6 +19,8 @@ import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import MentionsLegales from "./pages/MentionsLegales";
 import Evolution from "./pages/EvolutionEnhanced";
+import Portfolio from "./pages/Portfolio";
+import Forum from "./pages/Forum";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +40,8 @@ const routes = [
   { path: "/admin", element: <Admin /> },
   { path: "/mentions-legales", element: <MentionsLegales /> },
   { path: "/evolution", element: <Evolution /> },
+  { path: "/portfolio", element: <Portfolio /> },
+  { path: "/forum", element: <Forum /> },
 ];
 
 const languageCodes = ["fr", "en", "es", "de", "zh", "ar"];

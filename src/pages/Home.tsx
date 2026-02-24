@@ -8,6 +8,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 // Lazy load components for better performance
 const About = lazy(() => import("@/components/About"));
 const Services = lazy(() => import("@/components/Services"));
+const PortfolioPreview = lazy(() => import("@/components/PortfolioPreview"));
 const FeaturedPosts = lazy(() => import("@/components/FeaturedPosts"));
 const PhotoGallery = lazy(() => import("@/components/PhotoGallery"));
 const BlogPreview = lazy(() => import("@/components/BlogPreview"));
@@ -113,6 +114,9 @@ const Home = () => {
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <Services />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <PortfolioPreview />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <PhotoGallery />
