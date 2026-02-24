@@ -30,9 +30,12 @@ const Hero = () => {
 
           {/* Text Section */}
           <div className="order-1 lg:order-2 text-center lg:text-left space-y-4 sm:space-y-6">
-            <div className="inline-block">
+            <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
               <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-accent/10 text-accent rounded-full text-xs sm:text-sm font-semibold">
                 Fondateur & DG AGRICAPITAL SARL
+              </span>
+              <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold">
+                Développeur Full Stack & IA
               </span>
             </div>
             
@@ -44,7 +47,7 @@ const Hero = () => {
             </h1>
 
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0">
-              12 années d'immersion au cœur des communautés rurales ivoiriennes pour bâtir une agriculture africaine prospère et durable.
+              Entrepreneur agricole, développeur Full Stack et praticien de l'intelligence artificielle. 12 années d'immersion terrain en Côte d'Ivoire au service de l'agriculture et de l'innovation numérique.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4">

@@ -27,7 +27,9 @@ const Navbar = () => {
     { href: "/agricapital", label: "AGRICAPITAL" },
     { href: "/projets", label: t("nav.projects") },
     { href: "/partenariat", label: t("nav.partnership") },
+    { href: "/portfolio", label: "Portfolio" },
     { href: "/blog", label: t("nav.blog") },
+    { href: "/forum", label: "Forum" },
     { href: "/contact", label: t("nav.contact") },
   ];
 
