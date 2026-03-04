@@ -12,6 +12,7 @@ import { Calendar, Clock, ArrowRight, Search, Tag, X, ChevronLeft, ChevronRight,
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguage";
+import { motion } from "framer-motion";
 
 const POSTS_PER_PAGE = 12;
 
@@ -171,7 +172,7 @@ const Blog = () => {
           {/* Hero Section */}
           <section className="py-16 bg-gradient-to-br from-background via-secondary/30 to-background">
             <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto text-center">
+              <motion.div className="max-w-4xl mx-auto text-center" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
                 <Badge variant="outline" className="mb-4">Blog</Badge>
                 <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-foreground">
                   {currentCategory ? (
@@ -215,7 +216,7 @@ const Blog = () => {
                     )}
                   </div>
                 </form>
-              </div>
+              </motion.div>
             </div>
           </section>
 

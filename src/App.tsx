@@ -21,6 +21,7 @@ import MentionsLegales from "./pages/MentionsLegales";
 import Evolution from "./pages/EvolutionEnhanced";
 import Portfolio from "./pages/Portfolio";
 import Forum from "./pages/Forum";
+import SearchResults from "./pages/SearchResults";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const routes = [
   { path: "/evolution", element: <Evolution /> },
   { path: "/portfolio", element: <Portfolio /> },
   { path: "/forum", element: <Forum /> },
+  { path: "/recherche", element: <SearchResults /> },
 ];
 
 const languageCodes = ["fr", "en", "es", "de", "zh", "ar"];
