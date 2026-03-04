@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const featuredProjects = [
-  { name: "Scoly", url: "https://www.scoly.agricapital.ci", desc: "E-commerce scolaire & bureautique", icon: GraduationCap, category: "E-commerce" },
-  { name: "LegalForm CI", url: "https://www.legalform.ci", desc: "Création d'entreprises en ligne", icon: Shield, category: "LegalTech" },
-  { name: "IvoireProjet", url: "https://www.ivoireprojet.com", desc: "Portail de projets & initiatives", icon: Globe, category: "Portail" },
-  { name: "AGRICAPITAL App", url: "https://www.app.agricapital.ci", desc: "CRM & gestion agricole", icon: BarChart3, category: "CRM" },
+  { name: "IvoireProjet", url: "https://www.ivoireprojet.com", desc: "Structuration & orientation de projets", icon: Globe, category: "Portail", screenshot: "/images/projects/ivoireprojet.png" },
+  { name: "LegalForm CI", url: "https://www.legalform.ci", desc: "Création d'entreprises en ligne", icon: Shield, category: "LegalTech", screenshot: "/images/projects/legalform.png" },
+  { name: "Scoly", desc: "E-commerce scolaire & bureautique", icon: GraduationCap, category: "E-commerce", screenshot: "/images/projects/scoly.png" },
+  { name: "AGRICAPITAL App", url: "https://www.app.agricapital.ci", desc: "CRM & gestion agricole", icon: BarChart3, category: "CRM", screenshot: "/images/projects/agricapital-app.png" },
 ];
 
 const PortfolioPreview = () => {
@@ -35,38 +35,50 @@ const PortfolioPreview = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
           {featuredProjects.map((project, index) => {
             const Icon = project.icon;
+            const Wrapper = project.url ? 'a' : 'div';
+            const wrapperProps = project.url ? { href: project.url, target: "_blank", rel: "noopener noreferrer" } : {};
             return (
-              <motion.a
+              <motion.div
                 key={project.name}
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group bg-card border border-border rounded-xl p-5 hover:shadow-lg block"
+                className="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 whileHover={{ y: -6, scale: 1.02 }}
               >
-                <motion.div 
-                  className="w-11 h-11 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-3"
-                  whileHover={{ rotate: 10, scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <Icon className="w-5 h-5 text-primary-foreground" />
-                </motion.div>
-                <h3 className="font-bold text-foreground mb-1 flex items-center gap-1.5">
-                  {project.name}
-                  <ExternalLink className="w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                </h3>
-                <span className="text-xs font-medium text-accent">{project.category}</span>
-                <p className="text-sm text-muted-foreground mt-1">{project.desc}</p>
-              </motion.a>
+                <Wrapper {...wrapperProps} className="block">
+                  {project.screenshot && (
+                    <div className="h-32 overflow-hidden">
+                      <img 
+                        src={project.screenshot} 
+                        alt={project.name} 
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110" 
+                        loading="lazy" 
+                      />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                        <Icon className="w-4 h-4 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-foreground text-sm flex items-center gap-1">
+                          {project.name}
+                          {project.url && <ExternalLink className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />}
+                        </h3>
+                        <span className="text-xs font-medium text-accent">{project.category}</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">{project.desc}</p>
+                  </div>
+                </Wrapper>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Services résumé */}
         <motion.div 
           className="flex flex-wrap justify-center gap-3 mb-8"
           initial={{ opacity: 0 }}

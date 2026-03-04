@@ -3,6 +3,7 @@ import { MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import SocialShare from "@/components/SocialShare";
+import AgriSearch from "@/components/AgriSearch";
 import { motion } from "framer-motion";
 
 const Hero = () => {
@@ -130,6 +131,11 @@ const Hero = () => {
               </div>
             </motion.div>
           </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="mt-10 max-w-6xl mx-auto">
+          <AgriSearch />
         </div>
       </div>
 
