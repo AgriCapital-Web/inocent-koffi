@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Facebook, Linkedin, Mail, MapPin, Phone, ExternalLink, Twitter } from "lucide-react";
-import SocialShare from "@/components/SocialShare";
+import { Facebook, Linkedin, Mail, MapPin, Phone, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,21 +12,15 @@ const Footer = () => {
     { href: "/agricapital", label: "AGRICAPITAL" },
     { href: "/projets", label: "Projets" },
     { href: "/partenariat", label: "Partenariat" },
+    { href: "/portfolio", label: "Portfolio" },
     { href: "/blog", label: "Blog" },
+    { href: "/forum", label: "Forum" },
     { href: "/contact", label: "Contact" },
   ];
 
   const socialLinks = [
-    {
-      icon: Facebook,
-      href: "https://www.facebook.com/share/174mN1Fopy/",
-      label: "Facebook",
-    },
-    {
-      icon: Linkedin,
-      href: "https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=inocent-k-4a08b7159",
-      label: "LinkedIn",
-    },
+    { icon: Facebook, href: "https://www.facebook.com/share/174mN1Fopy/", label: "Facebook" },
+    { icon: Linkedin, href: "https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=inocent-k-4a08b7159", label: "LinkedIn" },
   ];
 
   return (
@@ -34,32 +28,46 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-12">
           {/* About Section */}
-          <div className="space-y-3 sm:space-y-4 sm:col-span-2 lg:col-span-1">
+          <motion.div 
+            className="space-y-3 sm:space-y-4 sm:col-span-2 lg:col-span-1"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Inocent KOFFI</h3>
             <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
-              Fondateur et Directeur Général d'AGRICAPITAL SARL. Passionné par la transformation agricole en Afrique avec un impact économique, sociétal et environnemental durable.
+              Fondateur et Directeur Général d'AGRICAPITAL SARL. Développeur Full Stack & praticien IA. Passionné par la transformation agricole et l'innovation numérique en Afrique.
             </p>
             <div className="flex gap-3 sm:gap-4 pt-2">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon;
                 return (
-                  <a
+                  <motion.a
                     key={index}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-all hover:scale-110"
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-all"
                     aria-label={social.label}
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </a>
+                  </motion.a>
                 );
               })}
             </div>
-          </div>
+          </motion.div>
 
           {/* Quick Links */}
-          <div className="space-y-3 sm:space-y-4">
+          <motion.div 
+            className="space-y-3 sm:space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Navigation</h3>
             <ul className="space-y-1.5 sm:space-y-2 grid grid-cols-2 sm:grid-cols-1 gap-x-4">
               {footerLinks.map((link, index) => (
@@ -74,10 +82,16 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* AGRICAPITAL */}
-          <div className="space-y-3 sm:space-y-4">
+          <motion.div 
+            className="space-y-3 sm:space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">AGRICAPITAL SARL</h3>
             <p className="text-xs sm:text-sm opacity-90 leading-relaxed mb-3 sm:mb-4">
               Le partenaire idéal des producteurs agricoles. Capital: 5 000 000 FCFA.
@@ -91,10 +105,16 @@ const Footer = () => {
               <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
               www.agricapital.ci
             </a>
-          </div>
+          </motion.div>
 
           {/* Contact Info */}
-          <div className="space-y-3 sm:space-y-4">
+          <motion.div 
+            className="space-y-3 sm:space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Contact</h3>
             <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm opacity-90">
               <div className="flex items-start gap-2 sm:gap-3">
@@ -114,7 +134,7 @@ const Footer = () => {
                 <span>Daloa, Haut-Sassandra<br />Côte d'Ivoire</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Bottom Bar */}

@@ -3,6 +3,7 @@ import { MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import SocialShare from "@/components/SocialShare";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
@@ -12,10 +13,19 @@ const Hero = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center max-w-6xl mx-auto">
           {/* Image Section */}
-          <div className="order-2 lg:order-1 flex justify-center">
+          <motion.div 
+            className="order-2 lg:order-1 flex justify-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-full blur-2xl opacity-20 animate-pulse"></div>
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-accent/20">
+              <motion.div 
+                className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-accent/20"
+                whileHover={{ scale: 1.03, rotate: 1 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <img 
                   src={profilePhoto} 
                   alt="Inocent KOFFI - Fondateur et Directeur Général AGRICAPITAL SARL" 
@@ -24,33 +34,58 @@ const Hero = () => {
                   width="500"
                   height="600"
                 />
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Text Section */}
           <div className="order-1 lg:order-2 text-center lg:text-left space-y-4 sm:space-y-6">
-            <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+            <motion.div 
+              className="flex flex-wrap gap-2 justify-center lg:justify-start"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-accent/10 text-accent rounded-full text-xs sm:text-sm font-semibold">
                 Fondateur & DG AGRICAPITAL SARL
               </span>
               <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold">
                 Développeur Full Stack & IA
               </span>
-            </div>
+            </motion.div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground">
+            <motion.h1 
+              className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Inocent
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent mt-1 sm:mt-2">
+              <motion.span 
+                className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent mt-1 sm:mt-2"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay: 0.5 }}
+              >
                 KOFFI
-              </span>
-            </h1>
+              </motion.span>
+            </motion.h1>
 
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0">
+            <motion.p 
+              className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
               Entrepreneur agricole, développeur Full Stack et praticien de l'intelligence artificielle. 12 années d'immersion terrain en Côte d'Ivoire au service de l'agriculture et de l'innovation numérique.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4">
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
               <Button 
                 variant="default" 
                 size="lg"
@@ -70,20 +105,30 @@ const Hero = () => {
               >
                 <Link to="/a-propos">En Savoir Plus</Link>
               </Button>
-            </div>
+            </motion.div>
 
             {/* Social Share Buttons */}
-            <div className="pt-2 sm:pt-4">
+            <motion.div 
+              className="pt-2 sm:pt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.9 }}
+            >
               <SocialShare className="justify-center lg:justify-start" />
-            </div>
+            </motion.div>
 
             {/* Quick Contact Info */}
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 pt-1 sm:pt-2 text-xs sm:text-sm text-muted-foreground justify-center lg:justify-start">
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-2 sm:gap-4 pt-1 sm:pt-2 text-xs sm:text-sm text-muted-foreground justify-center lg:justify-start"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+            >
               <div className="flex items-center gap-2 justify-center lg:justify-start">
                 <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-accent" />
                 <span>Daloa, Côte d'Ivoire</span>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
