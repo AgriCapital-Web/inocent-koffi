@@ -4,6 +4,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,13 +41,15 @@ const Navbar = () => {
 
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
-    // Navigate first, then scroll to top
     navigate(href);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <nav
+    <motion.nav
+      initial={{ y: -80 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-background/95 backdrop-blur-md shadow-md"
@@ -55,7 +58,6 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Logo */}
           <Link
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -66,8 +68,8 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden xl:flex items-center gap-4 2xl:gap-6">
-            {navLinks.map((link) => (
-              <button
+            {navLinks.map((link, i) => (
+              <motion.button
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
                 className={`text-sm font-medium transition-colors whitespace-nowrap ${
@@ -75,9 +77,12 @@ const Navbar = () => {
                     ? "text-primary"
                     : "text-muted-foreground hover:text-primary"
                 }`}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.04 }}
               >
                 {link.label}
-              </button>
+              </motion.button>
             ))}
             <LanguageSelector />
           </div>
@@ -96,25 +101,38 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="xl:hidden py-4 space-y-2 border-t border-border/50 bg-background/95 backdrop-blur-md absolute left-0 right-0 top-full px-4 sm:px-6 shadow-lg">
-            {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className={`block w-full text-left py-3 px-4 rounded-lg text-sm font-medium transition-colors ${
-                  isActive(link.href)
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-primary hover:bg-muted"
-                }`}
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
-        )}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="xl:hidden overflow-hidden border-t border-border/50 bg-background/95 backdrop-blur-md absolute left-0 right-0 top-full px-4 sm:px-6 shadow-lg"
+            >
+              <div className="py-4 space-y-2">
+                {navLinks.map((link, i) => (
+                  <motion.button
+                    key={link.href}
+                    onClick={() => handleNavClick(link.href)}
+                    className={`block w-full text-left py-3 px-4 rounded-lg text-sm font-medium transition-colors ${
+                      isActive(link.href)
+                        ? "text-primary bg-primary/10"
+                        : "text-muted-foreground hover:text-primary hover:bg-muted"
+                    }`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                  >
+                    {link.label}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
