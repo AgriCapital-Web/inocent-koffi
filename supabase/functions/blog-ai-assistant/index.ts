@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { content, action, categories, generateImage } = await req.json();
+    const { content, action, categories, generateImage, generateVideo, generateGallery } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY non configuré");
@@ -75,7 +75,7 @@ serve(async (req) => {
 
     // ── SYSTEM PROMPTS ────────────────────────────────────────────────────────
     const BRAND_CONTEXT = `
-Tu travailles pour Inocent KOFFI (jamais "Innocent"), Fondateur et Directeur Général d'AGRICAPITAL SARL, entreprise spécialisée dans la transformation agricole en Côte d'Ivoire.
+Tu travailles pour Inocent KOFFI (jamais "Innocent"), Fondateur et CEO d'AGRICAPITAL SARL, Entrepreneur Social, Développeur Web, Praticien IA & Formateur Pluridisciplinaire.
 Contexte: agriculture africaine, palmier à huile, pépinière, souveraineté alimentaire, entrepreneuriat.
     `.trim();
 
@@ -201,14 +201,30 @@ Retourne UNIQUEMENT ce JSON valide (PAS de markdown dans le JSON, le content doi
         ? `Développe un article complet sur ce sujet : "${content.trim()}". Contexte: AGRICAPITAL, agriculture ivoirienne.`
         : `Transforme ce texte brut en article complet et professionnel:\n\n${content}`;
 
-      // Generate article and image in parallel
+      // Generate article and media in parallel
       const articlePromise = callAI(LOVABLE_API_KEY, systemPrompt, userPrompt);
       const imagePromise = generateImage ? generateAIImage(content.slice(0, 200)) : Promise.resolve(null);
+      
+      // Generate gallery (multiple images) if requested
+      const galleryPromise = generateGallery 
+        ? Promise.all([
+            generateAIImage(`${content.slice(0, 100)} - vue d'ensemble panoramique`),
+            generateAIImage(`${content.slice(0, 100)} - gros plan détaillé`),
+            generateAIImage(`${content.slice(0, 100)} - communauté et personnes`),
+          ])
+        : Promise.resolve(null);
 
-      const [articleResponse, imageUrl] = await Promise.all([articlePromise, imagePromise]);
+      const [articleResponse, imageUrl, galleryResults] = await Promise.all([articlePromise, imagePromise, galleryPromise]);
       const parsed = extractJSON(articleResponse);
 
       if (imageUrl) parsed.imageUrl = imageUrl;
+      if (galleryResults) {
+        parsed.galleryUrls = galleryResults.filter(Boolean);
+      }
+      // Note: Video generation logged as not yet supported via current AI gateway
+      if (generateVideo) {
+        console.log("Video generation requested but not yet available via AI gateway");
+      }
 
       return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }

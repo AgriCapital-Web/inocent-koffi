@@ -48,10 +48,10 @@ const Hero = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-accent/10 text-accent rounded-full text-xs sm:text-sm font-semibold">
-                Fondateur & DG AGRICAPITAL SARL
+                Fondateur & CEO — AGRICAPITAL SARL
               </span>
               <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold">
-                Développeur Full Stack & IA
+                Développeur Web | Praticien IA & Formateur
               </span>
             </motion.div>
             
@@ -78,7 +78,7 @@ const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              Entrepreneur agricole, développeur Full Stack et praticien de l'intelligence artificielle. 12 années d'immersion terrain en Côte d'Ivoire au service de l'agriculture et de l'innovation numérique.
+              Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire. 12+ années d'immersion terrain en Côte d'Ivoire au service de l'agriculture et de l'innovation numérique.
             </motion.p>
 
             <motion.div 

@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Smartphone } from "lucide-react";
+import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Smartphone, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -16,6 +16,16 @@ const projects = [
     icon: Globe,
     screenshot: "/images/projects/ivoireprojet.png",
     color: "from-emerald-600 to-emerald-800",
+  },
+  {
+    name: "ASSOJEREB",
+    url: "https://assojereb.ivoireprojet.com",
+    description: "Plateforme communautaire de l'Association des Jeunes Ressortissants de Brongonzué. Gestion des membres, cotisations, actualités et espace membre intégré.",
+    tech: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
+    category: "Plateforme Associative",
+    icon: Users,
+    screenshot: "/images/projects/assojereb.png",
+    color: "from-cyan-600 to-teal-700",
   },
   {
     name: "LegalForm CI",
@@ -94,8 +104,8 @@ const Portfolio = () => {
   return (
     <>
       <Helmet>
-        <title>Portfolio - Inocent KOFFI | Développeur Full Stack & IA</title>
-        <meta name="description" content="Portfolio d'Inocent KOFFI — Développeur Full Stack, praticien IA. Découvrez mes projets : LegalForm, AGRICAPITAL, IvoireProjet et plus." />
+        <title>Portfolio - Inocent KOFFI | Développeur Web & Praticien IA</title>
+        <meta name="description" content="Portfolio d'Inocent KOFFI — Entrepreneur Social, Développeur Web, Praticien IA & Formateur. Découvrez mes projets : LegalForm, AGRICAPITAL, IvoireProjet, ASSOJEREB et plus." />
       </Helmet>
 
       <div className="min-h-screen">
@@ -111,7 +121,7 @@ const Portfolio = () => {
               transition={{ duration: 0.5 }}
             >
               <Code className="inline w-4 h-4 mr-2" />
-              Développeur Full Stack & Praticien IA
+              Entrepreneur Social | Développeur Web | Praticien IA & Formateur
             </motion.span>
             <motion.h1 
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6"
@@ -127,8 +137,8 @@ const Portfolio = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Conception et développement d'applications web, e-commerce, CRM et solutions IA
-              pour des entreprises et organisations en Côte d'Ivoire et en Afrique.
+              Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, avec plus de 12 années d'immersion terrain
+              en Côte d'Ivoire — au service de l'agriculture, de l'innovation numérique et du développement local.
             </motion.p>
           </div>
         </section>

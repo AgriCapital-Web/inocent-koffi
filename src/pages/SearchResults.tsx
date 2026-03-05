@@ -4,8 +4,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, Printer, ExternalLink, BookOpen, ChevronRight, Search } from "lucide-react";
+import { ArrowLeft, Download, Printer, ExternalLink, BookOpen, ChevronRight, Search, BarChart3, Table2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, LineChart, Line } from "recharts";
 
 interface SearchResult {
   title: string;
@@ -15,6 +16,157 @@ interface SearchResult {
   references?: { title: string; url?: string; type?: string }[];
   relatedTopics?: string[];
 }
+
+// Extract table data from HTML content for interactive charts
+const extractTablesFromHTML = (html: string): Array<{ headers: string[]; rows: string[][] }> => {
+  const tables: Array<{ headers: string[]; rows: string[][] }> = [];
+  const tableRegex = /<table[^>]*>([\s\S]*?)<\/table>/gi;
+  let match;
+  while ((match = tableRegex.exec(html)) !== null) {
+    const tableHTML = match[1];
+    const headers: string[] = [];
+    const rows: string[][] = [];
+    const thRegex = /<th[^>]*>([\s\S]*?)<\/th>/gi;
+    let thMatch;
+    while ((thMatch = thRegex.exec(tableHTML)) !== null) {
+      headers.push(thMatch[1].replace(/<[^>]*>/g, '').trim());
+    }
+    const trRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+    let trMatch;
+    let isFirst = true;
+    while ((trMatch = trRegex.exec(tableHTML)) !== null) {
+      if (isFirst && headers.length > 0) { isFirst = false; continue; }
+      isFirst = false;
+      const tdRegex = /<td[^>]*>([\s\S]*?)<\/td>/gi;
+      const row: string[] = [];
+      let tdMatch;
+      while ((tdMatch = tdRegex.exec(trMatch[1])) !== null) {
+        row.push(tdMatch[1].replace(/<[^>]*>/g, '').trim());
+      }
+      if (row.length > 0) rows.push(row);
+    }
+    if (headers.length > 0 && rows.length > 0) tables.push({ headers, rows });
+  }
+  return tables;
+};
+
+// Convert table data to chart data
+const tableToChartData = (table: { headers: string[]; rows: string[][] }) => {
+  return table.rows.map(row => {
+    const obj: Record<string, any> = { name: row[0] || '' };
+    table.headers.slice(1).forEach((header, i) => {
+      const val = row[i + 1] || '0';
+      const num = parseFloat(val.replace(/[^0-9.,\-]/g, '').replace(',', '.'));
+      obj[header] = isNaN(num) ? val : num;
+    });
+    return obj;
+  });
+};
+
+const CHART_COLORS = ['hsl(var(--primary))', 'hsl(var(--accent))', '#10b981', '#f59e0b', '#6366f1', '#ec4899'];
+
+const InteractiveChart = ({ table }: { table: { headers: string[]; rows: string[][] } }) => {
+  const chartData = tableToChartData(table);
+  const numericHeaders = table.headers.slice(1).filter((_, i) => 
+    table.rows.some(row => !isNaN(parseFloat((row[i + 1] || '0').replace(/[^0-9.,\-]/g, '').replace(',', '.'))))
+  );
+
+  if (numericHeaders.length === 0) return null;
+
+  const isPieData = numericHeaders.length === 1 && chartData.length <= 8;
+
+  if (isPieData) {
+    const pieData = chartData.map((d, i) => ({
+      name: d.name,
+      value: d[numericHeaders[0]] || 0,
+      fill: CHART_COLORS[i % CHART_COLORS.length],
+    }));
+
+    return (
+      <motion.div 
+        className="my-6 p-6 bg-card border border-border rounded-xl"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <BarChart3 className="w-5 h-5 text-accent" />
+          <h4 className="font-semibold text-foreground">Visualisation graphique</h4>
+        </div>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}>
+              {pieData.map((entry, i) => (
+                <Cell key={i} fill={entry.fill} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div 
+      className="my-6 p-6 bg-card border border-border rounded-xl"
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+    >
+      <div className="flex items-center gap-2 mb-4">
+        <BarChart3 className="w-5 h-5 text-accent" />
+        <h4 className="font-semibold text-foreground">Tableau comparatif interactif</h4>
+      </div>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+          <XAxis dataKey="name" tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
+          <YAxis tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
+          <Tooltip contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px' }} />
+          <Legend />
+          {numericHeaders.map((header, i) => (
+            <Bar key={header} dataKey={header} fill={CHART_COLORS[i % CHART_COLORS.length]} radius={[4, 4, 0, 0]} />
+          ))}
+        </BarChart>
+      </ResponsiveContainer>
+    </motion.div>
+  );
+};
+
+// Enhanced HTML table rendering
+const EnhancedTable = ({ table }: { table: { headers: string[]; rows: string[][] } }) => (
+  <motion.div 
+    className="my-6 overflow-x-auto"
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+  >
+    <div className="flex items-center gap-2 mb-3">
+      <Table2 className="w-4 h-4 text-accent" />
+      <span className="text-sm font-medium text-muted-foreground">Données comparatives</span>
+    </div>
+    <table className="w-full border-collapse text-sm rounded-xl overflow-hidden shadow-sm">
+      <thead>
+        <tr className="bg-primary text-primary-foreground">
+          {table.headers.map((h, i) => (
+            <th key={i} className="px-4 py-3 text-left font-semibold">{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {table.rows.map((row, ri) => (
+          <tr key={ri} className={ri % 2 === 0 ? 'bg-card' : 'bg-muted/30'}>
+            {row.map((cell, ci) => (
+              <td key={ci} className="px-4 py-3 border-b border-border/50">{cell}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </motion.div>
+);
 
 const SearchResults = () => {
   const [result, setResult] = useState<SearchResult | null>(null);
@@ -87,7 +239,7 @@ const SearchResults = () => {
         <div class="signature">
           <strong>Inocent KOFFI</strong> — Innovation & Consultation<br/>
           <a href="https://ikoffi.agricapital.ci">ikoffi.agricapital.ci</a><br/>
-          <span>Fondateur & DG AGRICAPITAL SARL | Développeur Full Stack & IA</span>
+          <span>Fondateur & CEO AGRICAPITAL SARL | Développeur Web & Praticien IA</span>
         </div>
       </body>
       </html>
@@ -97,6 +249,9 @@ const SearchResults = () => {
   };
 
   if (!result) return null;
+
+  // Extract tables from all sections for charts
+  const allTables = result.sections?.flatMap(s => extractTablesFromHTML(s.content)) || [];
 
   return (
     <>
@@ -173,6 +328,23 @@ const SearchResults = () => {
               </motion.div>
             )}
 
+            {/* Interactive Charts from tables */}
+            {allTables.length > 0 && (
+              <motion.div
+                className="mb-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+              >
+                {allTables.map((table, i) => (
+                  <div key={i}>
+                    <InteractiveChart table={table} />
+                    <EnhancedTable table={table} />
+                  </div>
+                ))}
+              </motion.div>
+            )}
+
             {/* Sections */}
             {result.sections?.map((section, i) => (
               <motion.div 
@@ -232,7 +404,7 @@ const SearchResults = () => {
               </div>
             )}
 
-            {/* Signature / Watermark */}
+            {/* Signature */}
             <div className="text-center py-8 border-t border-border mt-8">
               <p className="text-xs text-muted-foreground/40 uppercase tracking-widest mb-1">
                 Inocent KOFFI — Innovation & Consultation
@@ -241,7 +413,7 @@ const SearchResults = () => {
                 ikoffi.agricapital.ci
               </a>
               <p className="text-[10px] text-muted-foreground/30 mt-1">
-                Fondateur & DG AGRICAPITAL SARL | Développeur Full Stack & IA
+                Fondateur & CEO AGRICAPITAL SARL | Développeur Web & Praticien IA
               </p>
             </div>
           </div>
