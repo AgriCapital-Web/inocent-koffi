@@ -28,8 +28,19 @@ IMPORTANT:
 - Inclus des données chiffrées quand possible
 - Mentionne les sources et références fiables
 - Détecte et évite les fausses informations
-- Si applicable, inclus des tableaux comparatifs en format HTML
+- Inclus OBLIGATOIREMENT au moins un tableau comparatif HTML bien formaté quand c'est pertinent (données chiffrées, comparaisons entre pays, périodes, cultures, etc.)
 - Fournis des liens vers des ressources fiables (FAO, Banque Mondiale, ministères, etc.)
+
+FORMAT DES TABLEAUX HTML (obligatoire si données comparables):
+<table style="width:100%;border-collapse:collapse;font-size:0.95em;">
+  <thead><tr style="background:#1e3a5f;color:white;">
+    <th style="padding:10px 14px;text-align:left;">Colonne</th>
+  </tr></thead>
+  <tbody>
+    <tr style="background:#fff;"><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;">Données</td></tr>
+    <tr style="background:#f8fafc;"><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;">Données</td></tr>
+  </tbody>
+</table>
 
 Format de réponse en JSON:
 {
@@ -57,7 +68,7 @@ Format de réponse en JSON:
         model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: `Recherche approfondie sur : "${query}". Fournis une analyse complète, structurée et vérifiée.` },
+          { role: "user", content: `Recherche approfondie sur : "${query}". Fournis une analyse complète, structurée et vérifiée. INCLUS un tableau comparatif avec des données chiffrées si applicable.` },
         ],
         tools: [
           {
@@ -133,7 +144,6 @@ Format de réponse en JSON:
         ? JSON.parse(toolCall.function.arguments) 
         : toolCall.function.arguments;
     } else {
-      // Fallback: try to parse from content
       const content = data.choices?.[0]?.message?.content || "";
       try {
         result = JSON.parse(content);

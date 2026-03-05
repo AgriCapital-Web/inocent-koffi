@@ -81,72 +81,102 @@ const GeneratePopup = ({
 }: {
   open: boolean;
   onClose: () => void;
-  onGenerate: (withImage: boolean) => void;
+  onGenerate: (option: string) => void;
   isLoading: boolean;
-}) => (
-  <Dialog open={open} onOpenChange={onClose}>
-    <DialogContent className="sm:max-w-md">
-      <DialogHeader>
-        <DialogTitle className="flex items-center gap-2 text-xl">
-          <Sparkles className="w-6 h-6 text-primary" />
-          Générer avec l'IA
-        </DialogTitle>
-        <DialogDescription>
-          L'IA va analyser votre texte et remplir automatiquement tous les champs du formulaire : titre, accroche, catégorie, hashtags, contenu structuré...
-        </DialogDescription>
-      </DialogHeader>
+}) => {
+  const options = [
+    {
+      id: "with_image",
+      icon: <ImageIcon className="w-6 h-6 text-primary" />,
+      title: "Avec image générée par IA",
+      desc: "L'IA génère une image unique, ultra-réaliste, cohérente avec le sujet traité.",
+      tags: ["Réaliste", "Professionnelle", "Sans watermark"],
+      highlight: true,
+    },
+    {
+      id: "with_video",
+      icon: <Video className="w-6 h-6 text-indigo-500" />,
+      title: "Avec vidéo IA",
+      desc: "L'IA génère une vidéo courte, sobre et professionnelle, adaptée au contexte éditorial.",
+      tags: ["Vidéo courte", "Sobre", "Professionnel"],
+    },
+    {
+      id: "with_video_image",
+      icon: <><ImageIcon className="w-5 h-5 text-primary" /><Video className="w-5 h-5 text-indigo-500" /></>,
+      title: "Avec vidéo et image",
+      desc: "Combinaison d'une image principale et d'une vidéo complémentaire.",
+      tags: ["Image + Vidéo", "Complet"],
+    },
+    {
+      id: "with_gallery",
+      icon: <ImageIcon className="w-6 h-6 text-emerald-500" />,
+      title: "Avec plusieurs images",
+      desc: "L'IA génère une galerie d'images thématiques cohérentes, adaptées au sujet.",
+      tags: ["Galerie", "Multiple", "Thématique"],
+    },
+    {
+      id: "no_media",
+      icon: <ImageOff className="w-6 h-6 text-muted-foreground" />,
+      title: "Sans image",
+      desc: "Génération textuelle pure. Vous pourrez ajouter des médias manuellement.",
+      tags: [],
+    },
+  ];
 
-      <div className="space-y-4 mt-2">
-        <p className="text-sm font-medium text-foreground">Souhaitez-vous une image générée par l'IA ?</p>
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2 text-xl">
+            <Sparkles className="w-6 h-6 text-primary" />
+            Générer avec l'IA
+          </DialogTitle>
+          <DialogDescription>
+            L'IA va analyser votre texte et remplir automatiquement tous les champs : titre, accroche, catégorie, hashtags, contenu structuré, médias...
+          </DialogDescription>
+        </DialogHeader>
 
-        <div className="grid grid-cols-1 gap-3">
-          <button
-            onClick={() => onGenerate(true)}
-            disabled={isLoading}
-            className="group relative flex items-start gap-4 p-4 border-2 border-border rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-left disabled:opacity-50"
-          >
-            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-              {isLoading ? <Loader2 className="w-6 h-6 animate-spin text-primary" /> : <ImageIcon className="w-6 h-6 text-primary" />}
-            </div>
-            <div>
-              <p className="font-semibold text-foreground">Avec image générée par IA</p>
-              <p className="text-sm text-muted-foreground mt-1">L'IA génère une image réaliste, professionnelle et cohérente avec le sujet de l'article.</p>
-              <div className="flex flex-wrap gap-1 mt-2">
-                {["Réaliste", "Professionnelle", "Sans watermark"].map(tag => (
-                  <span key={tag} className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{tag}</span>
-                ))}
+        <div className="space-y-3 mt-2">
+          <p className="text-sm font-medium text-foreground">Choisissez le type de génération :</p>
+
+          {options.map((opt) => (
+            <button
+              key={opt.id}
+              onClick={() => onGenerate(opt.id)}
+              disabled={isLoading}
+              className={`group relative flex items-start gap-4 p-4 border-2 rounded-xl hover:border-primary hover:bg-primary/5 transition-all text-left w-full disabled:opacity-50 ${opt.highlight ? 'border-primary/30 bg-primary/5' : 'border-border'}`}
+            >
+              <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center gap-1 group-hover:scale-105 transition-transform">
+                {isLoading ? <Loader2 className="w-6 h-6 animate-spin text-primary" /> : opt.icon}
+              </div>
+              <div>
+                <p className="font-semibold text-foreground text-sm">{opt.title}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{opt.desc}</p>
+                {opt.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {opt.tags.map(tag => (
+                      <span key={tag} className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </button>
+          ))}
+
+          {isLoading && (
+            <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg">
+              <Loader2 className="w-5 h-5 animate-spin text-primary flex-shrink-0" />
+              <div>
+                <p className="text-sm font-medium text-primary">Génération en cours...</p>
+                <p className="text-xs text-muted-foreground">L'IA analyse, structure et génère votre contenu. 15–45 secondes.</p>
               </div>
             </div>
-          </button>
-
-          <button
-            onClick={() => onGenerate(false)}
-            disabled={isLoading}
-            className="group flex items-start gap-4 p-4 border-2 border-border rounded-xl hover:border-muted-foreground hover:bg-muted/30 transition-all text-left disabled:opacity-50"
-          >
-            <div className="flex-shrink-0 w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-              <ImageOff className="w-6 h-6 text-muted-foreground" />
-            </div>
-            <div>
-              <p className="font-semibold text-foreground">Sans image</p>
-              <p className="text-sm text-muted-foreground mt-1">Génération rapide du contenu texte uniquement. Vous pourrez ajouter une image manuellement.</p>
-            </div>
-          </button>
+          )}
         </div>
-
-        {isLoading && (
-          <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg">
-            <Loader2 className="w-5 h-5 animate-spin text-primary flex-shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-primary">Génération en cours...</p>
-              <p className="text-xs text-muted-foreground">L'IA analyse et structure votre contenu. Cela peut prendre 15–30 secondes.</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </DialogContent>
-  </Dialog>
-);
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 // ─── Media Item Component ─────────────────────────────────────────────────────
 const MediaItem = ({
@@ -375,19 +405,25 @@ const AdminBlogEnhanced = () => {
     }
   };
 
-  // ── AI: Generate full article ─────────────────────────────────────────────
-  const handleGenerateFullArticle = async (withImage: boolean) => {
+  // ── AI: Generate full article (5 options) ──────────────────────────────────
+  const handleGenerateFullArticle = async (option: string) => {
     if (!content.trim()) {
       toast({ title: "Texte requis", description: "Entrez au moins un mot dans le contenu", variant: "destructive" });
       return;
     }
     setGenerateLoading(true);
     try {
+      const generateImage = option === "with_image" || option === "with_video_image" || option === "with_gallery";
+      const generateVideo = option === "with_video" || option === "with_video_image";
+      const generateGallery = option === "with_gallery";
+
       const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
         body: { 
           content: content.trim(),
           action: 'generate_full_article',
-          generateImage: withImage,
+          generateImage,
+          generateVideo,
+          generateGallery,
           categories: categories?.map(c => ({ id: c.id, name: c.name }))
         }
       });
@@ -403,13 +439,32 @@ const AdminBlogEnhanced = () => {
         const match = findCategoryByName(data.suggested_category);
         if (match) setCategoryId(match.id);
       }
-      if (withImage && data.imageUrl) {
+
+      // Handle generated media
+      const newMedia: Array<{ url: string; name: string; type: string }> = [];
+      if (data.imageUrl) {
         setFeaturedImage(data.imageUrl);
-        setMediaFiles(prev => [{ url: data.imageUrl, name: "ia-generated.png", type: "image/png" }, ...prev]);
-        toast({ title: "Article + image générés ✓", description: "L'article complet et l'image ont été créés par l'IA" });
-      } else {
-        toast({ title: "Article généré ✓", description: "L'IA a rempli tous les champs automatiquement" });
+        newMedia.push({ url: data.imageUrl, name: "ia-generated.png", type: "image/png" });
       }
+      if (data.galleryUrls?.length) {
+        data.galleryUrls.forEach((url: string, i: number) => {
+          newMedia.push({ url, name: `ia-gallery-${i + 1}.png`, type: "image/png" });
+          if (!data.imageUrl && i === 0) setFeaturedImage(url);
+        });
+      }
+      if (newMedia.length > 0) {
+        setMediaFiles(prev => [...newMedia, ...prev]);
+      }
+
+      const parts = [];
+      if (generateImage || generateGallery) parts.push("image(s)");
+      if (generateVideo) parts.push("vidéo");
+      parts.push("article");
+      
+      toast({ 
+        title: `${parts.join(' + ')} généré(s) ✓`, 
+        description: "L'IA a rempli tous les champs automatiquement" 
+      });
       setGeneratePopupOpen(false);
     } catch (e: any) {
       toast({ title: "Erreur IA", description: e.message, variant: "destructive" });
