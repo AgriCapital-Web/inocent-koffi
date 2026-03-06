@@ -305,11 +305,14 @@ const AdminBlogEnhanced = () => {
 
   const saveMutation = useMutation({
     mutationFn: async (postData: any) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Vous devez être connecté pour enregistrer un article");
+      
       if (editingPost) {
         const { error } = await supabase.from('blog_posts').update(postData).eq('id', editingPost.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from('blog_posts').insert([postData]);
+        const { error } = await supabase.from('blog_posts').insert([{ ...postData, author_id: user.id }]);
         if (error) throw error;
       }
     },
@@ -326,6 +329,11 @@ const AdminBlogEnhanced = () => {
 
   const publishMutation = useMutation({
     mutationFn: async ({ id, publish }: { id: string; publish: boolean }) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Vous devez être connecté");
+      // Use RPC or direct update - ensure author_id is set
+      const { error: updateAuthorError } = await supabase.from('blog_posts').update({ author_id: user.id }).eq('id', id).is('author_id', null);
+      // Ignore error if author_id already set
       const { error } = await supabase.from('blog_posts').update({ is_published: publish, published_at: publish ? new Date().toISOString() : null }).eq('id', id);
       if (error) throw error;
     },

@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_shares: {
+        Row: {
+          created_at: string
+          id: string
+          platform: string
+          post_id: string
+          session_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          platform?: string
+          post_id: string
+          session_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          platform?: string
+          post_id?: string
+          session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_shares_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       article_views: {
         Row: {
           city: string | null

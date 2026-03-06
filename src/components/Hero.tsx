@@ -78,7 +78,7 @@ const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire. 12+ années d'immersion terrain en Côte d'Ivoire au service de l'agriculture et de l'innovation numérique.
+              Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire. 12+ années d'immersion terrain en Côte d'Ivoire au service du développement commercial, de l'agriculture et de l'innovation numérique.
             </motion.p>
 
             <motion.div 

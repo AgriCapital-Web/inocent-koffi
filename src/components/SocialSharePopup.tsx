@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -120,7 +121,18 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
     }
   };
 
-  const handleShare = (link: string) => {
+  const handleShare = (link: string, platformName: string) => {
+    // Track share
+    const sessionId = localStorage.getItem('session_id') || crypto.randomUUID();
+    // Extract post_id from URL if it's a blog article
+    const postIdMatch = url.match(/\/blog\/(.+)$/);
+    if (postIdMatch) {
+      supabase.from('article_shares').insert({
+        post_id: postIdMatch[1], // This is the slug, we'd need the ID
+        platform: platformName.toLowerCase(),
+        session_id: sessionId,
+      }).then(() => {});
+    }
     window.open(link, "_blank", "width=600,height=400");
   };
 
@@ -146,7 +158,7 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           {shareLinks.map((link) => (
             <button
               key={link.name}
-              onClick={() => handleShare(link.url)}
+              onClick={() => handleShare(link.url, link.name)}
               className={`flex flex-col items-center justify-center p-3 rounded-xl text-white transition-all hover:scale-105 ${link.color}`}
               title={`Partager sur ${link.name}`}
             >

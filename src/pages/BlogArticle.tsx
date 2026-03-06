@@ -155,20 +155,28 @@ const BlogArticle = () => {
   return (
     <>
       <Helmet>
-        <title>{post.title} - Blog AGRICAPITAL | Inocent KOFFI</title>
+        <title>{post.title} - Blog | Inocent KOFFI</title>
         <meta name="description" content={post.excerpt || post.title} />
         <link rel="canonical" href={articleUrl} />
+        
+        {/* Article-specific OG - overrides index.html defaults */}
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt || post.title} />
-        {post.featured_image && <meta property="og:image" content={post.featured_image} />}
+        <meta property="og:image" content={post.featured_image || 'https://ikoffi.agricapital.ci/og-image-profile.png'} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:url" content={articleUrl} />
+        <meta property="og:site_name" content="Inocent KOFFI - AGRICAPITAL" />
         <meta property="article:published_time" content={post.published_at || post.created_at} />
         <meta property="article:author" content="Inocent KOFFI" />
+        
+        {/* Twitter - article specific */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.excerpt || post.title} />
-        {post.featured_image && <meta name="twitter:image" content={post.featured_image} />}
+        <meta name="twitter:image" content={post.featured_image || 'https://ikoffi.agricapital.ci/og-image-profile.png'} />
+        
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
