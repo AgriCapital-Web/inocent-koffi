@@ -138,7 +138,7 @@ const Portfolio = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, avec plus de 12 années d'immersion terrain
-              en Côte d'Ivoire — au service de l'agriculture, de l'innovation numérique et du développement local.
+              en Côte d'Ivoire — au service du développement commercial, de l'agriculture, de l'innovation numérique et du développement local.
             </motion.p>
           </div>
         </section>

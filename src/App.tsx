@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-ro
 import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/hooks/useLanguage";
 import { useEffect } from "react";
+import ScrollToTop from "@/components/ScrollToTop";
 import Home from "./pages/Home";
 import APropos from "./pages/APropos";
 import Vision from "./pages/Vision";
@@ -102,6 +103,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <LanguageProvider>
+            <ScrollToTop />
             <AppRoutes />
           </LanguageProvider>
         </BrowserRouter>

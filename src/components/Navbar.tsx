@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LanguageSelector from "@/components/LanguageSelector";
+import VisitorCounter from "@/components/VisitorCounter";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -84,11 +85,13 @@ const Navbar = () => {
                 {link.label}
               </motion.button>
             ))}
+            <VisitorCounter />
             <LanguageSelector />
           </div>
 
           {/* Mobile Menu Button */}
           <div className="xl:hidden flex items-center gap-2">
+            <VisitorCounter />
             <LanguageSelector />
             <button
               className="text-foreground p-2"

@@ -41,11 +41,25 @@ const APropos = () => {
                   {/* Content Section */}
                   <div className="space-y-6">
                     <div className="bg-card rounded-2xl p-6 border border-border/50">
+                      <h2 className="text-2xl font-bold text-foreground mb-2">Inocent KOFFI</h2>
                       <p className="text-lg text-foreground leading-relaxed font-medium">
-                        Fondateur et Directeur Général d'<strong className="text-primary">AGRICAPITAL SARL</strong>, Le partenaire idéal des producteurs agricoles, entreprise au capital social de 5 000 000 FCFA, basée à Daloa (Haut-Sassandra) et immatriculée au Registre du Commerce et du Crédit Mobilier sous le numéro CI-01-DAL-2025-B12-13435.
+                        Fondateur & CEO — <strong className="text-primary">AGRICAPITAL SARL</strong>
                       </p>
                     </div>
 
+                    <p className="text-lg text-muted-foreground leading-relaxed italic">
+                      Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire
+                    </p>
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, Inocent KOFFI cumule 
+                      plus de 12 années d'immersion terrain en Côte d'Ivoire — dans le service technico-commercial et le recouvrement 
+                      de créances, le développement commercial, l'énergie renouvelable, l'agriculture et l'innovation numérique.
+                    </p>
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      Fort de ce parcours pluridisciplinaire ancré dans les réalités du terrain, il place aujourd'hui la technologie 
+                      et l'agriculture au cœur d'une vision commune : faire de l'innovation un levier concret au service des communautés 
+                      et du développement local. Fondateur et CEO d'AGRICAPITAL SARL, il initie et porte des projets à fort impact social.
+                    </p>
                     <p className="text-lg text-muted-foreground leading-relaxed">
                       AGRICAPITAL est spécialisée dans l'accompagnement agricole et les services intégrés, avec pour mission d'ouvrir l'accès à la filière palmier à huile grâce à un modèle structuré, durable et sans barrière financière, reposant sur un financement adapté et un encadrement professionnel.
                     </p>
