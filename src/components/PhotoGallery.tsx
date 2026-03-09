@@ -12,7 +12,6 @@ interface GalleryImage {
 }
 
 const galleryImages: GalleryImage[] = [
-  // Lancement
   { id: '1', src: '/images/gallery/launch-1.jpg', alt: 'Lancement AGRICAPITAL - Installation pépinière', category: 'launch' },
   { id: '2', src: '/images/gallery/launch-2.jpg', alt: 'Lancement AGRICAPITAL - Équipe terrain', category: 'launch' },
   { id: '3', src: '/images/gallery/launch-3.jpg', alt: 'Lancement AGRICAPITAL - Partenaires locaux', category: 'launch' },
@@ -20,12 +19,10 @@ const galleryImages: GalleryImage[] = [
   { id: '5', src: '/images/gallery/launch-5.jpg', alt: 'Lancement AGRICAPITAL - Site de pépinière', category: 'launch' },
   { id: '6', src: '/images/gallery/launch-6.jpg', alt: 'Lancement AGRICAPITAL - Sensibilisation', category: 'launch' },
   { id: '7', src: '/images/gallery/launch-7.jpg', alt: 'Lancement AGRICAPITAL - Opérations techniques', category: 'launch' },
-  // Jalons du projet
   { id: '8', src: '/images/gallery/jalon-1.jpg', alt: 'Jalon du projet - Évolution pépinière Nov 2025', category: 'launch' },
   { id: '9', src: '/images/gallery/jalon-2.jpg', alt: 'Jalon du projet - Installation système irrigation', category: 'launch' },
   { id: '10', src: '/images/gallery/jalon-3.jpg', alt: 'Jalon du projet - Équipe technique sur le terrain', category: 'launch' },
   { id: '11', src: '/images/gallery/jalon-4.jpg', alt: 'Jalon du projet - Plants Tenera certifiés', category: 'launch' },
-  // Communauté
   { id: '12', src: '/images/gallery/community-1.jpg', alt: 'Réunion communautaire - Village 1', category: 'community' },
   { id: '13', src: '/images/gallery/community-2.jpg', alt: 'Réunion communautaire - Producteurs', category: 'community' },
   { id: '14', src: '/images/gallery/community-3.png', alt: 'Réunion communautaire - Sensibilisation', category: 'community' },
@@ -36,7 +33,6 @@ const galleryImages: GalleryImage[] = [
   { id: '19', src: '/images/gallery/community-meeting-3.png', alt: 'Rassemblement communautaire - Sensibilisation rurale', category: 'community' },
   { id: '20', src: '/images/gallery/community-meeting-4.jpg', alt: 'Rassemblement communautaire - Engagement des villages', category: 'community' },
   { id: '21', src: '/images/gallery/community-meeting-5.jpg', alt: 'Rassemblement communautaire - Partenariat terrain', category: 'community' },
-  // Pépinière et évolution du projet
   { id: '22', src: '/images/gallery/nursery-1.jpg', alt: 'Pépinière de palmiers à huile - 100+ hectares', category: 'nursery' },
   { id: '23', src: '/images/gallery/nursery-2.jpg', alt: 'Pépinière AgriCapital - Décembre 2025', category: 'nursery' },
   { id: '24', src: '/images/nursery-palm.jpg', alt: 'Plants de palmiers - Modèle inclusif', category: 'nursery' },
@@ -55,10 +51,12 @@ const PhotoGallery = () => {
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
   const filteredImages = activeFilter === 'all' 
-    ? galleryImages 
-    : galleryImages.filter(img => img.category === activeFilter);
+    ? galleryImages.filter(img => !failedImages.has(img.src))
+    : galleryImages.filter(img => img.category === activeFilter && !failedImages.has(img.src));
 
   const openLightbox = (image: GalleryImage, index: number) => {
     setSelectedImage(image);
@@ -71,6 +69,14 @@ const PhotoGallery = () => {
       : (selectedIndex - 1 + filteredImages.length) % filteredImages.length;
     setSelectedIndex(newIndex);
     setSelectedImage(filteredImages[newIndex]);
+  };
+
+  const handleImageLoad = (src: string) => {
+    setLoadedImages(prev => new Set(prev).add(src));
+  };
+
+  const handleImageError = (src: string) => {
+    setFailedImages(prev => new Set(prev).add(src));
   };
 
   return (
@@ -89,7 +95,6 @@ const PhotoGallery = () => {
           </p>
         </div>
 
-        {/* Filters */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {filters.map((filter) => (
             <Button
@@ -97,36 +102,44 @@ const PhotoGallery = () => {
               variant={activeFilter === filter.key ? "default" : "outline"}
               size="sm"
               onClick={() => setActiveFilter(filter.key)}
-              className="transition-all"
+              className="transition-all text-xs sm:text-sm"
             >
               {filter.label}
             </Button>
           ))}
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {filteredImages.map((image, index) => (
             <div
               key={image.id}
-              className="relative group aspect-square overflow-hidden rounded-xl cursor-pointer"
+              className="relative group aspect-square overflow-hidden rounded-xl cursor-pointer bg-muted"
               onClick={() => openLightbox(image, index)}
             >
               <img
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${
+                  loadedImages.has(image.src) ? 'opacity-100' : 'opacity-0'
+                }`}
                 loading="lazy"
+                decoding="async"
+                onLoad={() => handleImageLoad(image.src)}
+                onError={() => handleImageError(image.src)}
               />
+              {!loadedImages.has(image.src) && !failedImages.has(image.src) && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <p className="text-sm font-medium line-clamp-2">{image.alt}</p>
+              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <p className="text-xs sm:text-sm font-medium line-clamp-2">{image.alt}</p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Lightbox */}
         <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
           <DialogContent className="max-w-5xl p-0 bg-black/95 border-none">
             <div className="relative">
@@ -163,6 +176,7 @@ const PhotoGallery = () => {
                     src={selectedImage.src}
                     alt={selectedImage.alt}
                     className="max-h-[80vh] w-auto object-contain"
+                    loading="eager"
                   />
                   <p className="text-white text-center py-4 px-6">{selectedImage.alt}</p>
                 </div>

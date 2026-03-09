@@ -15,16 +15,16 @@ const APropos = () => {
         <Navbar />
         <main className="pt-20">
           {/* Hero Section */}
-          <section className="py-20 bg-gradient-to-br from-background via-secondary/30 to-background">
+          <section className="py-12 sm:py-20 bg-gradient-to-br from-background via-secondary/30 to-background">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-12">
-                  <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-foreground">
+                <div className="text-center mb-8 sm:mb-12">
+                  <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 text-foreground">
                     À <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Propos</span>
                   </h1>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-12 items-start">
+                <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
                   {/* Photo Section */}
                   <div className="flex justify-center lg:justify-start">
                     <div className="relative">
@@ -32,48 +32,48 @@ const APropos = () => {
                       <img 
                         src={profilePhoto} 
                         alt="Inocent KOFFI - Fondateur AGRICAPITAL SARL" 
-                        className="relative rounded-3xl shadow-2xl max-w-md w-full h-auto object-cover"
+                        className="relative rounded-3xl shadow-2xl max-w-sm sm:max-w-md w-full h-auto object-cover"
                         loading="eager"
                       />
                     </div>
                   </div>
 
                   {/* Content Section */}
-                  <div className="space-y-6">
-                    <div className="bg-card rounded-2xl p-6 border border-border/50">
-                      <h2 className="text-2xl font-bold text-foreground mb-2">Inocent KOFFI</h2>
-                      <p className="text-lg text-foreground leading-relaxed font-medium">
+                  <div className="space-y-4 sm:space-y-6">
+                    <div className="bg-card rounded-2xl p-4 sm:p-6 border border-border/50">
+                      <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Inocent KOFFI</h2>
+                      <p className="text-base sm:text-lg text-foreground leading-relaxed font-medium">
                         Fondateur & CEO — <strong className="text-primary">AGRICAPITAL SARL</strong>
                       </p>
                     </div>
 
-                    <p className="text-lg text-muted-foreground leading-relaxed italic">
-                      Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire
+                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed italic">
+                      Visionnaire | Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire
                     </p>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
+                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                       Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, Inocent KOFFI cumule 
-                      plus de 12 années d'immersion terrain en Côte d'Ivoire — dans le service technico-commercial et le recouvrement 
-                      de créances, le développement commercial, l'énergie renouvelable, l'agriculture et l'innovation numérique.
+                      plus de 12 années d'immersion terrain en Côte d'Ivoire — au service du développement commercial, le recouvrement 
+                      de créances, l'énergie renouvelable, l'agriculture et l'innovation numérique.
                     </p>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
+                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                       Fort de ce parcours pluridisciplinaire ancré dans les réalités du terrain, il place aujourd'hui la technologie 
                       et l'agriculture au cœur d'une vision commune : faire de l'innovation un levier concret au service des communautés 
                       et du développement local. Fondateur et CEO d'AGRICAPITAL SARL, il initie et porte des projets à fort impact social.
                     </p>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
+                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                       AGRICAPITAL est spécialisée dans l'accompagnement agricole et les services intégrés, avec pour mission d'ouvrir l'accès à la filière palmier à huile grâce à un modèle structuré, durable et sans barrière financière, reposant sur un financement adapté et un encadrement professionnel.
                     </p>
 
-                    <div className="flex flex-wrap gap-4 pt-4">
+                    <div className="flex flex-wrap gap-3 sm:gap-4 pt-4">
                       <a 
                         href="tel:+2250759566087" 
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm sm:text-base"
                       >
                         <span className="font-medium">07 59 56 60 87</span>
                       </a>
                       <a 
                         href="mailto:contact@agricapital.ci" 
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent-foreground rounded-lg hover:bg-accent/20 transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent-foreground rounded-lg hover:bg-accent/20 transition-colors text-sm sm:text-base"
                       >
                         <span className="font-medium">contact@agricapital.ci</span>
                       </a>
@@ -85,14 +85,14 @@ const APropos = () => {
           </section>
 
           {/* 12 Years Experience Section */}
-          <section className="py-20 bg-secondary/30">
+          <section className="py-12 sm:py-20 bg-secondary/30">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-8 text-center text-foreground">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-foreground">
                   12 années d'<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">immersion</span> sur le terrain
                 </h2>
 
-                <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+                <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
                   <p>
                     De 2012 à 2024, mon modeste parcours professionnel m'a conduit dans plus de <strong className="text-foreground">360 localités</strong> à travers <strong className="text-foreground">8 régions de Côte d'Ivoire</strong> : Loh-Djiboua, Gôh, Nawa, Gboklè, Grands-Ponts, Agnéby-Tiassa, Haut-Sassandra et Marahoué.
                   </p>
@@ -101,7 +101,7 @@ const APropos = () => {
                     Cette immersion profonde dans les villages, campements et hameaux m'a permis de :
                   </p>
 
-                  <ul className="space-y-3 pl-6">
+                  <ul className="space-y-3 pl-4 sm:pl-6">
                     <li className="flex items-start gap-3">
                       <span className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
                       <span>comprendre les réalités quotidiennes des producteurs agricoles ;</span>
@@ -120,7 +120,7 @@ const APropos = () => {
                     </li>
                   </ul>
 
-                  <p className="italic border-l-4 border-accent pl-6 py-2">
+                  <p className="italic border-l-4 border-accent pl-4 sm:pl-6 py-2">
                     Ces 12 années d'écoute, d'observation, d'apprentissage et de collaboration ont façonné une compréhension intime du monde paysan et constituent les fondations de ma vision.
                   </p>
                 </div>
@@ -129,21 +129,21 @@ const APropos = () => {
           </section>
 
           {/* Structured Model Section */}
-          <section className="py-20 bg-background">
+          <section className="py-12 sm:py-20 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-8 text-center text-foreground">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-foreground">
                   La naissance d'un modèle <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">structuré et durable</span>
                 </h2>
 
-                <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+                <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
                   <p>
                     De cette expérience est née une ambition : bâtir un <strong className="text-foreground">écosystème agricole intégré</strong>, permettant à chaque jeune Africain de se développer durablement depuis son milieu d'origine grâce à l'agriculture.
                   </p>
 
                   <p>Ce modèle repose sur :</p>
 
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
                     {[
                       "Un financement adapté, pensé pour lever les obstacles financiers",
                       "Un accompagnement technique complet et structuré",
@@ -153,16 +153,16 @@ const APropos = () => {
                       "Un cadre sécurisé, équitable et sans barrière financière",
                       "Une approche humaine et durable au service des communautés rurales et de la société"
                     ].map((item, index) => (
-                      <div key={index} className="flex items-start gap-3 p-4 bg-card rounded-xl border border-border/50">
+                      <div key={index} className="flex items-start gap-3 p-3 sm:p-4 bg-card rounded-xl border border-border/50">
                         <span className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                           {index + 1}
                         </span>
-                        <span className="text-foreground">{item}</span>
+                        <span className="text-foreground text-sm sm:text-base">{item}</span>
                       </div>
                     ))}
                   </div>
 
-                  <p className="text-center text-lg font-medium text-foreground mt-8">
+                  <p className="text-center text-base sm:text-lg font-medium text-foreground mt-8">
                     Cette vision guide aujourd'hui la mission d'<strong className="text-primary">AGRICAPITAL SARL</strong>, ambitieuse de contribuer à un secteur agricole plus moderne, plus inclusif, générateur d'emplois et véritablement prospère.
                   </p>
                 </div>

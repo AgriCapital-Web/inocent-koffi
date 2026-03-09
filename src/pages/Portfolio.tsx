@@ -105,26 +105,26 @@ const Portfolio = () => {
     <>
       <Helmet>
         <title>Portfolio - Inocent KOFFI | Développeur Web & Praticien IA</title>
-        <meta name="description" content="Portfolio d'Inocent KOFFI — Entrepreneur Social, Développeur Web, Praticien IA & Formateur. Découvrez mes projets : LegalForm, AGRICAPITAL, IvoireProjet, ASSOJEREB et plus." />
+        <meta name="description" content="Portfolio d'Inocent KOFFI — Visionnaire, Entrepreneur Social, Développeur Web, Praticien IA & Formateur. Découvrez mes projets : LegalForm, AGRICAPITAL, IvoireProjet, ASSOJEREB et plus." />
       </Helmet>
 
       <div className="min-h-screen">
         <Navbar />
 
         {/* Hero */}
-        <section className="pt-24 pb-16 bg-gradient-to-br from-background via-secondary to-background">
+        <section className="pt-24 pb-12 sm:pb-16 bg-gradient-to-br from-background via-secondary to-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
             <motion.span 
-              className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-semibold mb-6"
+              className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-xs sm:text-sm font-semibold mb-6"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
             >
               <Code className="inline w-4 h-4 mr-2" />
-              Entrepreneur Social | Développeur Web | Praticien IA & Formateur
+              Visionnaire | Entrepreneur Social | Développeur Web | Praticien IA & Formateur
             </motion.span>
             <motion.h1 
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6"
+              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -132,22 +132,22 @@ const Portfolio = () => {
               Mes <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Réalisations</span>
             </motion.h1>
             <motion.p 
-              className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, avec plus de 12 années d'immersion terrain
-              en Côte d'Ivoire — au service du développement commercial, de l'agriculture, de l'innovation numérique et du développement local.
+              Visionnaire | Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, avec plus de 12 années d'immersion terrain
+              en Côte d'Ivoire — au service du développement commercial, le recouvrement de créances, de l'agriculture, de l'innovation numérique et du développement local.
             </motion.p>
           </div>
         </section>
 
         {/* Projects Grid */}
-        <section className="py-16 bg-background">
+        <section className="py-12 sm:py-16 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.h2 
-              className="text-3xl font-bold text-center mb-12 text-foreground"
+              className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12 text-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -155,7 +155,7 @@ const Portfolio = () => {
               Projets <span className="text-accent">Réalisés</span>
             </motion.h2>
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
@@ -170,9 +170,8 @@ const Portfolio = () => {
                     whileHover={{ y: -8, scale: 1.02 }}
                     className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-300"
                   >
-                    {/* Screenshot Preview */}
                     {project.screenshot ? (
-                      <div className="relative h-48 overflow-hidden">
+                      <div className="relative h-40 sm:h-48 overflow-hidden">
                         <img 
                           src={project.screenshot} 
                           alt={`${project.name} - Capture d'écran`}
@@ -187,7 +186,7 @@ const Portfolio = () => {
                         </div>
                       </div>
                     ) : (
-                      <div className={`relative h-48 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
+                      <div className={`relative h-40 sm:h-48 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
                         <Icon className="w-16 h-16 text-white/30" />
                         <div className="absolute top-3 right-3">
                           <span className="px-3 py-1 bg-white/20 backdrop-blur-sm text-xs font-semibold text-white rounded-full">
@@ -197,7 +196,7 @@ const Portfolio = () => {
                       </div>
                     )}
 
-                    <div className="p-6">
+                    <div className="p-4 sm:p-6">
                       <div className="flex items-center gap-3 mb-3">
                         <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center flex-shrink-0`}>
                           <Icon className="w-5 h-5 text-white" />
@@ -236,10 +235,10 @@ const Portfolio = () => {
         </section>
 
         {/* Services */}
-        <section className="py-16 bg-secondary/30">
+        <section className="py-12 sm:py-16 bg-secondary/30">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
             <motion.h2 
-              className="text-3xl font-bold text-center mb-12 text-foreground"
+              className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12 text-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -247,7 +246,7 @@ const Portfolio = () => {
               Services <span className="text-accent">Proposés</span>
             </motion.h2>
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
@@ -260,12 +259,12 @@ const Portfolio = () => {
                     key={s.title} 
                     variants={itemVariants}
                     whileHover={{ y: -4 }}
-                    className="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-shadow"
+                    className="bg-card border border-border rounded-xl p-4 sm:p-6 text-center hover:shadow-lg transition-shadow"
                   >
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-4">
-                      <Icon className="w-7 h-7 text-primary-foreground" />
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-4">
+                      <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary-foreground" />
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">{s.title}</h3>
+                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{s.title}</h3>
                     <p className="text-sm text-muted-foreground">{s.desc}</p>
                   </motion.div>
                 );
@@ -275,10 +274,10 @@ const Portfolio = () => {
         </section>
 
         {/* Tech Stack */}
-        <section className="py-16 bg-background">
+        <section className="py-12 sm:py-16 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
             <motion.h2 
-              className="text-3xl font-bold mb-8 text-foreground"
+              className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -286,7 +285,7 @@ const Portfolio = () => {
               Stack <span className="text-accent">Technique</span>
             </motion.h2>
             <motion.div 
-              className="flex flex-wrap justify-center gap-3"
+              className="flex flex-wrap justify-center gap-2 sm:gap-3"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -300,7 +299,7 @@ const Portfolio = () => {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.03 }}
                   whileHover={{ scale: 1.1 }}
-                  className="px-4 py-2 bg-secondary border border-border rounded-full text-sm font-medium text-foreground hover:bg-accent/10 hover:border-accent transition-colors cursor-default"
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 bg-secondary border border-border rounded-full text-xs sm:text-sm font-medium text-foreground hover:bg-accent/10 hover:border-accent transition-colors cursor-default"
                 >
                   {tech}
                 </motion.span>
@@ -310,15 +309,15 @@ const Portfolio = () => {
         </section>
 
         {/* CTA */}
-        <section className="py-16 bg-gradient-to-r from-primary to-primary/80">
+        <section className="py-12 sm:py-16 bg-gradient-to-r from-primary to-primary/80">
           <motion.div 
             className="container mx-auto px-4 text-center max-w-3xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold text-primary-foreground mb-4">Un projet en tête ?</h2>
-            <p className="text-primary-foreground/80 mb-8 text-lg">
+            <h2 className="text-2xl sm:text-3xl font-bold text-primary-foreground mb-4">Un projet en tête ?</h2>
+            <p className="text-primary-foreground/80 mb-6 sm:mb-8 text-base sm:text-lg">
               Disponible pour tout projet local ou à distance — Daloa, Abidjan, Côte d'Ivoire et au-delà.
             </p>
             <Button size="lg" variant="secondary" asChild>

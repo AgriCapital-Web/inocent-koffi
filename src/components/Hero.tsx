@@ -73,12 +73,12 @@ const Hero = () => {
             </motion.h1>
 
             <motion.p 
-              className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0"
+              className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire. 12+ années d'immersion terrain en Côte d'Ivoire au service du développement commercial, de l'agriculture et de l'innovation numérique.
+              Visionnaire | Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire. 12+ années d'immersion terrain en Côte d'Ivoire au service du développement commercial, le recouvrement de créances, de l'agriculture et de l'innovation numérique.
             </motion.p>
 
             <motion.div 
