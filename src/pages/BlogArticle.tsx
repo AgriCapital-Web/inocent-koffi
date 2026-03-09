@@ -175,7 +175,7 @@ const BlogArticle = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.excerpt || post.title} />
-        <meta name="twitter:image" content={post.featured_image || 'https://ikoffi.agricapital.ci/og-image-profile.png'} />
+        <meta name="twitter:image" content={post.featured_image?.startsWith('http') ? post.featured_image : `https://ikoffi.agricapital.ci${post.featured_image || '/og-image-profile.png'}`} />
         
         <script type="application/ld+json">
           {JSON.stringify({
