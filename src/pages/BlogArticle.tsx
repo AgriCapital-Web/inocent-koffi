@@ -163,7 +163,7 @@ const BlogArticle = () => {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt || post.title} />
-        <meta property="og:image" content={post.featured_image || 'https://ikoffi.agricapital.ci/og-image-profile.png'} />
+        <meta property="og:image" content={post.featured_image?.startsWith('http') ? post.featured_image : `https://ikoffi.agricapital.ci${post.featured_image || '/og-image-profile.png'}`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:url" content={articleUrl} />
@@ -175,7 +175,7 @@ const BlogArticle = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.excerpt || post.title} />
-        <meta name="twitter:image" content={post.featured_image || 'https://ikoffi.agricapital.ci/og-image-profile.png'} />
+        <meta name="twitter:image" content={post.featured_image?.startsWith('http') ? post.featured_image : `https://ikoffi.agricapital.ci${post.featured_image || '/og-image-profile.png'}`} />
         
         <script type="application/ld+json">
           {JSON.stringify({

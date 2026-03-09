@@ -40,12 +40,12 @@ const About = () => {
                 <strong className="text-foreground">Fondateur & CEO — AGRICAPITAL SARL</strong>
               </p>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed italic">
-                Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire
+                Visionnaire | Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire
               </p>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
                 Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, Inocent KOFFI cumule 
-                plus de 12 années d'immersion terrain en Côte d'Ivoire — dans le service technico-commercial et le recouvrement 
-                de créances, le développement commercial, l'énergie renouvelable, l'agriculture et l'innovation numérique.
+                plus de 12 années d'immersion terrain en Côte d'Ivoire — au service du développement commercial, le recouvrement 
+                de créances, l'énergie renouvelable, l'agriculture et l'innovation numérique.
               </p>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
                 Fort de ce parcours pluridisciplinaire ancré dans les réalités du terrain, il place aujourd'hui la technologie 
