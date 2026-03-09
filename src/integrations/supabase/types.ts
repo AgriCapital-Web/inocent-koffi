@@ -589,6 +589,33 @@ export type Database = {
         }
         Relationships: []
       }
+      site_visitors: {
+        Row: {
+          id: string
+          is_online: boolean | null
+          last_active: string | null
+          session_id: string
+          user_agent: string | null
+          visited_at: string
+        }
+        Insert: {
+          id?: string
+          is_online?: boolean | null
+          last_active?: string | null
+          session_id: string
+          user_agent?: string | null
+          visited_at?: string
+        }
+        Update: {
+          id?: string
+          is_online?: boolean | null
+          last_active?: string | null
+          session_id?: string
+          user_agent?: string | null
+          visited_at?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           created_at: string
