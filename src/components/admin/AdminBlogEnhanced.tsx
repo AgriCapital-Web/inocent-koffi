@@ -364,6 +364,34 @@ const AdminBlogEnhanced = () => {
     return categories.find(c => c.name.toLowerCase().includes(lower) || lower.includes(c.name.toLowerCase()));
   };
 
+  const removeAutoGalleryBlock = (html: string) =>
+    (html || '').replace(/<section\s+data-media-gallery="auto-generated"[\s\S]*?<\/section>/gi, '').trim();
+
+  const buildAutoGalleryBlock = (imageUrls: string[]) => {
+    if (!imageUrls.length) return '';
+    const items = imageUrls
+      .map((imageUrl, index) => `
+        <figure style="margin:0;">
+          <img src="${imageUrl}" alt="Illustration ${index + 1}" style="width:100%;height:auto;border-radius:12px;object-fit:cover;" loading="lazy" />
+        </figure>
+      `)
+      .join('');
+
+    return `
+      <section data-media-gallery="auto-generated" style="margin:2em 0;padding:1.2em;border:1px solid #e5e7eb;border-radius:14px;">
+        <h3 style="margin:0 0 1em;font-size:1.1em;font-weight:700;">Galerie illustrée</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">${items}</div>
+      </section>
+    `;
+  };
+
+  const mergeContentWithGallery = (baseHtml: string, imageUrls: string[]) => {
+    const cleanedHtml = removeAutoGalleryBlock(baseHtml);
+    const uniqueUrls = Array.from(new Set(imageUrls.filter(Boolean)));
+    if (!uniqueUrls.length) return cleanedHtml;
+    return `${cleanedHtml}\n\n${buildAutoGalleryBlock(uniqueUrls)}`;
+  };
+
   // ── AI: Generate meta ──────────────────────────────────────────────────────
   const handleGenerateMeta = async () => {
     if (!content.trim()) {
