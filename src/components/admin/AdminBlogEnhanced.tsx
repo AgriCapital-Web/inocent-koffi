@@ -378,7 +378,7 @@ const AdminBlogEnhanced = () => {
       .join('');
 
     return `
-      <section data-media-gallery="auto-generated" style="margin:2em 0;padding:1.2em;border:1px solid #e5e7eb;border-radius:14px;">
+      <section data-media-gallery="auto-generated" style="margin:2em 0;padding:1.2em;border:1px solid hsl(var(--border));border-radius:14px;">
         <h3 style="margin:0 0 1em;font-size:1.1em;font-weight:700;">Galerie illustrée</h3>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">${items}</div>
       </section>
