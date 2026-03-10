@@ -364,6 +364,34 @@ const AdminBlogEnhanced = () => {
     return categories.find(c => c.name.toLowerCase().includes(lower) || lower.includes(c.name.toLowerCase()));
   };
 
+  const removeAutoGalleryBlock = (html: string) =>
+    (html || '').replace(/<section\s+data-media-gallery="auto-generated"[\s\S]*?<\/section>/gi, '').trim();
+
+  const buildAutoGalleryBlock = (imageUrls: string[]) => {
+    if (!imageUrls.length) return '';
+    const items = imageUrls
+      .map((imageUrl, index) => `
+        <figure style="margin:0;">
+          <img src="${imageUrl}" alt="Illustration ${index + 1}" style="width:100%;height:auto;border-radius:12px;object-fit:cover;" loading="lazy" />
+        </figure>
+      `)
+      .join('');
+
+    return `
+      <section data-media-gallery="auto-generated" style="margin:2em 0;padding:1.2em;border:1px solid hsl(var(--border));border-radius:14px;">
+        <h3 style="margin:0 0 1em;font-size:1.1em;font-weight:700;">Galerie illustrée</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">${items}</div>
+      </section>
+    `;
+  };
+
+  const mergeContentWithGallery = (baseHtml: string, imageUrls: string[]) => {
+    const cleanedHtml = removeAutoGalleryBlock(baseHtml);
+    const uniqueUrls = Array.from(new Set(imageUrls.filter(Boolean)));
+    if (!uniqueUrls.length) return cleanedHtml;
+    return `${cleanedHtml}\n\n${buildAutoGalleryBlock(uniqueUrls)}`;
+  };
+
   // ── AI: Generate meta ──────────────────────────────────────────────────────
   const handleGenerateMeta = async () => {
     if (!content.trim()) {
@@ -439,7 +467,6 @@ const AdminBlogEnhanced = () => {
       
       if (data.title) setTitle(data.title);
       if (data.tagline) setTagline(data.tagline);
-      if (data.content) setContent(data.content);
       if (data.excerpt) setExcerpt(data.excerpt);
       if (data.hashtags) setHashtags(data.hashtags);
       if (!slug && data.title) setSlug(generateSlug(data.title));
@@ -448,20 +475,33 @@ const AdminBlogEnhanced = () => {
         if (match) setCategoryId(match.id);
       }
 
+      const galleryUrls: string[] = Array.isArray(data.galleryUrls) ? data.galleryUrls.filter(Boolean) : [];
+      const coverImage = data.imageUrl || galleryUrls[0] || "";
+      const inlineGalleryImages = galleryUrls.filter((img: string) => img && img !== coverImage);
+
+      if (data.content) {
+        setContent(mergeContentWithGallery(data.content, inlineGalleryImages));
+      }
+
       // Handle generated media
       const newMedia: Array<{ url: string; name: string; type: string }> = [];
-      if (data.imageUrl) {
-        setFeaturedImage(data.imageUrl);
-        newMedia.push({ url: data.imageUrl, name: "ia-generated.png", type: "image/png" });
+      if (coverImage) {
+        setFeaturedImage(coverImage);
+        newMedia.push({ url: coverImage, name: "ia-generated-cover.png", type: "image/png" });
       }
-      if (data.galleryUrls?.length) {
-        data.galleryUrls.forEach((url: string, i: number) => {
+
+      galleryUrls.forEach((url: string, i: number) => {
+        if (url !== coverImage) {
           newMedia.push({ url, name: `ia-gallery-${i + 1}.png`, type: "image/png" });
-          if (!data.imageUrl && i === 0) setFeaturedImage(url);
-        });
-      }
+        }
+      });
+
       if (newMedia.length > 0) {
-        setMediaFiles(prev => [...newMedia, ...prev]);
+        setMediaFiles(prev => {
+          const existing = new Set(prev.map(m => m.url));
+          const uniqueNew = newMedia.filter(m => !existing.has(m.url));
+          return [...uniqueNew, ...prev];
+        });
       }
 
       const parts = [];
@@ -535,10 +575,18 @@ const AdminBlogEnhanced = () => {
     if (!categoryId) {
       toast({ title: "Catégorie obligatoire", variant: "destructive" }); return;
     }
+
+    const inlineGalleryImages = mediaFiles
+      .filter((media) => media.type.startsWith("image/") && media.url !== featuredImage)
+      .map((media) => media.url)
+      .filter((mediaUrl) => !content.includes(mediaUrl));
+
+    const publishReadyContent = mergeContentWithGallery(content, inlineGalleryImages);
+
     saveMutation.mutate({
       title: title.trim(),
       slug: slug.trim() || generateSlug(title),
-      content,
+      content: publishReadyContent,
       excerpt: excerpt.trim() || null,
       featured_image: featuredImage || null,
       category_id: categoryId || null,
@@ -612,7 +660,7 @@ const AdminBlogEnhanced = () => {
 
               <div className="bg-background/80 rounded-lg p-3 mb-4 border border-primary/10">
                 <p className="text-sm text-muted-foreground">
-                  <strong className="text-foreground">💡 Mode d'emploi :</strong> Écrivez librement votre texte ci-dessous — même un seul mot suffit (ex: "pépinière", "forum agricole 2026"). L'IA analyse et remplit automatiquement TOUS les champs.
+                  <strong className="text-foreground">💡 Mode d'emploi :</strong> Écrivez librement votre idée — même un seul mot (ex: "finance rurale", "chaîne logistique", "énergie", "gouvernance locale"). L'IA produit une analyse structurée, crédible, et orientée réflexions/signaux de terrain.
                 </p>
               </div>
 
@@ -651,7 +699,7 @@ const AdminBlogEnhanced = () => {
                 <RichTextEditor
                   content={content}
                   onChange={setContent}
-                  placeholder="Écrivez ici... Ex: pépinière, forum agricole 2026, lancement d'un partenariat... L'IA structurera et enrichira automatiquement."
+                  placeholder="Écrivez ici... Ex: stratégie PME, finance climat, agriculture, numérique, éducation, leadership territorial... L'IA structurera et enrichira automatiquement."
                 />
               </div>
             </div>

@@ -6,13 +6,16 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
+const DEFAULT_SITE_URL = "https://ikoffi.agricapital.ci";
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const url = new URL(req.url);
-  const slug = url.searchParams.get("slug");
+  const requestUrl = new URL(req.url);
+  const slugFromPath = requestUrl.pathname.split("/").filter(Boolean).pop();
+  const slug = requestUrl.searchParams.get("slug") || (slugFromPath && slugFromPath !== "og-article" ? slugFromPath : null);
 
   if (!slug) {
     return new Response("Missing slug", { status: 400, headers: corsHeaders });
@@ -24,24 +27,27 @@ Deno.serve(async (req) => {
 
   const { data: post, error } = await supabase
     .from("blog_posts")
-    .select("title, excerpt, tagline, featured_image, published_at, author, slug")
+    .select("title, excerpt, tagline, content, featured_image, published_at, author, slug")
     .eq("slug", slug)
     .eq("is_published", true)
     .single();
 
+  const siteUrl = (Deno.env.get("SITE_URL") || DEFAULT_SITE_URL).replace(/\/$/, "");
+
   if (error || !post) {
-    // Redirect to blog page if article not found
-    return Response.redirect("https://ikoffi.agricapital.ci/blog", 302);
+    return Response.redirect(`${siteUrl}/blog`, 302);
   }
 
-  const articleUrl = `https://ikoffi.agricapital.ci/blog/${post.slug}`;
-  const description = post.excerpt || post.tagline || post.title;
+  const articleUrl = `${siteUrl}/blog/${post.slug}`;
   const author = post.author || "Inocent KOFFI";
-  
-  // Ensure image URL is absolute
-  let imageUrl = post.featured_image || "https://ikoffi.agricapital.ci/og-image-profile.png";
+  const contentText = stripHtml(post.content || "");
+  const summary = truncate(post.excerpt || post.tagline || contentText || post.title, 220);
+  const signature = "Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL";
+  const ogDescription = `${summary} — ${signature}. Cliquez pour lire l'article complet.`;
+
+  let imageUrl = post.featured_image || `${siteUrl}/og-image.png`;
   if (imageUrl && !imageUrl.startsWith("http")) {
-    imageUrl = `https://ikoffi.agricapital.ci${imageUrl}`;
+    imageUrl = `${siteUrl}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
   }
 
   const html = `<!DOCTYPE html>
@@ -49,33 +55,30 @@ Deno.serve(async (req) => {
 <head>
   <meta charset="UTF-8">
   <title>${escapeHtml(post.title)} - ${escapeHtml(author)}</title>
-  <meta name="description" content="${escapeHtml(description)}">
-  
-  <!-- Open Graph -->
+  <meta name="description" content="${escapeHtml(ogDescription)}">
+
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(post.title)}">
-  <meta property="og:description" content="${escapeHtml(description)}">
+  <meta property="og:description" content="${escapeHtml(ogDescription)}">
   <meta property="og:image" content="${escapeHtml(imageUrl)}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="${escapeHtml(articleUrl)}">
-  <meta property="og:site_name" content="Inocent KOFFI - AGRICAPITAL">
-  <meta property="article:published_time" content="${post.published_at || ''}">
+  <meta property="og:site_name" content="Inocent KOFFI">
+  <meta property="article:published_time" content="${post.published_at || ""}">
   <meta property="article:author" content="${escapeHtml(author)}">
-  
-  <!-- Twitter Card -->
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(post.title)}">
-  <meta name="twitter:description" content="${escapeHtml(description)}">
+  <meta name="twitter:description" content="${escapeHtml(ogDescription)}">
   <meta name="twitter:image" content="${escapeHtml(imageUrl)}">
-  
-  <!-- Redirect real users to the actual article page -->
+
   <meta http-equiv="refresh" content="0;url=${escapeHtml(articleUrl)}">
   <link rel="canonical" href="${escapeHtml(articleUrl)}">
 </head>
 <body>
   <p>Redirection vers l'article...</p>
-  <script>window.location.replace("${articleUrl}");</script>
+  <script>window.location.replace(${JSON.stringify(articleUrl)});</script>
 </body>
 </html>`;
 
@@ -83,17 +86,25 @@ Deno.serve(async (req) => {
     status: 200,
     headers: {
       "Content-Type": "text/html; charset=utf-8",
-      "Cache-Control": "public, max-age=300",
+      "Cache-Control": "public, max-age=600",
       ...corsHeaders,
     },
   });
 });
 
-function escapeHtml(str: string): string {
-  return str
+function stripHtml(value: string): string {
+  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function truncate(value: string, max: number): string {
+  return value.length > max ? `${value.slice(0, max - 1).trim()}…` : value;
+}
+
+function escapeHtml(value: string): string {
+  return value
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
+    .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
