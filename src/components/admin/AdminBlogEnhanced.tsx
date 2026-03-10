@@ -699,7 +699,7 @@ const AdminBlogEnhanced = () => {
                 <RichTextEditor
                   content={content}
                   onChange={setContent}
-                  placeholder="Écrivez ici... Ex: pépinière, forum agricole 2026, lancement d'un partenariat... L'IA structurera et enrichira automatiquement."
+                  placeholder="Écrivez ici... Ex: stratégie PME, finance climat, agriculture, numérique, éducation, leadership territorial... L'IA structurera et enrichira automatiquement."
                 />
               </div>
             </div>
