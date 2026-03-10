@@ -467,7 +467,6 @@ const AdminBlogEnhanced = () => {
       
       if (data.title) setTitle(data.title);
       if (data.tagline) setTagline(data.tagline);
-      if (data.content) setContent(data.content);
       if (data.excerpt) setExcerpt(data.excerpt);
       if (data.hashtags) setHashtags(data.hashtags);
       if (!slug && data.title) setSlug(generateSlug(data.title));
@@ -476,20 +475,33 @@ const AdminBlogEnhanced = () => {
         if (match) setCategoryId(match.id);
       }
 
+      const galleryUrls: string[] = Array.isArray(data.galleryUrls) ? data.galleryUrls.filter(Boolean) : [];
+      const coverImage = data.imageUrl || galleryUrls[0] || "";
+      const inlineGalleryImages = galleryUrls.filter((img: string) => img && img !== coverImage);
+
+      if (data.content) {
+        setContent(mergeContentWithGallery(data.content, inlineGalleryImages));
+      }
+
       // Handle generated media
       const newMedia: Array<{ url: string; name: string; type: string }> = [];
-      if (data.imageUrl) {
-        setFeaturedImage(data.imageUrl);
-        newMedia.push({ url: data.imageUrl, name: "ia-generated.png", type: "image/png" });
+      if (coverImage) {
+        setFeaturedImage(coverImage);
+        newMedia.push({ url: coverImage, name: "ia-generated-cover.png", type: "image/png" });
       }
-      if (data.galleryUrls?.length) {
-        data.galleryUrls.forEach((url: string, i: number) => {
+
+      galleryUrls.forEach((url: string, i: number) => {
+        if (url !== coverImage) {
           newMedia.push({ url, name: `ia-gallery-${i + 1}.png`, type: "image/png" });
-          if (!data.imageUrl && i === 0) setFeaturedImage(url);
-        });
-      }
+        }
+      });
+
       if (newMedia.length > 0) {
-        setMediaFiles(prev => [...newMedia, ...prev]);
+        setMediaFiles(prev => {
+          const existing = new Set(prev.map(m => m.url));
+          const uniqueNew = newMedia.filter(m => !existing.has(m.url));
+          return [...uniqueNew, ...prev];
+        });
       }
 
       const parts = [];
