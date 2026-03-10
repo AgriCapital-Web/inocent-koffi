@@ -575,10 +575,18 @@ const AdminBlogEnhanced = () => {
     if (!categoryId) {
       toast({ title: "Catégorie obligatoire", variant: "destructive" }); return;
     }
+
+    const inlineGalleryImages = mediaFiles
+      .filter((media) => media.type.startsWith("image/") && media.url !== featuredImage)
+      .map((media) => media.url)
+      .filter((mediaUrl) => !content.includes(mediaUrl));
+
+    const publishReadyContent = mergeContentWithGallery(content, inlineGalleryImages);
+
     saveMutation.mutate({
       title: title.trim(),
       slug: slug.trim() || generateSlug(title),
-      content,
+      content: publishReadyContent,
       excerpt: excerpt.trim() || null,
       featured_image: featuredImage || null,
       category_id: categoryId || null,
