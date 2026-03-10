@@ -660,7 +660,7 @@ const AdminBlogEnhanced = () => {
 
               <div className="bg-background/80 rounded-lg p-3 mb-4 border border-primary/10">
                 <p className="text-sm text-muted-foreground">
-                  <strong className="text-foreground">💡 Mode d'emploi :</strong> Écrivez librement votre texte ci-dessous — même un seul mot suffit (ex: "pépinière", "forum agricole 2026"). L'IA analyse et remplit automatiquement TOUS les champs.
+                  <strong className="text-foreground">💡 Mode d'emploi :</strong> Écrivez librement votre idée — même un seul mot (ex: "finance rurale", "chaîne logistique", "énergie", "gouvernance locale"). L'IA produit une analyse structurée, crédible, et orientée réflexions/signaux de terrain.
                 </p>
               </div>
 
