@@ -3,10 +3,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Eye, Clock, BookOpen, TrendingUp, Users, Globe, BarChart3 } from "lucide-react";
+import { Eye, Clock, BookOpen, TrendingUp, Users, Globe, BarChart3, Share2, Heart } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 const COLORS = ['hsl(220, 50%, 20%)', 'hsl(45, 90%, 55%)', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
+
+const REACTION_LABELS: Record<string, string> = {
+  like: "👍 J'aime",
+  love: "❤️ J'adore",
+  clap: "👏 Bravo",
+  fire: "🔥 Top",
+  light: "💡 Inspirant",
+  think: "🤔 Intéressant",
+};
 
 const AdminArticleStats = () => {
   const { data: posts } = useQuery({
@@ -34,16 +43,37 @@ const AdminArticleStats = () => {
     }
   });
 
+  const { data: shares } = useQuery({
+    queryKey: ['admin-article-shares'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('article_shares')
+        .select('post_id, platform');
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  const { data: likes } = useQuery({
+    queryKey: ['admin-article-likes'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('blog_likes')
+        .select('post_id, reaction_type');
+      if (error) throw error;
+      return data;
+    }
+  });
+
   const totalViews = posts?.reduce((sum, p) => sum + (p.view_count || 0), 0) || 0;
-  const avgReadingProgress = views?.length 
-    ? Math.round(views.reduce((sum, v) => sum + (v.reading_progress || 0), 0) / views.length) 
+  const avgReadingProgress = views?.length
+    ? Math.round(views.reduce((sum, v) => sum + (v.reading_progress || 0), 0) / views.length)
     : 0;
   const finishedCount = views?.filter(v => v.finished_reading).length || 0;
-  const avgTimeSpent = views?.length 
-    ? Math.round(views.reduce((sum, v) => sum + (v.time_spent_seconds || 0), 0) / views.length) 
+  const avgTimeSpent = views?.length
+    ? Math.round(views.reduce((sum, v) => sum + (v.time_spent_seconds || 0), 0) / views.length)
     : 0;
 
-  // Views per day chart data
   const viewsByDay = views?.reduce((acc, v) => {
     const day = new Date(v.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
     acc[day] = (acc[day] || 0) + 1;
@@ -52,9 +82,9 @@ const AdminArticleStats = () => {
 
   const dailyChartData = Object.entries(viewsByDay).slice(0, 14).reverse().map(([day, count]) => ({ day, vues: count }));
 
-  // Top referrers
   const referrerData = views?.reduce((acc, v) => {
-    const ref = v.referrer ? new URL(v.referrer).hostname : 'Direct';
+    let ref = 'Direct';
+    if (v.referrer) { try { ref = new URL(v.referrer).hostname; } catch { ref = 'Autre'; } }
     acc[ref] = (acc[ref] || 0) + 1;
     return acc;
   }, {} as Record<string, number>) || {};
@@ -64,10 +94,32 @@ const AdminArticleStats = () => {
     .slice(0, 5)
     .map(([name, value]) => ({ name, value }));
 
+  // Per-article breakdown helpers
+  const sharesByPost = shares?.reduce((acc, s) => {
+    if (!acc[s.post_id]) acc[s.post_id] = {};
+    const p = s.platform || 'unknown';
+    acc[s.post_id][p] = (acc[s.post_id][p] || 0) + 1;
+    return acc;
+  }, {} as Record<string, Record<string, number>>) || {};
+
+  const likesByPost = likes?.reduce((acc, l) => {
+    if (!acc[l.post_id]) acc[l.post_id] = {};
+    const r = l.reaction_type || 'like';
+    acc[l.post_id][r] = (acc[l.post_id][r] || 0) + 1;
+    return acc;
+  }, {} as Record<string, Record<string, number>>) || {};
+
+  const viewsByPost = views?.reduce((acc, v) => {
+    if (!acc[v.post_id]) acc[v.post_id] = { total: 0, finished: 0 };
+    acc[v.post_id].total += 1;
+    if (v.finished_reading) acc[v.post_id].finished += 1;
+    return acc;
+  }, {} as Record<string, { total: number; finished: number }>) || {};
+
   return (
     <div className="space-y-6">
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
@@ -76,17 +128,6 @@ const AdminArticleStats = () => {
                 <p className="text-3xl font-bold">{totalViews}</p>
               </div>
               <div className="p-3 bg-primary/10 rounded-full"><Eye className="h-6 w-6 text-primary" /></div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Progression moyenne</p>
-                <p className="text-3xl font-bold">{avgReadingProgress}%</p>
-              </div>
-              <div className="p-3 bg-accent/10 rounded-full"><BookOpen className="h-6 w-6 text-accent" /></div>
             </div>
           </CardContent>
         </Card>
@@ -105,10 +146,21 @@ const AdminArticleStats = () => {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Temps moyen</p>
-                <p className="text-3xl font-bold">{Math.floor(avgTimeSpent / 60)}:{String(avgTimeSpent % 60).padStart(2, '0')}</p>
+                <p className="text-sm text-muted-foreground">Total partages</p>
+                <p className="text-3xl font-bold">{shares?.length || 0}</p>
               </div>
-              <div className="p-3 bg-purple-100 rounded-full"><Clock className="h-6 w-6 text-purple-600" /></div>
+              <div className="p-3 bg-blue-100 rounded-full"><Share2 className="h-6 w-6 text-blue-600" /></div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground">Total réactions</p>
+                <p className="text-3xl font-bold">{likes?.length || 0}</p>
+              </div>
+              <div className="p-3 bg-red-100 rounded-full"><Heart className="h-6 w-6 text-red-500" /></div>
             </div>
           </CardContent>
         </Card>
@@ -117,9 +169,7 @@ const AdminArticleStats = () => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2"><BarChart3 className="w-5 h-5" />Vues quotidiennes</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle className="flex items-center gap-2"><BarChart3 className="w-5 h-5" />Vues quotidiennes</CardTitle></CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={dailyChartData}>
@@ -132,11 +182,8 @@ const AdminArticleStats = () => {
             </ResponsiveContainer>
           </CardContent>
         </Card>
-
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Globe className="w-5 h-5" />Sources de trafic</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Globe className="w-5 h-5" />Sources de trafic</CardTitle></CardHeader>
           <CardContent>
             {topReferrers.length > 0 ? (
               <ResponsiveContainer width="100%" height={250}>
@@ -155,56 +202,92 @@ const AdminArticleStats = () => {
         </Card>
       </div>
 
-      {/* Articles ranking */}
+      {/* Per-article detailed table */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Users className="w-5 h-5" />Classement des articles par vues</CardTitle>
-          <CardDescription>Articles triés par nombre de vues</CardDescription>
+          <CardTitle className="flex items-center gap-2"><Users className="w-5 h-5" />Détails par article</CardTitle>
+          <CardDescription>Vues, lectures complètes, réactions par type, partages par réseau</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>#</TableHead>
-                <TableHead>Article</TableHead>
+                <TableHead className="min-w-[200px]">Article</TableHead>
                 <TableHead>Vues</TableHead>
+                <TableHead>Lectures</TableHead>
+                <TableHead>Réactions</TableHead>
+                <TableHead>Partages</TableHead>
                 <TableHead>Statut</TableHead>
-                <TableHead>Date</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {posts?.map((post, i) => (
-                <TableRow key={post.id}>
-                  <TableCell className="font-bold">{i + 1}</TableCell>
-                  <TableCell className="font-medium max-w-[300px] truncate">{post.title}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1">
-                      <Eye className="w-4 h-4 text-muted-foreground" />
-                      <span className="font-semibold">{post.view_count || 0}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={post.is_published ? "default" : "secondary"}>
-                      {post.is_published ? "Publié" : "Brouillon"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {new Date(post.published_at || post.created_at).toLocaleDateString('fr-FR')}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {posts?.map((post) => {
+                const pViews = viewsByPost[post.id];
+                const pLikes = likesByPost[post.id] || {};
+                const pShares = sharesByPost[post.id] || {};
+                const totalLikes = Object.values(pLikes).reduce((s, n) => s + n, 0);
+                const totalShares = Object.values(pShares).reduce((s, n) => s + n, 0);
+
+                return (
+                  <TableRow key={post.id}>
+                    <TableCell className="font-medium max-w-[250px]">
+                      <span className="line-clamp-2">{post.title}</span>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        <Eye className="w-4 h-4 text-muted-foreground" />
+                        <span className="font-semibold">{post.view_count || 0}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="font-semibold">{pViews?.finished || 0}</span>
+                    </TableCell>
+                    <TableCell>
+                      {totalLikes > 0 ? (
+                        <div className="flex flex-wrap gap-1">
+                          {Object.entries(pLikes).map(([type, count]) => (
+                            <Badge key={type} variant="secondary" className="text-xs whitespace-nowrap">
+                              {REACTION_LABELS[type]?.split(' ')[0] || '👍'} {count}
+                            </Badge>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {totalShares > 0 ? (
+                        <div className="flex flex-wrap gap-1">
+                          {Object.entries(pShares).map(([platform, count]) => (
+                            <Badge key={platform} variant="outline" className="text-xs capitalize whitespace-nowrap">
+                              {platform} {count}
+                            </Badge>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={post.is_published ? "default" : "secondary"}>
+                        {post.is_published ? "Publié" : "Brouillon"}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
 
-      {/* Recent views detail */}
+      {/* Recent views */}
       <Card>
         <CardHeader>
           <CardTitle>Dernières visites</CardTitle>
           <CardDescription>Détails des 20 dernières consultations</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>

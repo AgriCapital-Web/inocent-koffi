@@ -147,9 +147,9 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(ogShareUrl);
       setCopied(true);
-      toast({ title: "Lien copié !" });
+      toast({ title: "Lien court copié !" });
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast({ title: "Erreur", description: "Impossible de copier le lien", variant: "destructive" });
@@ -226,17 +226,10 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           ))}
         </div>
 
-        <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-          <input
-            type="text"
-            value={url}
-            readOnly
-            className="flex-1 bg-transparent text-sm outline-none truncate text-muted-foreground"
-          />
-          <Button variant="ghost" size="sm" onClick={handleCopy}>
-            {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
-          </Button>
-        </div>
+        <Button variant="outline" size="sm" className="w-full gap-2" onClick={handleCopy}>
+          {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
+          {copied ? "Lien copié !" : "Copier le lien court"}
+        </Button>
       </DialogContent>
     </Dialog>
   );
