@@ -101,9 +101,15 @@ RÈGLES HTML STRICTES:
 - Utilise UNIQUEMENT du HTML valide. JAMAIS de Markdown.
 - Structure lisible avec <h2>, <h3>, <p>, <ul>/<ol>, <blockquote>.
 - Paragraphes courts avec transitions claires.
-- Si données citées: ajoute une section "Sources vérifiables" avec liens explicites.
 - N'invente jamais de chiffres: si incertitude, le dire clairement.
 - Ton: professionnel, concret, honnête, non sensationnaliste.
+
+SECTION SOURCES VÉRIFIÉES OBLIGATOIRE:
+- TOUJOURS terminer l'article par une section <h2>📌 Sources vérifiées</h2>
+- Lister les sources réelles utilisées ou consultables avec des liens <a href="..." target="_blank" rel="noopener noreferrer">
+- Format: <ul><li><a href="URL">Nom de la source</a> — Description courte — Consulté en [mois année]</li></ul>
+- Ne citer QUE des sources réelles et vérifiables (FAO, Banque Mondiale, rapports officiels, presse reconnue).
+- Si aucune source fiable n'est disponible, écrire: "Cet article repose sur l'expérience terrain de l'auteur. Aucune source externe spécifique n'a été citée."
 `.trim();
 
     if (action === "generate_meta") {
@@ -148,13 +154,14 @@ STRUCTURE ATTENDUE:
 3. Sous-sections <h3> si pertinent
 4. Encadrés/listes/tableaux si utiles à la compréhension
 5. Conclusion orientée action et réflexion
+6. Section "📌 Sources vérifiées" OBLIGATOIRE en dernier
 
 RÈGLES FORTES:
 - Éviter le ton "promotion AGRICAPITAL".
 - Garder un regard personnel d'analyste (Inocent KOFFI), pluridisciplinaire.
 - Éviter le jargon vide.
 - Donner des éléments concrets et nuancés.
-- Si sources citées: lisibles et vérifiables.
+- Sources en fin d'article: OBLIGATOIRES, réelles, avec liens cliquables et date de consultation.
 
 Catégories disponibles: ${catList}
 
@@ -162,7 +169,7 @@ Retourne UNIQUEMENT ce JSON valide:
 {
   "title": "TITRE PROFESSIONNEL",
   "tagline": "Phrase d'accroche",
-  "content": "<h2>...</h2><p>...</p>",
+  "content": "<h2>...</h2><p>...</p>...<h2>📌 Sources vérifiées</h2><ul><li><a href='...'>Source</a> — ...</li></ul>",
   "excerpt": "Résumé en 2 phrases",
   "hashtags": ["tag1","tag2","tag3","tag4","tag5"],
   "suggested_category": "nom catégorie"
