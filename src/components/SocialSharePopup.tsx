@@ -147,9 +147,9 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(ogShareUrl);
       setCopied(true);
-      toast({ title: "Lien copié !" });
+      toast({ title: "Lien court copié !" });
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast({ title: "Erreur", description: "Impossible de copier le lien", variant: "destructive" });
