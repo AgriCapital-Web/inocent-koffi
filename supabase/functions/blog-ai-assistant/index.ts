@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -16,6 +17,11 @@ const VISUAL_ANGLES = [
   "équipe locale en action",
 ];
 
+function makeCacheKey(prefix: string, input: string): string {
+  const normalized = input.trim().toLowerCase().replace(/\s+/g, " ");
+  return `${prefix}:${normalized}`;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -24,16 +30,31 @@ serve(async (req) => {
   try {
     const { content, action, categories, generateImage, generateVideo, generateGallery } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY non configuré");
 
+    const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const catList = categories?.map((c: any) => c.name).join(", ") || "Économie, Agriculture, Innovation, Leadership, Stratégie";
+
+    // Check cache for text-only actions
+    if (action === "generate_meta" || action === "structure_article" || action === "generate_full_article") {
+      const cacheKey = makeCacheKey(`blog:${action}`, content?.slice(0, 300) || "");
+      const { data: cached } = await supabase
+        .from("ai_cache")
+        .select("response")
+        .eq("cache_key", cacheKey)
+        .gt("expires_at", new Date().toISOString())
+        .maybeSingle();
+
+      // Only use cache for meta and structure (full articles should always be unique)
+      if (cached && action !== "generate_full_article") {
+        return new Response(JSON.stringify(cached.response), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
 
     async function generateAIImage(topic: string, angleHint?: string): Promise<string | null> {
       try {
-        const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
-        const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-
         const chosenAngle = angleHint || VISUAL_ANGLES[Math.floor(Math.random() * VISUAL_ANGLES.length)];
         const creativeSeed = crypto.randomUUID().slice(0, 8);
 
@@ -44,7 +65,7 @@ serve(async (req) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "google/gemini-3.1-flash-image-preview",
+            model: "google/gemini-2.5-flash-image",
             messages: [{
               role: "user",
               content: `Image éditoriale réaliste, UNIQUE et différente des générations précédentes.
@@ -109,8 +130,14 @@ SECTION SOURCES VÉRIFIÉES OBLIGATOIRE:
 - Lister les sources réelles utilisées ou consultables avec des liens <a href="..." target="_blank" rel="noopener noreferrer">
 - Format: <ul><li><a href="URL">Nom de la source</a> — Description courte — Consulté en [mois année]</li></ul>
 - Ne citer QUE des sources réelles et vérifiables (FAO, Banque Mondiale, rapports officiels, presse reconnue).
-- Si aucune source fiable n'est disponible, écrire: "Cet article repose sur l'expérience terrain de l'auteur. Aucune source externe spécifique n'a été citée."
+- Si aucune source fiable n'est disponible, écrire: "Cet article repose sur l'expérience terrain de l'auteur."
 `.trim();
+
+    async function saveCache(key: string, response: any) {
+      try {
+        await supabase.from("ai_cache").insert({ cache_key: key, response });
+      } catch { /* ignore cache errors */ }
+    }
 
     if (action === "generate_meta") {
       const systemPrompt = `${BRAND_CONTEXT}
@@ -127,6 +154,8 @@ Retourne UNIQUEMENT ce JSON valide:
 
       const response = await callAI(LOVABLE_API_KEY, systemPrompt, `Analyse et génère les métadonnées pour:\n\n${content}`);
       const parsed = extractJSON(response);
+      const cacheKey = makeCacheKey("blog:generate_meta", content?.slice(0, 300) || "");
+      await saveCache(cacheKey, parsed);
       return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
@@ -137,7 +166,10 @@ ${HTML_RULES}
 Retourne uniquement le HTML structuré, sans commentaire.`;
 
       const response = await callAI(LOVABLE_API_KEY, systemPrompt, `Restructure ce texte:\n\n${content}`);
-      return new Response(JSON.stringify({ content: response }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      const result = { content: response };
+      const cacheKey = makeCacheKey("blog:structure_article", content?.slice(0, 300) || "");
+      await saveCache(cacheKey, result);
+      return new Response(JSON.stringify(result), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     if (action === "generate_full_article") {
@@ -196,16 +228,11 @@ Retourne UNIQUEMENT ce JSON valide:
       if (imageUrl) parsed.imageUrl = imageUrl;
       if (galleryResults) parsed.galleryUrls = galleryResults.filter(Boolean);
 
-      if (generateVideo) {
-        console.log("Video generation requested but not yet available via AI gateway");
-      }
-
       return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     return new Response(JSON.stringify({ error: "Action non reconnue" }), {
-      status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
     console.error("blog-ai-assistant error:", error);
@@ -224,7 +251,7 @@ async function callAI(apiKey: string, systemPrompt: string, userPrompt: string):
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "google/gemini-3-flash-preview",
+      model: "google/gemini-2.5-flash-lite",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
@@ -248,19 +275,11 @@ async function callAI(apiKey: string, systemPrompt: string, userPrompt: string):
 function extractJSON(text: string): any {
   const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (codeBlockMatch) {
-    try {
-      return JSON.parse(codeBlockMatch[1].trim());
-    } catch {
-      // fallback below
-    }
+    try { return JSON.parse(codeBlockMatch[1].trim()); } catch { /* fallback */ }
   }
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (jsonMatch) {
-    try {
-      return JSON.parse(jsonMatch[0]);
-    } catch {
-      // fallback below
-    }
+    try { return JSON.parse(jsonMatch[0]); } catch { /* fallback */ }
   }
   throw new Error("Format de réponse IA invalide");
 }
