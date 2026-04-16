@@ -1,26 +1,26 @@
-import { Award, Target, Users, Code, Brain } from "lucide-react";
+import { Target, Users, Leaf, Shield } from "lucide-react";
 
 const About = () => {
   const values = [
     {
       icon: Target,
-      title: "Impact Agricole",
-      description: "Transformation agricole à fort impact économique, sociétal et environnemental"
+      title: "Opérateur Agricole",
+      description: "Création de plantations de palmier à huile clé en main, avec ou sans terrain."
     },
     {
       icon: Users,
-      title: "Innovation & Solidarité",
-      description: "Modèles agricoles intégrés et durables pour l'Afrique"
+      title: "Accompagnement Complet",
+      description: "De la sécurisation foncière à la commercialisation, un suivi rigoureux et transparent."
     },
     {
-      icon: Code,
-      title: "Développement Tech",
-      description: "Applications web, e-commerce, CRM et solutions IA sur mesure"
+      icon: Leaf,
+      title: "Patrimoine Durable",
+      description: "Un modèle sur 28 ans pour bâtir un patrimoine agricole tangible et générateur de revenus."
     },
     {
-      icon: Brain,
-      title: "Intelligence Artificielle",
-      description: "Intégration IA, automatisation et outils intelligents pour entreprises"
+      icon: Shield,
+      title: "Sécurité Contractuelle",
+      description: "Contrats certifiés, cartographie GPS, cadre juridique solide et garantie d'achat sur 25 ans."
     }
   ];
 
@@ -40,22 +40,16 @@ const About = () => {
                 <strong className="text-foreground">Fondateur & CEO — AGRICAPITAL SARL</strong>
               </p>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed italic">
-                Visionnaire | Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire
+                Agro-entrepreneur et stratège en développement agricole
               </p>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
-                Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, Inocent KOFFI cumule 
-                plus de 12 années d'immersion terrain en Côte d'Ivoire — au service du développement commercial, le recouvrement 
-                de créances, l'énergie renouvelable, l'agriculture et l'innovation numérique.
+                Inocent KOFFI cumule plus de 12 années d'immersion terrain en Côte d'Ivoire. Cette connaissance intime du territoire, des réalités agricoles et du potentiel foncier constitue un atout stratégique majeur pour AgriCapital.
               </p>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
-                Fort de ce parcours pluridisciplinaire ancré dans les réalités du terrain, il place aujourd'hui la technologie 
-                et l'agriculture au cœur d'une vision commune : faire de l'innovation un levier concret au service des communautés 
-                et du développement local. Fondateur et CEO d'AGRICAPITAL SARL, il initie et porte des projets à fort impact social.
+                AgriCapital est un opérateur et promoteur agricole qui conçoit et déploie des plantations de palmier à huile clé en main, permettant aux particuliers et professionnels d'accéder à une agriculture productive, tout en étant déchargés des contraintes techniques, foncières et organisationnelles.
               </p>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed hidden sm:block">
-                De 2012 à 2024, il a parcouru plus de 360 localités à travers 8 régions de Côte d'Ivoire — 
-                Loh-Djiboua, Gôh, Nawa, Gboklè, Grands-Ponts, Agnéby-Tiassa, Haut-Sassandra et Marahoué — 
-                en contact direct et permanent avec les communautés rurales.
+                De 2012 à 2024, il a parcouru plus de 360 localités à travers 8 régions de Côte d'Ivoire — en contact direct et permanent avec les communautés rurales, identifiant et validant les meilleures terres pour les clients d'AgriCapital.
               </p>
             </div>
 

@@ -29,7 +29,7 @@ const Hero = () => {
               >
                 <img 
                   src={profilePhoto} 
-                  alt="Inocent KOFFI - Fondateur et Directeur Général AGRICAPITAL SARL" 
+                  alt="Inocent KOFFI - Fondateur & CEO AGRICAPITAL SARL" 
                   className="w-full h-auto max-w-[280px] sm:max-w-[350px] lg:max-w-md object-cover"
                   loading="eager"
                   width="500"
@@ -51,7 +51,7 @@ const Hero = () => {
                 Fondateur & CEO — AGRICAPITAL SARL
               </span>
               <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold">
-                Développeur Web | Praticien IA & Formateur
+                Agro-Entrepreneur & Stratège Agricole
               </span>
             </motion.div>
             
@@ -78,7 +78,7 @@ const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              Visionnaire | Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire. 12+ années d'immersion terrain en Côte d'Ivoire au service du développement commercial, le recouvrement de créances, de l'agriculture et de l'innovation numérique.
+              Agro-entrepreneur et stratège en développement agricole. Fondateur & CEO d'AGRICAPITAL SARL — opérateur et promoteur agricole spécialisé dans la création de plantations de palmier à huile clé en main en Côte d'Ivoire. 12+ années d'immersion terrain au service de l'agriculture et de l'innovation.
             </motion.p>
 
             <motion.div 
@@ -104,7 +104,7 @@ const Hero = () => {
                 className="border-2 hover:bg-accent/10 w-full sm:w-auto text-sm sm:text-base"
                 asChild
               >
-                <Link to="/a-propos">En Savoir Plus</Link>
+                <Link to="/agricapital">Découvrir AGRICAPITAL</Link>
               </Button>
             </motion.div>
 

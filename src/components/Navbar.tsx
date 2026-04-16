@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
+import logoAgricapital from "@/assets/logo-agricapital.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,9 +85,10 @@ const Navbar = () => {
           <Link
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="text-lg sm:text-xl font-bold text-foreground hover:text-primary transition-colors truncate max-w-[150px] sm:max-w-none"
+            className="flex items-center gap-2 hover:opacity-90 transition-opacity"
           >
-            Inocent KOFFI
+            <img src={logoAgricapital} alt="AgriCapital" className="h-8 sm:h-9" />
+            <span className="text-sm sm:text-base font-bold text-foreground hidden sm:inline">Inocent KOFFI</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -110,7 +112,6 @@ const Navbar = () => {
                   </motion.button>
                 );
               }
-              // Submenu group
               return (
                 <div
                   key={group.label}
@@ -204,7 +205,6 @@ const Navbar = () => {
                       </motion.button>
                     );
                   }
-                  // Mobile submenu
                   return (
                     <div key={group.label}>
                       <button

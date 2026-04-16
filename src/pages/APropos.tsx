@@ -7,8 +7,8 @@ const APropos = () => {
   return (
     <>
       <Helmet>
-        <title>À Propos - Inocent KOFFI | Fondateur AGRICAPITAL SARL</title>
-        <meta name="description" content="Découvrez le parcours d'Inocent KOFFI, fondateur d'AGRICAPITAL SARL. 12 années d'immersion terrain auprès des producteurs agricoles en Côte d'Ivoire." />
+        <title>À Propos - Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL</title>
+        <meta name="description" content="Découvrez le parcours d'Inocent KOFFI, fondateur & CEO d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole en Côte d'Ivoire." />
         <link rel="canonical" href="https://www.ikoffi.agricapital.ci/a-propos" />
       </Helmet>
       <div className="min-h-screen">
@@ -25,20 +25,20 @@ const APropos = () => {
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
-                  {/* Photo Section */}
+                  {/* Photo */}
                   <div className="flex justify-center lg:justify-start">
                     <div className="relative">
                       <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-3xl blur-2xl opacity-20"></div>
                       <img 
                         src={profilePhoto} 
-                        alt="Inocent KOFFI - Fondateur AGRICAPITAL SARL" 
+                        alt="Inocent KOFFI - Fondateur & CEO AGRICAPITAL SARL" 
                         className="relative rounded-3xl shadow-2xl max-w-sm sm:max-w-md w-full h-auto object-cover"
                         loading="eager"
                       />
                     </div>
                   </div>
 
-                  {/* Content Section */}
+                  {/* Content */}
                   <div className="space-y-4 sm:space-y-6">
                     <div className="bg-card rounded-2xl p-4 sm:p-6 border border-border/50">
                       <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Inocent KOFFI</h2>
@@ -48,28 +48,24 @@ const APropos = () => {
                     </div>
 
                     <p className="text-base sm:text-lg text-muted-foreground leading-relaxed italic">
-                      Visionnaire | Entrepreneur Social | Développeur Web | Développeur de Stratégies | Créateur de Contenus Professionnels | Praticien IA & Formateur Pluridisciplinaire
+                      Agro-entrepreneur et Stratège en Développement Agricole
                     </p>
                     <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                      Entrepreneur agricole, développeur web et praticien de l'intelligence artificielle, Inocent KOFFI cumule 
-                      plus de 12 années d'immersion terrain en Côte d'Ivoire — au service du développement commercial, le recouvrement 
-                      de créances, l'énergie renouvelable, l'agriculture et l'innovation numérique.
+                      De 2012 à 2024, Inocent KOFFI a développé une expertise terrain exceptionnelle à travers plus d'une décennie d'immersion au sein des communautés rurales ivoiriennes. Cette connaissance intime du territoire, des réalités agricoles et du potentiel foncier constitue un atout stratégique majeur.
                     </p>
                     <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                      Fort de ce parcours pluridisciplinaire ancré dans les réalités du terrain, il place aujourd'hui la technologie 
-                      et l'agriculture au cœur d'une vision commune : faire de l'innovation un levier concret au service des communautés 
-                      et du développement local. Fondateur et CEO d'AGRICAPITAL SARL, il initie et porte des projets à fort impact social.
+                      AgriCapital incarne cette vision : bâtir un écosystème où chaque partie prenante — avec ou sans terrain — trouve sa place et construit un patrimoine tangible, créateur de valeur.
                     </p>
-                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                      AGRICAPITAL est spécialisée dans l'accompagnement agricole et les services intégrés, avec pour mission d'ouvrir l'accès à la filière palmier à huile grâce à un modèle structuré, durable et sans barrière financière, reposant sur un financement adapté et un encadrement professionnel.
-                    </p>
+                    <blockquote className="border-l-4 border-accent pl-4 sm:pl-6 py-2 italic text-base sm:text-lg text-foreground">
+                      "L'agriculture représente bien plus qu'une activité économique : c'est le fondement de tout patrimoine durable."
+                    </blockquote>
 
                     <div className="flex flex-wrap gap-3 sm:gap-4 pt-4">
                       <a 
-                        href="tel:+2250759566087" 
+                        href="tel:+2250564551717" 
                         className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm sm:text-base"
                       >
-                        <span className="font-medium">07 59 56 60 87</span>
+                        <span className="font-medium">05 64 55 17 17</span>
                       </a>
                       <a 
                         href="mailto:contact@agricapital.ci" 
@@ -84,78 +80,71 @@ const APropos = () => {
             </div>
           </section>
 
-          {/* 12 Years Experience Section */}
+          {/* 12 Years */}
           <section className="py-12 sm:py-20 bg-secondary/30">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-foreground">
-                  12 années d'<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">immersion</span> sur le terrain
+                  12 années d'<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">expertise terrain</span>
                 </h2>
 
                 <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
                   <p>
-                    De 2012 à 2024, mon modeste parcours professionnel m'a conduit dans plus de <strong className="text-foreground">360 localités</strong> à travers <strong className="text-foreground">8 régions de Côte d'Ivoire</strong> : Loh-Djiboua, Gôh, Nawa, Gboklè, Grands-Ponts, Agnéby-Tiassa, Haut-Sassandra et Marahoué.
+                    De 2012 à 2024, Inocent KOFFI a parcouru plus de <strong className="text-foreground">360 localités</strong> à travers <strong className="text-foreground">8 régions de Côte d'Ivoire</strong> : Loh-Djiboua, Gôh, Nawa, Gboklè, Grands-Ponts, Agnéby-Tiassa, Haut-Sassandra et Marahoué.
                   </p>
 
-                  <p>
-                    Cette immersion profonde dans les villages, campements et hameaux m'a permis de :
-                  </p>
+                  <p>Cette expertise terrain permet à AgriCapital de :</p>
 
                   <ul className="space-y-3 pl-4 sm:pl-6">
-                    <li className="flex items-start gap-3">
-                      <span className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
-                      <span>comprendre les réalités quotidiennes des producteurs agricoles ;</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
-                      <span>identifier leurs contraintes structurelles ;</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
-                      <span>mesurer les potentiels inexploités de nos terres et de nos communautés ;</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
-                      <span>analyser les besoins réels pour bâtir un modèle adapté, efficace et durable.</span>
-                    </li>
+                    {[
+                      "Identifier et valider techniquement les parcelles à fort potentiel",
+                      "Mener des rencontres avec les propriétaires terriens et les communautés locales",
+                      "Réaliser la cartographie GPS et la sécurisation des périmètres agricoles",
+                      "Évaluer le potentiel agronomique des sols et la capacité de production"
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
                   </ul>
 
                   <p className="italic border-l-4 border-accent pl-4 sm:pl-6 py-2">
-                    Ces 12 années d'écoute, d'observation, d'apprentissage et de collaboration ont façonné une compréhension intime du monde paysan et constituent les fondations de ma vision.
+                    Cette connaissance intime du territoire et du potentiel foncier est un atout stratégique majeur pour identifier et sécuriser les meilleures terres pour nos clients.
                   </p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Structured Model Section */}
+          {/* AgriCapital Model */}
           <section className="py-12 sm:py-20 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-foreground">
-                  La naissance d'un modèle <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">structuré et durable</span>
+                  AgriCapital : <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">le modèle</span>
                 </h2>
 
                 <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
                   <p>
-                    De cette expérience est née une ambition : bâtir un <strong className="text-foreground">écosystème agricole intégré</strong>, permettant à chaque jeune Africain de se développer durablement depuis son milieu d'origine grâce à l'agriculture.
+                    La Côte d'Ivoire possède un potentiel agricole considérable, encore largement sous-valorisé. AgriCapital répond à ce double défi en développant un modèle structuré de promotion agricole.
                   </p>
-
-                  <p>Ce modèle repose sur :</p>
+                  <p>
+                    L'entreprise conçoit et déploie des <strong className="text-foreground">plantations clé en main</strong>, permettant aux particuliers et professionnels d'accéder à une agriculture productive, tout en étant déchargés des contraintes techniques, foncières et organisationnelles.
+                  </p>
 
                   <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
                     {[
-                      "Un financement adapté, pensé pour lever les obstacles financiers",
-                      "Un accompagnement technique complet et structuré",
-                      "Un suivi technique durable",
-                      "Une formation continue",
-                      "La transformation locale, pour créer plus de valeur et davantage d'emplois dans les territoires",
-                      "Un cadre sécurisé, équitable et sans barrière financière",
-                      "Une approche humaine et durable au service des communautés rurales et de la société"
+                      "Plantation clé en main avec 143 plants certifiés/hectare",
+                      "Accompagnement complet sur 36 mois de développement",
+                      "Garantie d'achat sur 25 ans via partenaires industriels",
+                      "Sécurité contractuelle et cadre juridique solide",
+                      "Cartographie GPS et traçabilité complète",
+                      "Suivi agronomique et 6 visites techniques par cycle"
                     ].map((item, index) => (
                       <div key={index} className="flex items-start gap-3 p-3 sm:p-4 bg-card rounded-xl border border-border/50">
                         <span className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                          {index + 1}
+                          ✓
                         </span>
                         <span className="text-foreground text-sm sm:text-base">{item}</span>
                       </div>
@@ -163,7 +152,7 @@ const APropos = () => {
                   </div>
 
                   <p className="text-center text-base sm:text-lg font-medium text-foreground mt-8">
-                    Cette vision guide aujourd'hui la mission d'<strong className="text-primary">AGRICAPITAL SARL</strong>, ambitieuse de contribuer à un secteur agricole plus moderne, plus inclusif, générateur d'emplois et véritablement prospère.
+                    <a href="/agricapital" className="text-primary hover:underline font-bold">Découvrir AGRICAPITAL →</a>
                   </p>
                 </div>
               </div>

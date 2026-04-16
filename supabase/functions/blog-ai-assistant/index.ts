@@ -45,7 +45,6 @@ serve(async (req) => {
         .gt("expires_at", new Date().toISOString())
         .maybeSingle();
 
-      // Only use cache for meta and structure (full articles should always be unique)
       if (cached && action !== "generate_full_article") {
         return new Response(JSON.stringify(cached.response), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -112,6 +111,7 @@ Seed créative: ${creativeSeed}.`
 
     const BRAND_CONTEXT = `
 Tu écris des analyses et réflexions signées Inocent KOFFI (orthographe exacte), Fondateur & CEO d'AGRICAPITAL SARL.
+AgriCapital est un opérateur et promoteur agricole spécialisé dans la création de plantations de palmier à huile clé en main en Côte d'Ivoire.
 IMPORTANT: la ligne éditoriale est PERSONNELLE et analytique; ne transforme jamais l'article en communication d'entreprise centrée sur AGRICAPITAL.
 Positionnement: crédibilité, lucidité, impact terrain, ouverture partenariats, pédagogie professionnelle.
 Domaines possibles: agriculture, économie, finance, innovation, énergie, numérique, gouvernance, entrepreneuriat, développement local.
@@ -124,6 +124,18 @@ RÈGLES HTML STRICTES:
 - Paragraphes courts avec transitions claires.
 - N'invente jamais de chiffres: si incertitude, le dire clairement.
 - Ton: professionnel, concret, honnête, non sensationnaliste.
+
+TABLEAUX — QUAND PERTINENT UNIQUEMENT:
+- Si le sujet s'y prête (comparaisons, analyses, synthèses, données structurées), génère un tableau HTML propre.
+- Utilise <table> avec <thead> et <tbody>.
+- Style: bordures fines, alternance de couleurs de lignes (zebra), texte lisible.
+- Exemple de style inline: <table style="width:100%;border-collapse:collapse;margin:1.5em 0"><thead><tr style="background:#f0f0f0"><th style="padding:10px 14px;text-align:left;border-bottom:2px solid #ddd">...</th></tr></thead><tbody><tr style="background:#fafafa"><td style="padding:8px 14px;border-bottom:1px solid #eee">...</td></tr><tr><td style="padding:8px 14px;border-bottom:1px solid #eee">...</td></tr></tbody></table>
+- NE PAS forcer un tableau si le sujet ne le nécessite pas.
+
+IMAGES DANS L'ARTICLE (si plusieurs images fournies):
+- Les images supplémentaires doivent être insérées DANS le contenu, réparties entre les sections.
+- Chaque image doit être placée à un endroit logique et pertinent, pas toutes au même endroit.
+- Format: <figure style="margin:1.5em 0;text-align:center"><img src="URL" alt="description" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)"><figcaption style="font-size:0.85em;color:#666;margin-top:0.5em">Légende</figcaption></figure>
 
 SECTION SOURCES VÉRIFIÉES OBLIGATOIRE:
 - TOUJOURS terminer l'article par une section <h2>📌 Sources vérifiées</h2>
@@ -184,7 +196,7 @@ STRUCTURE ATTENDUE:
 1. Introduction percutante (2-3 paragraphes)
 2. 3 à 5 sections <h2>
 3. Sous-sections <h3> si pertinent
-4. Encadrés/listes/tableaux si utiles à la compréhension
+4. Encadrés/listes/tableaux SI PERTINENTS pour la compréhension
 5. Conclusion orientée action et réflexion
 6. Section "📌 Sources vérifiées" OBLIGATOIRE en dernier
 
@@ -194,6 +206,7 @@ RÈGLES FORTES:
 - Éviter le jargon vide.
 - Donner des éléments concrets et nuancés.
 - Sources en fin d'article: OBLIGATOIRES, réelles, avec liens cliquables et date de consultation.
+- Si le sujet s'y prête, inclure un TABLEAU comparatif ou de synthèse avec style zebra-striped.
 
 Catégories disponibles: ${catList}
 
@@ -226,7 +239,29 @@ Retourne UNIQUEMENT ce JSON valide:
       const parsed = extractJSON(articleResponse);
 
       if (imageUrl) parsed.imageUrl = imageUrl;
-      if (galleryResults) parsed.galleryUrls = galleryResults.filter(Boolean);
+      if (galleryResults) {
+        const validGallery = galleryResults.filter(Boolean) as string[];
+        parsed.galleryUrls = validGallery;
+
+        // Insert gallery images into article content at logical positions
+        if (validGallery.length > 0 && parsed.content) {
+          const sections = parsed.content.split(/<h2/gi);
+          if (sections.length > 2) {
+            const insertPositions: number[] = [];
+            const step = Math.max(1, Math.floor((sections.length - 1) / (validGallery.length + 1)));
+            for (let i = 0; i < validGallery.length; i++) {
+              insertPositions.push(Math.min(1 + (i + 1) * step, sections.length - 1));
+            }
+
+            for (let i = insertPositions.length - 1; i >= 0; i--) {
+              const pos = insertPositions[i];
+              const imgHtml = `<figure style="margin:1.5em 0;text-align:center"><img src="${validGallery[i]}" alt="Illustration de l'article" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></figure>`;
+              sections[pos] = imgHtml + "<h2" + sections[pos];
+            }
+            parsed.content = sections.join("");
+          }
+        }
+      }
 
       return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
