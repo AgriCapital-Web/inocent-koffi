@@ -1,22 +1,22 @@
-import { TrendingUp, Target, Lightbulb } from "lucide-react";
+import { Leaf, BarChart3, Shield } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 
 const services = [
   {
-    icon: Target,
-    title: "Impact",
-    description: "Transformation agricole à fort impact économique, social, communautaire et environnemental."
+    icon: Leaf,
+    title: "Plantation Clé en Main",
+    description: "Plants certifiés, défrichage, piquetage, plantation, intrants et fertilisation — remise opérationnelle à 36 mois."
   },
   {
-    icon: TrendingUp,
-    title: "Financement & Investissement",
-    description: "Structuration de mécanismes de financement innovants pour soutenir les projets agricoles à fort impact."
+    icon: BarChart3,
+    title: "Suivi Technique",
+    description: "Visites techniques, conseils agronomiques et accompagnement continu pendant toute la durée du contrat."
   },
   {
-    icon: Lightbulb,
-    title: "Accompagnement Terrain",
-    description: "Plus de 12 années d'immersion au cœur des communautés rurales, transformant les réalités du terrain en solutions concrètes."
+    icon: Shield,
+    title: "Garantie d'Achat",
+    description: "Débouchés sécurisés et revenus stables sur 25 ans via nos partenaires industriels."
   }
 ];
 
@@ -32,10 +32,10 @@ const Services = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 sm:mb-6 text-foreground">
-            Mon <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Expertise</span>
+            Ce que nous <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">offrons</span>
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-muted-foreground px-4">
-            Leadership visionnaire pour une agriculture africaine prospère et durable
+            Un accompagnement structuré pour votre patrimoine agricole
           </p>
         </motion.div>
 

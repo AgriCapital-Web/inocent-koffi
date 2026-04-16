@@ -24,7 +24,7 @@ interface ShareLink {
   icon: React.ReactNode;
   webUrl: string;
   appUrl?: string;
-  toneClass: string;
+  color: string;
 }
 
 const SocialSharePopup = ({ url, title, description = "", children }: SocialSharePopupProps) => {
@@ -48,15 +48,16 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
     return `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-article?slug=${encodeURIComponent(slug)}`;
   }, [slug, url]);
 
+  const articleUrl = url;
   const signature = "— Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL";
   const summaryText = (description || title).trim();
   const compactSummary = summaryText.length > 220 ? `${summaryText.slice(0, 219).trim()}…` : summaryText;
-  const shareBody = `${title}\n\n${compactSummary}\n\n${signature}\n\n👉 Cliquez pour lire l'article complet`;
+  const shareBody = `${title}\n\n${compactSummary}\n\n${signature}\n\nL'article complet à ce lien 👉`;
+  const shareBodyWithLink = `${shareBody}\n${articleUrl}`;
 
-  const encodedShareBody = encodeURIComponent(shareBody);
+  const encodedShareBodyWithLink = encodeURIComponent(shareBodyWithLink);
   const encodedOgUrl = encodeURIComponent(ogShareUrl);
   const encodedTitle = encodeURIComponent(title);
-  const encodedWhatsAppBody = encodeURIComponent(`${shareBody}\n\n${ogShareUrl}`);
 
   const shareLinks: ShareLink[] = [
     {
@@ -67,7 +68,7 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
         </svg>
       ),
       webUrl: `https://www.facebook.com/sharer/sharer.php?u=${encodedOgUrl}`,
-      toneClass: "bg-primary hover:bg-primary/90",
+      color: "bg-[#1877F2] hover:bg-[#1877F2]/90 text-white",
     },
     {
       name: "WhatsApp",
@@ -76,9 +77,9 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884" />
         </svg>
       ),
-      webUrl: `https://wa.me/?text=${encodedWhatsAppBody}`,
-      appUrl: `whatsapp://send?text=${encodedWhatsAppBody}`,
-      toneClass: "bg-accent text-accent-foreground hover:bg-accent/90",
+      webUrl: `https://wa.me/?text=${encodedShareBodyWithLink}`,
+      appUrl: `whatsapp://send?text=${encodedShareBodyWithLink}`,
+      color: "bg-[#25D366] hover:bg-[#25D366]/90 text-white",
     },
     {
       name: "Messenger",
@@ -89,7 +90,7 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
       ),
       webUrl: `https://www.facebook.com/dialog/send?link=${encodedOgUrl}&app_id=291494419107518&redirect_uri=${encodeURIComponent(url)}`,
       appUrl: `fb-messenger://share?link=${encodedOgUrl}`,
-      toneClass: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
+      color: "bg-[#0099FF] hover:bg-[#0099FF]/90 text-white",
     },
     {
       name: "LinkedIn",
@@ -99,7 +100,7 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
         </svg>
       ),
       webUrl: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedOgUrl}`,
-      toneClass: "bg-primary hover:bg-primary/90",
+      color: "bg-[#0A66C2] hover:bg-[#0A66C2]/90 text-white",
     },
     {
       name: "X (Twitter)",
@@ -108,9 +109,9 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
         </svg>
       ),
-      webUrl: `https://twitter.com/intent/tweet?text=${encodedShareBody}&url=${encodedOgUrl}`,
-      appUrl: `twitter://post?message=${encodeURIComponent(`${shareBody} ${ogShareUrl}`)}`,
-      toneClass: "bg-foreground text-background hover:bg-foreground/90",
+      webUrl: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareBody)}&url=${encodeURIComponent(articleUrl)}`,
+      appUrl: `twitter://post?message=${encodeURIComponent(shareBodyWithLink)}`,
+      color: "bg-[#14171A] hover:bg-[#14171A]/90 text-white",
     },
     {
       name: "Instagram",
@@ -121,7 +122,7 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
       ),
       webUrl: "https://www.instagram.com/",
       appUrl: "instagram://app",
-      toneClass: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
+      color: "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] hover:opacity-90 text-white",
     },
     {
       name: "Gmail",
@@ -130,8 +131,8 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
         </svg>
       ),
-      webUrl: `mailto:?subject=${encodedTitle}&body=${encodeURIComponent(`${shareBody}\n\n${ogShareUrl}`)}`,
-      toneClass: "bg-primary hover:bg-primary/90",
+      webUrl: `mailto:?subject=${encodedTitle}&body=${encodeURIComponent(shareBodyWithLink)}`,
+      color: "bg-[#EA4335] hover:bg-[#EA4335]/90 text-white",
     },
     {
       name: "SMS",
@@ -140,16 +141,16 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z" />
         </svg>
       ),
-      webUrl: `sms:?body=${encodeURIComponent(`${shareBody}\n\n${ogShareUrl}`)}`,
-      toneClass: "bg-accent text-accent-foreground hover:bg-accent/90",
+      webUrl: `sms:?body=${encodeURIComponent(shareBodyWithLink)}`,
+      color: "bg-[#5BC236] hover:bg-[#5BC236]/90 text-white",
     },
   ];
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(ogShareUrl);
+      await navigator.clipboard.writeText(articleUrl);
       setCopied(true);
-      toast({ title: "Lien court copié !" });
+      toast({ title: "Lien copié !" });
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast({ title: "Erreur", description: "Impossible de copier le lien", variant: "destructive" });
@@ -217,7 +218,7 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
             <button
               key={link.name}
               onClick={() => handleShare(link)}
-              className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all hover:scale-105 active:scale-95 ${link.toneClass}`}
+              className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all hover:scale-105 active:scale-95 ${link.color}`}
               title={`Partager sur ${link.name}`}
             >
               {link.icon}
@@ -228,7 +229,7 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
 
         <Button variant="outline" size="sm" className="w-full gap-2" onClick={handleCopy}>
           {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
-          {copied ? "Lien copié !" : "Copier le lien court"}
+          {copied ? "Lien copié !" : "Copier le lien de l'article"}
         </Button>
       </DialogContent>
     </Dialog>
