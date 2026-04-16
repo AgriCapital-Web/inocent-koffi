@@ -43,12 +43,23 @@ Deno.serve(async (req) => {
   const contentText = stripHtml(post.content || "");
   const summary = truncate(post.excerpt || post.tagline || contentText || post.title, 220);
   const signature = "Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL";
-  const ogDescription = `${summary} — ${signature}. Cliquez pour lire l'article complet.`;
+  const ogDescription = `${summary} — ${signature}`;
 
-  let imageUrl = post.featured_image || `${siteUrl}/og-image.png`;
-  if (imageUrl && !imageUrl.startsWith("http")) {
-    imageUrl = `${siteUrl}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
+  // CRITICAL: Use the article's featured image ONLY. Never fall back to logo or founder photo.
+  let imageUrl = "";
+  if (post.featured_image) {
+    imageUrl = post.featured_image;
+    if (!imageUrl.startsWith("http")) {
+      imageUrl = `${siteUrl}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
+    }
   }
+
+  // If no featured image, don't set an OG image at all rather than using a default
+  const imageMetaTags = imageUrl ? `
+  <meta property="og:image" content="${escapeHtml(imageUrl)}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="${escapeHtml(imageUrl)}">` : "";
 
   const html = `<!DOCTYPE html>
 <html lang="fr">
@@ -60,18 +71,15 @@ Deno.serve(async (req) => {
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(post.title)}">
   <meta property="og:description" content="${escapeHtml(ogDescription)}">
-  <meta property="og:image" content="${escapeHtml(imageUrl)}">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  ${imageMetaTags}
   <meta property="og:url" content="${escapeHtml(articleUrl)}">
-  <meta property="og:site_name" content="Inocent KOFFI">
+  <meta property="og:site_name" content="Inocent KOFFI - AGRICAPITAL">
   <meta property="article:published_time" content="${post.published_at || ""}">
   <meta property="article:author" content="${escapeHtml(author)}">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(post.title)}">
   <meta name="twitter:description" content="${escapeHtml(ogDescription)}">
-  <meta name="twitter:image" content="${escapeHtml(imageUrl)}">
 
   <meta http-equiv="refresh" content="0;url=${escapeHtml(articleUrl)}">
   <link rel="canonical" href="${escapeHtml(articleUrl)}">
