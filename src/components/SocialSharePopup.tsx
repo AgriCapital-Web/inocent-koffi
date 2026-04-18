@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -8,8 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Share2, Copy, Check } from "lucide-react";
+import { Share2, Copy, Check, Link2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { motion, AnimatePresence } from "framer-motion";
+import { buildShortUrl } from "@/lib/shortUrl";
 
 interface SocialSharePopupProps {
   url: string;
@@ -24,12 +26,15 @@ interface ShareLink {
   icon: React.ReactNode;
   webUrl: string;
   appUrl?: string;
-  color: string;
+  bgClass: string;
+  iconColor: string;
 }
 
-const SocialSharePopup = ({ url, title, description = "", children }: SocialSharePopupProps) => {
+const SocialSharePopup = ({ url, title, description = "" }: SocialSharePopupProps) => {
   const [copied, setCopied] = useState(false);
+  const [shortCopied, setShortCopied] = useState(false);
   const [open, setOpen] = useState(false);
+  const [shortUrl, setShortUrl] = useState<string | null>(null);
   const { toast } = useToast();
 
   const slug = useMemo(() => {
@@ -43,21 +48,37 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
     }
   }, [url]);
 
-  const ogShareUrl = useMemo(() => {
-    if (!slug || !import.meta.env.VITE_SUPABASE_URL) return url;
-    return `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-article?slug=${encodeURIComponent(slug)}`;
-  }, [slug, url]);
+  // Build short URL like https://ikoffi.agricapital.ci/new/art004-026
+  useEffect(() => {
+    if (!slug || !open) return;
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("blog_posts")
+        .select("article_number, published_at")
+        .eq("slug", slug)
+        .maybeSingle();
+      if (cancelled) return;
+      if (data?.article_number) {
+        const origin = typeof window !== "undefined" ? window.location.origin : "https://ikoffi.agricapital.ci";
+        setShortUrl(buildShortUrl(data.article_number, data.published_at, origin));
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [slug, open]);
 
-  const articleUrl = url;
+  // The URL we share publicly: short if available, otherwise the full article URL
+  const shareUrl = shortUrl || url;
   const signature = "— Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL";
   const summaryText = (description || title).trim();
   const compactSummary = summaryText.length > 220 ? `${summaryText.slice(0, 219).trim()}…` : summaryText;
-  const shareBody = `${title}\n\n${compactSummary}\n\n${signature}\n\nL'article complet à ce lien 👉`;
-  const shareBodyWithLink = `${shareBody}\n${articleUrl}`;
+  const shareBody = `${title}\n\n${compactSummary}\n\n${signature}\n\n👉 L'article complet à ce lien :`;
+  const shareBodyWithLink = `${shareBody}\n${shareUrl}`;
 
   const encodedShareBodyWithLink = encodeURIComponent(shareBodyWithLink);
-  const encodedOgUrl = encodeURIComponent(ogShareUrl);
+  const encodedShareUrl = encodeURIComponent(shareUrl);
   const encodedTitle = encodeURIComponent(title);
+  const encodedSummary = encodeURIComponent(compactSummary);
 
   const shareLinks: ShareLink[] = [
     {
@@ -67,8 +88,9 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
         </svg>
       ),
-      webUrl: `https://www.facebook.com/sharer/sharer.php?u=${encodedOgUrl}`,
-      color: "bg-[#1877F2] hover:bg-[#1877F2]/90 text-white",
+      webUrl: `https://www.facebook.com/sharer/sharer.php?u=${encodedShareUrl}&quote=${encodedSummary}`,
+      bgClass: "bg-[#1877F2] hover:bg-[#0d65d9]",
+      iconColor: "text-white",
     },
     {
       name: "WhatsApp",
@@ -79,7 +101,8 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
       ),
       webUrl: `https://wa.me/?text=${encodedShareBodyWithLink}`,
       appUrl: `whatsapp://send?text=${encodedShareBodyWithLink}`,
-      color: "bg-[#25D366] hover:bg-[#25D366]/90 text-white",
+      bgClass: "bg-[#25D366] hover:bg-[#1da851]",
+      iconColor: "text-white",
     },
     {
       name: "Messenger",
@@ -88,9 +111,10 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           <path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.654V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26 6.559-6.963 3.131 3.26 5.886-3.26-6.558 6.963z" />
         </svg>
       ),
-      webUrl: `https://www.facebook.com/dialog/send?link=${encodedOgUrl}&app_id=291494419107518&redirect_uri=${encodeURIComponent(url)}`,
-      appUrl: `fb-messenger://share?link=${encodedOgUrl}`,
-      color: "bg-[#0099FF] hover:bg-[#0099FF]/90 text-white",
+      webUrl: `https://www.facebook.com/dialog/send?link=${encodedShareUrl}&app_id=291494419107518&redirect_uri=${encodeURIComponent(url)}`,
+      appUrl: `fb-messenger://share?link=${encodedShareUrl}`,
+      bgClass: "bg-[#0084FF] hover:bg-[#0070dd]",
+      iconColor: "text-white",
     },
     {
       name: "LinkedIn",
@@ -99,8 +123,9 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
         </svg>
       ),
-      webUrl: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedOgUrl}`,
-      color: "bg-[#0A66C2] hover:bg-[#0A66C2]/90 text-white",
+      webUrl: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedShareUrl}`,
+      bgClass: "bg-[#0A66C2] hover:bg-[#084e96]",
+      iconColor: "text-white",
     },
     {
       name: "X (Twitter)",
@@ -109,30 +134,33 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
         </svg>
       ),
-      webUrl: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareBody)}&url=${encodeURIComponent(articleUrl)}`,
+      webUrl: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareBody)}&url=${encodedShareUrl}`,
       appUrl: `twitter://post?message=${encodeURIComponent(shareBodyWithLink)}`,
-      color: "bg-[#14171A] hover:bg-[#14171A]/90 text-white",
+      bgClass: "bg-foreground hover:bg-foreground/85",
+      iconColor: "text-background",
     },
     {
-      name: "Instagram",
+      name: "Telegram",
       icon: (
         <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+          <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.643.135-.953l11.566-4.458c.538-.196 1.006.128.832.953z" />
         </svg>
       ),
-      webUrl: "https://www.instagram.com/",
-      appUrl: "instagram://app",
-      color: "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] hover:opacity-90 text-white",
+      webUrl: `https://t.me/share/url?url=${encodedShareUrl}&text=${encodeURIComponent(shareBody)}`,
+      appUrl: `tg://msg?text=${encodedShareBodyWithLink}`,
+      bgClass: "bg-[#0088CC] hover:bg-[#006fa6]",
+      iconColor: "text-white",
     },
     {
-      name: "Gmail",
+      name: "Email",
       icon: (
         <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
           <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
         </svg>
       ),
       webUrl: `mailto:?subject=${encodedTitle}&body=${encodeURIComponent(shareBodyWithLink)}`,
-      color: "bg-[#EA4335] hover:bg-[#EA4335]/90 text-white",
+      bgClass: "bg-[#EA4335] hover:bg-[#c5362b]",
+      iconColor: "text-white",
     },
     {
       name: "SMS",
@@ -142,18 +170,19 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
         </svg>
       ),
       webUrl: `sms:?body=${encodeURIComponent(shareBodyWithLink)}`,
-      color: "bg-[#5BC236] hover:bg-[#5BC236]/90 text-white",
+      bgClass: "bg-[#5BC236] hover:bg-[#4aa829]",
+      iconColor: "text-white",
     },
   ];
 
-  const handleCopy = async () => {
+  const copyToClipboard = async (text: string, label: string, setState: (v: boolean) => void) => {
     try {
-      await navigator.clipboard.writeText(articleUrl);
-      setCopied(true);
-      toast({ title: "Lien copié !" });
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(text);
+      setState(true);
+      toast({ title: `${label} copié !` });
+      setTimeout(() => setState(false), 2000);
     } catch {
-      toast({ title: "Erreur", description: "Impossible de copier le lien", variant: "destructive" });
+      toast({ title: "Erreur", description: "Impossible de copier", variant: "destructive" });
     }
   };
 
@@ -186,51 +215,83 @@ const SocialSharePopup = ({ url, title, description = "", children }: SocialShar
       return;
     }
 
-    window.open(link.webUrl, "_blank", "noopener,noreferrer,width=600,height=400");
+    window.open(link.webUrl, "_blank", "noopener,noreferrer,width=600,height=500");
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {children || (
-          <Button variant="outline" size="sm" className="gap-2">
-            <Share2 className="w-4 h-4" />
-            Partager
-          </Button>
-        )}
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-lg">
-            <Share2 className="w-5 h-5 text-primary" />
-            Partager cet article
-          </DialogTitle>
-        </DialogHeader>
-
-        <div className="p-3 bg-muted/50 rounded-lg border text-sm space-y-1">
-          <p className="font-semibold text-foreground line-clamp-2">{title}</p>
-          {description && <p className="text-muted-foreground line-clamp-2">{compactSummary}</p>}
-          <p className="text-xs text-muted-foreground italic">{signature}</p>
-        </div>
-
-        <div className="grid grid-cols-4 gap-3 py-3">
-          {shareLinks.map((link) => (
-            <button
-              key={link.name}
-              onClick={() => handleShare(link)}
-              className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all hover:scale-105 active:scale-95 ${link.color}`}
-              title={`Partager sur ${link.name}`}
-            >
-              {link.icon}
-              <span className="text-[10px] mt-1.5 font-medium leading-tight">{link.name}</span>
-            </button>
-          ))}
-        </div>
-
-        <Button variant="outline" size="sm" className="w-full gap-2" onClick={handleCopy}>
-          {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
-          {copied ? "Lien copié !" : "Copier le lien de l'article"}
+        <Button variant="outline" size="sm" className="gap-2">
+          <Share2 className="w-4 h-4" />
+          Partager
         </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto p-0 bg-card border-2">
+        <div className="bg-gradient-to-br from-primary/10 via-card to-accent/10 p-5 sm:p-6">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl text-foreground">
+              <Share2 className="w-5 h-5 text-primary" />
+              Partager cet article
+            </DialogTitle>
+          </DialogHeader>
+
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+            className="mt-4 p-3 bg-background/70 backdrop-blur rounded-lg border border-border text-sm space-y-1"
+          >
+            <p className="font-semibold text-foreground line-clamp-2">{title}</p>
+            {description && <p className="text-muted-foreground line-clamp-2">{compactSummary}</p>}
+            <p className="text-xs text-primary italic font-medium">{signature}</p>
+          </motion.div>
+
+          <div className="grid grid-cols-4 gap-2.5 sm:gap-3 py-4 sm:py-5">
+            <AnimatePresence>
+              {shareLinks.map((link, index) => (
+                <motion.button
+                  key={link.name}
+                  onClick={() => handleShare(link)}
+                  initial={{ opacity: 0, scale: 0.85, y: 8 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ delay: index * 0.04, type: "spring", stiffness: 220, damping: 18 }}
+                  whileHover={{ scale: 1.06, y: -2 }}
+                  whileTap={{ scale: 0.94 }}
+                  className={`flex flex-col items-center justify-center p-2.5 sm:p-3 rounded-xl shadow-sm hover:shadow-lg transition-shadow ${link.bgClass}`}
+                  title={`Partager sur ${link.name}`}
+                >
+                  <span className={link.iconColor}>{link.icon}</span>
+                  <span className={`text-[10px] sm:text-[11px] mt-1.5 font-semibold leading-tight text-center ${link.iconColor}`}>
+                    {link.name}
+                  </span>
+                </motion.button>
+              ))}
+            </AnimatePresence>
+          </div>
+
+          <div className="space-y-2">
+            {shortUrl && (
+              <Button
+                variant="default"
+                size="sm"
+                className="w-full gap-2 bg-primary hover:bg-primary/90"
+                onClick={() => copyToClipboard(shortUrl, "Lien court", setShortCopied)}
+              >
+                {shortCopied ? <Check className="w-4 h-4" /> : <Link2 className="w-4 h-4" />}
+                <span className="font-mono text-xs sm:text-sm">{shortCopied ? "Lien court copié !" : shortUrl.replace(/^https?:\/\//, "")}</span>
+              </Button>
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full gap-2"
+              onClick={() => copyToClipboard(url, "Lien", setCopied)}
+            >
+              {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
+              {copied ? "Lien complet copié !" : "Copier le lien complet"}
+            </Button>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );

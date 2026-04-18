@@ -23,6 +23,7 @@ import Evolution from "./pages/EvolutionEnhanced";
 import Portfolio from "./pages/Portfolio";
 import Forum from "./pages/Forum";
 import SearchResults from "./pages/SearchResults";
+import ShortRedirect from "./pages/ShortRedirect";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const routes = [
   { path: "/portfolio", element: <Portfolio /> },
   { path: "/forum", element: <Forum /> },
   { path: "/recherche", element: <SearchResults /> },
+  { path: "/new/:code", element: <ShortRedirect /> },
 ];
 
 const languageCodes = ["fr", "en", "es", "de", "zh", "ar"];

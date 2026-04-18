@@ -307,13 +307,33 @@ const AdminBlogEnhanced = () => {
     mutationFn: async (postData: any) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Vous devez être connecté pour enregistrer un article");
-      
+
+      let postId: string;
       if (editingPost) {
         const { error } = await supabase.from('blog_posts').update(postData).eq('id', editingPost.id);
         if (error) throw error;
+        postId = editingPost.id;
       } else {
-        const { error } = await supabase.from('blog_posts').insert([{ ...postData, author_id: user.id }]);
+        const { data, error } = await supabase.from('blog_posts').insert([{ ...postData, author_id: user.id }]).select('id').single();
         if (error) throw error;
+        postId = data.id;
+      }
+
+      // Sync gallery to blog_media (images other than the cover) — used for carousel display
+      const galleryImages = mediaFiles.filter(m => m.type.startsWith("image/") && m.url !== postData.featured_image);
+      if (postId) {
+        await supabase.from('blog_media').delete().eq('post_id', postId);
+        if (galleryImages.length > 0) {
+          await supabase.from('blog_media').insert(
+            galleryImages.map((m, i) => ({
+              post_id: postId,
+              file_url: m.url,
+              file_name: m.name,
+              file_type: m.type,
+              sort_order: i,
+            }))
+          );
+        }
       }
     },
     onSuccess: () => {
@@ -477,10 +497,10 @@ const AdminBlogEnhanced = () => {
 
       const galleryUrls: string[] = Array.isArray(data.galleryUrls) ? data.galleryUrls.filter(Boolean) : [];
       const coverImage = data.imageUrl || galleryUrls[0] || "";
-      const inlineGalleryImages = galleryUrls.filter((img: string) => img && img !== coverImage);
 
+      // Clean content — no inline images. Cover stays at top, gallery is a carousel below.
       if (data.content) {
-        setContent(mergeContentWithGallery(data.content, inlineGalleryImages));
+        setContent(removeAutoGalleryBlock(data.content));
       }
 
       // Handle generated media
@@ -576,12 +596,8 @@ const AdminBlogEnhanced = () => {
       toast({ title: "Catégorie obligatoire", variant: "destructive" }); return;
     }
 
-    const inlineGalleryImages = mediaFiles
-      .filter((media) => media.type.startsWith("image/") && media.url !== featuredImage)
-      .map((media) => media.url)
-      .filter((mediaUrl) => !content.includes(mediaUrl));
-
-    const publishReadyContent = mergeContentWithGallery(content, inlineGalleryImages);
+    // Clean content — gallery rendered separately as carousel via blog_media table
+    const publishReadyContent = removeAutoGalleryBlock(content);
 
     saveMutation.mutate({
       title: title.trim(),

@@ -13,7 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, Clock, ArrowLeft, User, Tag, Share2, Eye, MessageSquare, Heart } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Calendar, Clock, ArrowLeft, User, Tag, Share2, Eye, MessageSquare, Heart, Images } from "lucide-react";
 
 const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://ikoffi.agricapital.ci").replace(/\/$/, "");
 
@@ -57,6 +58,19 @@ const BlogArticle = () => {
       return data || [];
     },
     enabled: !!slug,
+  });
+
+  const { data: galleryMedia } = useQuery({
+    queryKey: ["blog-gallery", post?.id],
+    enabled: !!post?.id,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("blog_media")
+        .select("file_url, file_name, file_type, sort_order")
+        .eq("post_id", post.id)
+        .order("sort_order", { ascending: true });
+      return (data || []).filter((m) => m.file_type?.startsWith("image/"));
+    },
   });
 
   const { data: engagementStats } = useQuery({
@@ -369,6 +383,34 @@ const BlogArticle = () => {
             </header>
 
             <div className="article-content max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+
+            {galleryMedia && galleryMedia.length > 0 && (
+              <section className="mt-12 pt-8 border-t" aria-label="Galerie d'images">
+                <div className="flex items-center gap-2 mb-6">
+                  <Images className="w-5 h-5 text-primary" />
+                  <h2 className="text-2xl font-bold text-foreground">Galerie</h2>
+                  <span className="text-sm text-muted-foreground">({galleryMedia.length} image{galleryMedia.length > 1 ? "s" : ""})</span>
+                </div>
+                <Carousel opts={{ align: "start", loop: true }} className="w-full">
+                  <CarouselContent>
+                    {galleryMedia.map((m, i) => (
+                      <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/2">
+                        <div className="rounded-2xl overflow-hidden border border-border shadow-md aspect-[4/3] bg-muted">
+                          <img
+                            src={m.file_url}
+                            alt={`${post.title} — illustration ${i + 1}`}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="left-2" />
+                  <CarouselNext className="right-2" />
+                </Carousel>
+              </section>
+            )}
 
             <div className="mt-12 pt-8 border-t">
               <div className="flex items-center justify-between flex-wrap gap-4">

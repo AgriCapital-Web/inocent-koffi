@@ -8,37 +8,84 @@ const corsHeaders = {
 
 const DEFAULT_SITE_URL = "https://ikoffi.agricapital.ci";
 
+// User agents of social crawlers / link previewers — these get HTML with OG meta
+const CRAWLER_REGEX = /facebookexternalhit|facebot|twitterbot|linkedinbot|whatsapp|slackbot|telegrambot|discordbot|pinterest|skypeuripreview|googlebot|bingbot|embedly|outbrain|vkshare|w3c_validator|redditbot|applebot|yahoo|duckduckbot|baiduspider|tumblr|flipboardproxy|nuzzel|bitlybot|qwantify/i;
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   const requestUrl = new URL(req.url);
-  const slugFromPath = requestUrl.pathname.split("/").filter(Boolean).pop();
-  const slug = requestUrl.searchParams.get("slug") || (slugFromPath && slugFromPath !== "og-article" ? slugFromPath : null);
+  const userAgent = req.headers.get("user-agent") || "";
+  const isCrawler = CRAWLER_REGEX.test(userAgent);
 
-  if (!slug) {
-    return new Response("Missing slug", { status: 400, headers: corsHeaders });
+  // Accept either ?code=art004-026 or ?slug=...
+  let code = requestUrl.searchParams.get("code");
+  let slug = requestUrl.searchParams.get("slug");
+
+  // Also support path style like /og-article/art004-026
+  if (!code && !slug) {
+    const last = requestUrl.pathname.split("/").filter(Boolean).pop();
+    if (last && last !== "og-article") {
+      if (/^art\d+-\d+$/i.test(last)) code = last;
+      else slug = last;
+    }
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
   const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
   const supabase = createClient(supabaseUrl, supabaseKey);
-
-  const { data: post, error } = await supabase
-    .from("blog_posts")
-    .select("title, excerpt, tagline, content, featured_image, published_at, author, slug")
-    .eq("slug", slug)
-    .eq("is_published", true)
-    .single();
-
   const siteUrl = (Deno.env.get("SITE_URL") || DEFAULT_SITE_URL).replace(/\/$/, "");
 
-  if (error || !post) {
+  let post: any = null;
+
+  if (code) {
+    const match = code.match(/^art(\d+)-(\d+)$/i);
+    if (match) {
+      const num = parseInt(match[1], 10);
+      const yearShort = parseInt(match[2], 10);
+      const { data } = await supabase
+        .from("blog_posts")
+        .select("title, excerpt, tagline, content, featured_image, published_at, author, slug, article_number")
+        .eq("article_number", num)
+        .eq("is_published", true)
+        .maybeSingle();
+
+      if (data) {
+        const yearOk = data.published_at
+          ? (new Date(data.published_at).getFullYear() % 1000) === yearShort
+          : true;
+        if (yearOk) post = data;
+      }
+    }
+  }
+
+  if (!post && slug) {
+    const { data } = await supabase
+      .from("blog_posts")
+      .select("title, excerpt, tagline, content, featured_image, published_at, author, slug, article_number")
+      .eq("slug", slug)
+      .eq("is_published", true)
+      .maybeSingle();
+    if (data) post = data;
+  }
+
+  if (!post) {
+    if (isCrawler) {
+      return Response.redirect(`${siteUrl}/blog`, 302);
+    }
     return Response.redirect(`${siteUrl}/blog`, 302);
   }
 
   const articleUrl = `${siteUrl}/blog/${post.slug}`;
+
+  // ── Humans: redirect immediately to the real article page (clean SPA route) ──
+  if (!isCrawler) {
+    return Response.redirect(articleUrl, 302);
+  }
+
+  // ── Crawlers: serve full HTML with OG meta ──
   const author = post.author || "Inocent KOFFI";
   const contentText = stripHtml(post.content || "");
   const summary = truncate(post.excerpt || post.tagline || contentText || post.title, 220);
@@ -57,8 +104,10 @@ Deno.serve(async (req) => {
   // If no featured image, don't set an OG image at all rather than using a default
   const imageMetaTags = imageUrl ? `
   <meta property="og:image" content="${escapeHtml(imageUrl)}">
+  <meta property="og:image:secure_url" content="${escapeHtml(imageUrl)}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${escapeHtml(post.title)}">
   <meta name="twitter:image" content="${escapeHtml(imageUrl)}">` : "";
 
   const html = `<!DOCTYPE html>
@@ -81,12 +130,12 @@ Deno.serve(async (req) => {
   <meta name="twitter:title" content="${escapeHtml(post.title)}">
   <meta name="twitter:description" content="${escapeHtml(ogDescription)}">
 
-  <meta http-equiv="refresh" content="0;url=${escapeHtml(articleUrl)}">
   <link rel="canonical" href="${escapeHtml(articleUrl)}">
 </head>
 <body>
-  <p>Redirection vers l'article...</p>
-  <script>window.location.replace(${JSON.stringify(articleUrl)});</script>
+  <h1>${escapeHtml(post.title)}</h1>
+  <p>${escapeHtml(ogDescription)}</p>
+  <p><a href="${escapeHtml(articleUrl)}">Lire l'article complet</a></p>
 </body>
 </html>`;
 

@@ -278,6 +278,7 @@ export type Database = {
       }
       blog_posts: {
         Row: {
+          article_number: number | null
           author: string | null
           author_id: string | null
           auto_save_data: Json | null
@@ -297,6 +298,7 @@ export type Database = {
           view_count: number | null
         }
         Insert: {
+          article_number?: number | null
           author?: string | null
           author_id?: string | null
           auto_save_data?: Json | null
@@ -316,6 +318,7 @@ export type Database = {
           view_count?: number | null
         }
         Update: {
+          article_number?: number | null
           author?: string | null
           author_id?: string | null
           auto_save_data?: Json | null
@@ -708,6 +711,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_post_by_short_code: {
+        Args: { _num: number; _year_short: number }
+        Returns: {
+          id: string
+          slug: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
