@@ -38,6 +38,7 @@ const Navbar = () => {
       label: "Projets",
       children: [
         { href: "/agricapital", label: "AGRICAPITAL" },
+        { href: "/agricapital#equipe", label: "Équipe AgriCapital" },
         { href: "/projets", label: t("nav.projects") },
         { href: "/partenariat", label: t("nav.partnership") },
       ],
@@ -65,8 +66,17 @@ const Navbar = () => {
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
     setOpenSubmenu(null);
+    const [path, hash] = href.split('#');
     navigate(href);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (hash) {
+      // Wait for navigation, then scroll to anchor
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
