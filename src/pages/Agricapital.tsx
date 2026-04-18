@@ -245,9 +245,15 @@ const Agricapital = () => {
           <NurserySection />
 
           {/* Team & Partners */}
-          <section className="py-16 bg-background">
+          <section id="equipe" className="py-16 bg-background scroll-mt-24">
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
+                <div className="text-center mb-6">
+                  <Badge variant="outline" className="mb-3 border-accent text-accent">
+                    <Users className="w-3 h-3 mr-1" />
+                    L'Équipe AgriCapital
+                  </Badge>
+                </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-center text-foreground">
                   Leadership & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Écosystème</span>
                 </h2>
