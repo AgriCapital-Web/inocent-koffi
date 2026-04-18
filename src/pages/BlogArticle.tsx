@@ -145,20 +145,63 @@ const BlogArticle = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [post]);
 
+  // Reliable tracking of finished_reading using sendBeacon on unload + visibilitychange
   useEffect(() => {
-    return () => {
-      if (!viewId.current) return;
+    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+    const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
+    const sendUpdate = (useBeacon = false) => {
+      if (!viewId.current) return;
       const timeSpent = Math.max(1, Math.round((Date.now() - startTime.current) / 1000));
-      supabase
-        .from("article_views")
-        .update({
-          reading_progress: readingProgressRef.current,
-          time_spent_seconds: timeSpent,
-          finished_reading: readingProgressRef.current >= 90,
-        })
-        .eq("id", viewId.current)
-        .then(() => {});
+      const payload = {
+        reading_progress: readingProgressRef.current,
+        time_spent_seconds: timeSpent,
+        finished_reading: readingProgressRef.current >= 85,
+      };
+
+      if (useBeacon && navigator.sendBeacon && SUPABASE_URL && SUPABASE_KEY) {
+        const url = `${SUPABASE_URL}/rest/v1/article_views?id=eq.${viewId.current}`;
+        const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+        // sendBeacon doesn't support custom headers — fallback to fetch with keepalive
+        try {
+          fetch(url, {
+            method: "PATCH",
+            keepalive: true,
+            headers: {
+              "Content-Type": "application/json",
+              apikey: SUPABASE_KEY,
+              Authorization: `Bearer ${SUPABASE_KEY}`,
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify(payload),
+          });
+        } catch {
+          navigator.sendBeacon(url, blob);
+        }
+      } else {
+        supabase.from("article_views").update(payload).eq("id", viewId.current).then(() => {});
+      }
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "hidden") sendUpdate(true);
+    };
+    const onBeforeUnload = () => sendUpdate(true);
+    const onPageHide = () => sendUpdate(true);
+
+    // Also send periodic updates every 30s to capture progress reliably
+    const interval = setInterval(() => sendUpdate(false), 30000);
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("beforeunload", onBeforeUnload);
+    window.addEventListener("pagehide", onPageHide);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("beforeunload", onBeforeUnload);
+      window.removeEventListener("pagehide", onPageHide);
+      sendUpdate(true);
     };
   }, []);
 
