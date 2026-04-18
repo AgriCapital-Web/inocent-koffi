@@ -18,6 +18,10 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/new/:code",
+      "destination": "https://mlatmyzmjsouxjpjzshd.supabase.co/functions/v1/og-article?code=:code"
+    },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
