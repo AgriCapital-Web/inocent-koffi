@@ -240,27 +240,8 @@ Retourne UNIQUEMENT ce JSON valide:
 
       if (imageUrl) parsed.imageUrl = imageUrl;
       if (galleryResults) {
-        const validGallery = galleryResults.filter(Boolean) as string[];
-        parsed.galleryUrls = validGallery;
-
-        // Insert gallery images into article content at logical positions
-        if (validGallery.length > 0 && parsed.content) {
-          const sections = parsed.content.split(/<h2/gi);
-          if (sections.length > 2) {
-            const insertPositions: number[] = [];
-            const step = Math.max(1, Math.floor((sections.length - 1) / (validGallery.length + 1)));
-            for (let i = 0; i < validGallery.length; i++) {
-              insertPositions.push(Math.min(1 + (i + 1) * step, sections.length - 1));
-            }
-
-            for (let i = insertPositions.length - 1; i >= 0; i--) {
-              const pos = insertPositions[i];
-              const imgHtml = `<figure style="margin:1.5em 0;text-align:center"><img src="${validGallery[i]}" alt="Illustration de l'article" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)"></figure>`;
-              sections[pos] = imgHtml + "<h2" + sections[pos];
-            }
-            parsed.content = sections.join("");
-          }
-        }
+        // Gallery images go to a separate carousel under the article — NOT inline
+        parsed.galleryUrls = (galleryResults.filter(Boolean) as string[]);
       }
 
       return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });

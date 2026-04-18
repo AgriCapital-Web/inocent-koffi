@@ -477,10 +477,10 @@ const AdminBlogEnhanced = () => {
 
       const galleryUrls: string[] = Array.isArray(data.galleryUrls) ? data.galleryUrls.filter(Boolean) : [];
       const coverImage = data.imageUrl || galleryUrls[0] || "";
-      const inlineGalleryImages = galleryUrls.filter((img: string) => img && img !== coverImage);
 
+      // Clean content — no inline images. Cover stays at top, gallery is a carousel below.
       if (data.content) {
-        setContent(mergeContentWithGallery(data.content, inlineGalleryImages));
+        setContent(removeAutoGalleryBlock(data.content));
       }
 
       // Handle generated media
@@ -576,12 +576,8 @@ const AdminBlogEnhanced = () => {
       toast({ title: "Catégorie obligatoire", variant: "destructive" }); return;
     }
 
-    const inlineGalleryImages = mediaFiles
-      .filter((media) => media.type.startsWith("image/") && media.url !== featuredImage)
-      .map((media) => media.url)
-      .filter((mediaUrl) => !content.includes(mediaUrl));
-
-    const publishReadyContent = mergeContentWithGallery(content, inlineGalleryImages);
+    // Clean content — gallery rendered separately as carousel via blog_media table
+    const publishReadyContent = removeAutoGalleryBlock(content);
 
     saveMutation.mutate({
       title: title.trim(),
