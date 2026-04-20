@@ -66,7 +66,7 @@ const Vision = () => {
                 <blockquote className="text-lg sm:text-xl lg:text-2xl leading-relaxed italic">
                   "L'agriculture représente bien plus qu'une activité économique : c'est le fondement de tout patrimoine durable. Mon ambition est de permettre à quiconque le souhaite de posséder sa propre plantation agricole, dans un cadre sécurisé et professionnel."
                 </blockquote>
-                <p className="mt-6 text-sm sm:text-base opacity-80">— Inocent KOFFI, Fondateur & CEO d'AGRICAPITAL SARL</p>
+                <p className="mt-6 text-sm sm:text-base opacity-80">— Inocent KOFFI, Fondateur d'AGRICAPITAL SARL</p>
               </div>
             </div>
           </section>
