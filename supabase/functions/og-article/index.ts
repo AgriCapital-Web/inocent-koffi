@@ -79,6 +79,7 @@ Deno.serve(async (req) => {
   }
 
   const articleUrl = `${siteUrl}/blog/${post.slug}`;
+  const shortUrl = code ? `${siteUrl}/new/${code}` : slug ? `${siteUrl}/new/${slug}` : articleUrl;
 
   // ── Humans: redirect immediately to the real article page (clean SPA route) ──
   if (!isCrawler) {
@@ -89,7 +90,7 @@ Deno.serve(async (req) => {
   const author = post.author || "Inocent KOFFI";
   const contentText = stripHtml(post.content || "");
   const summary = truncate(post.excerpt || post.tagline || contentText || post.title, 220);
-  const signature = "Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL";
+  const signature = "Inocent KOFFI | Fondateur AGRICAPITAL SARL";
   const ogDescription = `${summary} — ${signature}`;
 
   // CRITICAL: Use the article's featured image ONLY. Never fall back to logo or founder photo.
@@ -121,7 +122,7 @@ Deno.serve(async (req) => {
   <meta property="og:title" content="${escapeHtml(post.title)}">
   <meta property="og:description" content="${escapeHtml(ogDescription)}">
   ${imageMetaTags}
-  <meta property="og:url" content="${escapeHtml(articleUrl)}">
+  <meta property="og:url" content="${escapeHtml(shortUrl)}">
   <meta property="og:site_name" content="Inocent KOFFI - AGRICAPITAL">
   <meta property="article:published_time" content="${post.published_at || ""}">
   <meta property="article:author" content="${escapeHtml(author)}">
@@ -130,7 +131,7 @@ Deno.serve(async (req) => {
   <meta name="twitter:title" content="${escapeHtml(post.title)}">
   <meta name="twitter:description" content="${escapeHtml(ogDescription)}">
 
-  <link rel="canonical" href="${escapeHtml(articleUrl)}">
+  <link rel="canonical" href="${escapeHtml(shortUrl)}">
 </head>
 <body>
   <h1>${escapeHtml(post.title)}</h1>

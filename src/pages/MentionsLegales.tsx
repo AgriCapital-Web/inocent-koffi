@@ -22,7 +22,7 @@ const MentionsLegales = () => {
                   <h2 className="text-2xl font-bold mb-4 text-foreground">Éditeur du site</h2>
                   <p className="text-muted-foreground">
                     <strong className="text-foreground">Inocent KOFFI</strong><br />
-                    Fondateur et Directeur Général d'AGRICAPITAL SARL<br />
+                    Fondateur d'AGRICAPITAL SARL<br />
                     Capital social : 5 000 000 FCFA<br />
                     Siège social : Daloa, Haut-Sassandra, Côte d'Ivoire<br />
                     RCCM : CI-01-DAL-2025-B12-13435<br />

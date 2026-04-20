@@ -68,7 +68,7 @@ const SocialSharePopup = ({ url, title, description = "" }: SocialSharePopupProp
 
   // The URL we share publicly: short if available, otherwise the full article URL
   const shareUrl = shortUrl || url;
-  const signature = "— Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL";
+  const signature = "— Inocent KOFFI | Fondateur AGRICAPITAL SARL";
   const summaryText = (description || title).trim();
   const compactSummary = summaryText.length > 220 ? `${summaryText.slice(0, 219).trim()}…` : summaryText;
   const shareBody = `${title}\n\n${compactSummary}\n\n${signature}\n\nL'article complet à ce lien 👉`;
