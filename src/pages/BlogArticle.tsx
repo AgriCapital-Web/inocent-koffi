@@ -262,7 +262,7 @@ const BlogArticle = () => {
     ? post.featured_image.startsWith("http")
       ? post.featured_image
       : `${SITE_URL}${post.featured_image.startsWith("/") ? "" : "/"}${post.featured_image}`
-    : `${SITE_URL}/og-image.png`;
+    : "";
   const articleSummary = truncate(post.excerpt || post.tagline || stripHtml(post.content) || post.title);
 
   return (
@@ -275,9 +275,9 @@ const BlogArticle = () => {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={articleSummary} />
-        <meta property="og:image" content={featuredMediaUrl} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+         {featuredMediaUrl ? <meta property="og:image" content={featuredMediaUrl} /> : null}
+         {featuredMediaUrl ? <meta property="og:image:width" content="1200" /> : null}
+         {featuredMediaUrl ? <meta property="og:image:height" content="630" /> : null}
         <meta property="og:url" content={articleUrl} />
         <meta property="og:site_name" content="Inocent KOFFI" />
         <meta property="article:published_time" content={post.published_at || post.created_at} />
@@ -286,14 +286,14 @@ const BlogArticle = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={articleSummary} />
-        <meta name="twitter:image" content={featuredMediaUrl} />
+         {featuredMediaUrl ? <meta name="twitter:image" content={featuredMediaUrl} /> : null}
 
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.title,
-            image: [featuredMediaUrl],
+             image: featuredMediaUrl ? [featuredMediaUrl] : undefined,
             datePublished: post.published_at || post.created_at,
             dateModified: post.updated_at || post.created_at,
             author: { "@type": "Person", name: "Inocent KOFFI", url: SITE_URL },

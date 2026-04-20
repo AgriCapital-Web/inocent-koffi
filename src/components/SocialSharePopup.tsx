@@ -60,8 +60,7 @@ const SocialSharePopup = ({ url, title, description = "" }: SocialSharePopupProp
         .maybeSingle();
       if (cancelled) return;
       if (data?.article_number) {
-        const origin = typeof window !== "undefined" ? window.location.origin : "https://ikoffi.agricapital.ci";
-        setShortUrl(buildShortUrl(data.article_number, data.published_at, origin));
+        setShortUrl(buildShortUrl(data.article_number, data.published_at));
       }
     })();
     return () => { cancelled = true; };
@@ -72,7 +71,7 @@ const SocialSharePopup = ({ url, title, description = "" }: SocialSharePopupProp
   const signature = "— Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL";
   const summaryText = (description || title).trim();
   const compactSummary = summaryText.length > 220 ? `${summaryText.slice(0, 219).trim()}…` : summaryText;
-  const shareBody = `${title}\n\n${compactSummary}\n\n${signature}\n\n👉 L'article complet à ce lien :`;
+  const shareBody = `${title}\n\n${compactSummary}\n\n${signature}\n\nL'article complet à ce lien 👉`;
   const shareBodyWithLink = `${shareBody}\n${shareUrl}`;
 
   const encodedShareBodyWithLink = encodeURIComponent(shareBodyWithLink);

@@ -14,7 +14,15 @@ const Navbar = () => {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const teamLabel = {
+    fr: "Équipe AgriCapital",
+    en: "AgriCapital Team",
+    es: "Equipo AgriCapital",
+    de: "AgriCapital-Team",
+    zh: "AgriCapital 团队",
+    ar: "فريق AgriCapital",
+  }[language];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +46,7 @@ const Navbar = () => {
       label: "Projets",
       children: [
         { href: "/agricapital", label: "AGRICAPITAL" },
-        { href: "/agricapital#equipe", label: "Équipe AgriCapital" },
+        { href: "/agricapital#equipe", label: teamLabel },
         { href: "/projets", label: t("nav.projects") },
         { href: "/partenariat", label: t("nav.partnership") },
       ],
