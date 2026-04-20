@@ -2,8 +2,7 @@
  * Build short URL: art004-026 = article #4 published in 2026
  * Site path: /new/art004-026
  */
-export const SITE_URL =
-  (typeof window !== "undefined" ? window.location.origin : "https://ikoffi.agricapital.ci");
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://ikoffi.agricapital.ci").replace(/\/$/, "");
 
 export function buildShortCode(articleNumber: number | null | undefined, publishedAt?: string | null): string | null {
   if (!articleNumber) return null;
