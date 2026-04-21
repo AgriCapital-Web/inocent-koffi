@@ -7,6 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Target, Users, Sprout, TrendingUp, MapPin, Calendar, Building, Shield, CheckCircle, Leaf, BarChart3, Globe, ArrowRight } from "lucide-react";
 import logoAgricapital from "@/assets/logo-agricapital.png";
 import teamPhoto from "@/assets/team-agricapital.jpg";
+import inocentKoffiPhoto from "@/assets/team/inocent-koffi.jpg";
+import pierreKouamePhoto from "@/assets/team/pierre-kouame.jpg";
+import ericDidoPhoto from "@/assets/team/eric-dido.jpg";
+import marcelKonanPhoto from "@/assets/team/marcel-konan.jpg";
+import mathieuAngaPhoto from "@/assets/team/mathieu-anga.jpg";
+import partnerLegalformPhoto from "@/assets/team/partner-legalform.jpg";
+import partnerGesmaPhoto from "@/assets/team/partner-gesma.jpg";
+import lesPalmistesLogo from "@/assets/team/les-palmistes.jpeg";
 import { motion } from "framer-motion";
 
 const Agricapital = () => {
@@ -44,17 +52,32 @@ const Agricapital = () => {
   ];
 
   const team = [
-    { name: "Inocent KOFFI", role: "Directeur Général", desc: "Entrepreneur et stratège, vision globale et coordination du déploiement." },
-    { name: "Koffi Pierre KOUAMÉ", role: "Conseiller Stratégique", desc: "10+ ans d'expérience en gouvernance organisationnelle et sécurisation foncière." },
-    { name: "Éric Stéphane DIDO", role: "Responsable Développement Commercial", desc: "Stratégie commerciale, déploiement terrain et développement du portefeuille clients." },
+    {
+      name: "Inocent KOFFI",
+      role: "Directeur Général",
+      desc: "Entrepreneur et stratège, vision globale et coordination du déploiement.",
+      photo: inocentKoffiPhoto,
+    },
+    {
+      name: "Koffi Pierre KOUAMÉ",
+      role: "Conseiller Stratégique",
+      desc: "10+ ans d'expérience en gouvernance organisationnelle et sécurisation foncière.",
+      photo: pierreKouamePhoto,
+    },
+    {
+      name: "Éric Stéphane DIDO",
+      role: "Responsable Développement Commercial",
+      desc: "Stratégie commerciale, déploiement terrain et développement du portefeuille clients.",
+      photo: ericDidoPhoto,
+    },
   ];
 
   const partners = [
-    { name: "Dr Marcel KONAN — MiProjet", role: "Structuration de Projets & Stratégie" },
-    { name: "Cabinet Legal Form", role: "Expertise Juridique" },
-    { name: "Kouamé Mathieu ANGA", role: "Agronomie & Suivi de Plantation" },
-    { name: "Cabinet GESMA SARL", role: "Expertise Comptable & Fiscale" },
-    { name: "Les Palmistes", role: "Fournisseur de semences certifiées Iro Lamé" },
+    { name: "Dr Marcel KONAN — MiProjet", role: "Structuration de Projets & Stratégie", photo: marcelKonanPhoto },
+    { name: "Kouamé Mathieu ANGA", role: "Agronomie & Suivi de Plantation", photo: mathieuAngaPhoto },
+    { name: "Cabinet Legal Form", role: "Expertise Juridique", photo: partnerLegalformPhoto },
+    { name: "Cabinet GESMA SARL", role: "Expertise Comptable & Fiscale", photo: partnerGesmaPhoto },
+    { name: "Les Palmistes", role: "Fournisseur de semences certifiées Iro Lamé", photo: lesPalmistesLogo },
   ];
 
   return (
