@@ -7,8 +7,8 @@ const APropos = () => {
   return (
     <>
       <Helmet>
-        <title>À Propos - Inocent KOFFI | Fondateur & CEO AGRICAPITAL SARL</title>
-        <meta name="description" content="Découvrez le parcours d'Inocent KOFFI, fondateur & CEO d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole en Côte d'Ivoire." />
+        <title>À Propos - Inocent KOFFI | Fondateur AGRICAPITAL SARL</title>
+        <meta name="description" content="Découvrez le parcours d'Inocent KOFFI, fondateur d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole en Côte d'Ivoire." />
         <link rel="canonical" href="https://www.ikoffi.agricapital.ci/a-propos" />
       </Helmet>
       <div className="min-h-screen">
@@ -31,7 +31,7 @@ const APropos = () => {
                       <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-3xl blur-2xl opacity-20"></div>
                       <img 
                         src={profilePhoto} 
-                        alt="Inocent KOFFI - Fondateur & CEO AGRICAPITAL SARL" 
+                        alt="Inocent KOFFI - Fondateur AGRICAPITAL SARL" 
                         className="relative rounded-3xl shadow-2xl max-w-sm sm:max-w-md w-full h-auto object-cover"
                         loading="eager"
                       />
@@ -43,7 +43,7 @@ const APropos = () => {
                     <div className="bg-card rounded-2xl p-4 sm:p-6 border border-border/50">
                       <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Inocent KOFFI</h2>
                       <p className="text-base sm:text-lg text-foreground leading-relaxed font-medium">
-                        Fondateur & CEO — <strong className="text-primary">AGRICAPITAL SARL</strong>
+                        Fondateur — <strong className="text-primary">AGRICAPITAL SARL</strong>
                       </p>
                     </div>
 

@@ -30,33 +30,33 @@ const Home = () => {
   const getMetaContent = () => {
     const meta = {
       fr: {
-        title: "Inocent KOFFI - Fondateur & DG AGRICAPITAL SARL | Transformation Agricole",
-        description: "Inocent KOFFI, Fondateur et Directeur Général d'AGRICAPITAL SARL. 12 ans d'expérience terrain auprès des producteurs agricoles en Côte d'Ivoire.",
+        title: "Inocent KOFFI - Fondateur AGRICAPITAL SARL | Transformation Agricole",
+        description: "Inocent KOFFI, Fondateur d'AGRICAPITAL SARL. 12 ans d'expérience terrain auprès des producteurs agricoles en Côte d'Ivoire.",
         keywords: "Inocent KOFFI, AGRICAPITAL, agriculture, Côte d'Ivoire, palmier à huile, transformation agricole, développement rural"
       },
       en: {
-        title: "Inocent KOFFI - Founder & CEO AGRICAPITAL SARL | Agricultural Transformation",
-        description: "Inocent KOFFI, Founder and CEO of AGRICAPITAL SARL. 12 years of field experience with agricultural producers in Côte d'Ivoire.",
+        title: "Inocent KOFFI - Founder AGRICAPITAL SARL | Agricultural Transformation",
+        description: "Inocent KOFFI, Founder of AGRICAPITAL SARL. 12 years of field experience with agricultural producers in Côte d'Ivoire.",
         keywords: "Inocent KOFFI, AGRICAPITAL, agriculture, Ivory Coast, palm oil, agricultural transformation, rural development"
       },
       es: {
-        title: "Inocent KOFFI - Fundador y CEO AGRICAPITAL SARL | Transformación Agrícola",
-        description: "Inocent KOFFI, Fundador y Director General de AGRICAPITAL SARL. 12 años de experiencia de campo con productores agrícolas en Costa de Marfil.",
+        title: "Inocent KOFFI - Fundador AGRICAPITAL SARL | Transformación Agrícola",
+        description: "Inocent KOFFI, Fundador de AGRICAPITAL SARL. 12 años de experiencia de campo con productores agrícolas en Costa de Marfil.",
         keywords: "Inocent KOFFI, AGRICAPITAL, agricultura, Costa de Marfil, aceite de palma, transformación agrícola"
       },
       de: {
-        title: "Inocent KOFFI - Gründer & CEO AGRICAPITAL SARL | Landwirtschaftliche Transformation",
-        description: "Inocent KOFFI, Gründer und Geschäftsführer von AGRICAPITAL SARL. 12 Jahre Felderfahrung mit Landwirten in der Elfenbeinküste.",
+        title: "Inocent KOFFI - Gründer AGRICAPITAL SARL | Landwirtschaftliche Transformation",
+        description: "Inocent KOFFI, Gründer von AGRICAPITAL SARL. 12 Jahre Felderfahrung mit Landwirten in der Elfenbeinküste.",
         keywords: "Inocent KOFFI, AGRICAPITAL, Landwirtschaft, Elfenbeinküste, Palmöl, landwirtschaftliche Transformation"
       },
       zh: {
-        title: "Inocent KOFFI - AGRICAPITAL SARL 创始人兼首席执行官 | 农业转型",
-        description: "Inocent KOFFI，AGRICAPITAL SARL 创始人兼首席执行官。在科特迪瓦拥有12年农业生产者实地经验。",
+        title: "Inocent KOFFI - AGRICAPITAL SARL 创始人 | 农业转型",
+        description: "Inocent KOFFI，AGRICAPITAL SARL 创始人。在科特迪瓦拥有12年农业生产者实地经验。",
         keywords: "Inocent KOFFI, AGRICAPITAL, 农业, 科特迪瓦, 棕榈油, 农业转型"
       },
       ar: {
-        title: "إنوسنت كوفي - مؤسس ومدير عام AGRICAPITAL SARL | التحول الزراعي",
-        description: "إنوسنت كوفي، مؤسس ومدير عام AGRICAPITAL SARL. 12 عامًا من الخبرة الميدانية مع المنتجين الزراعيين في كوت ديفوار.",
+        title: "إنوسنت كوفي - مؤسس AGRICAPITAL SARL | التحول الزراعي",
+        description: "إنوسنت كوفي، مؤسس AGRICAPITAL SARL. 12 عامًا من الخبرة الميدانية مع المنتجين الزراعيين في كوت ديفوار.",
         keywords: "إنوسنت كوفي، AGRICAPITAL، الزراعة، كوت ديفوار، زيت النخيل، التحول الزراعي"
       }
     };
