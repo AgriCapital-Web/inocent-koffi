@@ -102,14 +102,21 @@ Deno.serve(async (req) => {
     }
   }
 
+  // Optimize image for social crawlers (WhatsApp <300KB, FB/LinkedIn 1200x630 JPEG).
+  // Route through wsrv.nl which converts PNG→JPEG and resizes — keeps file <200KB.
+  const optimizedImageUrl = imageUrl
+    ? `https://wsrv.nl/?url=${encodeURIComponent(imageUrl.replace(/^https?:\/\//, ""))}&w=1200&h=630&fit=cover&output=jpg&q=82`
+    : "";
+
   // If no featured image, don't set an OG image at all rather than using a default
-  const imageMetaTags = imageUrl ? `
-  <meta property="og:image" content="${escapeHtml(imageUrl)}">
-  <meta property="og:image:secure_url" content="${escapeHtml(imageUrl)}">
+  const imageMetaTags = optimizedImageUrl ? `
+  <meta property="og:image" content="${escapeHtml(optimizedImageUrl)}">
+  <meta property="og:image:secure_url" content="${escapeHtml(optimizedImageUrl)}">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="${escapeHtml(post.title)}">
-  <meta name="twitter:image" content="${escapeHtml(imageUrl)}">` : "";
+  <meta name="twitter:image" content="${escapeHtml(optimizedImageUrl)}">` : "";
 
   const html = `<!DOCTYPE html>
 <html lang="fr">
