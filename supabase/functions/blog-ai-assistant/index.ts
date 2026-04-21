@@ -110,7 +110,7 @@ Seed créative: ${creativeSeed}.`
     }
 
     const BRAND_CONTEXT = `
-Tu écris des analyses et réflexions signées Inocent KOFFI (orthographe exacte), Fondateur & CEO d'AGRICAPITAL SARL.
+Tu écris des analyses et réflexions signées Inocent KOFFI (orthographe exacte), Fondateur d'AGRICAPITAL SARL.
 AgriCapital est un opérateur et promoteur agricole spécialisé dans la création de plantations de palmier à huile clé en main en Côte d'Ivoire.
 IMPORTANT: la ligne éditoriale est PERSONNELLE et analytique; ne transforme jamais l'article en communication d'entreprise centrée sur AGRICAPITAL.
 Positionnement: crédibilité, lucidité, impact terrain, ouverture partenariats, pédagogie professionnelle.

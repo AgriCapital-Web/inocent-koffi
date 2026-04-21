@@ -25,7 +25,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.badge': 'Visionnaire • Fondateur • Entrepreneur',
     'hero.title': 'Inocent KOFFI',
-    'hero.subtitle': 'Fondateur & DG d\'AGRICAPITAL SARL',
+    'hero.subtitle': 'Fondateur d\'AGRICAPITAL SARL',
     'hero.description': 'Transformer l\'agriculture ivoirienne par un modèle intégré, inclusif et durable. 12 années d\'immersion auprès des communautés rurales.',
     'hero.cta.discover': 'Découvrir Ma Vision',
     'hero.cta.contact': 'Me Contacter',
@@ -162,8 +162,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'comments.commentPlaceholder': 'Partagez vos réflexions...',
     
     // SEO
-    'seo.home.title': 'Inocent KOFFI - Fondateur & DG AGRICAPITAL SARL | Transformation Agricole',
-    'seo.home.description': 'Inocent KOFFI, Fondateur et Directeur Général d\'AGRICAPITAL SARL. 12 ans d\'expérience terrain auprès des producteurs agricoles en Côte d\'Ivoire.',
+    'seo.home.title': 'Inocent KOFFI - Fondateur AGRICAPITAL SARL | Transformation Agricole',
+    'seo.home.description': 'Inocent KOFFI, Fondateur d\'AGRICAPITAL SARL. 12 ans d\'expérience terrain auprès des producteurs agricoles en Côte d\'Ivoire.',
     'seo.about.title': 'À Propos - Inocent KOFFI | Parcours & Expertise Agricole',
     'seo.about.description': 'Découvrez le parcours d\'Inocent KOFFI, 12 années d\'immersion dans 8 régions de Côte d\'Ivoire auprès des communautés rurales.',
     'seo.vision.title': 'Vision - Inocent KOFFI | Transformer l\'Agriculture Africaine',
@@ -186,7 +186,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.badge': 'Visionary • Founder • Entrepreneur',
     'hero.title': 'Inocent KOFFI',
-    'hero.subtitle': 'Founder & CEO of AGRICAPITAL SARL',
+    'hero.subtitle': 'Founder of AGRICAPITAL SARL',
     'hero.description': 'Transforming Ivorian agriculture through an integrated, inclusive and sustainable model. 12 years of immersion with rural communities.',
     'hero.cta.discover': 'Discover My Vision',
     'hero.cta.contact': 'Contact Me',
@@ -323,8 +323,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'comments.commentPlaceholder': 'Share your thoughts...',
     
     // SEO
-    'seo.home.title': 'Inocent KOFFI - Founder & CEO AGRICAPITAL SARL | Agricultural Transformation',
-    'seo.home.description': 'Inocent KOFFI, Founder and CEO of AGRICAPITAL SARL. 12 years of field experience with agricultural producers in Côte d\'Ivoire.',
+    'seo.home.title': 'Inocent KOFFI - Founder AGRICAPITAL SARL | Agricultural Transformation',
+    'seo.home.description': 'Inocent KOFFI, Founder of AGRICAPITAL SARL. 12 years of field experience with agricultural producers in Côte d\'Ivoire.',
     'seo.about.title': 'About - Inocent KOFFI | Journey & Agricultural Expertise',
     'seo.about.description': 'Discover Inocent KOFFI\'s journey, 12 years of immersion in 8 regions of Côte d\'Ivoire with rural communities.',
     'seo.vision.title': 'Vision - Inocent KOFFI | Transforming African Agriculture',
@@ -347,7 +347,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.badge': 'Visionario • Fundador • Emprendedor',
     'hero.title': 'Inocent KOFFI',
-    'hero.subtitle': 'Fundador y Director General de AGRICAPITAL SARL',
+    'hero.subtitle': 'Fundador de AGRICAPITAL SARL',
     'hero.description': 'Transformando la agricultura marfileña a través de un modelo integrado, inclusivo y sostenible. 12 años de inmersión con comunidades rurales.',
     'hero.cta.discover': 'Descubrir Mi Visión',
     'hero.cta.contact': 'Contáctame',
@@ -480,8 +480,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'comments.commentPlaceholder': 'Comparta sus pensamientos...',
     
     // SEO
-    'seo.home.title': 'Inocent KOFFI - Fundador y DG AGRICAPITAL SARL | Transformación Agrícola',
-    'seo.home.description': 'Inocent KOFFI, Fundador y Director General de AGRICAPITAL SARL. 12 años de experiencia en el campo con productores agrícolas en Costa de Marfil.',
+    'seo.home.title': 'Inocent KOFFI - Fundador AGRICAPITAL SARL | Transformación Agrícola',
+    'seo.home.description': 'Inocent KOFFI, Fundador de AGRICAPITAL SARL. 12 años de experiencia en el campo con productores agrícolas en Costa de Marfil.',
     'seo.about.title': 'Acerca de - Inocent KOFFI | Trayectoria y Experiencia Agrícola',
     'seo.about.description': 'Descubre la trayectoria de Inocent KOFFI, 12 años de inmersión en 8 regiones de Costa de Marfil con comunidades rurales.',
     'seo.vision.title': 'Visión - Inocent KOFFI | Transformando la Agricultura Africana',
@@ -504,7 +504,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.badge': 'Visionär • Gründer • Unternehmer',
     'hero.title': 'Inocent KOFFI',
-    'hero.subtitle': 'Gründer & Geschäftsführer von AGRICAPITAL SARL',
+    'hero.subtitle': 'Gründer von AGRICAPITAL SARL',
     'hero.description': 'Transformation der ivorischen Landwirtschaft durch ein integriertes, inklusives und nachhaltiges Modell. 12 Jahre Eintauchen in ländliche Gemeinschaften.',
     'hero.cta.discover': 'Meine Vision Entdecken',
     'hero.cta.contact': 'Kontaktieren Sie Mich',
@@ -606,7 +606,7 @@ export const translations: Record<Language, Record<string, string>> = {
     
     // SEO
     'seo.home.title': 'Inocent KOFFI - Gründer & GF AGRICAPITAL SARL | Agrartransformation',
-    'seo.home.description': 'Inocent KOFFI, Gründer und Geschäftsführer von AGRICAPITAL SARL. 12 Jahre Felderfahrung mit landwirtschaftlichen Produzenten in der Elfenbeinküste.',
+    'seo.home.description': 'Inocent KOFFI, Gründer von AGRICAPITAL SARL. 12 Jahre Felderfahrung mit landwirtschaftlichen Produzenten in der Elfenbeinküste.',
     'seo.about.title': 'Über uns - Inocent KOFFI | Werdegang & Agrarexpertise',
     'seo.about.description': 'Entdecken Sie den Werdegang von Inocent KOFFI, 12 Jahre Eintauchen in 8 Regionen der Elfenbeinküste mit ländlichen Gemeinschaften.',
     'seo.vision.title': 'Vision - Inocent KOFFI | Transformation der Afrikanischen Landwirtschaft',

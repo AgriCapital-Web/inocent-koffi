@@ -6,7 +6,7 @@ const About = () => {
   const content = {
     fr: {
       title: "À Propos",
-      intro1: "Fondateur & CEO — AGRICAPITAL SARL",
+      intro1: "Fondateur — AGRICAPITAL SARL",
       intro2: "Agro-entrepreneur et stratège en développement agricole",
       intro3: "Inocent KOFFI cumule plus de 12 années d'immersion terrain en Côte d'Ivoire. Cette connaissance intime du territoire, des réalités agricoles et du potentiel foncier constitue un atout stratégique majeur pour AgriCapital.",
       intro4: "AgriCapital est un opérateur et promoteur agricole qui conçoit et déploie des plantations de palmier à huile clé en main, permettant aux particuliers et professionnels d'accéder à une agriculture productive, tout en étant déchargés des contraintes techniques, foncières et organisationnelles.",
@@ -20,7 +20,7 @@ const About = () => {
     },
     en: {
       title: "About",
-      intro1: "Founder & CEO — AGRICAPITAL SARL",
+      intro1: "Founder — AGRICAPITAL SARL",
       intro2: "Agro-entrepreneur and agricultural development strategist",
       intro3: "Inocent KOFFI has over 12 years of field immersion in Côte d'Ivoire. This deep knowledge of the territory, agricultural realities and land potential is a major strategic asset for AgriCapital.",
       intro4: "AgriCapital is an agricultural operator and promoter that designs and deploys turnkey oil palm plantations, enabling individuals and businesses to access productive agriculture while being relieved of technical, land and organizational constraints.",
@@ -29,7 +29,7 @@ const About = () => {
     },
     es: {
       title: "Acerca de",
-      intro1: "Fundador y CEO — AGRICAPITAL SARL",
+      intro1: "Fundador — AGRICAPITAL SARL",
       intro2: "Agroemprendedor y estratega en desarrollo agrícola",
       intro3: "Inocent KOFFI acumula más de 12 años de inmersión de campo en Costa de Marfil. Este conocimiento profundo del territorio, de la realidad agrícola y del potencial de la tierra es una ventaja estratégica clave para AgriCapital.",
       intro4: "AgriCapital es un operador y promotor agrícola que diseña e implementa plantaciones de palma aceitera llave en mano, permitiendo a particulares y profesionales acceder a una agricultura productiva sin soportar las limitaciones técnicas, territoriales y organizativas.",
@@ -38,7 +38,7 @@ const About = () => {
     },
     de: {
       title: "Über uns",
-      intro1: "Gründer & CEO — AGRICAPITAL SARL",
+      intro1: "Gründer — AGRICAPITAL SARL",
       intro2: "Agro-Unternehmer und Stratege für landwirtschaftliche Entwicklung",
       intro3: "Inocent KOFFI verfügt über mehr als 12 Jahre Praxiserfahrung in Côte d'Ivoire. Dieses tiefe Wissen über Territorium, landwirtschaftliche Realitäten und Landpotenziale ist ein entscheidender strategischer Vorteil für AgriCapital.",
       intro4: "AgriCapital ist ein landwirtschaftlicher Betreiber und Projektentwickler, der schlüsselfertige Ölpalmenplantagen konzipiert und umsetzt. So erhalten Privatpersonen und Unternehmen Zugang zu produktiver Landwirtschaft, ohne technische, landbezogene und organisatorische Lasten zu tragen.",
@@ -47,7 +47,7 @@ const About = () => {
     },
     zh: {
       title: "关于",
-      intro1: "创始人兼 CEO — AGRICAPITAL SARL",
+      intro1: "创始人 — AGRICAPITAL SARL",
       intro2: "农业创业者与农业发展战略家",
       intro3: "Inocent KOFFI 在科特迪瓦拥有 12 年以上的一线实践经验。对土地、农业现实与土地潜力的深刻理解，是 AgriCapital 的重要战略优势。",
       intro4: "AgriCapital 是一家农业运营与推广机构，设计并落地交钥匙油棕种植园，让个人和企业进入高产农业，同时摆脱技术、土地和组织层面的复杂约束。",
@@ -56,7 +56,7 @@ const About = () => {
     },
     ar: {
       title: "نبذة",
-      intro1: "المؤسس والرئيس التنفيذي — AGRICAPITAL SARL",
+      intro1: "المؤسس — AGRICAPITAL SARL",
       intro2: "رائد أعمال زراعي واستراتيجي في التنمية الزراعية",
       intro3: "يملك Inocent KOFFI أكثر من 12 سنة من الخبرة الميدانية في كوت ديفوار، وهو ما يمنح AgriCapital فهماً عميقاً للأرض والواقع الزراعي وإمكانات الاستثمار الزراعي.",
       intro4: "AgriCapital جهة تشغيل وتطوير زراعي تصمم وتنفذ مزارع نخيل زيت متكاملة، بما يتيح للأفراد والمهنيين دخول الزراعة الإنتاجية دون تعقيدات تقنية أو عقارية أو تنظيمية.",

@@ -38,7 +38,7 @@ const Footer = () => {
           >
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Inocent KOFFI</h3>
             <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
-              Fondateur & CEO d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole. Bâtisseur de patrimoine agricole durable en Côte d'Ivoire.
+              Fondateur d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole. Bâtisseur de patrimoine agricole durable en Côte d'Ivoire.
             </p>
             <div className="flex gap-3 sm:gap-4 pt-2">
               {socialLinks.map((social, index) => {
