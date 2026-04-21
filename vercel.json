@@ -22,6 +22,17 @@
       "source": "/new/:code",
       "destination": "https://mlatmyzmjsouxjpjzshd.supabase.co/functions/v1/og-article?code=:code"
     },
+    {
+      "source": "/blog/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(facebookexternalhit|facebot|twitterbot|linkedinbot|whatsapp|slackbot|telegrambot|discordbot|pinterest|skypeuripreview|embedly|outbrain|vkshare|redditbot|applebot|yahoo|duckduckbot|baiduspider|tumblr|flipboardproxy|nuzzel|bitlybot|qwantify).*"
+        }
+      ],
+      "destination": "https://mlatmyzmjsouxjpjzshd.supabase.co/functions/v1/og-article?slug=:slug"
+    },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

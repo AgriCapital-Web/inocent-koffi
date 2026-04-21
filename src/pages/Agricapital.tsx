@@ -7,6 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Target, Users, Sprout, TrendingUp, MapPin, Calendar, Building, Shield, CheckCircle, Leaf, BarChart3, Globe, ArrowRight } from "lucide-react";
 import logoAgricapital from "@/assets/logo-agricapital.png";
 import teamPhoto from "@/assets/team-agricapital.jpg";
+import inocentKoffiPhoto from "@/assets/team/inocent-koffi.jpg";
+import pierreKouamePhoto from "@/assets/team/pierre-kouame.jpg";
+import ericDidoPhoto from "@/assets/team/eric-dido.jpg";
+import marcelKonanPhoto from "@/assets/team/marcel-konan.jpg";
+import mathieuAngaPhoto from "@/assets/team/mathieu-anga.jpg";
+import partnerLegalformPhoto from "@/assets/team/partner-legalform.jpg";
+import partnerGesmaPhoto from "@/assets/team/partner-gesma.jpg";
+import lesPalmistesLogo from "@/assets/team/les-palmistes.jpeg";
 import { motion } from "framer-motion";
 
 const Agricapital = () => {
@@ -44,17 +52,32 @@ const Agricapital = () => {
   ];
 
   const team = [
-    { name: "Inocent KOFFI", role: "Directeur Général", desc: "Entrepreneur et stratège, vision globale et coordination du déploiement." },
-    { name: "Koffi Pierre KOUAMÉ", role: "Conseiller Stratégique", desc: "10+ ans d'expérience en gouvernance organisationnelle et sécurisation foncière." },
-    { name: "Éric Stéphane DIDO", role: "Responsable Développement Commercial", desc: "Stratégie commerciale, déploiement terrain et développement du portefeuille clients." },
+    {
+      name: "Inocent KOFFI",
+      role: "Directeur Général",
+      desc: "Entrepreneur et stratège, vision globale et coordination du déploiement.",
+      photo: inocentKoffiPhoto,
+    },
+    {
+      name: "Koffi Pierre KOUAMÉ",
+      role: "Conseiller Stratégique",
+      desc: "10+ ans d'expérience en gouvernance organisationnelle et sécurisation foncière.",
+      photo: pierreKouamePhoto,
+    },
+    {
+      name: "Éric Stéphane DIDO",
+      role: "Responsable Développement Commercial",
+      desc: "Stratégie commerciale, déploiement terrain et développement du portefeuille clients.",
+      photo: ericDidoPhoto,
+    },
   ];
 
   const partners = [
-    { name: "Dr Marcel KONAN — MiProjet", role: "Structuration de Projets & Stratégie" },
-    { name: "Cabinet Legal Form", role: "Expertise Juridique" },
-    { name: "Kouamé Mathieu ANGA", role: "Agronomie & Suivi de Plantation" },
-    { name: "Cabinet GESMA SARL", role: "Expertise Comptable & Fiscale" },
-    { name: "Les Palmistes", role: "Fournisseur de semences certifiées Iro Lamé" },
+    { name: "Dr Marcel KONAN — MiProjet", role: "Structuration de Projets & Stratégie", photo: marcelKonanPhoto },
+    { name: "Kouamé Mathieu ANGA", role: "Agronomie & Suivi de Plantation", photo: mathieuAngaPhoto },
+    { name: "Cabinet Legal Form", role: "Expertise Juridique", photo: partnerLegalformPhoto },
+    { name: "Cabinet GESMA SARL", role: "Expertise Comptable & Fiscale", photo: partnerGesmaPhoto },
+    { name: "Les Palmistes", role: "Fournisseur de semences certifiées Iro Lamé", photo: lesPalmistesLogo },
   ];
 
   return (
@@ -280,27 +303,47 @@ const Agricapital = () => {
                 </div>
 
                 <h3 className="text-xl font-bold mb-6 text-foreground">Direction</h3>
-                <div className="grid md:grid-cols-3 gap-4 mb-10">
+                <div className="grid md:grid-cols-3 gap-5 mb-12">
                   {team.map((m, i) => (
-                    <div key={i} className="p-5 rounded-xl bg-card border border-border/50 hover:border-accent/30 transition-colors">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold mb-3">
-                        {m.name.charAt(0)}
+                    <div
+                      key={i}
+                      className="group rounded-2xl bg-card border border-border/50 hover:border-accent/40 hover:shadow-lg transition-all overflow-hidden"
+                    >
+                      <div className="aspect-[4/5] overflow-hidden bg-secondary/30">
+                        <img
+                          src={m.photo}
+                          alt={`${m.name} — ${m.role}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
+                        />
                       </div>
-                      <h4 className="font-bold text-foreground">{m.name}</h4>
-                      <p className="text-sm text-primary font-medium mb-2">{m.role}</p>
-                      <p className="text-sm text-muted-foreground">{m.desc}</p>
+                      <div className="p-5">
+                        <h4 className="font-bold text-foreground text-lg">{m.name}</h4>
+                        <p className="text-sm text-primary font-semibold mb-2">{m.role}</p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{m.desc}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
 
                 <h3 className="text-xl font-bold mb-6 text-foreground">Partenaires Techniques & Stratégiques</h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {partners.map((p, i) => (
-                    <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-secondary/50 border border-border/50">
-                      <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-semibold text-foreground text-sm">{p.name}</p>
-                        <p className="text-xs text-muted-foreground">{p.role}</p>
+                    <div
+                      key={i}
+                      className="flex items-center gap-4 p-4 rounded-xl bg-secondary/40 border border-border/50 hover:border-accent/30 transition-colors"
+                    >
+                      <div className="w-16 h-16 rounded-xl overflow-hidden bg-background border border-border/50 flex-shrink-0">
+                        <img
+                          src={p.photo}
+                          alt={p.name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-foreground text-sm leading-tight">{p.name}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{p.role}</p>
                       </div>
                     </div>
                   ))}
