@@ -303,27 +303,47 @@ const Agricapital = () => {
                 </div>
 
                 <h3 className="text-xl font-bold mb-6 text-foreground">Direction</h3>
-                <div className="grid md:grid-cols-3 gap-4 mb-10">
+                <div className="grid md:grid-cols-3 gap-5 mb-12">
                   {team.map((m, i) => (
-                    <div key={i} className="p-5 rounded-xl bg-card border border-border/50 hover:border-accent/30 transition-colors">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold mb-3">
-                        {m.name.charAt(0)}
+                    <div
+                      key={i}
+                      className="group rounded-2xl bg-card border border-border/50 hover:border-accent/40 hover:shadow-lg transition-all overflow-hidden"
+                    >
+                      <div className="aspect-[4/5] overflow-hidden bg-secondary/30">
+                        <img
+                          src={m.photo}
+                          alt={`${m.name} — ${m.role}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
+                        />
                       </div>
-                      <h4 className="font-bold text-foreground">{m.name}</h4>
-                      <p className="text-sm text-primary font-medium mb-2">{m.role}</p>
-                      <p className="text-sm text-muted-foreground">{m.desc}</p>
+                      <div className="p-5">
+                        <h4 className="font-bold text-foreground text-lg">{m.name}</h4>
+                        <p className="text-sm text-primary font-semibold mb-2">{m.role}</p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{m.desc}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
 
                 <h3 className="text-xl font-bold mb-6 text-foreground">Partenaires Techniques & Stratégiques</h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {partners.map((p, i) => (
-                    <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-secondary/50 border border-border/50">
-                      <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-semibold text-foreground text-sm">{p.name}</p>
-                        <p className="text-xs text-muted-foreground">{p.role}</p>
+                    <div
+                      key={i}
+                      className="flex items-center gap-4 p-4 rounded-xl bg-secondary/40 border border-border/50 hover:border-accent/30 transition-colors"
+                    >
+                      <div className="w-16 h-16 rounded-xl overflow-hidden bg-background border border-border/50 flex-shrink-0">
+                        <img
+                          src={p.photo}
+                          alt={p.name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-foreground text-sm leading-tight">{p.name}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{p.role}</p>
                       </div>
                     </div>
                   ))}
