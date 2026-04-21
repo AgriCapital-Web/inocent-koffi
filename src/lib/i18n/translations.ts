@@ -629,7 +629,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.badge': '远见者 • 创始人 • 企业家',
     'hero.title': 'Inocent KOFFI',
-    'hero.subtitle': 'AGRICAPITAL SARL 创始人兼总经理',
+    'hero.subtitle': 'AGRICAPITAL SARL 创始人',
     'hero.description': '通过综合、包容和可持续的模式转型科特迪瓦农业。12年深入农村社区。',
     'hero.cta.discover': '了解我的愿景',
     'hero.cta.contact': '联系我',
@@ -730,8 +730,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'common.share': '分享',
     
     // SEO
-    'seo.home.title': 'Inocent KOFFI - AGRICAPITAL SARL 创始人兼总经理 | 农业转型',
-    'seo.home.description': 'Inocent KOFFI，AGRICAPITAL SARL创始人兼总经理。在科特迪瓦与农业生产者共事12年的实地经验。',
+    'seo.home.title': 'Inocent KOFFI - AGRICAPITAL SARL 创始人 | 农业转型',
+    'seo.home.description': 'Inocent KOFFI，AGRICAPITAL SARL创始人。在科特迪瓦与农业生产者共事12年的实地经验。',
     'seo.about.title': '关于 - Inocent KOFFI | 历程与农业专长',
     'seo.about.description': '了解Inocent KOFFI的历程，在科特迪瓦8个地区与农村社区共处12年。',
     'seo.vision.title': '愿景 - Inocent KOFFI | 转型非洲农业',
