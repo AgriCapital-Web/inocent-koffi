@@ -20,6 +20,10 @@ const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://ikoffi.agricapital.c
 
 const stripHtml = (value: string) => value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 const truncate = (value: string, max = 220) => (value.length > max ? `${value.slice(0, max - 1).trim()}…` : value);
+const normalizeRenderHtml = (value: string) =>
+  value
+    .replace(/<table(?![^>]*class=)/gi, '<div class="table-wrap"><table')
+    .replace(/<\/table>/gi, '</table></div>');
 
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -263,7 +267,8 @@ const BlogArticle = () => {
       ? post.featured_image
       : `${SITE_URL}${post.featured_image.startsWith("/") ? "" : "/"}${post.featured_image}`
     : "";
-  const articleSummary = truncate(post.excerpt || post.tagline || stripHtml(post.content) || post.title);
+  const articleSummary = truncate(post.excerpt || post.tagline || stripHtml(post.content) || post.title, 180);
+  const renderedContent = normalizeRenderHtml(post.content || "");
 
   return (
     <>
@@ -425,7 +430,7 @@ const BlogArticle = () => {
               </div>
             </header>
 
-            <div className="article-content max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+            <div className="article-content max-w-none" dangerouslySetInnerHTML={{ __html: renderedContent }} />
 
             {galleryMedia && galleryMedia.length > 0 && (
               <section className="mt-12 pt-8 border-t" aria-label="Galerie d'images">
