@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.blog-ai-assistant]
 verify_jwt = false
+
+[functions.og-article]
+verify_jwt = false
+
+[functions.og-audit]
+verify_jwt = false
