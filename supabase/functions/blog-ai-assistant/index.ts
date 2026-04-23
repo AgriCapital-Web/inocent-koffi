@@ -17,6 +17,8 @@ const VISUAL_ANGLES = [
   "équipe locale en action",
 ];
 
+type InputMode = "structured_draft" | "raw_text" | "instruction_prompt";
+
 function makeCacheKey(prefix: string, input: string): string {
   const normalized = input.trim().toLowerCase().replace(/\s+/g, " ");
   return `${prefix}:${normalized}`;
@@ -32,12 +34,19 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY non configuré");
 
+    const cleanContent = typeof content === "string" ? content.trim() : "";
+    if (!cleanContent) {
+      return new Response(JSON.stringify({ error: "Contenu vide" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const catList = categories?.map((c: any) => c.name).join(", ") || "Économie, Agriculture, Innovation, Leadership, Stratégie";
 
-    // Check cache for text-only actions
     if (action === "generate_meta" || action === "structure_article" || action === "generate_full_article") {
-      const cacheKey = makeCacheKey(`blog:${action}`, content?.slice(0, 300) || "");
+      const cacheKey = makeCacheKey(`blog:${action}`, cleanContent.slice(0, 300));
       const { data: cached } = await supabase
         .from("ai_cache")
         .select("response")
@@ -124,18 +133,14 @@ RÈGLES HTML STRICTES:
 - Paragraphes courts avec transitions claires.
 - N'invente jamais de chiffres: si incertitude, le dire clairement.
 - Ton: professionnel, concret, honnête, non sensationnaliste.
+- Quand tu produis un tableau, enveloppe-le dans <div class="table-wrap">...</div>.
 
 TABLEAUX — QUAND PERTINENT UNIQUEMENT:
-- Si le sujet s'y prête (comparaisons, analyses, synthèses, données structurées), génère un tableau HTML propre.
-- Utilise <table> avec <thead> et <tbody>.
-- Style: bordures fines, alternance de couleurs de lignes (zebra), texte lisible.
-- Exemple de style inline: <table style="width:100%;border-collapse:collapse;margin:1.5em 0"><thead><tr style="background:#f0f0f0"><th style="padding:10px 14px;text-align:left;border-bottom:2px solid #ddd">...</th></tr></thead><tbody><tr style="background:#fafafa"><td style="padding:8px 14px;border-bottom:1px solid #eee">...</td></tr><tr><td style="padding:8px 14px;border-bottom:1px solid #eee">...</td></tr></tbody></table>
+- Si le sujet s'y prête (comparaisons, analyses, synthèses, données structurées), génère un tableau HTML moderne et bien présenté.
+- Utilise <table> avec <caption> si utile, <thead> et <tbody>.
+- Garde des en-têtes courts, des colonnes équilibrées, un contenu synthétique et lisible.
+- Évite les tableaux trop larges; privilégie 3 à 5 colonnes maximum.
 - NE PAS forcer un tableau si le sujet ne le nécessite pas.
-
-IMAGES DANS L'ARTICLE (si plusieurs images fournies):
-- Les images supplémentaires doivent être insérées DANS le contenu, réparties entre les sections.
-- Chaque image doit être placée à un endroit logique et pertinent, pas toutes au même endroit.
-- Format: <figure style="margin:1.5em 0;text-align:center"><img src="URL" alt="description" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)"><figcaption style="font-size:0.85em;color:#666;margin-top:0.5em">Légende</figcaption></figure>
 
 SECTION SOURCES VÉRIFIÉES OBLIGATOIRE:
 - TOUJOURS terminer l'article par une section <h2>📌 Sources vérifiées</h2>
@@ -148,11 +153,16 @@ SECTION SOURCES VÉRIFIÉES OBLIGATOIRE:
     async function saveCache(key: string, response: any) {
       try {
         await supabase.from("ai_cache").insert({ cache_key: key, response });
-      } catch { /* ignore cache errors */ }
+      } catch {
+      }
     }
+
+    const inputMode = detectInputMode(cleanContent);
+    const adaptationGuide = buildAdaptationGuide(inputMode, cleanContent);
 
     if (action === "generate_meta") {
       const systemPrompt = `${BRAND_CONTEXT}
+${adaptationGuide}
 Tu génères des métadonnées JSON pour des articles d'analyse.
 Catégories disponibles: ${catList}
 Retourne UNIQUEMENT ce JSON valide:
@@ -164,22 +174,25 @@ Retourne UNIQUEMENT ce JSON valide:
   "suggested_category": "nom de la catégorie"
 }`;
 
-      const response = await callAI(LOVABLE_API_KEY, systemPrompt, `Analyse et génère les métadonnées pour:\n\n${content}`);
+      const response = await callAI(LOVABLE_API_KEY, systemPrompt, `Analyse l'entrée ci-dessous puis génère les métadonnées adaptées :\n\n${cleanContent}`);
       const parsed = extractJSON(response);
-      const cacheKey = makeCacheKey("blog:generate_meta", content?.slice(0, 300) || "");
+      const cacheKey = makeCacheKey("blog:generate_meta", cleanContent.slice(0, 300));
       await saveCache(cacheKey, parsed);
       return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     if (action === "structure_article") {
       const systemPrompt = `${BRAND_CONTEXT}
-Tu restructures un texte brut en article HTML professionnel.
 ${HTML_RULES}
+${adaptationGuide}
+Tu restructures l'entrée pour produire un article HTML professionnel.
+Si le texte est déjà structuré, préserve le fond et améliore uniquement l'organisation, les intertitres et la fluidité.
+Si c'est un prompt ou une consigne, exécute fidèlement les instructions avant de structurer.
 Retourne uniquement le HTML structuré, sans commentaire.`;
 
-      const response = await callAI(LOVABLE_API_KEY, systemPrompt, `Restructure ce texte:\n\n${content}`);
-      const result = { content: response };
-      const cacheKey = makeCacheKey("blog:structure_article", content?.slice(0, 300) || "");
+      const response = await callAI(LOVABLE_API_KEY, systemPrompt, `Travaille cette entrée selon sa nature et rends-la publiable :\n\n${cleanContent}`);
+      const result = { content: response, detected_mode: inputMode };
+      const cacheKey = makeCacheKey("blog:structure_article", cleanContent.slice(0, 300));
       await saveCache(cacheKey, result);
       return new Response(JSON.stringify(result), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
@@ -191,6 +204,7 @@ Tu es un rédacteur en chef expert en analyses stratégiques.
 Mission: produire un article publiable, crédible et utile au lecteur.
 
 ${HTML_RULES}
+${adaptationGuide}
 
 STRUCTURE ATTENDUE:
 1. Introduction percutante (2-3 paragraphes)
@@ -205,8 +219,11 @@ RÈGLES FORTES:
 - Garder un regard personnel d'analyste (Inocent KOFFI), pluridisciplinaire.
 - Éviter le jargon vide.
 - Donner des éléments concrets et nuancés.
+- Si l'entrée est déjà bien structurée, consolide et enrichis sans la dénaturer.
+- Si l'entrée est brute, développe l'analyse complètement.
+- Si l'entrée est un prompt, suis les consignes explicites et implicites qu'il contient.
 - Sources en fin d'article: OBLIGATOIRES, réelles, avec liens cliquables et date de consultation.
-- Si le sujet s'y prête, inclure un TABLEAU comparatif ou de synthèse avec style zebra-striped.
+- Si le sujet s'y prête, inclure un TABLEAU comparatif ou de synthèse moderne, lisible, avec en-têtes nets.
 
 Catégories disponibles: ${catList}
 
@@ -220,18 +237,14 @@ Retourne UNIQUEMENT ce JSON valide:
   "suggested_category": "nom catégorie"
 }`;
 
-      const userPrompt = content.trim().split(/\s+/).length < 20
-        ? `Développe un article complet d'analyse et réflexion sur ce sujet: "${content.trim()}".`
-        : `Transforme ce brouillon en article d'analyse structuré et publiable:\n\n${content}`;
-
+      const userPrompt = buildGenerationPrompt(inputMode, cleanContent);
       const articlePromise = callAI(LOVABLE_API_KEY, systemPrompt, userPrompt);
-      const imagePromise = generateImage ? generateAIImage(content.slice(0, 240)) : Promise.resolve(null);
-
+      const imagePromise = generateImage ? generateAIImage(cleanContent.slice(0, 240)) : Promise.resolve(null);
       const galleryPromise = generateGallery
         ? Promise.all([
-            generateAIImage(content.slice(0, 180), "plan large documentaire"),
-            generateAIImage(content.slice(0, 180), "portrait éditorial en contexte"),
-            generateAIImage(content.slice(0, 180), "détail terrain en macro"),
+            generateAIImage(cleanContent.slice(0, 180), "plan large documentaire"),
+            generateAIImage(cleanContent.slice(0, 180), "portrait éditorial en contexte"),
+            generateAIImage(cleanContent.slice(0, 180), "détail terrain en macro"),
           ])
         : Promise.resolve(null);
 
@@ -240,9 +253,9 @@ Retourne UNIQUEMENT ce JSON valide:
 
       if (imageUrl) parsed.imageUrl = imageUrl;
       if (galleryResults) {
-        // Gallery images go to a separate carousel under the article — NOT inline
-        parsed.galleryUrls = (galleryResults.filter(Boolean) as string[]);
+        parsed.galleryUrls = galleryResults.filter(Boolean) as string[];
       }
+      parsed.detected_mode = inputMode;
 
       return new Response(JSON.stringify(parsed), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
@@ -258,6 +271,58 @@ Retourne UNIQUEMENT ce JSON valide:
     );
   }
 });
+
+function detectInputMode(content: string): InputMode {
+  const trimmed = content.trim();
+  const lower = trimmed.toLowerCase();
+  const lineCount = trimmed.split(/\n+/).filter(Boolean).length;
+  const hasHtml = /<h\d|<p>|<ul>|<ol>|<table|<blockquote/i.test(trimmed);
+  const hasStructuredMarkers = /(^|\n)\s*(titre|title|introduction|conclusion|plan|section|partie|chapitre)\s*[:\-]/i.test(trimmed);
+  const hasPromptLanguage = /(rédige|écris|write|generate|développe|transforme|fais|analyse|create|compose|produis|please|merci de|tu es|agis comme)/i.test(lower);
+
+  if (hasHtml || (lineCount >= 5 && hasStructuredMarkers)) return "structured_draft";
+  if (hasPromptLanguage && !hasHtml) return "instruction_prompt";
+  return "raw_text";
+}
+
+function buildAdaptationGuide(mode: InputMode, content: string): string {
+  if (mode === "structured_draft") {
+    return `MODE D'ENTRÉE: BROUILLON DÉJÀ STRUCTURÉ.
+- Analyse la structure existante avant d'écrire.
+- Réorganise avec sobriété.
+- Conserve les idées, le ton et les éléments solides.
+- Corrige les redondances, affine les titres et améliore la progression logique.`;
+  }
+
+  if (mode === "instruction_prompt") {
+    return `MODE D'ENTRÉE: PROMPT / CONSIGNES.
+- Identifie les instructions explicites et implicites contenues dans l'entrée.
+- Exécute ces consignes fidèlement avant de produire l'article.
+- Si certaines consignes sont incompatibles avec la ligne éditoriale ou les faits, adapte avec discernement et honnêteté.
+- Ne perds jamais l'intention du prompt.`;
+  }
+
+  const wordCount = content.split(/\s+/).filter(Boolean).length;
+  return `MODE D'ENTRÉE: TEXTE BRUT.
+- Analyse le fond, les idées-clés et les angles possibles.
+- Structure entièrement le contenu pour le rendre publiable.
+- Développe l'analyse de façon complète et cohérente.
+- ${wordCount < 80 ? "Le texte est court: enrichis davantage avec contexte, explications et mise en perspective." : "Respecte les informations fournies tout en renforçant la clarté et la profondeur."}`;
+}
+
+function buildGenerationPrompt(mode: InputMode, content: string): string {
+  if (mode === "structured_draft") {
+    return `Voici un brouillon déjà partiellement structuré. Analyse sa qualité, conserve ses points forts, puis transforme-le en article publiable sans casser sa logique quand elle est bonne :\n\n${content}`;
+  }
+
+  if (mode === "instruction_prompt") {
+    return `Voici un prompt ou un ensemble d'instructions. Analyse précisément la demande, suis les indications, puis livre l'article final en respectant les contraintes implicites et explicites :\n\n${content}`;
+  }
+
+  return content.trim().split(/\s+/).length < 20
+    ? `Développe un article complet d'analyse et réflexion à partir de ce sujet ou texte brut : "${content.trim()}".`
+    : `Transforme ce texte brut en article d'analyse structuré, complet et publiable :\n\n${content}`;
+}
 
 async function callAI(apiKey: string, systemPrompt: string, userPrompt: string): Promise<string> {
   const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -291,11 +356,11 @@ async function callAI(apiKey: string, systemPrompt: string, userPrompt: string):
 function extractJSON(text: string): any {
   const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (codeBlockMatch) {
-    try { return JSON.parse(codeBlockMatch[1].trim()); } catch { /* fallback */ }
+    try { return JSON.parse(codeBlockMatch[1].trim()); } catch { }
   }
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (jsonMatch) {
-    try { return JSON.parse(jsonMatch[0]); } catch { /* fallback */ }
+    try { return JSON.parse(jsonMatch[0]); } catch { }
   }
   throw new Error("Format de réponse IA invalide");
 }
