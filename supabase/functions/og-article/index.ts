@@ -87,7 +87,13 @@ Deno.serve(async (req) => {
 
   const author = post.author || "Inocent KOFFI";
   const contentText = stripHtml(post.content || "");
-  const summary = truncate(post.excerpt || post.tagline || contentText || post.title, 180);
+  // og:description fallback chain — guarantee a non-empty, meaningful summary
+  const rawSummary =
+    (post.excerpt && post.excerpt.trim()) ||
+    (post.tagline && post.tagline.trim()) ||
+    (contentText && contentText.trim()) ||
+    `${post.title} — analyse signée ${author}`;
+  const summary = truncate(rawSummary, 200);
   const resolvedImage = await resolveSocialImage({
     rawImageUrl: post.featured_image,
     siteUrl,
@@ -95,15 +101,18 @@ Deno.serve(async (req) => {
     isWhatsApp,
   });
 
-  const imageMetaTags = resolvedImage ? `
-  <meta property="og:image" content="${escapeHtml(resolvedImage)}">
-  <meta property="og:image:url" content="${escapeHtml(resolvedImage)}">
-  <meta property="og:image:secure_url" content="${escapeHtml(resolvedImage)}">
+  // Lighter fallback if resolver fails (small static asset, < 100KB)
+  const fallbackImage = appendQueryParam(`${siteUrl}/images/gallery/launch-1.jpg`, "v", cacheVersion);
+  const finalImage = resolvedImage || fallbackImage;
+  const imageMetaTags = `
+  <meta property="og:image" content="${escapeHtml(finalImage)}">
+  <meta property="og:image:url" content="${escapeHtml(finalImage)}">
+  <meta property="og:image:secure_url" content="${escapeHtml(finalImage)}">
   <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="${isWhatsApp ? "720" : "1200"}">
-  <meta property="og:image:height" content="${isWhatsApp ? "378" : "630"}">
+  <meta property="og:image:width" content="${isWhatsApp ? "400" : "1200"}">
+  <meta property="og:image:height" content="${isWhatsApp ? "210" : "630"}">
   <meta property="og:image:alt" content="${escapeHtml(post.title)}">
-  <meta name="twitter:image" content="${escapeHtml(resolvedImage)}">` : "";
+  <meta name="twitter:image" content="${escapeHtml(finalImage)}">`;
 
   const html = `<!DOCTYPE html>
 <html lang="fr">
@@ -180,9 +189,10 @@ function buildOptimizedImageUrl(sourceUrl: string, cacheVersion: string, isWhats
 
   const sourceOrigin = new URL(sourceUrl).origin;
 
-  const width = isWhatsApp ? "480" : "1200";
-  const height = isWhatsApp ? "252" : "630";
-  const quality = isWhatsApp ? "40" : "80";
+  // Tighter sizing for WhatsApp to stay well under 100KB
+  const width = isWhatsApp ? "320" : "1200";
+  const height = isWhatsApp ? "168" : "630";
+  const quality = isWhatsApp ? "30" : "80";
   const storagePath = storageMatch[1];
 
   return `${sourceOrigin}/storage/v1/render/image/public/${storagePath}?width=${width}&height=${height}&resize=cover&quality=${quality}&v=${encodeURIComponent(cacheVersion)}`;

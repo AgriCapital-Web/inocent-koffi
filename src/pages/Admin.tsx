@@ -43,6 +43,7 @@ import AdminDatabase from "@/components/admin/AdminDatabase";
 import AdminComments from "@/components/admin/AdminComments";
 import AdminMobileMenu from "@/components/admin/AdminMobileMenu";
 import AdminArticleStats from "@/components/admin/AdminArticleStats";
+import AdminOGAudit from "@/components/admin/AdminOGAudit";
 
 interface Testimonial {
   id: string;
@@ -385,6 +386,7 @@ const Admin = () => {
     { id: "analytics", icon: <BarChart3 className="h-4 w-4" />, label: "Analytiques" },
     { id: "article-stats", icon: <Eye className="h-4 w-4" />, label: "Stats Articles" },
     { id: "seo", icon: <Globe className="h-4 w-4" />, label: "SEO" },
+    { id: "og-audit", icon: <Globe className="h-4 w-4" />, label: "Audit OG" },
     { id: "settings", icon: <Settings className="h-4 w-4" />, label: "Paramètres" },
   ];
 
@@ -913,6 +915,9 @@ const Admin = () => {
 
             {/* Article Stats */}
             {activeTab === "article-stats" && <AdminArticleStats />}
+
+            {/* OG Audit */}
+            {activeTab === "og-audit" && <AdminOGAudit />}
 
             {/* Settings */}
             {activeTab === "settings" && <AdminSettings />}
