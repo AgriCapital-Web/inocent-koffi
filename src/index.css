@@ -137,17 +137,18 @@ All colors MUST be HSL.
   .article-content figure { margin: 1.2em 0; }
   .article-content video { width: 100%; height: auto; border-radius: 12px; margin: 1.2em 0; }
   /* ── Article tables ────────────────────────────────────────── */
-  .article-content table { width: 100%; border-collapse: collapse; margin: 1.5em 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px hsl(var(--foreground) / 0.08); font-size: 0.95em; }
+  .article-content table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.5em 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 28px hsl(var(--foreground) / 0.08); font-size: 0.95em; border: 1px solid hsl(var(--border)); }
   .article-content thead tr { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
-  .article-content th { padding: 14px 18px; text-align: left; font-weight: 700; font-size: 0.9em; letter-spacing: 0.04em; text-transform: uppercase; border-right: 1px solid hsl(var(--primary-foreground) / 0.15); }
+  .article-content th { padding: 14px 18px; text-align: left; font-weight: 700; font-size: 0.9em; letter-spacing: 0.04em; text-transform: uppercase; border-right: 1px solid hsl(var(--primary-foreground) / 0.15); vertical-align: top; }
   .article-content th:last-child { border-right: none; }
-  .article-content td { padding: 13px 18px; border-bottom: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); }
+  .article-content td { padding: 13px 18px; border-bottom: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); vertical-align: top; }
   .article-content tbody tr:nth-child(even) td { background: hsl(var(--muted) / 0.5); }
   .article-content tbody tr:nth-child(odd) td { background: hsl(var(--background)); }
   .article-content tbody tr:hover td { background: hsl(var(--accent) / 0.08); transition: background 0.2s; }
   .article-content tbody tr:last-child td { border-bottom: none; }
   .article-content caption { padding: 10px; font-weight: 600; color: hsl(var(--foreground)); text-align: left; }
   .article-content div[style*="overflow-x"] { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .article-content .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.5em 0; border-radius: 12px; }
 
   /* ── TipTap editor tables ──────────────────────────────────── */
   .ProseMirror table { width: 100%; border-collapse: collapse; margin: 1em 0; border-radius: 8px; overflow: hidden; }
