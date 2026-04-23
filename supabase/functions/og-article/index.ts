@@ -178,12 +178,14 @@ function buildOptimizedImageUrl(sourceUrl: string, cacheVersion: string, isWhats
     return appendQueryParam(sourceUrl, "v", cacheVersion);
   }
 
+  const sourceOrigin = new URL(sourceUrl).origin;
+
   const width = isWhatsApp ? "480" : "1200";
   const height = isWhatsApp ? "252" : "630";
   const quality = isWhatsApp ? "40" : "80";
   const storagePath = storageMatch[1];
 
-  return `https://mlatmyzmjsouxjpjzshd.supabase.co/storage/v1/render/image/public/${storagePath}?width=${width}&height=${height}&resize=cover&quality=${quality}&v=${encodeURIComponent(cacheVersion)}`;
+  return `${sourceOrigin}/storage/v1/render/image/public/${storagePath}?width=${width}&height=${height}&resize=cover&quality=${quality}&v=${encodeURIComponent(cacheVersion)}`;
 }
 
 async function isAccessibleImage(url: string): Promise<boolean> {
