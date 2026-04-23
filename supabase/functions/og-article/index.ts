@@ -164,18 +164,26 @@ async function resolveSocialImage({
   if (!sourceAccessible) return "";
 
   const optimizedUrl = buildOptimizedImageUrl(normalizedSourceUrl, cacheVersion, isWhatsApp);
-  const optimizedAccessible = await isAccessibleImage(optimizedUrl);
-  if (optimizedAccessible) return optimizedUrl;
+  if (optimizedUrl) {
+    const optimizedAccessible = await isAccessibleImage(optimizedUrl);
+    if (optimizedAccessible) return optimizedUrl;
+  }
 
   return appendQueryParam(normalizedSourceUrl, "v", cacheVersion);
 }
 
 function buildOptimizedImageUrl(sourceUrl: string, cacheVersion: string, isWhatsApp: boolean): string {
-  const encodedSource = encodeURIComponent(sourceUrl.replace(/^https?:\/\//i, ""));
-  const width = isWhatsApp ? "720" : "1200";
-  const height = isWhatsApp ? "378" : "630";
-  const quality = isWhatsApp ? "68" : "80";
-  return `https://wsrv.nl/?url=${encodedSource}&w=${width}&h=${height}&fit=cover&output=jpg&q=${quality}&we&cb=${encodeURIComponent(cacheVersion)}`;
+  const storageMatch = sourceUrl.match(/^https:\/\/[^/]+\/storage\/v1\/object\/public\/([^?]+)$/i);
+  if (!storageMatch) {
+    return appendQueryParam(sourceUrl, "v", cacheVersion);
+  }
+
+  const width = isWhatsApp ? "480" : "1200";
+  const height = isWhatsApp ? "252" : "630";
+  const quality = isWhatsApp ? "40" : "80";
+  const storagePath = storageMatch[1];
+
+  return `https://mlatmyzmjsouxjpjzshd.supabase.co/storage/v1/render/image/public/${storagePath}?width=${width}&height=${height}&resize=cover&quality=${quality}&v=${encodeURIComponent(cacheVersion)}`;
 }
 
 async function isAccessibleImage(url: string): Promise<boolean> {
