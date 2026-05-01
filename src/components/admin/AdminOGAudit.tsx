@@ -36,6 +36,15 @@ const statusConfig = {
   error: { color: "bg-red-500/10 text-red-700 border-red-500/30", icon: XCircle, label: "Erreur" },
 };
 
+function escapeHtml(value: string): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export default function AdminOGAudit() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
