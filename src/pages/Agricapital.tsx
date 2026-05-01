@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Target, Users, Sprout, TrendingUp, MapPin, Calendar, Building, Shield, CheckCircle, Leaf, BarChart3, Globe, ArrowRight } from "lucide-react";
 import logoAgricapital from "@/assets/logo-agricapital.png";
-import teamPhoto from "@/assets/team-agricapital.jpg";
 import inocentKoffiPhoto from "@/assets/team/inocent-koffi.jpg";
 import pierreKouamePhoto from "@/assets/team/pierre-kouame.jpg";
 import ericDidoPhoto from "@/assets/team/eric-dido.jpg";
@@ -284,23 +283,6 @@ const Agricapital = () => {
                 <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
                   AgriCapital est porté par une équipe fondatrice combinant expertise technique, expérience terrain et rigueur stratégique, soutenue par un réseau de partenaires experts.
                 </p>
-
-                {/* Photo officielle de l'équipe AgriCapital */}
-                <div className="mb-12">
-                  <div className="relative rounded-2xl overflow-hidden shadow-xl border border-border/50 max-w-4xl mx-auto">
-                    <img
-                      src={teamPhoto}
-                      alt="L'équipe AgriCapital sur le terrain — Inocent KOFFI, Koffi Pierre KOUAMÉ, Éric Stéphane DIDO"
-                      className="w-full h-auto object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent p-4 sm:p-6">
-                      <p className="text-xs sm:text-sm text-foreground font-medium text-center">
-                        L'équipe AgriCapital sur le terrain — Côte d'Ivoire
-                      </p>
-                    </div>
-                  </div>
-                </div>
 
                 <h3 className="text-xl font-bold mb-6 text-foreground">Direction</h3>
                 <div className="grid md:grid-cols-3 gap-5 mb-12">

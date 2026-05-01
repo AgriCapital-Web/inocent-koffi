@@ -16,10 +16,22 @@ interface AuditResult {
   og_image_accessible: boolean;
   og_image_status: number | null;
   og_image_size_kb: number | null;
+  og_image_size_warning?: boolean;
+  og_image_size_threshold_kb?: number;
+  fallback_checks?: Array<{
+    label: string;
+    url: string;
+    status: number | null;
+    size_kb: number | null;
+    accessible: boolean;
+    over_threshold: boolean;
+  }>;
   og_description: string;
   og_description_has_summary: boolean;
   status: "ok" | "warning" | "error";
   issues: string[];
+  audited_url?: string;
+  audited_http_status?: number | null;
 }
 
 interface AuditSummary {
@@ -73,20 +85,29 @@ export default function AdminOGAudit() {
   const exportCSV = () => {
     if (!results.length) return;
     const headers = [
-      "slug","title","article_number","status","og_image","og_image_https","og_image_accessible",
-      "og_image_status","og_image_size_kb","og_description_has_summary","og_description","issues","share_url",
+      "slug","title","article_number","status",
+      "audited_url","audited_http_status",
+      "og_image","og_image_https","og_image_accessible","og_image_status","og_image_size_kb","og_image_size_warning",
+      "fallback_checks",
+      "og_description_has_summary","og_description","issues","share_url",
     ];
     const escape = (v: unknown) => {
       const s = v === null || v === undefined ? "" : String(v);
       return `"${s.replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
     };
-    const rows = results.map((r) =>
-      [
-        r.slug, r.title, r.article_number ?? "", r.status, r.og_image, r.og_image_https,
-        r.og_image_accessible, r.og_image_status ?? "", r.og_image_size_kb ?? "",
+    const rows = results.map((r) => {
+      const fbStr = (r.fallback_checks || [])
+        .map((f) => `${f.label}: ${f.url} [${f.status ?? "n/a"}, ${f.size_kb ?? "?"}kB]`)
+        .join(" | ");
+      return [
+        r.slug, r.title, r.article_number ?? "", r.status,
+        r.audited_url ?? "", r.audited_http_status ?? "",
+        r.og_image, r.og_image_https, r.og_image_accessible,
+        r.og_image_status ?? "", r.og_image_size_kb ?? "", r.og_image_size_warning ?? false,
+        fbStr,
         r.og_description_has_summary, r.og_description, r.issues.join(" | "), r.share_url,
-      ].map(escape).join(",")
-    );
+      ].map(escape).join(",");
+    });
     const csv = "\uFEFF" + [headers.join(","), ...rows].join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -122,7 +143,19 @@ export default function AdminOGAudit() {
         (r) => `<tr class="${r.status === "error" ? "err" : r.status === "warning" ? "warn" : ""}">
           <td><strong>${escapeHtml(r.title)}</strong><br><a href="${r.share_url}">/${escapeHtml(r.slug)}</a></td>
           <td>${r.status.toUpperCase()}</td>
-          <td>${r.og_image_https ? "HTTPS ✓" : "✗"}<br>${r.og_image_accessible ? "Accessible ✓" : "Inaccessible ✗"}<br>${r.og_image_size_kb ?? "?"} KB</td>
+          <td>
+            ${r.og_image_https ? "HTTPS ✓" : "✗"}<br>
+            ${r.og_image_accessible ? "Accessible ✓" : "Inaccessible ✗"}<br>
+            HTTP ${r.og_image_status ?? "n/a"} — ${r.og_image_size_kb ?? "?"} KB${r.og_image_size_warning ? " ⚠️" : ""}<br>
+            <small>URL testée: <a href="${escapeHtml(r.audited_url || "")}">${escapeHtml(r.audited_url || "")}</a></small>
+            ${
+              (r.fallback_checks || []).length
+                ? `<br><small>Fallbacks: ${(r.fallback_checks || [])
+                    .map((f) => `${escapeHtml(f.label)} [${f.status ?? "n/a"}, ${f.size_kb ?? "?"}kB${f.over_threshold ? " ⚠️" : ""}]`)
+                    .join(" · ")}</small>`
+                : ""
+            }
+          </td>
           <td>${escapeHtml(r.og_description || "(vide)")}<br><em>${r.og_description_has_summary ? "Résumé OK" : "Résumé manquant"}</em></td>
           <td class="issues">${r.issues.map(escapeHtml).join("\n")}</td>
         </tr>`

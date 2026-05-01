@@ -16,13 +16,17 @@ describe("WhatsApp share formatting", () => {
   ];
 
   for (const { title, desc } of cases) {
+    // The helper normalizes typographic apostrophes/quotes for cross-language safety
+    const normalizedTitle = title
+      .replace(/[’‘‚‛]/g, "'")
+      .replace(/[“”«»„]/g, '"');
     it(`wraps title in *bold* and signature in _italic_ — "${title}"`, () => {
       const msg = buildWhatsAppMessage({
         title,
         description: desc,
         url: "https://ikoffi.agricapital.ci/new/art004-026",
       });
-      expect(msg.startsWith(`*${title}*`)).toBe(true);
+      expect(msg.startsWith(`*${normalizedTitle}*`)).toBe(true);
       expect(msg).toContain(`_${DEFAULT_SIGNATURE}_`);
       expect(msg).toContain("https://ikoffi.agricapital.ci/new/art004-026");
     });
@@ -35,7 +39,7 @@ describe("WhatsApp share formatting", () => {
       });
       expect(url.startsWith("https://wa.me/?text=")).toBe(true);
       const decoded = decodeURIComponent(url.replace("https://wa.me/?text=", ""));
-      expect(decoded).toContain(`*${title}*`);
+      expect(decoded).toContain(`*${normalizedTitle}*`);
       expect(decoded).toContain(`_${DEFAULT_SIGNATURE}_`);
     });
   }

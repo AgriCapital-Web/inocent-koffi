@@ -11,15 +11,17 @@ import { Table } from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { 
   Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Undo, Redo, 
   Link as LinkIcon, Heading1, Heading2, Heading3,
   AlignLeft, AlignCenter, AlignRight, Highlighter, Palette,
-  Table as TableIcon, Plus, Minus, Trash2
+  Table as TableIcon, Plus, Minus, Trash2, Eye
 } from 'lucide-react';
+import { sanitizeTablesHtml } from '@/lib/sanitizeTables';
 
 interface RichTextEditorProps {
   content: string;
@@ -40,6 +42,7 @@ const HIGHLIGHT_COLORS = [
 ];
 
 const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps) => {
+  const [previewHtml, setPreviewHtml] = useState<string | null>(null);
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -59,7 +62,8 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
     ],
     content,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      // Sanitize tables on the fly so saved/shared HTML is always clean & consistent
+      onChange(sanitizeTablesHtml(editor.getHTML()));
     },
     editorProps: {
       attributes: {
@@ -107,6 +111,28 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
   </tbody>
 </table></div>`;
     editor.chain().focus().insertContent(sampleHtml).run();
+  };
+
+  // Show a preview modal of the sample table BEFORE inserting, so user confirms styling
+  const previewSampleTable = () => {
+    setPreviewHtml(`
+<div class="table-wrap"><table>
+  <thead>
+    <tr><th>Indicateur</th><th>Avant</th><th>Après</th><th>Évolution</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Production (T)</td><td>120</td><td>185</td><td>+54%</td></tr>
+    <tr><td>Marge nette</td><td>14%</td><td>22%</td><td>+8 pts</td></tr>
+    <tr><td>Emplois créés</td><td>8</td><td>21</td><td>+13</td></tr>
+  </tbody>
+</table></div>`);
+  };
+
+  const confirmInsertPreview = () => {
+    if (previewHtml) {
+      editor.chain().focus().insertContent(previewHtml).run();
+    }
+    setPreviewHtml(null);
   };
 
   const ToolbarButton = ({ 
@@ -256,6 +282,9 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
               <button onClick={insertSampleTable} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted rounded w-full text-left">
                 <TableIcon className="h-3 w-3" /> Tableau exemple (preview stylé)
               </button>
+              <button onClick={previewSampleTable} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted rounded w-full text-left">
+                <Eye className="h-3 w-3" /> Aperçu avant insertion
+              </button>
               {editor.isActive('table') && (
                 <>
                   <div className="border-t my-1" />
@@ -308,6 +337,25 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
       <div className="relative">
         <EditorContent editor={editor} className="[&_.ProseMirror]:min-h-[320px] [&_.ProseMirror]:p-5 [&_.ProseMirror]:focus:outline-none [&_.ProseMirror_h1]:text-2xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:my-4 [&_.ProseMirror_h2]:text-xl [&_.ProseMirror_h2]:font-bold [&_.ProseMirror_h2]:my-3 [&_.ProseMirror_h3]:text-lg [&_.ProseMirror_h3]:font-semibold [&_.ProseMirror_h3]:my-2 [&_.ProseMirror_p]:my-3 [&_.ProseMirror_p]:leading-7 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-6 [&_.ProseMirror_ul]:my-3 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-6 [&_.ProseMirror_ol]:my-3 [&_.ProseMirror_li]:my-1 [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-accent [&_.ProseMirror_blockquote]:pl-4 [&_.ProseMirror_blockquote]:italic [&_.ProseMirror_blockquote]:my-4 [&_.ProseMirror_table]:w-full [&_.ProseMirror_table]:border-collapse [&_.ProseMirror_table]:my-4 [&_.ProseMirror_th]:border [&_.ProseMirror_th]:border-border [&_.ProseMirror_th]:p-3 [&_.ProseMirror_th]:bg-primary [&_.ProseMirror_th]:text-primary-foreground [&_.ProseMirror_th]:font-semibold [&_.ProseMirror_td]:border [&_.ProseMirror_td]:border-border [&_.ProseMirror_td]:p-3 [&_.ProseMirror_td]:align-top [&_.ProseMirror_tr:nth-child(even)_td]:bg-muted/30" />
       </div>
+
+      {/* Table preview modal — confirm rendered styling before insertion */}
+      <Dialog open={!!previewHtml} onOpenChange={(o) => !o && setPreviewHtml(null)}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Aperçu du tableau</DialogTitle>
+          </DialogHeader>
+          <div className="border rounded-lg p-4 bg-background overflow-auto">
+            <div
+              className="prose prose-sm max-w-none"
+              dangerouslySetInnerHTML={{ __html: previewHtml ? sanitizeTablesHtml(previewHtml) : '' }}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPreviewHtml(null)}>Annuler</Button>
+            <Button onClick={confirmInsertPreview}>Insérer dans l'article</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
