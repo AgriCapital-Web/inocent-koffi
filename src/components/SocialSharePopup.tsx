@@ -12,6 +12,7 @@ import { Share2, Copy, Check, Link2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { buildShortUrl } from "@/lib/shortUrl";
+import { buildWhatsAppMessage, DEFAULT_SIGNATURE } from "@/lib/whatsappShare";
 
 interface SocialSharePopupProps {
   url: string;
@@ -70,12 +71,17 @@ const SocialSharePopup = ({ url, title, description = "" }: SocialSharePopupProp
 
   // The URL we share publicly: short if available, otherwise the full article URL
   const shareUrl = appendShareVersion(shortUrl || url, shareVersion);
-  const signature = "— Inocent KOFFI | Fondateur AGRICAPITAL SARL";
+  const signature = DEFAULT_SIGNATURE;
   const summaryText = (description || title).trim();
   const compactSummary = summaryText.length > 220 ? `${summaryText.slice(0, 219).trim()}…` : summaryText;
   const shareBody = `${title}\n\n${compactSummary}\n\n${signature}\n\nL'article complet à ce lien 👉`;
   const shareBodyWithLink = `${shareBody}\n${shareUrl}`;
-  const whatsappBody = `*${title}*\n\n${compactSummary}\n\n_${signature}_\n\nL'article complet à ce lien 👉\n${shareUrl}`;
+  const whatsappBody = buildWhatsAppMessage({
+    title,
+    description,
+    url: shareUrl,
+    signature,
+  });
 
   const encodedShareBodyWithLink = encodeURIComponent(shareBodyWithLink);
   const encodedWhatsappBody = encodeURIComponent(whatsappBody);

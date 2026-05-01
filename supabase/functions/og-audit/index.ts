@@ -102,10 +102,16 @@ Deno.serve(async (req) => {
         // Description / summary check
         if (!result.og_description.trim()) {
           result.issues.push("og:description vide");
-        } else if (summaryHint && !result.og_description.toLowerCase().includes(summaryHint.slice(0, 30).toLowerCase())) {
-          // Not a hard error — fallback content is acceptable
-          result.og_description_has_summary = false;
+        } else if (summaryHint) {
+          // Tolerance: substring OR token-overlap similarity (handles truncation/punctuation)
+          const sim = textSimilarity(summaryHint, result.og_description);
+          const desc = result.og_description.toLowerCase();
+          const hint = summaryHint.toLowerCase();
+          const includesHead = desc.includes(hint.slice(0, 30));
+          const includesTail = hint.length > 60 && desc.includes(hint.slice(0, 60).split(" ").slice(0, 6).join(" "));
+          result.og_description_has_summary = includesHead || includesTail || sim >= 0.55;
         } else {
+          // No hint to compare — non-empty description is acceptable
           result.og_description_has_summary = true;
         }
       } catch (e) {
@@ -149,4 +155,23 @@ function extractName(html: string, name: string): string | null {
   const re = new RegExp(`<meta[^>]+name=["']${name}["'][^>]+content=["']([^"']*)["']`, "i");
   const m = html.match(re);
   return m ? m[1] : null;
+}
+
+// Token-overlap similarity (Jaccard-like) — tolerant to truncation, punctuation, accents.
+function textSimilarity(a: string, b: string): number {
+  const norm = (s: string) =>
+    s
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length >= 3);
+  const A = new Set(norm(a));
+  const B = new Set(norm(b));
+  if (A.size === 0 || B.size === 0) return 0;
+  let inter = 0;
+  for (const w of A) if (B.has(w)) inter++;
+  // Recall on the hint (A) — how much of the source summary appears in the og description
+  return inter / A.size;
 }

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, RefreshCw, CheckCircle2, AlertTriangle, XCircle, ExternalLink, Image as ImageIcon } from "lucide-react";
+import { Loader2, RefreshCw, CheckCircle2, AlertTriangle, XCircle, ExternalLink, Image as ImageIcon, Download, FileText } from "lucide-react";
 
 interface AuditResult {
   slug: string;
@@ -36,6 +36,15 @@ const statusConfig = {
   error: { color: "bg-red-500/10 text-red-700 border-red-500/30", icon: XCircle, label: "Erreur" },
 };
 
+function escapeHtml(value: string): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export default function AdminOGAudit() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -61,6 +70,93 @@ export default function AdminOGAudit() {
     }
   };
 
+  const exportCSV = () => {
+    if (!results.length) return;
+    const headers = [
+      "slug","title","article_number","status","og_image","og_image_https","og_image_accessible",
+      "og_image_status","og_image_size_kb","og_description_has_summary","og_description","issues","share_url",
+    ];
+    const escape = (v: unknown) => {
+      const s = v === null || v === undefined ? "" : String(v);
+      return `"${s.replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
+    };
+    const rows = results.map((r) =>
+      [
+        r.slug, r.title, r.article_number ?? "", r.status, r.og_image, r.og_image_https,
+        r.og_image_accessible, r.og_image_status ?? "", r.og_image_size_kb ?? "",
+        r.og_description_has_summary, r.og_description, r.issues.join(" | "), r.share_url,
+      ].map(escape).join(",")
+    );
+    const csv = "\uFEFF" + [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `og-audit-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: "CSV exporté", description: `${results.length} lignes` });
+  };
+
+  const exportPDF = () => {
+    if (!results.length) return;
+    const css = `
+      body{font-family:-apple-system,Segoe UI,sans-serif;color:#0f172a;padding:24px;font-size:12px}
+      h1{font-size:18px;margin:0 0 4px}h2{font-size:13px;margin:18px 0 6px}
+      .meta{color:#64748b;font-size:11px;margin-bottom:14px}
+      .summary{display:flex;gap:8px;margin-bottom:18px}
+      .chip{padding:6px 10px;border-radius:6px;border:1px solid #e2e8f0}
+      .chip.ok{background:#ecfdf5;border-color:#a7f3d0;color:#047857}
+      .chip.warn{background:#fffbeb;border-color:#fde68a;color:#b45309}
+      .chip.err{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
+      table{width:100%;border-collapse:collapse;margin-top:8px}
+      th,td{border:1px solid #e2e8f0;padding:6px 8px;text-align:left;vertical-align:top;font-size:11px}
+      th{background:#f8fafc}
+      tr.err td{background:#fef2f2}tr.warn td{background:#fffbeb}
+      .issues{color:#b91c1c;font-size:10px;white-space:pre-line}
+      a{color:#1d4ed8;text-decoration:none}
+      @media print{body{padding:8px}}
+    `;
+    const rowsHtml = results
+      .map(
+        (r) => `<tr class="${r.status === "error" ? "err" : r.status === "warning" ? "warn" : ""}">
+          <td><strong>${escapeHtml(r.title)}</strong><br><a href="${r.share_url}">/${escapeHtml(r.slug)}</a></td>
+          <td>${r.status.toUpperCase()}</td>
+          <td>${r.og_image_https ? "HTTPS ✓" : "✗"}<br>${r.og_image_accessible ? "Accessible ✓" : "Inaccessible ✗"}<br>${r.og_image_size_kb ?? "?"} KB</td>
+          <td>${escapeHtml(r.og_description || "(vide)")}<br><em>${r.og_description_has_summary ? "Résumé OK" : "Résumé manquant"}</em></td>
+          <td class="issues">${r.issues.map(escapeHtml).join("\n")}</td>
+        </tr>`
+      )
+      .join("");
+    const html = `<!doctype html><html><head><meta charset="utf-8"><title>Rapport OG Audit</title><style>${css}</style></head>
+      <body>
+        <h1>Rapport Audit Open Graph</h1>
+        <div class="meta">Généré le ${new Date().toLocaleString("fr-FR")} — ${results.length} articles vérifiés</div>
+        ${
+          summary
+            ? `<div class="summary">
+              <div class="chip ok">OK : ${summary.ok}</div>
+              <div class="chip warn">Avertissements : ${summary.warning}</div>
+              <div class="chip err">Erreurs : ${summary.error}</div>
+            </div>`
+            : ""
+        }
+        <table>
+          <thead><tr><th>Article</th><th>Statut</th><th>og:image</th><th>og:description</th><th>Problèmes</th></tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+        <script>window.onload=()=>setTimeout(()=>window.print(),300)</script>
+      </body></html>`;
+    const w = window.open("", "_blank");
+    if (!w) {
+      toast({ title: "Bloqué", description: "Autorisez les popups pour générer le PDF", variant: "destructive" });
+      return;
+    }
+    w.document.write(html);
+    w.document.close();
+    toast({ title: "PDF prêt", description: "Utilisez la boîte d'impression pour enregistrer en PDF" });
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -71,10 +167,18 @@ export default function AdminOGAudit() {
               Vérifie pour chaque article publié que <code>og:image</code> est en HTTPS et accessible, et que <code>og:description</code> contient un résumé.
             </p>
           </div>
-          <Button onClick={runAudit} disabled={loading}>
-            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
-            Lancer l'audit
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={runAudit} disabled={loading}>
+              {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
+              Lancer l'audit
+            </Button>
+            <Button onClick={exportCSV} disabled={!results.length} variant="outline" title="Exporter en CSV">
+              <Download className="w-4 h-4 mr-2" /> CSV
+            </Button>
+            <Button onClick={exportPDF} disabled={!results.length} variant="outline" title="Exporter en PDF">
+              <FileText className="w-4 h-4 mr-2" /> PDF
+            </Button>
+          </div>
         </CardHeader>
         {summary && (
           <CardContent>

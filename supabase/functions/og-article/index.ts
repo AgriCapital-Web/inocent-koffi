@@ -101,9 +101,14 @@ Deno.serve(async (req) => {
     isWhatsApp,
   });
 
-  // Lighter fallback if resolver fails (small static asset, < 100KB)
-  const fallbackImage = appendQueryParam(`${siteUrl}/images/gallery/launch-1.jpg`, "v", cacheVersion);
-  const finalImage = resolvedImage || fallbackImage;
+  // Chained fallback: optimized → light cover photo → ultra-light logo (always available)
+  const lightCover = appendQueryParam(`${siteUrl}/images/gallery/launch-1.jpg`, "v", cacheVersion);
+  const ultraLightLogo = appendQueryParam(`${siteUrl}/placeholder.svg`, "v", cacheVersion);
+
+  let finalImage = resolvedImage;
+  if (!finalImage && (await isAccessibleImage(lightCover))) finalImage = lightCover;
+  if (!finalImage && (await isAccessibleImage(ultraLightLogo))) finalImage = ultraLightLogo;
+  if (!finalImage) finalImage = lightCover; // last resort
   const imageMetaTags = `
   <meta property="og:image" content="${escapeHtml(finalImage)}">
   <meta property="og:image:url" content="${escapeHtml(finalImage)}">
