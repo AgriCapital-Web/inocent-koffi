@@ -337,6 +337,25 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
       <div className="relative">
         <EditorContent editor={editor} className="[&_.ProseMirror]:min-h-[320px] [&_.ProseMirror]:p-5 [&_.ProseMirror]:focus:outline-none [&_.ProseMirror_h1]:text-2xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:my-4 [&_.ProseMirror_h2]:text-xl [&_.ProseMirror_h2]:font-bold [&_.ProseMirror_h2]:my-3 [&_.ProseMirror_h3]:text-lg [&_.ProseMirror_h3]:font-semibold [&_.ProseMirror_h3]:my-2 [&_.ProseMirror_p]:my-3 [&_.ProseMirror_p]:leading-7 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-6 [&_.ProseMirror_ul]:my-3 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-6 [&_.ProseMirror_ol]:my-3 [&_.ProseMirror_li]:my-1 [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-accent [&_.ProseMirror_blockquote]:pl-4 [&_.ProseMirror_blockquote]:italic [&_.ProseMirror_blockquote]:my-4 [&_.ProseMirror_table]:w-full [&_.ProseMirror_table]:border-collapse [&_.ProseMirror_table]:my-4 [&_.ProseMirror_th]:border [&_.ProseMirror_th]:border-border [&_.ProseMirror_th]:p-3 [&_.ProseMirror_th]:bg-primary [&_.ProseMirror_th]:text-primary-foreground [&_.ProseMirror_th]:font-semibold [&_.ProseMirror_td]:border [&_.ProseMirror_td]:border-border [&_.ProseMirror_td]:p-3 [&_.ProseMirror_td]:align-top [&_.ProseMirror_tr:nth-child(even)_td]:bg-muted/30" />
       </div>
+
+      {/* Table preview modal — confirm rendered styling before insertion */}
+      <Dialog open={!!previewHtml} onOpenChange={(o) => !o && setPreviewHtml(null)}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Aperçu du tableau</DialogTitle>
+          </DialogHeader>
+          <div className="border rounded-lg p-4 bg-background overflow-auto">
+            <div
+              className="prose prose-sm max-w-none"
+              dangerouslySetInnerHTML={{ __html: previewHtml ? sanitizeTablesHtml(previewHtml) : '' }}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPreviewHtml(null)}>Annuler</Button>
+            <Button onClick={confirmInsertPreview}>Insérer dans l'article</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
