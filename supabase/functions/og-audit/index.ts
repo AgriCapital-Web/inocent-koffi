@@ -156,3 +156,22 @@ function extractName(html: string, name: string): string | null {
   const m = html.match(re);
   return m ? m[1] : null;
 }
+
+// Token-overlap similarity (Jaccard-like) — tolerant to truncation, punctuation, accents.
+function textSimilarity(a: string, b: string): number {
+  const norm = (s: string) =>
+    s
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length >= 3);
+  const A = new Set(norm(a));
+  const B = new Set(norm(b));
+  if (A.size === 0 || B.size === 0) return 0;
+  let inter = 0;
+  for (const w of A) if (B.has(w)) inter++;
+  // Recall on the hint (A) — how much of the source summary appears in the og description
+  return inter / A.size;
+}
