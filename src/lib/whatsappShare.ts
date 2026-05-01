@@ -29,7 +29,6 @@ function normalizeForWhatsApp(input: string, locale?: string): string {
   s = s
     .replace(/[’‘‚‛]/g, "'")
     .replace(/[“”«»„]/g, '"')
-    .replace(/[–—]/g, "-")
     .replace(/\u00A0/g, " ")
     .replace(/\s+/g, " ")
     .trim();
