@@ -11,15 +11,17 @@ import { Table } from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { 
   Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Undo, Redo, 
   Link as LinkIcon, Heading1, Heading2, Heading3,
   AlignLeft, AlignCenter, AlignRight, Highlighter, Palette,
-  Table as TableIcon, Plus, Minus, Trash2
+  Table as TableIcon, Plus, Minus, Trash2, Eye
 } from 'lucide-react';
+import { sanitizeTablesHtml } from '@/lib/sanitizeTables';
 
 interface RichTextEditorProps {
   content: string;
@@ -40,6 +42,7 @@ const HIGHLIGHT_COLORS = [
 ];
 
 const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps) => {
+  const [previewHtml, setPreviewHtml] = useState<string | null>(null);
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -59,7 +62,8 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
     ],
     content,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      // Sanitize tables on the fly so saved/shared HTML is always clean & consistent
+      onChange(sanitizeTablesHtml(editor.getHTML()));
     },
     editorProps: {
       attributes: {
@@ -107,6 +111,28 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
   </tbody>
 </table></div>`;
     editor.chain().focus().insertContent(sampleHtml).run();
+  };
+
+  // Show a preview modal of the sample table BEFORE inserting, so user confirms styling
+  const previewSampleTable = () => {
+    setPreviewHtml(`
+<div class="table-wrap"><table>
+  <thead>
+    <tr><th>Indicateur</th><th>Avant</th><th>Après</th><th>Évolution</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Production (T)</td><td>120</td><td>185</td><td>+54%</td></tr>
+    <tr><td>Marge nette</td><td>14%</td><td>22%</td><td>+8 pts</td></tr>
+    <tr><td>Emplois créés</td><td>8</td><td>21</td><td>+13</td></tr>
+  </tbody>
+</table></div>`);
+  };
+
+  const confirmInsertPreview = () => {
+    if (previewHtml) {
+      editor.chain().focus().insertContent(previewHtml).run();
+    }
+    setPreviewHtml(null);
   };
 
   const ToolbarButton = ({ 
@@ -255,6 +281,9 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
               </button>
               <button onClick={insertSampleTable} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted rounded w-full text-left">
                 <TableIcon className="h-3 w-3" /> Tableau exemple (preview stylé)
+              </button>
+              <button onClick={previewSampleTable} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted rounded w-full text-left">
+                <Eye className="h-3 w-3" /> Aperçu avant insertion
               </button>
               {editor.isActive('table') && (
                 <>
