@@ -93,6 +93,22 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
     editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
   };
 
+  // Insert a polished sample table to preview consistent styling
+  const insertSampleTable = () => {
+    const sampleHtml = `
+<div class="table-wrap"><table>
+  <thead>
+    <tr><th>Indicateur</th><th>Avant</th><th>Après</th><th>Évolution</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Production (T)</td><td>120</td><td>185</td><td>+54%</td></tr>
+    <tr><td>Marge nette</td><td>14%</td><td>22%</td><td>+8 pts</td></tr>
+    <tr><td>Emplois créés</td><td>8</td><td>21</td><td>+13</td></tr>
+  </tbody>
+</table></div>`;
+    editor.chain().focus().insertContent(sampleHtml).run();
+  };
+
   const ToolbarButton = ({ 
     onClick, active, disabled, children, title 
   }: { 
