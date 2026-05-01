@@ -253,6 +253,9 @@ const RichTextEditor = ({ content, onChange, placeholder }: RichTextEditorProps)
               <button onClick={insertTable} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted rounded w-full text-left">
                 <Plus className="h-3 w-3" /> Insérer un tableau 3×3
               </button>
+              <button onClick={insertSampleTable} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted rounded w-full text-left">
+                <TableIcon className="h-3 w-3" /> Tableau exemple (preview stylé)
+              </button>
               {editor.isActive('table') && (
                 <>
                   <div className="border-t my-1" />
