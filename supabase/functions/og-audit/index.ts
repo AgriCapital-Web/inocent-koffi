@@ -18,11 +18,29 @@ interface AuditResult {
   og_image_accessible: boolean;
   og_image_status: number | null;
   og_image_size_kb: number | null;
+  og_image_size_warning: boolean;
+  og_image_size_threshold_kb: number;
+  fallback_checks: Array<{
+    label: string;
+    url: string;
+    status: number | null;
+    size_kb: number | null;
+    accessible: boolean;
+    over_threshold: boolean;
+  }>;
   og_description: string;
   og_description_has_summary: boolean;
   status: "ok" | "warning" | "error";
   issues: string[];
+  /** Human-readable URL of the OG endpoint actually queried for this audit */
+  audited_url: string;
+  /** HTTP status returned by the OG endpoint */
+  audited_http_status: number | null;
 }
+
+// Size limits (kB). WhatsApp ~300kB, FB/LinkedIn comfortable up to ~1MB.
+const WHATSAPP_LIMIT_KB = 300;
+const SOCIAL_LIMIT_KB = 1024;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -48,6 +66,7 @@ Deno.serve(async (req) => {
 
     for (const post of posts || []) {
       const summaryHint = (post.excerpt || post.tagline || "").trim();
+      const auditedUrl = `${ogEndpoint}?slug=${encodeURIComponent(post.slug)}`;
       const result: AuditResult = {
         slug: post.slug,
         title: post.title,
@@ -58,17 +77,23 @@ Deno.serve(async (req) => {
         og_image_accessible: false,
         og_image_status: null,
         og_image_size_kb: null,
+        og_image_size_warning: false,
+        og_image_size_threshold_kb: WHATSAPP_LIMIT_KB,
+        fallback_checks: [],
         og_description: "",
         og_description_has_summary: false,
         status: "ok",
         issues: [],
+        audited_url: auditedUrl,
+        audited_http_status: null,
       };
 
       try {
-        const ogResponse = await fetch(`${ogEndpoint}?slug=${encodeURIComponent(post.slug)}`, {
+        const ogResponse = await fetch(auditedUrl, {
           headers: { "User-Agent": "facebookexternalhit/1.1 (audit)" },
           redirect: "follow",
         });
+        result.audited_http_status = ogResponse.status;
         const html = await ogResponse.text();
 
         result.og_image = extractMeta(html, "og:image") || "";
@@ -80,23 +105,37 @@ Deno.serve(async (req) => {
 
         // Accessibility + size check
         if (result.og_image) {
-          try {
-            const imgRes = await fetch(result.og_image, { method: "GET", redirect: "follow" });
-            result.og_image_status = imgRes.status;
-            const ct = imgRes.headers.get("content-type") || "";
-            const cl = imgRes.headers.get("content-length");
-            if (cl) result.og_image_size_kb = Math.round(parseInt(cl, 10) / 102.4) / 10;
-            else {
-              const buf = await imgRes.arrayBuffer();
-              result.og_image_size_kb = Math.round(buf.byteLength / 102.4) / 10;
-            }
-            result.og_image_accessible = imgRes.ok && (ct.startsWith("image/") || ct === "application/octet-stream");
-            if (!result.og_image_accessible) result.issues.push(`og:image inaccessible (status ${imgRes.status})`);
-          } catch (e) {
-            result.issues.push(`og:image fetch failed: ${e instanceof Error ? e.message : "unknown"}`);
+          const probe = await probeImage(result.og_image);
+          result.og_image_status = probe.status;
+          result.og_image_size_kb = probe.sizeKb;
+          result.og_image_accessible = probe.accessible;
+          if (!probe.accessible) result.issues.push(`og:image inaccessible (status ${probe.status ?? "n/a"})`);
+          if (probe.sizeKb !== null && probe.sizeKb > WHATSAPP_LIMIT_KB) {
+            result.og_image_size_warning = true;
+            result.issues.push(`og:image trop lourde pour WhatsApp (${probe.sizeKb} kB > ${WHATSAPP_LIMIT_KB} kB)`);
           }
         } else {
           result.issues.push("og:image absent");
+        }
+
+        // Probe fallback images so we know the chain is healthy
+        const fallbacks = [
+          { label: "fallback: launch-1.jpg", url: `${siteUrl}/images/gallery/launch-1.jpg` },
+          { label: "fallback: placeholder.svg", url: `${siteUrl}/placeholder.svg` },
+        ];
+        for (const fb of fallbacks) {
+          const p = await probeImage(fb.url);
+          const overThreshold = p.sizeKb !== null && p.sizeKb > SOCIAL_LIMIT_KB;
+          result.fallback_checks.push({
+            label: fb.label,
+            url: fb.url,
+            status: p.status,
+            size_kb: p.sizeKb,
+            accessible: p.accessible,
+            over_threshold: overThreshold,
+          });
+          if (!p.accessible) result.issues.push(`${fb.label} inaccessible`);
+          if (overThreshold) result.issues.push(`${fb.label} trop lourd (${p.sizeKb} kB)`);
         }
 
         // Description / summary check
@@ -144,6 +183,26 @@ Deno.serve(async (req) => {
     );
   }
 });
+
+async function probeImage(url: string): Promise<{ status: number | null; sizeKb: number | null; accessible: boolean }> {
+  try {
+    const res = await fetch(url, { method: "GET", redirect: "follow" });
+    const ct = res.headers.get("content-type") || "";
+    const cl = res.headers.get("content-length");
+    let sizeKb: number | null = null;
+    if (cl) sizeKb = Math.round(parseInt(cl, 10) / 102.4) / 10;
+    else {
+      try {
+        const buf = await res.arrayBuffer();
+        sizeKb = Math.round(buf.byteLength / 102.4) / 10;
+      } catch {}
+    }
+    const accessible = res.ok && (ct.startsWith("image/") || ct === "application/octet-stream" || ct.startsWith("application/svg") || ct.includes("svg"));
+    return { status: res.status, sizeKb, accessible };
+  } catch {
+    return { status: null, sizeKb: null, accessible: false };
+  }
+}
 
 function extractMeta(html: string, property: string): string | null {
   const re = new RegExp(`<meta[^>]+property=["']${property}["'][^>]+content=["']([^"']*)["']`, "i");
