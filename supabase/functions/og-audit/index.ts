@@ -102,10 +102,16 @@ Deno.serve(async (req) => {
         // Description / summary check
         if (!result.og_description.trim()) {
           result.issues.push("og:description vide");
-        } else if (summaryHint && !result.og_description.toLowerCase().includes(summaryHint.slice(0, 30).toLowerCase())) {
-          // Not a hard error — fallback content is acceptable
-          result.og_description_has_summary = false;
+        } else if (summaryHint) {
+          // Tolerance: substring OR token-overlap similarity (handles truncation/punctuation)
+          const sim = textSimilarity(summaryHint, result.og_description);
+          const desc = result.og_description.toLowerCase();
+          const hint = summaryHint.toLowerCase();
+          const includesHead = desc.includes(hint.slice(0, 30));
+          const includesTail = hint.length > 60 && desc.includes(hint.slice(0, 60).split(" ").slice(0, 6).join(" "));
+          result.og_description_has_summary = includesHead || includesTail || sim >= 0.55;
         } else {
+          // No hint to compare — non-empty description is acceptable
           result.og_description_has_summary = true;
         }
       } catch (e) {
