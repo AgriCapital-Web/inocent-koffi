@@ -15,69 +15,23 @@ import partnerLegalformPhoto from "@/assets/team/partner-legalform.jpg";
 import partnerGesmaPhoto from "@/assets/team/partner-gesma.jpg";
 import lesPalmistesLogo from "@/assets/team/les-palmistes.jpeg";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/hooks/useLanguage";
+import { agricapitalContent } from "@/lib/i18n/agricapitalContent";
 
 const Agricapital = () => {
-  const whyChoose = [
-    {
-      icon: Leaf,
-      title: "Patrimoine Durable",
-      description: "Constituez un actif agricole tangible qui prend de la valeur dans le temps. Une alternative concrète pour diversifier vos investissements."
-    },
-    {
-      icon: Users,
-      title: "Accompagnement Complet",
-      description: "De la sécurisation foncière à la commercialisation : AgriCapital gère l'ensemble du processus avec rigueur et transparence."
-    },
-    {
-      icon: Shield,
-      title: "Sécurité Contractuelle",
-      description: "Contrats certifiés, documents cartographiques GPS, cadre juridique solide — chaque étape est sécurisée et transparente."
-    }
-  ];
+  const { language } = useLanguage();
+  const content = agricapitalContent[language] || agricapitalContent.fr;
 
-  const steps = [
-    { num: "01", title: "Identification, Validation & Sécurisation Foncière", desc: "AgriCapital identifie et sécurise des terres adaptées, en partenariat avec les propriétaires terriens." },
-    { num: "02", title: "Référencement & Cartographie", desc: "Polygonage GPS, cartographie détaillée et référencement complet de chaque parcelle." },
-    { num: "03", title: "Engagement & Formalisation", desc: "Choisissez votre formule d'accompagnement. Remise de votre contrat sécurisé et plan cartographique personnalisé." },
-    { num: "04", title: "Développement de la Plantation — 36 mois", desc: "143 plants certifiés par hectare, défrichage, piquetage, plantation, intrants et fertilisation. 6 visites techniques." },
-    { num: "05", title: "Remise de la Plantation", desc: "Plantation productive livrée clé en main. Suivi agronomique inclus, fourniture d'intrants et garantie d'achat." },
-  ];
+  // Photos remain shared across all languages — the same people/logos.
+  const whyChooseIcons = [Leaf, Users, Shield];
+  const teamPhotos = [inocentKoffiPhoto, pierreKouamePhoto, ericDidoPhoto];
+  const partnerPhotos = [marcelKonanPhoto, mathieuAngaPhoto, partnerLegalformPhoto, partnerGesmaPhoto, lesPalmistesLogo];
 
-  const capacity = [
-    { value: "120 ha", label: "de pépinière en croissance active" },
-    { value: "50 ha", label: "disponibles pour plantation immédiate" },
-    { value: "500+ ha", label: "de terres identifiées" },
-    { value: "25 ans", label: "de garantie d'achat et suivi" },
-  ];
-
-  const team = [
-    {
-      name: "Inocent KOFFI",
-      role: "Directeur Général",
-      desc: "Entrepreneur et stratège, vision globale et coordination du déploiement.",
-      photo: inocentKoffiPhoto,
-    },
-    {
-      name: "Koffi Pierre KOUAMÉ",
-      role: "Conseiller Stratégique",
-      desc: "10+ ans d'expérience en gouvernance organisationnelle et sécurisation foncière.",
-      photo: pierreKouamePhoto,
-    },
-    {
-      name: "Éric Stéphane DIDO",
-      role: "Responsable Développement Commercial",
-      desc: "Stratégie commerciale, déploiement terrain et développement du portefeuille clients.",
-      photo: ericDidoPhoto,
-    },
-  ];
-
-  const partners = [
-    { name: "Dr Marcel KONAN — MiProjet", role: "Structuration de Projets & Stratégie", photo: marcelKonanPhoto },
-    { name: "Kouamé Mathieu ANGA", role: "Agronomie & Suivi de Plantation", photo: mathieuAngaPhoto },
-    { name: "Cabinet Legal Form", role: "Expertise Juridique", photo: partnerLegalformPhoto },
-    { name: "Cabinet GESMA SARL", role: "Expertise Comptable & Fiscale", photo: partnerGesmaPhoto },
-    { name: "Les Palmistes", role: "Fournisseur de semences certifiées Iro Lamé", photo: lesPalmistesLogo },
-  ];
+  const whyChoose = content.whyChoose.map((w, i) => ({ ...w, icon: whyChooseIcons[i] || Leaf }));
+  const steps = content.steps;
+  const capacity = content.capacity;
+  const team = content.team.map((m, i) => ({ ...m, photo: teamPhotos[i] }));
+  const partners = content.partners.map((p, i) => ({ ...p, photo: partnerPhotos[i] }));
 
   return (
     <>
@@ -202,7 +156,7 @@ const Agricapital = () => {
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10 text-center text-foreground">
-                  Pourquoi choisir <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">AgriCapital</span> ?
+                  {content.labels.sectionWhy.replace("AgriCapital", "")}<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">AgriCapital</span>
                 </h2>
                 <div className="grid md:grid-cols-3 gap-6">
                   {whyChoose.map((item, i) => {
@@ -227,7 +181,7 @@ const Agricapital = () => {
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10 text-center text-foreground">
-                  Un processus structuré en <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">5 étapes</span>
+                  {content.labels.processIntro}
                 </h2>
                 <div className="space-y-4">
                   {steps.map((step, i) => (
@@ -251,7 +205,7 @@ const Agricapital = () => {
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto text-center">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10">
-                  Notre Capacité Opérationnelle
+                  {content.labels.sectionCapacity}
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                   {capacity.map((c, i) => (
@@ -274,7 +228,7 @@ const Agricapital = () => {
                 <div className="text-center mb-6">
                   <Badge variant="outline" className="mb-3 border-accent text-accent">
                     <Users className="w-3 h-3 mr-1" />
-                    L'Équipe AgriCapital
+                    {content.labels.sectionTeam}
                   </Badge>
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-center text-foreground">
