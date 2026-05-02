@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, RefreshCw, CheckCircle2, AlertTriangle, XCircle, ExternalLink, Image as ImageIcon, Download, FileText } from "lucide-react";
+import { tiptapTablesToPdfHtml, PDF_TABLE_CSS } from "@/lib/htmlTableForPdf";
 
 interface AuditResult {
   slug: string;
@@ -137,6 +138,7 @@ export default function AdminOGAudit() {
       .issues{color:#b91c1c;font-size:10px;white-space:pre-line}
       a{color:#1d4ed8;text-decoration:none}
       @media print{body{padding:8px}}
+      ${PDF_TABLE_CSS}
     `;
     const rowsHtml = results
       .map(
@@ -174,7 +176,7 @@ export default function AdminOGAudit() {
             </div>`
             : ""
         }
-        <table>
+        <table class="pdf-table">
           <thead><tr><th>Article</th><th>Statut</th><th>og:image</th><th>og:description</th><th>Problèmes</th></tr></thead>
           <tbody>${rowsHtml}</tbody>
         </table>
