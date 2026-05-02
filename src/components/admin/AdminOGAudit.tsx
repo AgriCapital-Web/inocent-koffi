@@ -158,7 +158,7 @@ export default function AdminOGAudit() {
                 : ""
             }
           </td>
-          <td>${escapeHtml(r.og_description || "(vide)")}<br><em>${r.og_description_has_summary ? "Résumé OK" : "Résumé manquant"}</em></td>
+          <td>${tiptapTablesToPdfHtml(escapeHtml(r.og_description || "(vide)"))}<br><em>${r.og_description_has_summary ? "Résumé OK" : "Résumé manquant"}</em></td>
           <td class="issues">${r.issues.map(escapeHtml).join("\n")}</td>
         </tr>`
       )
