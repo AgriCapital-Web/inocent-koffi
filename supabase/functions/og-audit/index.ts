@@ -42,6 +42,40 @@ interface AuditResult {
 const WHATSAPP_LIMIT_KB = 300;
 const SOCIAL_LIMIT_KB = 1024;
 
+/**
+ * Normalize an OG image URL: decode broken URL encoding, strip whitespace,
+ * resolve protocol-relative URLs to https, and warn if it differs from the
+ * raw value extracted from the HTML.
+ */
+function normalizeOgImage(raw: string): { normalized: string; differs: boolean; reason: string | null } {
+  if (!raw) return { normalized: "", differs: false, reason: null };
+  let v = raw.trim();
+  let reason: string | null = null;
+
+  // Resolve protocol-relative
+  if (v.startsWith("//")) v = "https:" + v;
+
+  // Try to decode if double/broken-encoded; fall back gracefully
+  if (/%25[0-9a-f]{2}/i.test(v)) {
+    try { v = decodeURIComponent(v); reason = "URL doublement encodée"; } catch {}
+  }
+
+  // Validate URL
+  try {
+    const u = new URL(v);
+    // Re-encode the path segments cleanly to avoid stray spaces/encoded chars
+    u.pathname = u.pathname.split("/").map((seg) => {
+      try { return encodeURIComponent(decodeURIComponent(seg)); } catch { return seg; }
+    }).join("/");
+    const cleaned = u.toString();
+    const differs = cleaned !== raw;
+    if (differs && !reason) reason = "URL normalisée différente";
+    return { normalized: cleaned, differs, reason };
+  } catch {
+    return { normalized: v, differs: v !== raw, reason: "URL invalide ou cassée" };
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -99,13 +133,20 @@ Deno.serve(async (req) => {
         result.og_image = extractMeta(html, "og:image") || "";
         result.og_description = extractMeta(html, "og:description") || extractName(html, "description") || "";
 
+        // Normalize and compare og:image (catches broken percent-encoding)
+        const norm = normalizeOgImage(result.og_image);
+        if (norm.differs) {
+          result.issues.push(`og:image normalisée diffère de la version extraite (${norm.reason ?? "écart"})`);
+        }
+        const ogImageUrlForProbe = norm.normalized || result.og_image;
+
         // HTTPS check
-        result.og_image_https = result.og_image.startsWith("https://");
+        result.og_image_https = ogImageUrlForProbe.startsWith("https://");
         if (!result.og_image_https) result.issues.push("og:image n'est pas en HTTPS");
 
         // Accessibility + size check
-        if (result.og_image) {
-          const probe = await probeImage(result.og_image);
+        if (ogImageUrlForProbe) {
+          const probe = await probeImage(ogImageUrlForProbe);
           result.og_image_status = probe.status;
           result.og_image_size_kb = probe.sizeKb;
           result.og_image_accessible = probe.accessible;
