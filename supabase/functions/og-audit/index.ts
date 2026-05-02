@@ -76,9 +76,6 @@ function normalizeOgImage(raw: string): { normalized: string; differs: boolean; 
   }
 }
 
-// Exported helpers (test-only) — re-exported below for unit testing.
-export { normalizeOgImage as _normalizeOgImage, probeImage as _probeImage, textSimilarity as _textSimilarity };
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
