@@ -306,6 +306,77 @@ export default function AdminOGAudit() {
                         ))}
                       </div>
                     )}
+
+                    {/* Visual preview of og:image and fallback chain — visible when there are issues
+                        or whenever a fallback failed, to help diagnose at a glance. */}
+                    {(r.status !== "ok" || (r.fallback_checks || []).some((f) => !f.accessible || f.over_threshold)) && (
+                      <div className="mt-3 border-t pt-3">
+                        <div className="text-xs font-medium text-muted-foreground mb-2">
+                          Aperçu og:image + chaîne de fallback
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          {r.og_image && (
+                            <a
+                              href={r.og_image}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="block rounded-md overflow-hidden border bg-muted/30 hover:border-primary"
+                              title={r.og_image}
+                            >
+                              <div className="aspect-[1.91/1] bg-muted flex items-center justify-center overflow-hidden">
+                                <img
+                                  src={r.og_image}
+                                  alt="og:image principal"
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => ((e.currentTarget.style.opacity = "0.2"))}
+                                />
+                              </div>
+                              <div className="p-1.5 text-[10px] space-y-0.5">
+                                <div className="font-medium truncate">og:image principal</div>
+                                <div className="flex items-center gap-1 flex-wrap">
+                                  <Badge variant={r.og_image_accessible ? "secondary" : "destructive"} className="text-[9px] px-1 py-0">
+                                    HTTP {r.og_image_status ?? "n/a"}
+                                  </Badge>
+                                  <Badge variant={r.og_image_size_warning ? "destructive" : "outline"} className="text-[9px] px-1 py-0">
+                                    {r.og_image_size_kb ?? "?"} KB
+                                  </Badge>
+                                </div>
+                              </div>
+                            </a>
+                          )}
+                          {(r.fallback_checks || []).map((f, idx) => (
+                            <a
+                              key={idx}
+                              href={f.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="block rounded-md overflow-hidden border bg-muted/30 hover:border-primary"
+                              title={f.url}
+                            >
+                              <div className="aspect-[1.91/1] bg-muted flex items-center justify-center overflow-hidden">
+                                <img
+                                  src={f.url}
+                                  alt={f.label}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => ((e.currentTarget.style.opacity = "0.2"))}
+                                />
+                              </div>
+                              <div className="p-1.5 text-[10px] space-y-0.5">
+                                <div className="font-medium truncate">{f.label}</div>
+                                <div className="flex items-center gap-1 flex-wrap">
+                                  <Badge variant={f.accessible ? "secondary" : "destructive"} className="text-[9px] px-1 py-0">
+                                    HTTP {f.status ?? "n/a"}
+                                  </Badge>
+                                  <Badge variant={f.over_threshold ? "destructive" : "outline"} className="text-[9px] px-1 py-0">
+                                    {f.size_kb ?? "?"} KB
+                                  </Badge>
+                                </div>
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Card>

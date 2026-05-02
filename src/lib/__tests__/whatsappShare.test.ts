@@ -3,6 +3,7 @@ import {
   buildWhatsAppMessage,
   buildWhatsAppShareUrl,
   DEFAULT_SIGNATURE,
+  detectLanguage,
 } from "../whatsappShare";
 
 describe("WhatsApp share formatting", () => {
@@ -63,5 +64,49 @@ describe("WhatsApp share formatting", () => {
     });
     expect(msg).toContain("*Mon titre seul*");
     expect(msg.split("\n\n")[1]).toBe("Mon titre seul");
+  });
+
+  describe("auto language detection", () => {
+    it("detects Arabic and adds RTL marker", () => {
+      const msg = buildWhatsAppMessage({
+        title: "الزراعة المستدامة في كوت ديفوار",
+        description: "تحليل شامل للقطاع الزراعي",
+        url: "https://example.com",
+      });
+      expect(msg).toContain("\u200F");
+      expect(detectLanguage("الزراعة المستدامة")).toBe("ar");
+    });
+
+    it("detects Chinese (CJK)", () => {
+      expect(detectLanguage("可持续农业的未来")).toBe("zh");
+      const msg = buildWhatsAppMessage({
+        title: "可持续农业的未来",
+        url: "https://example.com",
+      });
+      // Bold marker must remain at the very start
+      expect(msg.startsWith("*")).toBe(true);
+    });
+
+    it("detects Japanese (Hiragana)", () => {
+      expect(detectLanguage("持続可能な農業のあり方")).toBe("ja");
+    });
+
+    it("detects Hebrew", () => {
+      expect(detectLanguage("חקלאות בת קיימא")).toBe("he");
+    });
+
+    it("returns empty for Latin text (default mode)", () => {
+      expect(detectLanguage("Investir dans le palmier à huile")).toBe("");
+      expect(detectLanguage("Sustainable agriculture in Africa")).toBe("");
+    });
+
+    it("explicit locale overrides auto-detection", () => {
+      const msg = buildWhatsAppMessage({
+        title: "Investir",
+        url: "https://example.com",
+        locale: "ar",
+      });
+      expect(msg).toContain("\u200F");
+    });
   });
 });
