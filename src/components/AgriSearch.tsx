@@ -119,7 +119,7 @@ const AgriSearch = () => {
                   <h4 className="font-semibold text-foreground mb-2">{section.title}</h4>
                   <div 
                     className="text-sm text-muted-foreground leading-relaxed prose prose-sm max-w-none" 
-                    dangerouslySetInnerHTML={{ __html: section.content.slice(0, 500) + (section.content.length > 500 ? '...' : '') }} 
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content.slice(0, 500) + (section.content.length > 500 ? '...' : '')) }} 
                   />
                 </div>
               ))}
