@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Search, Loader2, X, ArrowRight, BookOpen, ExternalLink, Download, Printer, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import DOMPurify from "dompurify";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
