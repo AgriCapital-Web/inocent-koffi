@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.og-audit]
 verify_jwt = false
+
+[functions.og-routes-audit]
+verify_jwt = false
