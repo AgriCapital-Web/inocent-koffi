@@ -8,11 +8,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Share2, Copy, Check, Link2 } from "lucide-react";
+import { Share2, Copy, Check, Link2, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { buildShortUrl } from "@/lib/shortUrl";
-import { buildWhatsAppMessage, DEFAULT_SIGNATURE } from "@/lib/whatsappShare";
+import { buildWhatsAppMessage, DEFAULT_SIGNATURE, detectLanguage } from "@/lib/whatsappShare";
 
 interface SocialSharePopupProps {
   url: string;
@@ -82,6 +82,12 @@ const SocialSharePopup = ({ url, title, description = "" }: SocialSharePopupProp
     url: shareUrl,
     signature,
   });
+
+  const detectedLang = detectLanguage(`${title}\n${description}`);
+  const isRTL = /^(ar|he|fa|ur)/i.test(detectedLang);
+  const langLabel = detectedLang
+    ? { ar: "العربية", he: "עברית", fa: "فارسی", ur: "اردو", zh: "中文", ja: "日本語", ko: "한국어" }[detectedLang] || detectedLang.toUpperCase()
+    : "Latin (auto)";
 
   const encodedShareBodyWithLink = encodeURIComponent(shareBodyWithLink);
   const encodedWhatsappBody = encodeURIComponent(whatsappBody);
@@ -276,6 +282,26 @@ const SocialSharePopup = ({ url, title, description = "" }: SocialSharePopupProp
                 </motion.button>
               ))}
             </AnimatePresence>
+          </div>
+
+          {/* WhatsApp formatting preview (RTL/LTR aware) */}
+          <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3 mb-3">
+            <div className="flex items-center justify-between mb-2 gap-2">
+              <div className="flex items-center gap-2 text-xs font-medium text-emerald-700">
+                <MessageCircle className="w-3.5 h-3.5" />
+                Aperçu WhatsApp
+              </div>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700">
+                {isRTL ? "RTL" : "LTR"} · {langLabel}
+              </span>
+            </div>
+            <pre
+              dir={isRTL ? "rtl" : "ltr"}
+              className="whitespace-pre-wrap break-words text-[12px] leading-snug text-foreground font-sans bg-background/80 rounded-md p-2 border border-border max-h-44 overflow-y-auto"
+            >{whatsappBody}</pre>
+            <div className="text-[10px] text-muted-foreground mt-1.5">
+              <span className="font-bold">*titre*</span> en gras et <em>_signature_</em> en italique sur WhatsApp.
+            </div>
           </div>
 
           <div className="space-y-2">
