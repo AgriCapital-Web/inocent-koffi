@@ -15,6 +15,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Calendar, Clock, ArrowLeft, User, Tag, Share2, Eye, MessageSquare, Heart, Images } from "lucide-react";
+import DOMPurify from "dompurify";
 
 const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://ikoffi.agricapital.ci").replace(/\/$/, "");
 
@@ -268,7 +269,17 @@ const BlogArticle = () => {
       : `${SITE_URL}${post.featured_image.startsWith("/") ? "" : "/"}${post.featured_image}`
     : "";
   const articleSummary = truncate(post.excerpt || post.tagline || stripHtml(post.content) || post.title, 180);
-  const renderedContent = normalizeRenderHtml(post.content || "");
+  const renderedContent = DOMPurify.sanitize(normalizeRenderHtml(post.content || ""), {
+    ALLOWED_TAGS: [
+      "h1","h2","h3","h4","h5","h6","p","br","hr","strong","em","b","i","u","s",
+      "ul","ol","li","blockquote","code","pre","a","img","figure","figcaption",
+      "table","thead","tbody","tfoot","tr","th","td","div","span","sup","sub"
+    ],
+    ALLOWED_ATTR: ["href","title","alt","src","class","colspan","rowspan","target","rel","loading"],
+    ALLOW_DATA_ATTR: false,
+    FORBID_TAGS: ["script","style","iframe","object","embed","form","input","link","meta"],
+    FORBID_ATTR: ["style","onerror","onload","onclick","onmouseover","onfocus","onblur"],
+  });
 
   return (
     <>

@@ -3,9 +3,6 @@ project_id = "mlatmyzmjsouxjpjzshd"
 [functions.send-notification]
 verify_jwt = false
 
-[functions.create-super-admin]
-verify_jwt = false
-
 [functions.blog-ai-assistant]
 verify_jwt = false
 

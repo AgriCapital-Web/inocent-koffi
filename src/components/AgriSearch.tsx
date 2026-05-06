@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Search, Loader2, X, ArrowRight, BookOpen, ExternalLink, Download, Printer, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import DOMPurify from "dompurify";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
@@ -119,7 +120,7 @@ const AgriSearch = () => {
                   <h4 className="font-semibold text-foreground mb-2">{section.title}</h4>
                   <div 
                     className="text-sm text-muted-foreground leading-relaxed prose prose-sm max-w-none" 
-                    dangerouslySetInnerHTML={{ __html: section.content.slice(0, 500) + (section.content.length > 500 ? '...' : '') }} 
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content.slice(0, 500) + (section.content.length > 500 ? '...' : '')) }} 
                   />
                 </div>
               ))}

@@ -14,7 +14,6 @@ import Testimonials from "./Testimonials";
 interface Testimonial {
   id: string;
   first_name: string;
-  last_name: string;
   locality: string;
   message: string;
   rating: number | null;
@@ -36,14 +35,13 @@ const TestimonialsDisplay = () => {
   const fetchTestimonials = async () => {
     try {
       const { data, error } = await supabase
-        .from("testimonials")
-        .select("*")
-        .eq("is_approved", true)
+        .from("public_testimonials" as any)
+        .select("id, first_name, locality, message, rating, photo_url, created_at, is_approved")
         .order("created_at", { ascending: false })
         .limit(10);
 
       if (error) throw error;
-      setTestimonials(data || []);
+      setTestimonials(((data as unknown) as Testimonial[]) || []);
     } catch (error) {
       console.error("Error fetching testimonials:", error);
     } finally {
@@ -141,13 +139,13 @@ const TestimonialsDisplay = () => {
                                 {testimonial.photo_url ? (
                                   <img 
                                     src={testimonial.photo_url} 
-                                    alt={`${testimonial.first_name} ${testimonial.last_name}`}
+                                    alt={testimonial.first_name}
                                     className="w-full h-full object-cover"
                                   />
                                 ) : (
                                   <div className="w-full h-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                                     <span className="text-2xl md:text-3xl font-bold text-primary-foreground">
-                                      {testimonial.first_name[0]}{testimonial.last_name[0]}
+                                      {testimonial.first_name?.[0] ?? "?"}
                                     </span>
                                   </div>
                                 )}
@@ -167,7 +165,7 @@ const TestimonialsDisplay = () => {
                             <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-4">
                               <div>
                                 <p className="font-bold text-lg text-foreground">
-                                  {testimonial.first_name} {testimonial.last_name}
+                                  {testimonial.first_name}
                                 </p>
                                 <p className="text-sm text-muted-foreground flex items-center gap-1 justify-center md:justify-start">
                                   <span className="inline-block w-1.5 h-1.5 bg-accent rounded-full" />

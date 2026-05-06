@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
@@ -357,7 +358,7 @@ const SearchResults = () => {
                 <h2 className="text-xl font-bold text-foreground mb-3 border-l-4 border-accent pl-4">{section.title}</h2>
                 <div 
                   className="article-content text-muted-foreground leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: section.content }} 
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content) }} 
                 />
                 {section.sources && section.sources.length > 0 && (
                   <div className="mt-2 text-xs text-muted-foreground/60">
