@@ -708,7 +708,42 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_testimonials: {
+        Row: {
+          created_at: string | null
+          first_name: string | null
+          id: string | null
+          is_approved: boolean | null
+          last_name: string | null
+          locality: string | null
+          message: string | null
+          photo_url: string | null
+          rating: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          first_name?: string | null
+          id?: string | null
+          is_approved?: boolean | null
+          last_name?: string | null
+          locality?: string | null
+          message?: string | null
+          photo_url?: string | null
+          rating?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          first_name?: string | null
+          id?: string | null
+          is_approved?: boolean | null
+          last_name?: string | null
+          locality?: string | null
+          message?: string | null
+          photo_url?: string | null
+          rating?: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       get_post_by_short_code: {
