@@ -291,6 +291,7 @@ export type Database = {
           id: string
           is_published: boolean
           published_at: string | null
+          share_version: string | null
           slug: string
           tagline: string | null
           title: string
@@ -311,6 +312,7 @@ export type Database = {
           id?: string
           is_published?: boolean
           published_at?: string | null
+          share_version?: string | null
           slug: string
           tagline?: string | null
           title: string
@@ -331,6 +333,7 @@ export type Database = {
           id?: string
           is_published?: boolean
           published_at?: string | null
+          share_version?: string | null
           slug?: string
           tagline?: string | null
           title?: string
