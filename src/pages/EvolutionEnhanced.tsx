@@ -38,10 +38,10 @@ const EvolutionEnhanced = () => {
         "/images/gallery/launch-1.jpg",
         "/images/gallery/launch-2.jpg",
         "/images/gallery/launch-3.jpg",
-        "/images/gallery/launch-4.jpg",
-        "/images/gallery/launch-5.jpg",
-        "/images/gallery/launch-6.jpg",
-        "/images/gallery/launch-7.jpg",
+        "/images/gallery/launch-4.webp",
+        "/images/gallery/launch-5.webp",
+        "/images/gallery/launch-6.webp",
+        "/images/gallery/launch-7.webp",
       ],
     },
     {
@@ -53,10 +53,10 @@ const EvolutionEnhanced = () => {
         "Installation complète de notre site de pépinière de plus de 100 hectares avec système d'irrigation moderne et semences certifiées Tenera.",
       status: "completed",
       images: [
-        "/images/gallery/nursery-dec-2025-1.jpg",
-        "/images/gallery/nursery-palm-real.jpg",
-        "/images/gallery/nursery-1.jpg",
-        "/images/gallery/nursery-2.jpg",
+        "/images/gallery/nursery-dec-2025-1.webp",
+        "/images/gallery/nursery-palm-real.webp",
+        "/images/gallery/nursery-1.webp",
+        "/images/gallery/nursery-2.webp",
       ],
     },
     {
@@ -68,9 +68,9 @@ const EvolutionEnhanced = () => {
         "Suivi intensif des germinations et préparation des substrats. Formation continue des équipes techniques.",
       status: "in_progress",
       images: [
-        "/images/gallery/jalon-1.jpg",
-        "/images/gallery/jalon-2.jpg",
-        "/images/gallery/jalon-3.jpg",
+        "/images/gallery/jalon-1.webp",
+        "/images/gallery/jalon-2.webp",
+        "/images/gallery/jalon-3.webp",
       ],
     },
     {
@@ -82,8 +82,8 @@ const EvolutionEnhanced = () => {
         "Développement des plants en pré-pépinière avec irrigation contrôlée et suivi phytosanitaire rigoureux.",
       status: "upcoming",
       images: [
-        "/images/gallery/jalon-4.jpg",
-        "/images/gallery/jalon-5.jpg",
+        "/images/gallery/jalon-4.webp",
+        "/images/gallery/jalon-5.webp",
       ],
     },
     {
@@ -95,8 +95,8 @@ const EvolutionEnhanced = () => {
         "Plants prêts pour la mise en terre avec 12-14 feuilles développées. Distribution aux producteurs partenaires.",
       status: "upcoming",
       images: [
-        "/images/gallery/jalon-6.jpg",
-        "/images/gallery/jalon-7.jpg",
+        "/images/gallery/jalon-6.webp",
+        "/images/gallery/jalon-7.webp",
       ],
     },
   ];

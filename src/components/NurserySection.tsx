@@ -168,7 +168,7 @@ const NurserySection = () => {
             </div>
             <div className="group relative rounded-2xl overflow-hidden aspect-[4/3] md:col-span-2 lg:col-span-1">
               <img 
-                src="/images/gallery/community-1.jpg" 
+                src="/images/gallery/community-1.webp" 
                 alt="Communauté rurale accompagnée" 
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"

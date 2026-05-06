@@ -122,6 +122,23 @@ export default function AdminOGAudit() {
 
   const exportPDF = () => {
     if (!results.length) return;
+    const total = results.length;
+    const failures = results.filter((r) => r.status === "error").length;
+    const warnings = results.filter((r) => r.status === "warning").length;
+    const failureRate = total ? Math.round((failures / total) * 100) : 0;
+    const sizes = results.map((r) => r.og_image_size_kb).filter((n): n is number => typeof n === "number");
+    const avgSize = sizes.length ? Math.round((sizes.reduce((a, b) => a + b, 0) / sizes.length) * 10) / 10 : 0;
+    const errorByType: Record<string, number> = {};
+    results.forEach((r) => {
+      r.issues.forEach((iss) => {
+        const key = iss.split(/[(:]/)[0].trim().slice(0, 60);
+        errorByType[key] = (errorByType[key] || 0) + 1;
+      });
+    });
+    const topErrors = Object.entries(errorByType)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6);
+
     const css = `
       body{font-family:-apple-system,Segoe UI,sans-serif;color:#0f172a;padding:24px;font-size:12px}
       h1{font-size:18px;margin:0 0 4px}h2{font-size:13px;margin:18px 0 6px}
@@ -139,6 +156,13 @@ export default function AdminOGAudit() {
       a{color:#1d4ed8;text-decoration:none}
       @media print{body{padding:8px}}
       ${PDF_TABLE_CSS}
+      .recap{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 18px}
+      .recap .box{border:1px solid #e2e8f0;border-radius:8px;padding:10px}
+      .recap .num{font-size:18px;font-weight:700;color:#0f172a}
+      .recap .lbl{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.4px}
+      .top-errors{border:1px solid #fde68a;background:#fffbeb;border-radius:8px;padding:10px;margin-bottom:18px}
+      .top-errors h3{margin:0 0 6px;font-size:12px;color:#b45309}
+      .top-errors ul{margin:0;padding-left:18px;font-size:11px;color:#78350f}
     `;
     const rowsHtml = results
       .map(
@@ -167,6 +191,19 @@ export default function AdminOGAudit() {
       <body>
         <h1>Rapport Audit Open Graph</h1>
         <div class="meta">Généré le ${new Date().toLocaleString("fr-FR")} — ${results.length} articles vérifiés</div>
+        <div class="recap">
+          <div class="box"><div class="num">${total}</div><div class="lbl">Articles</div></div>
+          <div class="box" style="border-color:#fecaca;background:#fef2f2"><div class="num" style="color:#b91c1c">${failureRate}%</div><div class="lbl">Taux d'échec</div></div>
+          <div class="box"><div class="num">${avgSize} KB</div><div class="lbl">Taille moyenne og:image</div></div>
+          <div class="box" style="border-color:#fde68a;background:#fffbeb"><div class="num" style="color:#b45309">${warnings}</div><div class="lbl">Avertissements</div></div>
+        </div>
+        ${
+          topErrors.length
+            ? `<div class="top-errors"><h3>Erreurs les plus fréquentes</h3><ul>${topErrors
+                .map(([k, v]) => `<li><strong>${escapeHtml(k)}</strong> — ${v} occurrence${v > 1 ? "s" : ""}</li>`)
+                .join("")}</ul></div>`
+            : ""
+        }
         ${
           summary
             ? `<div class="summary">
