@@ -714,7 +714,6 @@ export type Database = {
           first_name: string | null
           id: string | null
           is_approved: boolean | null
-          last_name: string | null
           locality: string | null
           message: string | null
           photo_url: string | null
@@ -725,7 +724,6 @@ export type Database = {
           first_name?: string | null
           id?: string | null
           is_approved?: boolean | null
-          last_name?: string | null
           locality?: string | null
           message?: string | null
           photo_url?: string | null
@@ -736,7 +734,6 @@ export type Database = {
           first_name?: string | null
           id?: string | null
           is_approved?: boolean | null
-          last_name?: string | null
           locality?: string | null
           message?: string | null
           photo_url?: string | null
