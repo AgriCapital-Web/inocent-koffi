@@ -30,6 +30,39 @@ serve(async (req) => {
   }
 
   try {
+    // Require an authenticated admin/super_admin to invoke this function.
+    // Prevents anonymous abuse of the LOVABLE_API_KEY quota.
+    const authHeader = req.headers.get("authorization") || "";
+    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+    if (!token) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const supabaseAuth = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    );
+    const { data: userRes, error: userErr } = await supabaseAuth.auth.getUser(token);
+    if (userErr || !userRes?.user) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const { data: roles } = await supabaseAuth
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userRes.user.id);
+    const isAdmin = roles?.some((r: { role: string }) => ["admin", "super_admin"].includes(r.role));
+    if (!isAdmin) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const { content, action, categories, generateImage, generateVideo, generateGallery } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY non configuré");
