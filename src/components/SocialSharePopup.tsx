@@ -57,13 +57,16 @@ const SocialSharePopup = ({ url, title, description = "" }: SocialSharePopupProp
     (async () => {
       const { data } = await supabase
         .from("blog_posts")
-        .select("article_number, published_at, updated_at, created_at")
+        .select("article_number, published_at, updated_at, created_at, share_version")
         .eq("slug", slug)
         .maybeSingle();
       if (cancelled) return;
       if (data?.article_number) {
         setShortUrl(buildShortUrl(data.article_number, data.published_at));
-        setShareVersion(buildShareVersion(data.updated_at || data.published_at || data.created_at || slug));
+        setShareVersion(
+          (data as any).share_version ||
+            buildShareVersion(data.updated_at || data.published_at || data.created_at || slug)
+        );
       }
     })();
     return () => { cancelled = true; };
