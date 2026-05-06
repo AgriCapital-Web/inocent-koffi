@@ -41,7 +41,7 @@ const TestimonialsDisplay = () => {
         .limit(10);
 
       if (error) throw error;
-      setTestimonials((data as Testimonial[]) || []);
+      setTestimonials(((data as unknown) as Testimonial[]) || []);
     } catch (error) {
       console.error("Error fetching testimonials:", error);
     } finally {
