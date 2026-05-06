@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import profilePhoto from "@/assets/profile-photo.jpg";
+import profilePhoto from "@/assets/profile-photo.webp";
 import SocialShare from "@/components/SocialShare";
 import AgriSearch from "@/components/AgriSearch";
 import { motion } from "framer-motion";
@@ -74,13 +74,15 @@ const Hero = () => {
                 whileHover={{ scale: 1.03, rotate: 1 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <img 
-                  src={profilePhoto} 
-                  alt="Inocent KOFFI - Fondateur AGRICAPITAL SARL" 
+                <img
+                  src={profilePhoto}
+                  alt="Inocent KOFFI - Fondateur AGRICAPITAL SARL"
                   className="w-full h-auto max-w-[280px] sm:max-w-[350px] lg:max-w-md object-cover"
                   loading="eager"
-                  width="500"
-                  height="600"
+                  fetchPriority="high"
+                  decoding="async"
+                  width="600"
+                  height="720"
                 />
               </motion.div>
             </div>
