@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, RefreshCw, ExternalLink, ArrowUpDown, History, Download } from "lucide-react";
+import { Loader2, RefreshCw, ExternalLink, ArrowUpDown, History, Download, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface RouteResult {
@@ -44,13 +44,16 @@ export default function AdminRoutesAudit() {
   const [sortByErrors, setSortByErrors] = useState(true);
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [histFrom, setHistFrom] = useState("");
+  const [histTo, setHistTo] = useState("");
+  const [histSource, setHistSource] = useState<string>("all");
 
   const loadHistory = async () => {
-    const { data } = await supabase
-      .from("og_audit_history" as any)
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(30);
+    let q = supabase.from("og_audit_history" as any).select("*").order("created_at", { ascending: false }).limit(200);
+    if (histFrom) q = q.gte("created_at", new Date(histFrom).toISOString());
+    if (histTo) q = q.lte("created_at", new Date(new Date(histTo).getTime() + 86400000).toISOString());
+    if (histSource !== "all") q = q.eq("source", histSource);
+    const { data } = await q;
     setHistory((data as any) || []);
   };
 
@@ -72,7 +75,7 @@ export default function AdminRoutesAudit() {
     }
   };
 
-  useEffect(() => { loadHistory(); }, []);
+  useEffect(() => { loadHistory(); /* eslint-disable-next-line */ }, [histFrom, histTo, histSource]);
 
   const filtered = useMemo(() => {
     let arr = [...results];
@@ -113,6 +116,54 @@ export default function AdminRoutesAudit() {
     toast({ title: "Instantané chargé", description: new Date(s.created_at).toLocaleString("fr-FR") });
   };
 
+  const exportHistoryCSV = () => {
+    const rows = [
+      ["created_at", "source", "total", "with_issues", "ok", "missing_image", "wrong_locale"].join(","),
+      ...history.map(s => [
+        new Date(s.created_at).toISOString(),
+        s.source,
+        s.total,
+        s.with_issues,
+        (s.summary as any)?.ok ?? "",
+        (s.summary as any)?.missing_image ?? "",
+        (s.summary as any)?.wrong_locale ?? "",
+      ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(","))
+    ].join("\n");
+    const blob = new Blob([rows], { type: "text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `og-history-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+  };
+
+  const exportHistoryPDF = () => {
+    const w = window.open("", "_blank");
+    if (!w) return;
+    const rowsHtml = history.map(s => `
+      <tr>
+        <td>${new Date(s.created_at).toLocaleString("fr-FR")}</td>
+        <td>${s.source}</td>
+        <td style="text-align:right">${s.total}</td>
+        <td style="text-align:right;color:${s.with_issues ? "#b91c1c" : "#16a34a"}">${s.with_issues}</td>
+        <td style="text-align:right">${(s.summary as any)?.missing_image ?? "-"}</td>
+        <td style="text-align:right">${(s.summary as any)?.wrong_locale ?? "-"}</td>
+      </tr>`).join("");
+    const totals = history.reduce((acc, s) => ({ total: acc.total + s.total, issues: acc.issues + s.with_issues }), { total: 0, issues: 0 });
+    w.document.write(`<!doctype html><html><head><title>OG Audit – Historique</title>
+      <style>body{font-family:system-ui,sans-serif;padding:24px;color:#111}h1{margin:0 0 4px}small{color:#666}
+      table{width:100%;border-collapse:collapse;margin-top:16px;font-size:12px}
+      th,td{border:1px solid #ddd;padding:6px 8px;text-align:left}
+      th{background:#f3f4f6}.summary{margin:12px 0;padding:12px;background:#f9fafb;border-radius:8px}</style></head><body>
+      <h1>Historique OG Routes Audit</h1>
+      <small>Généré le ${new Date().toLocaleString("fr-FR")} • ${history.length} instantanés</small>
+      <div class="summary"><b>Totaux cumulés :</b> ${totals.total} routes auditées, ${totals.issues} problèmes détectés
+      ${histFrom ? ` • du ${histFrom}` : ""}${histTo ? ` au ${histTo}` : ""}${histSource !== "all" ? ` • source: ${histSource}` : ""}</div>
+      <table><thead><tr><th>Date</th><th>Source</th><th>Total</th><th>Erreurs</th><th>Img KO</th><th>Locale KO</th></tr></thead>
+      <tbody>${rowsHtml}</tbody></table>
+      <script>setTimeout(()=>window.print(),300)</script></body></html>`);
+    w.document.close();
+  };
+
   return (
     <div className="space-y-6">
       <Card className="p-4 sm:p-6 bg-gradient-to-br from-primary/5 to-accent/5">
@@ -148,7 +199,26 @@ export default function AdminRoutesAudit() {
 
       {showHistory && (
         <Card className="p-4">
-          <h3 className="font-semibold mb-3">Historique récent ({history.length})</h3>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+            <h3 className="font-semibold">Historique ({history.length})</h3>
+            <div className="flex flex-wrap gap-2 items-center">
+              <Input type="date" value={histFrom} onChange={e => setHistFrom(e.target.value)} className="w-auto h-8" />
+              <span className="text-xs text-muted-foreground">→</span>
+              <Input type="date" value={histTo} onChange={e => setHistTo(e.target.value)} className="w-auto h-8" />
+              <select value={histSource} onChange={e => setHistSource(e.target.value)} className="h-8 px-2 border rounded text-sm bg-background">
+                <option value="all">Toutes sources</option>
+                <option value="manual">manual</option>
+                <option value="cron">cron</option>
+                <option value="scheduled">scheduled</option>
+              </select>
+              <Button size="sm" variant="outline" onClick={exportHistoryCSV} disabled={!history.length}>
+                <Download className="w-3 h-3 mr-1" />CSV
+              </Button>
+              <Button size="sm" variant="outline" onClick={exportHistoryPDF} disabled={!history.length}>
+                <FileText className="w-3 h-3 mr-1" />PDF
+              </Button>
+            </div>
+          </div>
           <div className="space-y-2 max-h-72 overflow-y-auto">
             {history.map(s => (
               <button key={s.id} onClick={() => loadSnapshot(s)} className="w-full flex items-center justify-between px-3 py-2 rounded hover:bg-muted text-left text-sm">
