@@ -175,6 +175,26 @@ Deno.serve(async (req) => {
       checked_at: new Date().toISOString(),
     };
 
+    // Determine source (cron vs manual)
+    let source = "manual";
+    try {
+      const body = req.method === "POST" ? await req.clone().json().catch(() => ({})) : {};
+      if (body && (body as any).source) source = String((body as any).source);
+    } catch (_) { /* ignore */ }
+
+    // Persist history snapshot (best-effort)
+    try {
+      await supabase.from("og_audit_history").insert({
+        summary,
+        results: all,
+        total: summary.total,
+        with_issues: summary.with_issues,
+        source,
+      });
+    } catch (e) {
+      console.error("og_audit_history insert failed", e);
+    }
+
     return new Response(JSON.stringify({ summary, results: all }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

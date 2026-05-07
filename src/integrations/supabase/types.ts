@@ -526,6 +526,36 @@ export type Database = {
         }
         Relationships: []
       }
+      og_audit_history: {
+        Row: {
+          created_at: string
+          id: string
+          results: Json
+          source: string
+          summary: Json
+          total: number
+          with_issues: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          results?: Json
+          source?: string
+          summary?: Json
+          total?: number
+          with_issues?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          results?: Json
+          source?: string
+          summary?: Json
+          total?: number
+          with_issues?: number
+        }
+        Relationships: []
+      }
       partnership_requests: {
         Row: {
           company_name: string
