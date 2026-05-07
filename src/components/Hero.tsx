@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.webp";
+import profilePhotoSm from "@/assets/profile-photo-sm.webp";
+
+const LQIP = "data:image/webp;base64,UklGRtYAAABXRUJQVlA4IMoAAACQBQCdASoYAB4APxF8tFOsJ6SiqAqpgCIJZgC2yA6zaCeNZ4U40R24/OpqkXU0Yn/xyAT6wAD+jTe4LSXPHQtNsjVHCmoCVP5kclMk9MtWczDByWeIsnUkWtclirmj6KaR8cNklng2NHEjeQPyDCZ+7WMbhGR3pexaJEixd7A2uWuuVwAGOsfn7jK4fWA0SUydn/7a5K5pXysUyWbOMltgvti6Xq5jsT9fcPQr3eU4CwFTp9BzQ4/FakgfRuaFl+jFawYoyJXiVkAA";
 import SocialShare from "@/components/SocialShare";
 import AgriSearch from "@/components/AgriSearch";
 import { motion } from "framer-motion";
@@ -70,12 +73,14 @@ const Hero = () => {
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-full blur-2xl opacity-20 animate-pulse"></div>
               <motion.div 
-                className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-accent/20"
+                className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-accent/20 bg-muted"
                 whileHover={{ scale: 1.03, rotate: 1 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <img
                   src={profilePhoto}
+                  srcSet={`${profilePhotoSm} 320w, ${profilePhoto} 600w`}
+                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 448px"
                   alt="Inocent KOFFI - Fondateur AGRICAPITAL SARL"
                   className="w-full h-auto max-w-[280px] sm:max-w-[350px] lg:max-w-md object-cover"
                   loading="eager"
@@ -83,6 +88,11 @@ const Hero = () => {
                   decoding="async"
                   width="600"
                   height="720"
+                  style={{
+                    backgroundImage: `url("${LQIP}")`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
                 />
               </motion.div>
             </div>
