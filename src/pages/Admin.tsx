@@ -44,6 +44,7 @@ import AdminComments from "@/components/admin/AdminComments";
 import AdminMobileMenu from "@/components/admin/AdminMobileMenu";
 import AdminArticleStats from "@/components/admin/AdminArticleStats";
 import AdminOGAudit from "@/components/admin/AdminOGAudit";
+import AdminRoutesAudit from "@/components/admin/AdminRoutesAudit";
 
 interface Testimonial {
   id: string;
@@ -387,6 +388,7 @@ const Admin = () => {
     { id: "article-stats", icon: <Eye className="h-4 w-4" />, label: "Stats Articles" },
     { id: "seo", icon: <Globe className="h-4 w-4" />, label: "SEO" },
     { id: "og-audit", icon: <Globe className="h-4 w-4" />, label: "Audit OG" },
+    { id: "routes-audit", icon: <Globe className="h-4 w-4" />, label: "Audit Routes" },
     { id: "settings", icon: <Settings className="h-4 w-4" />, label: "Paramètres" },
   ];
 
@@ -918,6 +920,9 @@ const Admin = () => {
 
             {/* OG Audit */}
             {activeTab === "og-audit" && <AdminOGAudit />}
+
+            {/* Routes Audit (og-routes-audit) */}
+            {activeTab === "routes-audit" && <AdminRoutesAudit />}
 
             {/* Settings */}
             {activeTab === "settings" && <AdminSettings />}
