@@ -220,6 +220,8 @@ const Navbar = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
+              id="mobile-nav-panel"
+              role="menu"
               className="xl:hidden overflow-hidden border-t border-border/50 bg-background/95 backdrop-blur-md absolute left-0 right-0 top-full px-4 sm:px-6 shadow-lg max-h-[80vh] overflow-y-auto"
             >
               <div className="py-4 space-y-1">
