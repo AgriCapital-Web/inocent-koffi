@@ -61,10 +61,11 @@ const ContactCTA = () => {
     if (!name.trim() || !contact.trim() || !message.trim()) return;
     setLoading(true);
     try {
+      const isEmail = contact.includes("@");
       const { error } = await supabase.from("contact_messages").insert({
         name: name.trim(),
-        email: contact.includes("@") ? contact.trim() : `${contact.trim()}@whatsapp.local`,
-        subject: "Contact rapide — Home",
+        email: isEmail ? contact.trim() : `${contact.trim().replace(/[^\d+]/g, "")}@whatsapp.local`,
+        phone: isEmail ? null : contact.trim(),
         message: message.trim(),
       });
       if (error) throw error;
