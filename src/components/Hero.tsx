@@ -58,11 +58,28 @@ const Hero = () => {
   }[language];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-secondary to-background">
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center max-w-6xl mx-auto">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[hsl(var(--background))]">
+      {/* Premium African visionary backdrop */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(80% 60% at 80% 0%, hsl(var(--accent) / 0.18) 0%, transparent 60%), radial-gradient(70% 50% at 0% 100%, hsl(var(--primary) / 0.18) 0%, transparent 60%), linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary)) 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.06] pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[5fr_6fr] gap-10 sm:gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
           {/* Image Section */}
           <motion.div 
             className="order-2 lg:order-1 flex justify-center"
@@ -71,11 +88,14 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-full blur-2xl opacity-20 animate-pulse"></div>
+              {/* Soft halo */}
+              <div className="absolute -inset-6 bg-gradient-to-tr from-primary/30 via-transparent to-accent/30 rounded-[2rem] blur-3xl opacity-60"></div>
+              {/* Gold ring accent */}
+              <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-accent via-accent/40 to-primary opacity-90"></div>
               <motion.div 
-                className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-accent/20 bg-muted"
-                whileHover={{ scale: 1.03, rotate: 1 }}
-                transition={{ type: "spring", stiffness: 300 }}
+                className="relative rounded-[1.75rem] overflow-hidden shadow-2xl bg-muted ring-1 ring-foreground/5"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 260 }}
               >
                 <img
                   src={profilePhoto}
@@ -95,34 +115,48 @@ const Hero = () => {
                   }}
                 />
               </motion.div>
+              {/* Floating credential badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.5 }}
+                className="hidden sm:flex absolute -bottom-5 -right-3 lg:-right-6 items-center gap-3 bg-background/95 backdrop-blur border border-border rounded-2xl px-4 py-3 shadow-xl"
+              >
+                <div className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+                <div className="text-left leading-tight">
+                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Côte d'Ivoire</div>
+                  <div className="text-sm font-semibold text-foreground">12+ ans terrain</div>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
 
           {/* Text Section */}
-          <div className="order-1 lg:order-2 text-center lg:text-left space-y-4 sm:space-y-6">
+          <div className="order-1 lg:order-2 text-center lg:text-left space-y-5 sm:space-y-7">
             <motion.div 
               className="flex flex-wrap gap-2 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-accent/10 text-accent rounded-full text-xs sm:text-sm font-semibold">
+              <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-accent/15 text-accent-foreground rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] border border-accent/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                 {copy.founder}
               </span>
-              <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold">
+              <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/10 text-primary rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] border border-primary/20">
                 {copy.role}
               </span>
             </motion.div>
             
             <motion.h1 
-              className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground"
+              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-foreground tracking-tight leading-[1.05]"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               Inocent
               <motion.span 
-                className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent mt-1 sm:mt-2"
+                className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-accent mt-1 sm:mt-2"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.5 }}
@@ -132,7 +166,7 @@ const Hero = () => {
             </motion.h1>
 
             <motion.p 
-              className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0"
+              className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
