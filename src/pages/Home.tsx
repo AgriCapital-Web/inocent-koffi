@@ -17,6 +17,7 @@ const FAQ = lazy(() => import("@/components/FAQ"));
 const Newsletter = lazy(() => import("@/components/Newsletter"));
 const Footer = lazy(() => import("@/components/Footer"));
 const TeamPreview = lazy(() => import("@/components/TeamPreview"));
+const ContactCTA = lazy(() => import("@/components/ContactCTA"));
 
 const LoadingFallback = () => (
   <div className="min-h-[200px] flex items-center justify-center">
@@ -133,6 +134,9 @@ const Home = () => {
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <FAQ />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <ContactCTA />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <Newsletter />
