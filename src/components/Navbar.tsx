@@ -131,11 +131,12 @@ const Navbar = () => {
                   <motion.button
                     key={group.href}
                     onClick={() => handleNavClick(group.href!)}
+                    aria-current={isActive(group.href!) ? "page" : undefined}
                     className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg whitespace-nowrap ${
                       isActive(group.href!)
                         ? "text-primary bg-primary/10"
                         : "text-muted-foreground hover:text-primary hover:bg-muted"
-                    }`}
+                    } focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + i * 0.04 }}
@@ -152,11 +153,13 @@ const Navbar = () => {
                   onMouseLeave={() => setOpenSubmenu(null)}
                 >
                   <button
+                    aria-haspopup="menu"
+                    aria-expanded={openSubmenu === group.label}
                     className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors rounded-lg whitespace-nowrap ${
                       isGroupActive(group)
                         ? "text-primary bg-primary/10"
                         : "text-muted-foreground hover:text-primary hover:bg-muted"
-                    }`}
+                    } focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
                   >
                     {group.label}
                     <ChevronDown className={`w-3 h-3 transition-transform ${openSubmenu === group.label ? 'rotate-180' : ''}`} />
@@ -198,9 +201,11 @@ const Navbar = () => {
             <VisitorCounter />
             <LanguageSelector />
             <button
-              className="text-foreground p-2"
+              className="text-foreground p-2 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle menu"
+              aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-nav-panel"
             >
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
