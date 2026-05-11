@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
-import logoAgricapital from "@/assets/logo-agricapital.png";
+import profilePhotoSm from "@/assets/profile-photo-sm.webp";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -103,10 +103,24 @@ const Navbar = () => {
           <Link
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-2 hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2.5 hover:opacity-90 transition-opacity group"
           >
-            <img src={logoAgricapital} alt="AgriCapital" className="h-8 sm:h-9" />
-            <span className="text-sm sm:text-base font-bold text-foreground hidden sm:inline">Inocent KOFFI</span>
+            <span className="relative inline-flex">
+              <span className="absolute inset-0 rounded-full bg-gradient-to-br from-accent to-primary blur-sm opacity-60 group-hover:opacity-100 transition-opacity"></span>
+              <img
+                src={profilePhotoSm}
+                alt="Inocent KOFFI"
+                width={36}
+                height={36}
+                className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-full object-cover border-2 border-accent/70 shadow-md"
+                loading="eager"
+                decoding="async"
+              />
+            </span>
+            <span className="hidden sm:flex flex-col leading-tight">
+              <span className="text-sm sm:text-base font-bold text-foreground tracking-tight">Inocent KOFFI</span>
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Visionnaire Africain</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
