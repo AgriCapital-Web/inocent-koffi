@@ -16,6 +16,7 @@ const Hero = () => {
     fr: {
       founder: "Fondateur — AGRICAPITAL SARL",
       role: "Agro-Entrepreneur & Stratège Agricole",
+      tagline: "Bâtir un patrimoine agricole durable, terre par terre, génération après génération.",
       description: "Agro-entrepreneur et stratège en développement agricole. Fondateur d'AGRICAPITAL SARL — opérateur et promoteur agricole spécialisé dans la création de plantations de palmier à huile clé en main en Côte d'Ivoire. 12+ années d'immersion terrain au service de l'agriculture et de l'innovation.",
       contact: "Me Contacter",
       discover: "Découvrir AGRICAPITAL"
@@ -23,6 +24,7 @@ const Hero = () => {
     en: {
       founder: "Founder — AGRICAPITAL SARL",
       role: "Agro-Entrepreneur & Agricultural Strategist",
+      tagline: "Building lasting agricultural wealth — land by land, generation after generation.",
       description: "Agro-entrepreneur and agricultural development strategist. Founder of AGRICAPITAL SARL — an agricultural operator and promoter specialized in turnkey oil palm plantations in Côte d'Ivoire. 12+ years of field immersion serving agriculture and innovation.",
       contact: "Contact Me",
       discover: "Discover AGRICAPITAL"
@@ -30,6 +32,7 @@ const Hero = () => {
     es: {
       founder: "Fundador — AGRICAPITAL SARL",
       role: "Agroemprendedor y Estratega Agrícola",
+      tagline: "Construir un patrimonio agrícola duradero, tierra a tierra, generación tras generación.",
       description: "Agroemprendedor y estratega en desarrollo agrícola. Fundador de AGRICAPITAL SARL, operador y promotor agrícola especializado en la creación de plantaciones de palma aceitera llave en mano en Costa de Marfil. Más de 12 años de inmersión sobre el terreno al servicio de la agricultura y la innovación.",
       contact: "Contactarme",
       discover: "Descubrir AGRICAPITAL"
@@ -37,6 +40,7 @@ const Hero = () => {
     de: {
       founder: "Gründer — AGRICAPITAL SARL",
       role: "Agro-Unternehmer & Agrarstratege",
+      tagline: "Nachhaltiges landwirtschaftliches Vermögen aufbauen — Land für Land, Generation für Generation.",
       description: "Agro-Unternehmer und Stratege für landwirtschaftliche Entwicklung. Gründer von AGRICAPITAL SARL — landwirtschaftlicher Betreiber und Projektentwickler, spezialisiert auf schlüsselfertige Ölpalmenplantagen in Côte d'Ivoire. Mehr als 12 Jahre Praxiserfahrung im Dienst von Landwirtschaft und Innovation.",
       contact: "Kontaktieren",
       discover: "AGRICAPITAL entdecken"
@@ -44,6 +48,7 @@ const Hero = () => {
     zh: {
       founder: "创始人 — AGRICAPITAL SARL",
       role: "农业创业者与农业战略家",
+      tagline: "一寸土地，一代传承，构筑可持续的非洲农业财富。",
       description: "农业创业者与农业发展战略家。AGRICAPITAL SARL 创始人，专注于在科特迪瓦打造交钥匙油棕种植园的农业运营与推广者。12年以上扎根一线，服务农业与创新。",
       contact: "联系我",
       discover: "了解 AGRICAPITAL"
@@ -51,6 +56,7 @@ const Hero = () => {
     ar: {
       founder: "المؤسس — AGRICAPITAL SARL",
       role: "رائد أعمال زراعي واستراتيجي زراعي",
+      tagline: "بناء ثروة زراعية مستدامة، أرضًا بأرض، جيلاً بعد جيل.",
       description: "رائد أعمال زراعي واستراتيجي في التنمية الزراعية. مؤسس AGRICAPITAL SARL، وهي جهة تشغيل وتطوير زراعي متخصصة في إنشاء مزارع نخيل زيت متكاملة في كوت ديفوار. أكثر من 12 سنة من الخبرة الميدانية في خدمة الزراعة والابتكار.",
       contact: "تواصل معي",
       discover: "اكتشف AGRICAPITAL"
@@ -164,6 +170,15 @@ const Hero = () => {
                 KOFFI
               </motion.span>
             </motion.h1>
+
+            <motion.p
+              className="text-lg sm:text-xl lg:text-2xl font-serif italic text-foreground/85 leading-snug max-w-xl mx-auto lg:mx-0 border-l-2 border-accent pl-4"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+            >
+              {copy.tagline}
+            </motion.p>
 
             <motion.p 
               className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0"
