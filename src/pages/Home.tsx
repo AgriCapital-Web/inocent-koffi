@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import NewYearPopup from "@/components/NewYearPopup";
+import StatsStrip from "@/components/StatsStrip";
 import { useLanguage } from "@/hooks/useLanguage";
 
 // Lazy load components for better performance
@@ -108,6 +109,7 @@ const Home = () => {
       <div className="min-h-screen">
         <Navbar />
         <Hero />
+        <StatsStrip />
         <Suspense fallback={<LoadingFallback />}>
           <FeaturedPosts />
         </Suspense>
