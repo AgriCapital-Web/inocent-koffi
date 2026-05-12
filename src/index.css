@@ -43,6 +43,17 @@ All colors MUST be HSL.
     --gradient-accent: linear-gradient(135deg, hsl(45 90% 55%) 0%, hsl(35 95% 60%) 100%);
     --shadow-elegant: 0 20px 60px -15px hsl(220 50% 20% / 0.2);
     --shadow-glow: 0 0 40px hsl(45 90% 55% / 0.15);
+
+    /* ── Premium African visionary tokens ─────────────── */
+    --gold: 45 90% 55%;
+    --gold-deep: 38 85% 45%;
+    --earth: 25 45% 30%;
+    --terracotta: 14 65% 50%;
+    --ink: 220 50% 14%;
+    --gradient-gold: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-deep)) 100%);
+    --gradient-visionary: linear-gradient(135deg, hsl(var(--ink)) 0%, hsl(var(--earth)) 60%, hsl(var(--gold-deep)) 100%);
+    --shadow-premium: 0 30px 80px -20px hsl(220 50% 14% / 0.35);
+    --shadow-soft: 0 8px 30px -8px hsl(220 50% 14% / 0.12);
     
     /* Testimonial card borders */
     --testimonial-border-primary: hsl(220 50% 20%);
