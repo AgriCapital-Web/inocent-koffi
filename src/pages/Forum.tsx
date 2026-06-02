@@ -161,13 +161,19 @@ const Forum = () => {
 
       <div className="min-h-screen">
         <Navbar />
-        <section className="pt-24 pb-8 bg-gradient-to-br from-background via-secondary to-background">
-          <div className="container mx-auto px-4 text-center max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              <MessageSquare className="inline w-10 h-10 mr-3 text-accent" />
-              Forum
+        <section
+          className="relative pt-28 pb-12 overflow-hidden text-white"
+          style={{ background: "var(--gradient-visionary)" }}
+        >
+          <div aria-hidden className="absolute inset-0 opacity-20 [background:radial-gradient(circle_at_20%_30%,hsl(var(--gold))_0%,transparent_45%),radial-gradient(circle_at_80%_70%,hsl(var(--terracotta))_0%,transparent_45%)]" />
+          <div className="relative container mx-auto px-4 text-center max-w-3xl">
+            <span className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur ring-1 ring-white/20 rounded-full text-xs sm:text-sm font-semibold mb-5">
+              <MessageSquare className="w-4 h-4 mr-2" /> Communauté ouverte
+            </span>
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
+              <span className="text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-gold)" }}>Forum</span>
             </h1>
-            <p className="text-muted-foreground text-lg">Échangeons sur l'agriculture, la technologie, l'entrepreneuriat et l'avenir de l'Afrique.</p>
+            <p className="text-white/85 text-base sm:text-lg leading-relaxed">Échangeons sur l'agriculture, la technologie, l'entrepreneuriat et l'avenir de l'Afrique.</p>
           </div>
         </section>
 
