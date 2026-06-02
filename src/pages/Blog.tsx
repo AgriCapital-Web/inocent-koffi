@@ -169,35 +169,39 @@ const Blog = () => {
       <div className="min-h-screen">
         <Navbar />
         <main className="pt-20">
-          {/* Hero Section */}
-          <section className="py-16 bg-gradient-to-br from-background via-secondary/30 to-background">
-            <div className="container mx-auto px-4">
+          {/* Hero Section — visionary */}
+          <section
+            className="relative py-16 sm:py-20 overflow-hidden text-white"
+            style={{ background: "var(--gradient-visionary)" }}
+          >
+            <div aria-hidden className="absolute inset-0 opacity-20 [background:radial-gradient(circle_at_15%_30%,hsl(var(--gold))_0%,transparent_45%),radial-gradient(circle_at_85%_70%,hsl(var(--terracotta))_0%,transparent_45%)]" />
+            <div className="relative container mx-auto px-4">
               <motion.div className="max-w-4xl mx-auto text-center" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-                <Badge variant="outline" className="mb-4">Blog</Badge>
-                <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-foreground">
+                <Badge variant="outline" className="mb-4 border-white/30 text-white bg-white/10 backdrop-blur">Blog</Badge>
+                <h1 className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight">
                   {currentCategory ? (
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                    <span className="text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-gold)" }}>
                       {currentCategory.name}
                     </span>
                   ) : (
                     <>
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Actualités</span> & Perspectives
+                      <span className="text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-gold)" }}>Actualités</span> & Perspectives
                     </>
                   )}
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+                <p className="text-lg sm:text-xl text-white/85 leading-relaxed mb-8">
                   {currentCategory?.description || "Réflexions, analyses et actualités sur la transformation agricole en Afrique"}
                 </p>
 
                 <form onSubmit={handleSearch} className="max-w-xl mx-auto">
                   <div className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/60 z-10" />
                     <Input
                       type="text"
                       placeholder="Rechercher un article..."
                       value={localSearch}
                       onChange={(e) => setLocalSearch(e.target.value)}
-                      className="pl-12 pr-4 py-6 text-lg rounded-full border-2 focus:border-primary"
+                      className="pl-12 pr-4 py-6 text-base sm:text-lg rounded-full border-2 bg-background/95 text-foreground focus:border-accent"
                     />
                     {localSearch && (
                       <button

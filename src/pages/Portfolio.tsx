@@ -111,11 +111,15 @@ const Portfolio = () => {
       <div className="min-h-screen">
         <Navbar />
 
-        {/* Hero */}
-        <section className="pt-24 pb-12 sm:pb-16 bg-gradient-to-br from-background via-secondary to-background">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
+        {/* Hero — visionary */}
+        <section
+          className="relative pt-28 pb-16 sm:pb-20 overflow-hidden text-white"
+          style={{ background: "var(--gradient-visionary)" }}
+        >
+          <div aria-hidden className="absolute inset-0 opacity-20 [background:radial-gradient(circle_at_20%_20%,hsl(var(--gold))_0%,transparent_40%),radial-gradient(circle_at_80%_80%,hsl(var(--terracotta))_0%,transparent_45%)]" />
+          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
             <motion.span 
-              className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-xs sm:text-sm font-semibold mb-6"
+              className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur ring-1 ring-white/20 text-white rounded-full text-xs sm:text-sm font-semibold mb-6"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
@@ -124,15 +128,15 @@ const Portfolio = () => {
               Visionnaire | Entrepreneur Social | Développeur Web | Praticien IA & Formateur
             </motion.span>
             <motion.h1 
-              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6"
+              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 tracking-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Mes <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Réalisations</span>
+              Mes <span className="text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-gold)" }}>Réalisations</span>
             </motion.h1>
             <motion.p 
-              className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg text-white/85 max-w-2xl mx-auto leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
