@@ -19,7 +19,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const { type, data }: NotificationRequest = await req.json();
-    const adminEmail = "Inocent.koffi@agricapital.ci";
+    const adminEmails = ["Inocent.koffi@agricapital.ci", "innocentkoffi1@gmail.com"];
     
     let subject = "";
     let htmlContent = "";
@@ -130,7 +130,7 @@ const handler = async (req: Request): Promise<Response> => {
         throw new Error("Type de notification non reconnu");
     }
 
-    console.log(`Sending ${type} notification to ${adminEmail}`);
+    console.log(`Sending ${type} notification to ${adminEmails.join(", ")}`);
 
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -140,7 +140,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "AGRICAPITAL <onboarding@resend.dev>",
-        to: [adminEmail],
+        to: adminEmails,
         subject,
         html: htmlContent,
       }),

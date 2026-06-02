@@ -7,14 +7,18 @@ const corsHeaders = {
 };
 
 const VISUAL_ANGLES = [
-  "plan large documentaire",
-  "portrait éditorial en contexte",
-  "détail terrain en macro",
-  "scène collaborative en réunion",
-  "ambiance urbaine professionnelle",
-  "site industriel/énergie en activité",
-  "atelier numérique et innovation",
-  "équipe locale en action",
+  "plan large documentaire au lever du jour",
+  "portrait éditorial rapproché en contre-jour",
+  "détail macro très serré sur une texture",
+  "vue aérienne drone à la verticale",
+  "scène de réunion en lumière naturelle latérale",
+  "ambiance nocturne urbaine avec lumières chaudes",
+  "site industriel en activité, contre-plongée",
+  "atelier numérique, plan moyen en lumière froide",
+  "marché local animé, plan d'ensemble vivant",
+  "paysage rural au coucher de soleil, lumière dorée",
+  "infrastructure logistique vue en plongée",
+  "studio sobre fond neutre, éclairage doux",
 ];
 
 type InputMode = "structured_draft" | "raw_text" | "instruction_prompt";
@@ -97,7 +101,16 @@ serve(async (req) => {
     async function generateAIImage(topic: string, angleHint?: string): Promise<string | null> {
       try {
         const chosenAngle = angleHint || VISUAL_ANGLES[Math.floor(Math.random() * VISUAL_ANGLES.length)];
-        const creativeSeed = crypto.randomUUID().slice(0, 8);
+        const creativeSeed = crypto.randomUUID();
+        const palettes = [
+          "palette terre & ocre", "palette bleu nuit & cuivre", "palette vert profond & or",
+          "palette sépia chaud", "palette gris acier & ambre", "palette ivoire & terre rouge",
+        ];
+        const focals = ["focale 24mm", "focale 35mm", "focale 50mm", "focale 85mm", "focale 135mm"];
+        const moods = ["matinal brumeux", "après-midi contrasté", "heure dorée", "heure bleue", "lumière naturelle douce"];
+        const palette = palettes[Math.floor(Math.random() * palettes.length)];
+        const focal = focals[Math.floor(Math.random() * focals.length)];
+        const mood = moods[Math.floor(Math.random() * moods.length)];
 
         const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
           method: "POST",
@@ -109,13 +122,15 @@ serve(async (req) => {
             model: "google/gemini-2.5-flash-image",
             messages: [{
               role: "user",
-              content: `Image éditoriale réaliste, UNIQUE et différente des générations précédentes.
-Sujet: "${topic}".
-Angle visuel imposé: ${chosenAngle}.
-Contexte possible multi-sectoriel: économie, agriculture, innovation, finance, énergie, gouvernance, éducation, entrepreneuriat.
-Style: photojournalisme premium, lumière naturelle, crédible, sans effets artificiels.
-Interdit: watermark, texte incrusté, logos visibles, duplication de composition.
-Seed créative: ${creativeSeed}.`
+              content: `Photographie éditoriale ULTRA RÉALISTE, totalement UNIQUE, jamais vue auparavant.
+Sujet précis: "${topic}".
+Angle de prise de vue imposé: ${chosenAngle}.
+Cadrage: ${focal}, ambiance ${mood}, ${palette}.
+Style: photojournalisme premium type National Geographic / Reuters, grain naturel, profondeur de champ réaliste, micro-détails crédibles (peau, tissus, matières).
+Composition: ASYMÉTRIQUE et inattendue, jamais centrée, jamais frontale type stock photo.
+Sujets humains: visages variés, expressions naturelles, vêtements crédibles au contexte ouest-africain quand pertinent.
+INTERDIT FORMEL: aucun watermark, aucun texte, aucun logo, aucune composition type "stock photo", aucune duplication d'images précédentes, aucun rendu plastique/3D, aucun visage IA générique.
+Identifiant d'unicité (utilise-le pour varier composition, lumière, cadrage, personnages): ${creativeSeed}.`
             }],
             modalities: ["image", "text"],
           }),
@@ -234,29 +249,34 @@ Retourne uniquement le HTML structuré, sans commentaire.`;
       const systemPrompt = `${BRAND_CONTEXT}
 
 Tu es un rédacteur en chef expert en analyses stratégiques.
-Mission: produire un article publiable, crédible et utile au lecteur.
+Mission: produire un article publiable, crédible, COURT et utile au lecteur — pensé pour être lu en entier en 3 à 4 minutes.
 
 ${HTML_RULES}
 ${adaptationGuide}
 
-STRUCTURE ATTENDUE:
-1. Introduction percutante (2-3 paragraphes)
-2. 3 à 5 sections <h2>
-3. Sous-sections <h3> si pertinent
-4. Encadrés/listes/tableaux SI PERTINENTS pour la compréhension
-5. Conclusion orientée action et réflexion
+CONTRAINTE DE LONGUEUR (STRICTE):
+- Total: 450 à 700 mots MAXIMUM (hors section Sources). Jamais plus.
+- Paragraphes courts: 2 à 4 phrases, jamais de pavés.
+- Phrases denses mais lisibles, sans remplissage ni redites.
+- Si l'idée tient en 1 phrase, ne pas l'étirer.
+
+STRUCTURE ATTENDUE (compacte):
+1. Accroche directe (1 paragraphe, 2-3 phrases)
+2. 2 à 3 sections <h2> maximum, titres courts et concrets
+3. Listes <ul> à puces courtes quand cela accélère la lecture
+4. Tableau UNIQUEMENT si comparaison réelle utile
+5. Conclusion brève (2-3 phrases) avec une idée actionnable
 6. Section "📌 Sources vérifiées" OBLIGATOIRE en dernier
 
 RÈGLES FORTES:
 - Éviter le ton "promotion AGRICAPITAL".
 - Garder un regard personnel d'analyste (Inocent KOFFI), pluridisciplinaire.
-- Éviter le jargon vide.
-- Donner des éléments concrets et nuancés.
-- Si l'entrée est déjà bien structurée, consolide et enrichis sans la dénaturer.
-- Si l'entrée est brute, développe l'analyse complètement.
-- Si l'entrée est un prompt, suis les consignes explicites et implicites qu'il contient.
-- Sources en fin d'article: OBLIGATOIRES, réelles, avec liens cliquables et date de consultation.
-- Si le sujet s'y prête, inclure un TABLEAU comparatif ou de synthèse moderne, lisible, avec en-têtes nets.
+- Zéro jargon vide, zéro phrase d'introduction creuse ("Dans un monde...", "Force est de constater...").
+- Aller droit au point dès la première phrase.
+- Donner des éléments concrets et nuancés, pas de généralités.
+- Si l'entrée est brute, synthétise — ne gonfle pas artificiellement.
+- Sources en fin d'article: OBLIGATOIRES, réelles, liens cliquables, date de consultation.
+- Tableau seulement si réellement pertinent.
 
 Catégories disponibles: ${catList}
 
