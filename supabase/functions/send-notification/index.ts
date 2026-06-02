@@ -19,7 +19,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const { type, data }: NotificationRequest = await req.json();
-    const adminEmail = "Inocent.koffi@agricapital.ci";
+    const adminEmails = ["Inocent.koffi@agricapital.ci", "innocentkoffi1@gmail.com"];
     
     let subject = "";
     let htmlContent = "";
