@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X, Camera } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 interface GalleryImage {
   id: string;
@@ -53,6 +59,10 @@ const PhotoGallery = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   const filteredImages = activeFilter === 'all' 
     ? galleryImages.filter(img => !failedImages.has(img.src))
@@ -78,6 +88,25 @@ const PhotoGallery = () => {
   const handleImageError = (src: string) => {
     setFailedImages(prev => new Set(prev).add(src));
   };
+
+  useEffect(() => {
+    if (!api) return;
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    api.on("select", onSelect);
+    api.on("reInit", onSelect);
+    return () => { api.off("select", onSelect); };
+  }, [api, activeFilter]);
+
+  useEffect(() => {
+    if (!api || paused) return;
+    const id = window.setInterval(() => {
+      if (api.canScrollNext()) api.scrollNext();
+      else api.scrollTo(0);
+    }, 4000);
+    return () => window.clearInterval(id);
+  }, [api, paused, activeFilter]);
 
   return (
     <section id="gallery" className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background">
@@ -109,35 +138,76 @@ const PhotoGallery = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {filteredImages.map((image, index) => (
-            <div
-              key={image.id}
-              className="relative group aspect-square overflow-hidden rounded-xl cursor-pointer bg-muted"
-              onClick={() => openLightbox(image, index)}
+        <div
+          className="relative max-w-6xl mx-auto"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <Carousel setApi={setApi} opts={{ align: "start", loop: true }} className="w-full">
+            <CarouselContent className="-ml-3 sm:-ml-4">
+              {filteredImages.map((image, index) => (
+                <CarouselItem
+                  key={image.id}
+                  className="pl-3 sm:pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
+                >
+                  <div
+                    className="relative group aspect-[4/3] overflow-hidden rounded-2xl cursor-pointer bg-muted shadow-md hover:shadow-xl transition-all"
+                    onClick={() => openLightbox(image, index)}
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.05] ${
+                        loadedImages.has(image.src) ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      loading="lazy"
+                      decoding="async"
+                      onLoad={() => handleImageLoad(image.src)}
+                      onError={() => handleImageError(image.src)}
+                    />
+                    {!loadedImages.has(image.src) && !failedImages.has(image.src) && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-white">
+                      <p className="text-xs sm:text-sm font-medium line-clamp-2">{image.alt}</p>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+
+          <div className="flex items-center justify-center gap-3 mt-6">
+            <button
+              onClick={() => api?.scrollPrev()}
+              aria-label="Précédent"
+              className="w-10 h-10 rounded-full bg-background border border-border shadow-sm hover:bg-muted hover:border-accent flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${
-                  loadedImages.has(image.src) ? 'opacity-100' : 'opacity-0'
-                }`}
-                loading="lazy"
-                decoding="async"
-                onLoad={() => handleImageLoad(image.src)}
-                onError={() => handleImageError(image.src)}
-              />
-              {!loadedImages.has(image.src) && !failedImages.has(image.src) && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <p className="text-xs sm:text-sm font-medium line-clamp-2">{image.alt}</p>
-              </div>
+              <ChevronLeft className="w-5 h-5 text-foreground" />
+            </button>
+            <div className="flex gap-1.5 max-w-xs overflow-hidden">
+              {Array.from({ length: Math.min(count, 12) }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => api?.scrollTo(i)}
+                  aria-label={`Aller à la diapositive ${i + 1}`}
+                  className={`h-2 rounded-full transition-all ${
+                    i === current ? "w-8 bg-accent" : "w-2 bg-border hover:bg-muted-foreground/40"
+                  }`}
+                />
+              ))}
             </div>
-          ))}
+            <button
+              onClick={() => api?.scrollNext()}
+              aria-label="Suivant"
+              className="w-10 h-10 rounded-full bg-background border border-border shadow-sm hover:bg-muted hover:border-accent flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <ChevronRight className="w-5 h-5 text-foreground" />
+            </button>
+          </div>
         </div>
 
         <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
