@@ -124,7 +124,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden xl:flex items-center gap-1 2xl:gap-2">
+          <div className="hidden lg:flex items-center gap-1 2xl:gap-2">
             {navGroups.map((group, i) => {
               if (group.href) {
                 return (
@@ -197,7 +197,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="xl:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             <VisitorCounter />
             <LanguageSelector />
             <button
@@ -222,7 +222,7 @@ const Navbar = () => {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               id="mobile-nav-panel"
               role="menu"
-              className="xl:hidden overflow-hidden border-t border-border/50 bg-background/95 backdrop-blur-md absolute left-0 right-0 top-full px-4 sm:px-6 shadow-lg max-h-[80vh] overflow-y-auto"
+              className="lg:hidden overflow-hidden border-t border-border/50 bg-background/95 backdrop-blur-md absolute left-0 right-0 top-full px-4 sm:px-6 shadow-lg max-h-[80vh] overflow-y-auto"
             >
               <div className="py-4 space-y-1">
                 {navGroups.map((group, i) => {

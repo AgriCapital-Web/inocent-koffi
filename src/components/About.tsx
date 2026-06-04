@@ -7,10 +7,10 @@ const About = () => {
     fr: {
       title: "À Propos",
       intro1: "Fondateur — AGRICAPITAL SARL",
-      intro2: "Agro-entrepreneur et stratège en développement agricole",
-      intro3: "Inocent KOFFI cumule plus de 12 années d'immersion terrain en Côte d'Ivoire. Cette connaissance intime du territoire, des réalités agricoles et du potentiel foncier constitue un atout stratégique majeur pour AgriCapital.",
-      intro4: "AgriCapital est un opérateur et promoteur agricole qui conçoit et déploie des plantations de palmier à huile clé en main, permettant aux particuliers et professionnels d'accéder à une agriculture productive, tout en étant déchargés des contraintes techniques, foncières et organisationnelles.",
-      intro5: "De 2012 à 2024, il a parcouru plus de 360 localités à travers 8 régions de Côte d'Ivoire — en contact direct et permanent avec les communautés rurales, identifiant et validant les meilleures terres pour les clients d'AgriCapital.",
+      intro2: "Agro-entrepreneur, stratège en développement agricole et des communautés rurales",
+      intro3: "Je cumule plus de 12 années d'immersion terrain en Côte d'Ivoire au service du développement commercial. Cette connaissance intime du territoire, des réalités agricoles et du potentiel foncier constitue aujourd'hui un atout stratégique majeur pour AgriCapital.",
+      intro4: "AgriCapital est spécialisée dans la promotion agricole et la prestation de services intégrés. Nous concevons et déployons des plantations de palmier à huile clé en main — de la sécurisation du foncier à la plantation prête à entrer en production — permettant aux particuliers et professionnels d'accéder à une agriculture productive, en étant déchargés des contraintes techniques, foncières et organisationnelles.",
+      intro5: "De 2012 à 2024, à travers mon parcours professionnel de commercial terrain au compte d'entreprises reconnues (Zola, Fenix International, Engie Energy Access, Qotto CI), j'ai parcouru plus de 360 localités dans 8 régions de Côte d'Ivoire — en contact direct et permanent avec les communautés rurales. Ce parcours m'a permis de comprendre en profondeur les réalités du monde rural, d'identifier le potentiel agricole inexploité du pays, et de concevoir le modèle AgriCapital.",
       values: [
         ["Opérateur Agricole", "Création de plantations de palmier à huile clé en main, avec ou sans terrain."],
         ["Accompagnement Complet", "De la sécurisation foncière à la commercialisation, un suivi rigoureux et transparent."],

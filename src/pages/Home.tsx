@@ -123,9 +123,6 @@ const Home = () => {
           <TeamPreview />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
-          <PortfolioPreview />
-        </Suspense>
-        <Suspense fallback={<LoadingFallback />}>
           <EcosystemShowcase />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>

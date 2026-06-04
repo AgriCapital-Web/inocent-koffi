@@ -112,6 +112,19 @@ serve(async (req) => {
         const focal = focals[Math.floor(Math.random() * focals.length)];
         const mood = moods[Math.floor(Math.random() * moods.length)];
 
+        // Visual diversity: combine multiple random axes + UUID seed so two articles
+        // never produce visually similar images (composition, lumière, sujets, palette).
+        const compositions = [
+          "composition en tiers asymétrique sujet bas-gauche",
+          "composition diagonale avant-plan dense",
+          "cadrage très serré bord-cadre, sujet décentré droite",
+          "plan large avec sujet minuscule dans le paysage",
+          "plan moyen contre-plongée 30°",
+          "plongée 75° top-down partielle",
+          "double plan: avant-plan flou, sujet net en second plan",
+        ];
+        const composition = compositions[Math.floor(Math.random() * compositions.length)];
+
         const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
           method: "POST",
           headers: {
@@ -126,11 +139,12 @@ serve(async (req) => {
 Sujet précis: "${topic}".
 Angle de prise de vue imposé: ${chosenAngle}.
 Cadrage: ${focal}, ambiance ${mood}, ${palette}.
+Composition imposée (suivre STRICTEMENT): ${composition}.
 Style: photojournalisme premium type National Geographic / Reuters, grain naturel, profondeur de champ réaliste, micro-détails crédibles (peau, tissus, matières).
-Composition: ASYMÉTRIQUE et inattendue, jamais centrée, jamais frontale type stock photo.
 Sujets humains: visages variés, expressions naturelles, vêtements crédibles au contexte ouest-africain quand pertinent.
-INTERDIT FORMEL: aucun watermark, aucun texte, aucun logo, aucune composition type "stock photo", aucune duplication d'images précédentes, aucun rendu plastique/3D, aucun visage IA générique.
-Identifiant d'unicité (utilise-le pour varier composition, lumière, cadrage, personnages): ${creativeSeed}.`
+INTERDIT FORMEL: aucun watermark, aucun texte, aucun logo, aucune composition type "stock photo", aucune duplication d'images précédentes, aucun rendu plastique/3D, aucun visage IA générique, aucun symétrique centré, aucune palette saturée arc-en-ciel.
+Tu DOIS produire un rendu visuellement DIFFÉRENT de toute image agricole ou africaine déjà vue: change l'angle, les personnages, la lumière, les couleurs dominantes, la profondeur, le décor.
+Identifiant d'unicité (utilise-le comme graine pour varier composition, lumière, cadrage, personnages, décor, vêtements): ${creativeSeed}.`
             }],
             modalities: ["image", "text"],
           }),

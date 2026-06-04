@@ -10,7 +10,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 const WHATSAPP_NUMBER = "2250759566087";
-const EMAIL = "Inocent.koffi@agricapital.ci";
+const EMAIL_PRIMARY = "Inocent.koffi@agricapital.ci";
+const EMAIL_SECONDARY = "innocentkoffi1@gmail.com";
+const EMAIL_TO = `${EMAIL_PRIMARY},${EMAIL_SECONDARY}`;
+const MAILTO = `mailto:${EMAIL_PRIMARY}?cc=${EMAIL_SECONDARY}&subject=${encodeURIComponent("Contact depuis ikoffi.agricapital.ci")}`;
 
 const ContactCTA = () => {
   const { language } = useLanguage();
@@ -137,7 +140,7 @@ const ContactCTA = () => {
                 variant="outline"
                 className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
-                <a href={`mailto:${EMAIL}`} aria-label={t.email}>
+                <a href={MAILTO} aria-label={t.email}>
                   <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
                   {t.email}
                 </a>

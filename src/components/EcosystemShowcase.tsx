@@ -14,7 +14,7 @@ type Site = {
   tag: string;
   description: string;
   url?: string; // omitted = no link (e.g. confidential / text-only)
-  image: string;
+  image: string; // fallback static screenshot
 };
 
 const SITES: Site[] = [
@@ -66,6 +66,13 @@ const SITES: Site[] = [
     image: "/images/showcase/scoly.png",
   },
 ];
+
+// Live screenshot via thum.io — refreshed daily (no API key required).
+// Falls back to the static screenshot when the URL is missing or the live fetch fails.
+const liveScreenshot = (url?: string) =>
+  url
+    ? `https://image.thum.io/get/width/1200/crop/750/noanimate/refresh/86400/${url}`
+    : null;
 
 const EcosystemShowcase = () => {
   const { language } = useLanguage();
@@ -146,15 +153,27 @@ const EcosystemShowcase = () => {
                   >
                     <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                       <img
-                        src={site.image}
+                        src={liveScreenshot(site.url) || site.image}
                         alt={`Aperçu ${site.name}`}
                         loading="lazy"
                         decoding="async"
+                        onError={(e) => {
+                          const img = e.currentTarget;
+                          if (img.src !== window.location.origin + site.image) {
+                            img.src = site.image;
+                          }
+                        }}
                         className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
                       />
                       <span className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-background/90 backdrop-blur text-foreground border border-border/60">
                         {site.tag}
                       </span>
+                      {site.url && (
+                        <span className="absolute top-2.5 right-2.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/90 text-white shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                          Live
+                        </span>
+                      )}
                     </div>
                     <div className="p-4 sm:p-5 flex flex-col flex-1 gap-2">
                       <h3 className="text-base sm:text-lg font-bold text-foreground">{site.name}</h3>
