@@ -177,6 +177,36 @@ const TestimonialsDisplay = () => {
             </Button>
           )}
         </div>
+
+        <Dialog open={!!expanded} onOpenChange={(o) => !o && setExpanded(null)}>
+          <DialogContent className="max-w-lg">
+            {expanded && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-accent/40">
+                    {expanded.photo_url ? (
+                      <img src={expanded.photo_url} alt={expanded.first_name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-xl">
+                        {expanded.first_name?.[0] ?? "?"}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-bold text-foreground">{expanded.first_name}</p>
+                    <p className="text-xs text-muted-foreground">{expanded.locality}</p>
+                    <div className="mt-1">{renderStars(expanded.rating)}</div>
+                  </div>
+                </div>
+                <Quote className="w-6 h-6 text-primary/30" />
+                <p className="text-base text-foreground leading-relaxed italic">"{expanded.message}"</p>
+                <p className="text-xs text-muted-foreground text-right">
+                  {new Date(expanded.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </p>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
