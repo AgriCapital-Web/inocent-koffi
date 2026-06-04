@@ -17,7 +17,7 @@ const Hero = () => {
       founder: "Fondateur — AGRICAPITAL SARL",
       role: "Agro-Entrepreneur & Stratège Agricole",
       tagline: "Bâtir un patrimoine agricole durable, terre par terre, génération après génération.",
-      description: "Agro-entrepreneur et stratège en développement agricole. Fondateur d'AGRICAPITAL SARL — opérateur et promoteur agricole spécialisé dans la création de plantations de palmier à huile clé en main en Côte d'Ivoire. 12+ années d'immersion terrain au service de l'agriculture et de l'innovation.",
+      description: "12+ années d'immersion terrain au service de l'agriculture et de l'innovation. Agro-entrepreneur et stratège en développement agricole. Fondateur d'AGRICAPITAL SARL — spécialisé dans la promotion agricole et la prestation de services intégrés, notamment la création de plantations de palmier à huile clé en main dans le Haut-Sassandra et en Côte d'Ivoire.",
       contact: "Me Contacter",
       discover: "Découvrir AGRICAPITAL"
     },
