@@ -104,10 +104,40 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    // --- AuthN/AuthZ: only admins may trigger this expensive crawl ---
+    const authHeader = req.headers.get("Authorization") || "";
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    if (!token) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const authClient = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      { global: { headers: { Authorization: `Bearer ${token}` } } }
+    );
+    const { data: userData, error: userErr } = await authClient.auth.getUser(token);
+    if (userErr || !userData?.user) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
+    const { data: roleRow } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userData.user.id)
+      .in("role", ["admin", "super_admin"])
+      .maybeSingle();
+    if (!roleRow) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const siteUrl = (Deno.env.get("SITE_URL") || DEFAULT_SITE_URL).replace(/\/$/, "");
 
     const ogEndpoint = `${Deno.env.get("SUPABASE_URL")}/functions/v1/og-article`;
@@ -175,11 +205,13 @@ Deno.serve(async (req) => {
       checked_at: new Date().toISOString(),
     };
 
-    // Determine source (cron vs manual)
+    // Determine source (cron vs manual) — strict allowlist to prevent stored XSS
+    const ALLOWED_SOURCES = new Set(["manual", "cron", "scheduled"]);
     let source = "manual";
     try {
       const body = req.method === "POST" ? await req.clone().json().catch(() => ({})) : {};
-      if (body && (body as any).source) source = String((body as any).source);
+      const raw = body && (body as any).source ? String((body as any).source) : "manual";
+      source = ALLOWED_SOURCES.has(raw) ? raw : "manual";
     } catch (_) { /* ignore */ }
 
     // Persist history snapshot (best-effort)

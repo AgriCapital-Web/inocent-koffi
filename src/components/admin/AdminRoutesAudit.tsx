@@ -139,14 +139,21 @@ export default function AdminRoutesAudit() {
   const exportHistoryPDF = () => {
     const w = window.open("", "_blank");
     if (!w) return;
+    const escapeHtml = (v: unknown) =>
+      String(v ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
     const rowsHtml = history.map(s => `
       <tr>
-        <td>${new Date(s.created_at).toLocaleString("fr-FR")}</td>
-        <td>${s.source}</td>
-        <td style="text-align:right">${s.total}</td>
-        <td style="text-align:right;color:${s.with_issues ? "#b91c1c" : "#16a34a"}">${s.with_issues}</td>
-        <td style="text-align:right">${(s.summary as any)?.missing_image ?? "-"}</td>
-        <td style="text-align:right">${(s.summary as any)?.wrong_locale ?? "-"}</td>
+        <td>${escapeHtml(new Date(s.created_at).toLocaleString("fr-FR"))}</td>
+        <td>${escapeHtml(s.source)}</td>
+        <td style="text-align:right">${escapeHtml(s.total)}</td>
+        <td style="text-align:right;color:${s.with_issues ? "#b91c1c" : "#16a34a"}">${escapeHtml(s.with_issues)}</td>
+        <td style="text-align:right">${escapeHtml((s.summary as any)?.missing_image ?? "-")}</td>
+        <td style="text-align:right">${escapeHtml((s.summary as any)?.wrong_locale ?? "-")}</td>
       </tr>`).join("");
     const totals = history.reduce((acc, s) => ({ total: acc.total + s.total, issues: acc.issues + s.with_issues }), { total: 0, issues: 0 });
     w.document.write(`<!doctype html><html><head><title>OG Audit – Historique</title>
@@ -155,9 +162,9 @@ export default function AdminRoutesAudit() {
       th,td{border:1px solid #ddd;padding:6px 8px;text-align:left}
       th{background:#f3f4f6}.summary{margin:12px 0;padding:12px;background:#f9fafb;border-radius:8px}</style></head><body>
       <h1>Historique OG Routes Audit</h1>
-      <small>Généré le ${new Date().toLocaleString("fr-FR")} • ${history.length} instantanés</small>
-      <div class="summary"><b>Totaux cumulés :</b> ${totals.total} routes auditées, ${totals.issues} problèmes détectés
-      ${histFrom ? ` • du ${histFrom}` : ""}${histTo ? ` au ${histTo}` : ""}${histSource !== "all" ? ` • source: ${histSource}` : ""}</div>
+      <small>${escapeHtml(`Généré le ${new Date().toLocaleString("fr-FR")} • ${history.length} instantanés`)}</small>
+      <div class="summary"><b>Totaux cumulés :</b> ${escapeHtml(totals.total)} routes auditées, ${escapeHtml(totals.issues)} problèmes détectés
+      ${histFrom ? ` • du ${escapeHtml(histFrom)}` : ""}${histTo ? ` au ${escapeHtml(histTo)}` : ""}${histSource !== "all" ? ` • source: ${escapeHtml(histSource)}` : ""}</div>
       <table><thead><tr><th>Date</th><th>Source</th><th>Total</th><th>Erreurs</th><th>Img KO</th><th>Locale KO</th></tr></thead>
       <tbody>${rowsHtml}</tbody></table>
       <script>setTimeout(()=>window.print(),300)</script></body></html>`);
