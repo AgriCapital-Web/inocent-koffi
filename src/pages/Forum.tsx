@@ -34,7 +34,11 @@ const Forum = () => {
   const { data: topics = [], isLoading } = useQuery({
     queryKey: ["forum-topics", selectedCategory],
     queryFn: async () => {
-      let query = supabase.from("forum_topics").select("*").order("is_pinned", { ascending: false }).order("updated_at", { ascending: false });
+      let query = supabase
+        .from("forum_topics")
+        .select("id, title, content, category, is_pinned, view_count, reply_count, created_at, updated_at, author_name")
+        .order("is_pinned", { ascending: false })
+        .order("updated_at", { ascending: false });
       if (selectedCategory !== "all") query = query.eq("category", selectedCategory);
       const { data, error } = await query;
       if (error) throw error;
@@ -46,7 +50,11 @@ const Forum = () => {
     queryKey: ["forum-replies", selectedTopic?.id],
     queryFn: async () => {
       if (!selectedTopic) return [];
-      const { data, error } = await supabase.from("forum_replies").select("*").eq("topic_id", selectedTopic.id).order("created_at", { ascending: true });
+      const { data, error } = await supabase
+        .from("forum_replies")
+        .select("id, topic_id, content, is_approved, created_at, author_name")
+        .eq("topic_id", selectedTopic.id)
+        .order("created_at", { ascending: true });
       if (error) throw error;
       return data;
     },
