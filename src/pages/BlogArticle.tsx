@@ -158,33 +158,33 @@ const BlogArticle = () => {
     const sendUpdate = (useBeacon = false) => {
       if (!viewId.current) return;
       const timeSpent = Math.max(1, Math.round((Date.now() - startTime.current) / 1000));
-      const payload = {
-        reading_progress: readingProgressRef.current,
-        time_spent_seconds: timeSpent,
-        finished_reading: readingProgressRef.current >= 85,
+      const sessionId = localStorage.getItem("session_id") || "";
+      const params = {
+        _view_id: viewId.current,
+        _session_id: sessionId,
+        _reading_progress: readingProgressRef.current,
+        _time_spent_seconds: timeSpent,
+        _finished_reading: readingProgressRef.current >= 85,
       };
 
-      if (useBeacon && navigator.sendBeacon && SUPABASE_URL && SUPABASE_KEY) {
-        const url = `${SUPABASE_URL}/rest/v1/article_views?id=eq.${viewId.current}`;
-        const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-        // sendBeacon doesn't support custom headers — fallback to fetch with keepalive
+      if (useBeacon && SUPABASE_URL && SUPABASE_KEY) {
+        // Use keepalive fetch so the request survives unload, calling the SECURITY DEFINER RPC
         try {
-          fetch(url, {
-            method: "PATCH",
+          fetch(`${SUPABASE_URL}/rest/v1/rpc/update_article_view`, {
+            method: "POST",
             keepalive: true,
             headers: {
               "Content-Type": "application/json",
               apikey: SUPABASE_KEY,
               Authorization: `Bearer ${SUPABASE_KEY}`,
-              Prefer: "return=minimal",
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(params),
           });
         } catch {
-          navigator.sendBeacon(url, blob);
+          /* noop */
         }
       } else {
-        supabase.from("article_views").update(payload).eq("id", viewId.current).then(() => {});
+        supabase.rpc("update_article_view", params).then(() => {});
       }
     };
 

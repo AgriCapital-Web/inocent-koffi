@@ -91,7 +91,7 @@ const Forum = () => {
 
   const openTopic = async (topic: any) => {
     setSelectedTopic(topic);
-    await supabase.from("forum_topics").update({ view_count: (topic.view_count || 0) + 1 }).eq("id", topic.id);
+    await supabase.rpc("increment_topic_view_count", { _topic_id: topic.id });
   };
 
   if (selectedTopic) {

@@ -17,12 +17,10 @@ const VisitorCounter = () => {
 
     // Register/update this visitor
     const registerVisitor = async () => {
-      await supabase.from('site_visitors').upsert({
-        session_id: sessionId,
-        is_online: true,
-        last_active: new Date().toISOString(),
-        user_agent: navigator.userAgent,
-      }, { onConflict: 'session_id' });
+      await supabase.rpc('upsert_site_visitor', {
+        _session_id: sessionId,
+        _user_agent: navigator.userAgent,
+      });
     };
 
     const fetchCounts = async () => {
@@ -48,23 +46,21 @@ const VisitorCounter = () => {
 
     // Heartbeat every 2 min
     const heartbeat = setInterval(() => {
-      supabase.from('site_visitors').upsert({
-        session_id: sessionId,
-        is_online: true,
-        last_active: new Date().toISOString(),
-      }, { onConflict: 'session_id' });
+      supabase.rpc('upsert_site_visitor', {
+        _session_id: sessionId,
+        _user_agent: navigator.userAgent,
+      });
     }, 120000);
 
     // Set offline on page leave
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        supabase.from('site_visitors').update({ is_online: false }).eq('session_id', sessionId);
+        supabase.rpc('set_visitor_offline', { _session_id: sessionId });
       } else {
-        supabase.from('site_visitors').upsert({
-          session_id: sessionId,
-          is_online: true,
-          last_active: new Date().toISOString(),
-        }, { onConflict: 'session_id' });
+        supabase.rpc('upsert_site_visitor', {
+          _session_id: sessionId,
+          _user_agent: navigator.userAgent,
+        });
       }
     };
 
@@ -73,7 +69,7 @@ const VisitorCounter = () => {
     return () => {
       clearInterval(heartbeat);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      supabase.from('site_visitors').update({ is_online: false }).eq('session_id', sessionId);
+      supabase.rpc('set_visitor_offline', { _session_id: sessionId });
     };
   }, []);
 

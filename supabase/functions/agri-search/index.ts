@@ -15,8 +15,19 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    // Require a valid Supabase project key + Authorization bearer to deter direct quota abuse
+    const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
+    const apiKey = req.headers.get("apikey") ?? "";
+    const authHeader = req.headers.get("Authorization") ?? "";
+    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+    if (!apiKey || apiKey !== ANON_KEY || !token) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const { query } = await req.json();
-    if (!query) {
+    if (!query || typeof query !== "string" || query.length > 500) {
       return new Response(JSON.stringify({ error: "Query is required" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });

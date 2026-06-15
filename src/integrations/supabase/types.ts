@@ -790,7 +790,26 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_topic_view_count: {
+        Args: { _topic_id: string }
+        Returns: undefined
+      }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      set_visitor_offline: { Args: { _session_id: string }; Returns: undefined }
+      update_article_view: {
+        Args: {
+          _finished_reading: boolean
+          _reading_progress: number
+          _session_id: string
+          _time_spent_seconds: number
+          _view_id: string
+        }
+        Returns: undefined
+      }
+      upsert_site_visitor: {
+        Args: { _session_id: string; _user_agent: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "super_admin" | "admin" | "moderator" | "user"
