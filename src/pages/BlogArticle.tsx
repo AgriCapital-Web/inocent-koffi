@@ -40,7 +40,7 @@ const BlogArticle = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("blog_posts")
-        .select("*")
+        .select("id, title, slug, content, excerpt, featured_image, hashtags, tagline, author, author_id, category_id, is_published, published_at, created_at, updated_at, share_version, article_number, view_count")
         .eq("slug", slug)
         .eq("is_published", true)
         .single();
