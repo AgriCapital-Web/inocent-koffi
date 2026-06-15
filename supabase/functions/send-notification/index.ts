@@ -18,7 +18,30 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { type, data }: NotificationRequest = await req.json();
+    const { type, data: rawData }: NotificationRequest = await req.json();
+
+    // --- Input hardening: HTML-escape and enforce length limits so a
+    // public caller cannot inject HTML/script into admin inboxes or
+    // spam unbounded payloads.
+    const MAX = 2000;
+    const esc = (v: unknown): string => {
+      const s = String(v ?? "").slice(0, MAX);
+      return s
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    };
+    const ALLOWED_TYPES = new Set(["partnership", "testimonial", "contact", "newsletter"]);
+    if (!ALLOWED_TYPES.has(String(type))) {
+      return new Response(JSON.stringify({ error: "Invalid type" }), {
+        status: 400, headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+    const data: Record<string, string> = {};
+    for (const [k, v] of Object.entries(rawData || {})) data[k] = esc(v);
+
     const adminEmails = ["Inocent.koffi@agricapital.ci", "innocentkoffi1@gmail.com"];
     
     let subject = "";
@@ -26,7 +49,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     switch (type) {
       case "partnership":
-        subject = `🤝 Nouvelle demande de partenariat - ${data.company_name}`;
+        subject = `🤝 Nouvelle demande de partenariat - ${data.company_name}`.slice(0, 200);
         htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #1a3a52, #2d5a3d); padding: 30px; text-align: center;">
@@ -56,7 +79,7 @@ const handler = async (req: Request): Promise<Response> => {
         break;
 
       case "testimonial":
-        subject = `⭐ Nouveau témoignage de ${data.first_name} ${data.last_name}`;
+        subject = `⭐ Nouveau témoignage de ${data.first_name} ${data.last_name}`.slice(0, 200);
         htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #1a3a52, #2d5a3d); padding: 30px; text-align: center;">
@@ -84,7 +107,7 @@ const handler = async (req: Request): Promise<Response> => {
         break;
 
       case "contact":
-        subject = `📧 Nouveau message de ${data.name}`;
+        subject = `📧 Nouveau message de ${data.name}`.slice(0, 200);
         htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #1a3a52, #2d5a3d); padding: 30px; text-align: center;">
