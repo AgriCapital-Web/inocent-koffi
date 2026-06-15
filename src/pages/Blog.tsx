@@ -44,7 +44,7 @@ const Blog = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('blog_posts')
-        .select('*, blog_categories(id, name, slug, color)')
+        .select('id, title, slug, content, excerpt, featured_image, hashtags, tagline, author, author_id, category_id, is_published, published_at, created_at, updated_at, share_version, article_number, view_count, blog_categories(id, name, slug, color)')
         .eq('is_published', true)
         .order('published_at', { ascending: false });
       if (error) throw error;
