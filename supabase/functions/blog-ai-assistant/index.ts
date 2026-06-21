@@ -19,6 +19,12 @@ const VISUAL_ANGLES = [
   "paysage rural au coucher de soleil, lumière dorée",
   "infrastructure logistique vue en plongée",
   "studio sobre fond neutre, éclairage doux",
+  "scène intérieure de bureau à travers une vitre, reflets subtils",
+  "plan rapproché de mains au travail, faible profondeur de champ",
+  "vue immersive niveau du sol parmi la végétation",
+  "plan séquence de marche, flou de mouvement maîtrisé",
+  "lumière rasante au crépuscule, longues ombres",
+  "vue contre-jour avec halo et flare cinématographique",
 ];
 
 type InputMode = "structured_draft" | "raw_text" | "instruction_prompt";
@@ -105,12 +111,18 @@ serve(async (req) => {
         const palettes = [
           "palette terre & ocre", "palette bleu nuit & cuivre", "palette vert profond & or",
           "palette sépia chaud", "palette gris acier & ambre", "palette ivoire & terre rouge",
+          "palette charbon & vert mousse", "palette sable & indigo", "palette laiton & terracotta",
+          "palette gris perle & vert olive", "palette nuit profonde & or rose",
         ];
-        const focals = ["focale 24mm", "focale 35mm", "focale 50mm", "focale 85mm", "focale 135mm"];
-        const moods = ["matinal brumeux", "après-midi contrasté", "heure dorée", "heure bleue", "lumière naturelle douce"];
+        const focals = ["focale 16mm grand-angle", "focale 24mm", "focale 35mm", "focale 50mm", "focale 85mm", "focale 135mm", "focale 200mm téléobjectif"];
+        const moods = ["matinal brumeux", "après-midi contrasté", "heure dorée", "heure bleue", "lumière naturelle douce", "lumière d'orage diffuse", "soleil zénithal éclatant", "lumière de pluie fine et argentée"];
+        const weathers = ["ciel partiellement nuageux", "ciel dégagé limpide", "brume basse au sol", "fines gouttes de pluie", "poussière en suspension", "vent léger sur la végétation"];
+        const subjectsContext = ["activité collective", "moment de concentration solitaire", "interaction entre deux personnes", "scène sans figure humaine", "présence humaine en silhouette lointaine"];
         const palette = palettes[Math.floor(Math.random() * palettes.length)];
         const focal = focals[Math.floor(Math.random() * focals.length)];
         const mood = moods[Math.floor(Math.random() * moods.length)];
+        const weather = weathers[Math.floor(Math.random() * weathers.length)];
+        const subjectCtx = subjectsContext[Math.floor(Math.random() * subjectsContext.length)];
 
         // Visual diversity: combine multiple random axes + UUID seed so two articles
         // never produce visually similar images (composition, lumière, sujets, palette).
@@ -122,6 +134,11 @@ serve(async (req) => {
           "plan moyen contre-plongée 30°",
           "plongée 75° top-down partielle",
           "double plan: avant-plan flou, sujet net en second plan",
+          "spirale dorée vers un point focal en haut-droite",
+          "cadre dans le cadre via une ouverture naturelle",
+          "symétrie brisée par un élément de contraste",
+          "ligne d'horizon décalée au tiers inférieur",
+          "vue à travers un premier plan flou organique",
         ];
         const composition = compositions[Math.floor(Math.random() * compositions.length)];
 
@@ -138,11 +155,12 @@ serve(async (req) => {
               content: `Photographie éditoriale ULTRA RÉALISTE, totalement UNIQUE, jamais vue auparavant.
 Sujet précis: "${topic}".
 Angle de prise de vue imposé: ${chosenAngle}.
-Cadrage: ${focal}, ambiance ${mood}, ${palette}.
+Cadrage: ${focal}, ambiance ${mood}, météo ${weather}, ${palette}.
+Mise en scène: ${subjectCtx}.
 Composition imposée (suivre STRICTEMENT): ${composition}.
 Style: photojournalisme premium type National Geographic / Reuters, grain naturel, profondeur de champ réaliste, micro-détails crédibles (peau, tissus, matières).
 Sujets humains: visages variés, expressions naturelles, vêtements crédibles au contexte ouest-africain quand pertinent.
-INTERDIT FORMEL: aucun watermark, aucun texte, aucun logo, aucune composition type "stock photo", aucune duplication d'images précédentes, aucun rendu plastique/3D, aucun visage IA générique, aucun symétrique centré, aucune palette saturée arc-en-ciel.
+INTERDIT FORMEL: aucun watermark, aucun texte, aucun logo, aucune composition type "stock photo", aucune duplication d'images précédentes, aucun rendu plastique/3D, aucun visage IA générique, aucun symétrique centré strict, aucune palette saturée arc-en-ciel, aucun cadrage déjà standardisé "homme/femme regardant l'horizon".
 Tu DOIS produire un rendu visuellement DIFFÉRENT de toute image agricole ou africaine déjà vue: change l'angle, les personnages, la lumière, les couleurs dominantes, la profondeur, le décor.
 Identifiant d'unicité (utilise-le comme graine pour varier composition, lumière, cadrage, personnages, décor, vêtements): ${creativeSeed}.`
             }],
@@ -196,6 +214,15 @@ RÈGLES HTML STRICTES:
 - N'invente jamais de chiffres: si incertitude, le dire clairement.
 - Ton: professionnel, concret, honnête, non sensationnaliste.
 - Quand tu produis un tableau, enveloppe-le dans <div class="table-wrap">...</div>.
+
+ORTHOGRAPHE & QUALITÉ RÉDACTIONNELLE (NON NÉGOCIABLE):
+- Relis avant de produire : zéro faute d'orthographe, de grammaire, d'accord ou de conjugaison.
+- Accents et signes diacritiques toujours corrects (é, è, ê, à, ù, ç, œ, æ).
+- Typographie française : espace insécable avant ; : ! ? », guillemets français « » quand pertinent, apostrophes typographiques '.
+- Majuscules accentuées respectées (À, É, È, Ç).
+- Noms propres rigoureusement exacts : « Inocent KOFFI » (un seul n), « AGRICAPITAL SARL », « Côte d'Ivoire ».
+- Pas d'anglicismes inutiles quand un mot français existe.
+- Phrases claires, sans redondance, sans lourdeur ; jamais de répétitions du même terme à 2 lignes d'intervalle.
 
 TABLEAUX — QUAND PERTINENT UNIQUEMENT:
 - Si le sujet s'y prête (comparaisons, analyses, synthèses, données structurées), génère un tableau HTML moderne et bien présenté.
