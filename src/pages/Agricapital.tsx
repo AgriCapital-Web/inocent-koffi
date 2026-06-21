@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NurserySection from "@/components/NurserySection";
+import AgriCapitalEcosystem from "@/components/AgriCapitalEcosystem";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -220,6 +221,8 @@ const Agricapital = () => {
           </section>
 
           <NurserySection />
+
+          <AgriCapitalEcosystem />
 
           {/* Team & Partners */}
           <section id="equipe" className="py-16 bg-background scroll-mt-24">
