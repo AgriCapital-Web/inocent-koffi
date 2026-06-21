@@ -38,8 +38,8 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
     ],
     team: [
       { name: "Inocent KOFFI", role: "Directeur Général", desc: "Entrepreneur et stratège, vision globale et coordination du déploiement." },
-      { name: "Koffi Pierre KOUAMÉ", role: "Conseiller Stratégique", desc: "10+ ans d'expérience en gouvernance organisationnelle et sécurisation foncière." },
       { name: "Éric Stéphane DIDO", role: "Responsable Développement Commercial", desc: "Stratégie commerciale, déploiement terrain et développement du portefeuille clients." },
+      { name: "Koffi Pierre KOUAMÉ", role: "Conseiller Stratégique", desc: "10+ ans d'expérience en gouvernance organisationnelle et sécurisation foncière." },
     ],
     partners: [
       { name: "Dr Marcel KONAN — MiProjet", role: "Structuration de Projets & Stratégie" },
@@ -79,8 +79,8 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
     ],
     team: [
       { name: "Inocent KOFFI", role: "Managing Director", desc: "Entrepreneur and strategist, overall vision and coordination of the deployment." },
-      { name: "Koffi Pierre KOUAMÉ", role: "Strategic Advisor", desc: "10+ years of experience in organizational governance and land security." },
       { name: "Éric Stéphane DIDO", role: "Head of Business Development", desc: "Commercial strategy, field deployment and client portfolio development." },
+      { name: "Koffi Pierre KOUAMÉ", role: "Strategic Advisor", desc: "10+ years of experience in organizational governance and land security." },
     ],
     partners: [
       { name: "Dr Marcel KONAN — MiProjet", role: "Project Structuring & Strategy" },
@@ -120,8 +120,8 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
     ],
     team: [
       { name: "Inocent KOFFI", role: "Director General", desc: "Empresario y estratega, visión global y coordinación del despliegue." },
-      { name: "Koffi Pierre KOUAMÉ", role: "Asesor Estratégico", desc: "Más de 10 años de experiencia en gobernanza organizacional y seguridad de la tierra." },
       { name: "Éric Stéphane DIDO", role: "Responsable de Desarrollo Comercial", desc: "Estrategia comercial, despliegue en campo y desarrollo de cartera de clientes." },
+      { name: "Koffi Pierre KOUAMÉ", role: "Asesor Estratégico", desc: "Más de 10 años de experiencia en gobernanza organizacional y seguridad de la tierra." },
     ],
     partners: [
       { name: "Dr Marcel KONAN — MiProjet", role: "Estructuración de Proyectos y Estrategia" },
@@ -161,8 +161,8 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
     ],
     team: [
       { name: "Inocent KOFFI", role: "Geschäftsführer", desc: "Unternehmer und Stratege, Gesamtvision und Koordination des Rollouts." },
-      { name: "Koffi Pierre KOUAMÉ", role: "Strategischer Berater", desc: "10+ Jahre Erfahrung in organisatorischer Governance und Landsicherung." },
       { name: "Éric Stéphane DIDO", role: "Leiter Geschäftsentwicklung", desc: "Vertriebsstrategie, Feldeinsatz und Entwicklung des Kundenportfolios." },
+      { name: "Koffi Pierre KOUAMÉ", role: "Strategischer Berater", desc: "10+ Jahre Erfahrung in organisatorischer Governance und Landsicherung." },
     ],
     partners: [
       { name: "Dr Marcel KONAN — MiProjet", role: "Projektstrukturierung & Strategie" },
@@ -202,8 +202,8 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
     ],
     team: [
       { name: "Inocent KOFFI", role: "总经理", desc: "企业家与战略家,负责整体愿景和部署协调。" },
-      { name: "Koffi Pierre KOUAMÉ", role: "战略顾问", desc: "拥有 10 多年组织治理和土地保障经验。" },
       { name: "Éric Stéphane DIDO", role: "商务发展负责人", desc: "商业战略、现场部署和客户组合开发。" },
+      { name: "Koffi Pierre KOUAMÉ", role: "战略顾问", desc: "拥有 10 多年组织治理和土地保障经验。" },
     ],
     partners: [
       { name: "Dr Marcel KONAN — MiProjet", role: "项目结构与战略" },
@@ -243,8 +243,8 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
     ],
     team: [
       { name: "إينوسنت كوفي", role: "المدير العام", desc: "رائد أعمال واستراتيجي، رؤية شاملة وتنسيق الانتشار." },
-      { name: "كوفي بيير كوامي", role: "مستشار استراتيجي", desc: "أكثر من 10 سنوات من الخبرة في الحوكمة التنظيمية وتأمين الأراضي." },
       { name: "إيريك ستيفان ديدو", role: "مسؤول تطوير الأعمال", desc: "الاستراتيجية التجارية، الانتشار الميداني وتطوير محفظة العملاء." },
+      { name: "كوفي بيير كوامي", role: "مستشار استراتيجي", desc: "أكثر من 10 سنوات من الخبرة في الحوكمة التنظيمية وتأمين الأراضي." },
     ],
     partners: [
       { name: "د. مارسيل كونان — MiProjet", role: "هيكلة المشاريع والاستراتيجية" },
