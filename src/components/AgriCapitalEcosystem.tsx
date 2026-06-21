@@ -38,31 +38,41 @@ const AgriCapitalEcosystem = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-accent/5 p-6 sm:p-10 mb-12 shadow-sm"
+            className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-accent/5 p-6 sm:p-10 mb-12 shadow-sm grid lg:grid-cols-[1.4fr_0.6fr] gap-8 items-center"
           >
-            <Badge variant="outline" className="mb-4 border-primary text-primary">
-              <Sprout className="w-3 h-3 mr-1" /> Écosystème AgriCapital
-            </Badge>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-foreground">
-              Explorez l'univers <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">agricapital.ci</span>
-            </h2>
-            <p className="text-muted-foreground leading-relaxed max-w-3xl mb-6">
-              AgriCapital est un opérateur agricole intégré : solutions foncières, plantations clé en main, gestion, intrants et garantie d'écoulement. Découvrez chaque page publique du site officiel ci-dessous, ou rejoignez l'accueil pour une vision d'ensemble.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg" className="bg-gradient-to-r from-primary to-primary/90">
-                <a href={`${BASE}/`} target="_blank" rel="noopener noreferrer">
-                  <Home className="w-4 h-4 mr-2" />
-                  Page d'accueil AgriCapital
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <a href="https://wa.me/2250564551717" target="_blank" rel="noopener noreferrer">
-                  Parler à un conseiller
-                </a>
-              </Button>
+            <div>
+              <Badge variant="outline" className="mb-4 border-primary text-primary">
+                <Sprout className="w-3 h-3 mr-1" /> Écosystème AgriCapital
+              </Badge>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-foreground leading-tight">
+                Explorez l'univers <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">agricapital.ci</span>
+              </h2>
+              <p className="text-muted-foreground leading-relaxed text-justify mb-6">
+                AgriCapital est un opérateur agricole intégré : solutions foncières, plantations clé en main, gestion, intrants et garantie d'écoulement. Découvrez chaque page publique du site officiel ci-dessous, ou rejoignez l'accueil pour une vision d'ensemble.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" className="bg-gradient-to-r from-primary to-primary/90">
+                  <a href={`${BASE}/`} target="_blank" rel="noopener noreferrer">
+                    <Home className="w-4 h-4 mr-2" />
+                    Page d'accueil AgriCapital
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <a href="https://wa.me/2250564551717" target="_blank" rel="noopener noreferrer">
+                    Parler à un conseiller
+                  </a>
+                </Button>
+              </div>
             </div>
+            <ul className="space-y-2 text-sm">
+              {["Solutions foncières & plantations", "Services techniques & intrants", "Partenariats & témoignages", "Actualités & évolution terrain"].map((line) => (
+                <li key={line} className="flex items-start gap-2 rounded-xl border border-border/50 bg-background/60 p-3">
+                  <span className="mt-0.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                  <span className="text-foreground">{line}</span>
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
           {/* Grille des pages */}

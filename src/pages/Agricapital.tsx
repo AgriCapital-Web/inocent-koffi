@@ -40,49 +40,87 @@ const Agricapital = () => {
         <title>AGRICAPITAL SARL - Opérateur & Promoteur Agricole | Palmier à Huile Clé en Main</title>
         <meta name="description" content="AGRICAPITAL SARL, opérateur et promoteur agricole. Créez votre plantation de palmier à huile clé en main en Côte d'Ivoire. Patrimoine durable et sécurisé." />
         <link rel="canonical" href="https://www.ikoffi.agricapital.ci/agricapital" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="AGRICAPITAL SARL — Plantations de palmier à huile clé en main" />
+        <meta property="og:description" content="Opérateur agricole intégré en Côte d'Ivoire : sécurisation foncière, plantations clé en main, gestion et garantie d'écoulement sur 25 ans." />
+        <meta property="og:url" content="https://www.ikoffi.agricapital.ci/agricapital" />
+        <meta property="og:image" content="https://www.ikoffi.agricapital.ci/images/founder-inocent-koffi.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AGRICAPITAL SARL — Plantations de palmier à huile clé en main" />
+        <meta name="twitter:description" content="Opérateur agricole intégré en Côte d'Ivoire : sécurisation foncière, plantations clé en main, gestion et garantie d'écoulement." />
+        <meta name="twitter:image" content="https://www.ikoffi.agricapital.ci/images/founder-inocent-koffi.jpg" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "AGRICAPITAL SARL",
+          url: "https://www.agricapital.ci",
+          logo: "https://www.ikoffi.agricapital.ci/favicon.png",
+          founder: { "@type": "Person", name: "Inocent KOFFI" },
+          foundingDate: "2025",
+          address: { "@type": "PostalAddress", addressLocality: "Daloa", addressRegion: "Haut-Sassandra", addressCountry: "CI" },
+          sameAs: ["https://www.agricapital.ci", "https://agricpital.vercel.app"],
+          description: "Opérateur et promoteur agricole spécialisé dans la création de plantations de palmier à huile clé en main en Côte d'Ivoire.",
+        })}</script>
       </Helmet>
       <div className="min-h-screen">
         <Navbar />
         <main className="pt-20">
           {/* Hero */}
-          <section className="py-16 sm:py-20 bg-gradient-to-br from-primary/10 via-background to-accent/10">
+          <section className="py-14 sm:py-20 bg-gradient-to-br from-primary/10 via-background to-accent/10">
             <div className="container mx-auto px-4">
-              <div className="max-w-6xl mx-auto text-center">
-                <motion.img 
-                  src={logoAgricapital} 
-                  alt="AgriCapital Logo" 
-                  className="h-16 sm:h-20 mx-auto mb-6"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                />
-                <motion.p 
-                  className="text-lg sm:text-xl text-primary font-semibold mb-4"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  Investir la terre. Cultiver l'avenir.
-                </motion.p>
-                <motion.h1 
-                  className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 text-foreground"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  Votre plantation de palmier à huile, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">clé en main</span>
-                </motion.h1>
-                <motion.p 
-                  className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  Avec AgriCapital, créez votre plantation de palmier à huile clé en main et bâtissez ensemble votre patrimoine agricole durable et rentable. Avec ou sans terrain, AgriCapital structure votre projet de A à Z.
-                </motion.p>
+              <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-center">
+                <div className="text-left">
+                  <motion.img
+                    src={logoAgricapital}
+                    alt="AgriCapital Logo"
+                    className="h-14 sm:h-16 mb-6"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <motion.p
+                    className="text-base sm:text-lg text-primary font-semibold mb-3"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    Investir la terre. Cultiver l'avenir.
+                  </motion.p>
+                  <motion.h1
+                    className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 text-foreground leading-tight"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    Votre plantation de palmier à huile, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">clé en main</span>
+                  </motion.h1>
+                  <motion.p
+                    className="text-base sm:text-lg text-muted-foreground mb-7 leading-relaxed text-justify"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    Avec AgriCapital, créez votre plantation de palmier à huile clé en main et bâtissez un patrimoine agricole durable et rentable. Avec ou sans terrain, nous structurons votre projet de A à Z : sécurisation foncière, plantation, suivi agronomique et garantie d'écoulement.
+                  </motion.p>
+                  <div className="flex flex-wrap gap-3">
+                    <Button size="lg" className="bg-gradient-to-r from-primary to-primary/90" asChild>
+                      <a href="https://www.agricapital.ci" target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-5 h-5 mr-2" />
+                        Site officiel
+                      </a>
+                    </Button>
+                    <Button size="lg" variant="outline" asChild>
+                      <a href="https://wa.me/2250564551717" target="_blank" rel="noopener noreferrer">
+                        Nous contacter
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
 
-                <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border/50 shadow-lg mb-8 max-w-4xl mx-auto">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <div className="bg-card rounded-2xl p-5 sm:p-6 border border-border/50 shadow-lg">
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Carte d'identité</h2>
+                  <div className="grid grid-cols-1 gap-4">
                     <div className="flex items-center gap-3">
                       <Building className="w-5 h-5 text-primary flex-shrink-0" />
                       <div className="text-left">
@@ -106,46 +144,34 @@ const Agricapital = () => {
                     </div>
                   </div>
                 </div>
-
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button size="lg" className="bg-gradient-to-r from-primary to-primary/90" asChild>
-                    <a href="https://www.agricapital.ci" target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="w-5 h-5 mr-2" />
-                      Visiter le Site Officiel
-                    </a>
-                  </Button>
-                  <Button size="lg" variant="outline" asChild>
-                    <a href="https://wa.me/2250564551717" target="_blank" rel="noopener noreferrer">
-                      Nous Contacter
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </a>
-                  </Button>
-                </div>
               </div>
             </div>
           </section>
 
           {/* Two Profiles */}
-          <section className="py-16 bg-secondary/30">
+          <section className="py-14 sm:py-16 bg-secondary/30">
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10 text-center text-foreground">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 text-foreground">
                   Deux profils, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">une ambition</span>
                 </h2>
+                <p className="text-muted-foreground mb-10 max-w-2xl text-justify">
+                  Que vous disposiez ou non d'un terrain, AgriCapital adapte son accompagnement à votre profil et structure un projet sécurisé sur le long terme.
+                </p>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border/50 hover:border-accent/50 transition-all hover:shadow-lg">
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-4">
                       <Users className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-xl font-bold mb-3 text-foreground">Particuliers & Professionnels</h3>
-                    <p className="text-muted-foreground leading-relaxed">Créez votre plantation clé en main, même sans terrain, et bâtissez un patrimoine tangible sur 28 ans.</p>
+                    <p className="text-muted-foreground leading-relaxed text-justify">Créez votre plantation clé en main, même sans terrain, et bâtissez un patrimoine tangible sur 28 ans.</p>
                   </div>
                   <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border/50 hover:border-accent/50 transition-all hover:shadow-lg">
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-4">
                       <Globe className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-xl font-bold mb-3 text-foreground">Propriétaires Terriens</h3>
-                    <p className="text-muted-foreground leading-relaxed">Confiez-nous votre terre et nous la transformons en plantation productive de palmier à huile, sans frais pour vous.</p>
+                    <p className="text-muted-foreground leading-relaxed text-justify">Confiez-nous votre terre et nous la transformons en plantation productive de palmier à huile, sans frais pour vous.</p>
                   </div>
                 </div>
               </div>
@@ -153,10 +179,10 @@ const Agricapital = () => {
           </section>
 
           {/* Why Choose */}
-          <section className="py-16 bg-background">
+          <section className="py-14 sm:py-16 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10 text-center text-foreground">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10 text-foreground">
                   {content.labels.sectionWhy.replace("AgriCapital", "")}<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">AgriCapital</span>
                 </h2>
                 <div className="grid md:grid-cols-3 gap-6">
@@ -168,7 +194,7 @@ const Agricapital = () => {
                           <Icon className="w-7 h-7 text-white" />
                         </div>
                         <h3 className="text-xl font-bold mb-3 text-foreground">{item.title}</h3>
-                        <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                        <p className="text-muted-foreground leading-relaxed text-justify">{item.description}</p>
                       </div>
                     );
                   })}
@@ -178,10 +204,10 @@ const Agricapital = () => {
           </section>
 
           {/* Process */}
-          <section className="py-16 bg-secondary/30">
+          <section className="py-14 sm:py-16 bg-secondary/30">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10 text-center text-foreground">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10 text-foreground">
                   {content.labels.processIntro}
                 </h2>
                 <div className="space-y-4">
@@ -192,7 +218,7 @@ const Agricapital = () => {
                       </span>
                       <div>
                         <h3 className="font-bold text-foreground mb-1">{step.title}</h3>
-                        <p className="text-sm text-muted-foreground">{step.desc}</p>
+                        <p className="text-sm text-muted-foreground text-justify">{step.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -202,12 +228,15 @@ const Agricapital = () => {
           </section>
 
           {/* Operational Capacity */}
-          <section className="py-16 bg-primary text-primary-foreground">
+          <section className="py-14 sm:py-16 bg-primary text-primary-foreground">
             <div className="container mx-auto px-4">
-              <div className="max-w-5xl mx-auto text-center">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-10">
+              <div className="max-w-5xl mx-auto">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">
                   {content.labels.sectionCapacity}
                 </h2>
+                <p className="opacity-90 mb-10 max-w-2xl text-justify">
+                  Une infrastructure opérationnelle déjà en place pour démarrer rapidement et livrer en toute confiance.
+                </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                   {capacity.map((c, i) => (
                     <div key={i} className="p-4 sm:p-6 rounded-xl bg-primary-foreground/10 border border-primary-foreground/20">
@@ -225,19 +254,19 @@ const Agricapital = () => {
           <AgriCapitalEcosystem />
 
           {/* Team & Partners */}
-          <section id="equipe" className="py-16 bg-background scroll-mt-24">
+          <section id="equipe" className="py-14 sm:py-16 bg-background scroll-mt-24">
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
-                <div className="text-center mb-6">
+                <div className="mb-4">
                   <Badge variant="outline" className="mb-3 border-accent text-accent">
                     <Users className="w-3 h-3 mr-1" />
                     {content.labels.sectionTeam}
                   </Badge>
                 </div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-center text-foreground">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-foreground">
                   Leadership & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Écosystème</span>
                 </h2>
-                <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+                <p className="text-muted-foreground mb-10 max-w-2xl text-justify">
                   AgriCapital est porté par une équipe fondatrice combinant expertise technique, expérience terrain et rigueur stratégique, soutenue par un réseau de partenaires experts.
                 </p>
 
@@ -288,7 +317,7 @@ const Agricapital = () => {
                   ))}
                 </div>
 
-                <div className="text-center mt-8">
+                <div className="mt-8">
                   <Button variant="outline" asChild>
                     <a href="https://www.agricapital.ci" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="w-4 h-4 mr-2" />
