@@ -14,10 +14,10 @@ const Hero = () => {
   const { language } = useLanguage();
   const copy = {
     fr: {
-      founder: "Fondateur — AGRICAPITAL SARL",
-      role: "Agro-Entrepreneur & Stratège Agricole",
+      founder: "Gérant — AgriCapital SARL",
+      role: "Agro-entrepreneur & Stratège en Développement Agricole",
       tagline: "Bâtir un patrimoine agricole durable, terre par terre, génération après génération.",
-      description: "12+ années d'immersion terrain au service de l'agriculture et de l'innovation. Agro-entrepreneur et stratège en développement agricole. Fondateur d'AGRICAPITAL SARL — spécialisé dans la promotion agricole et la prestation de services intégrés, notamment la création de plantations de palmier à huile clé en main dans le Haut-Sassandra et en Côte d'Ivoire.",
+      description: "Plus d'une décennie d'immersion terrain au service du développement commercial — un parcours qui s'est progressivement transformé en une observation approfondie du potentiel agricole ivoirien. Agro-entrepreneur et stratège en développement agricole, Gérant d'AgriCapital SARL — spécialisée dans la promotion agricole et la prestation de services intégrés, notamment la création de plantations de palmier à huile clé en main dans le Haut-Sassandra et en Côte d'Ivoire.",
       contact: "Me Contacter",
       discover: "Découvrir AGRICAPITAL"
     },
