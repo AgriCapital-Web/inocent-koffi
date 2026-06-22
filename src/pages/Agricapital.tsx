@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Target, Users, Sprout, TrendingUp, MapPin, Calendar, Building, Shield, CheckCircle, Leaf, BarChart3, Globe, ArrowRight } from "lucide-react";
 import logoAgricapital from "@/assets/logo-agricapital.png";
+import plantationPhoto from "@/assets/plantation-cle-en-main.png.asset.json";
 import inocentKoffiPhoto from "@/assets/team/inocent-koffi.jpg";
 import pierreKouamePhoto from "@/assets/team/pierre-kouame.jpg";
 import ericDidoPhoto from "@/assets/team/eric-dido.jpg";
@@ -68,16 +69,17 @@ const Agricapital = () => {
           {/* Hero */}
           <section className="py-14 sm:py-20 bg-gradient-to-br from-primary/10 via-background to-accent/10">
             <div className="container mx-auto px-4">
-              <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-center">
+              <div className="max-w-6xl mx-auto">
+                <motion.img
+                  src={logoAgricapital}
+                  alt="AgriCapital Logo"
+                  className="h-28 sm:h-36 lg:h-44 mb-8 mx-auto block"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                />
+              <div className="grid lg:grid-cols-2 gap-10 items-center">
                 <div className="text-left">
-                  <motion.img
-                    src={logoAgricapital}
-                    alt="AgriCapital Logo"
-                    className="h-20 sm:h-24 lg:h-28 mb-6 mx-auto block"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                  />
                   <motion.p
                     className="text-base sm:text-lg text-primary font-semibold mb-3"
                     initial={{ opacity: 0, y: 10 }}
@@ -118,9 +120,26 @@ const Agricapital = () => {
                   </div>
                 </div>
 
-                <div className="bg-card rounded-2xl p-5 sm:p-6 border border-border/50 shadow-lg">
+                <motion.div
+                  className="relative"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                >
+                  <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/25 via-accent/20 to-transparent blur-2xl" aria-hidden />
+                  <img
+                    src={plantationPhoto.url}
+                    alt="Équipe AgriCapital remettant un plateau de jeunes plants de palmier à huile au client"
+                    className="relative w-full h-auto max-w-md mx-auto drop-shadow-2xl"
+                    loading="eager"
+                  />
+                </motion.div>
+              </div>
+
+              {/* Carte d'identité */}
+              <div className="mt-10 bg-card rounded-2xl p-5 sm:p-6 border border-border/50 shadow-lg max-w-4xl mx-auto">
                   <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Carte d'identité</h2>
-                  <div className="grid grid-cols-1 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="flex items-center gap-3">
                       <Building className="w-5 h-5 text-primary flex-shrink-0" />
                       <div className="text-left">
