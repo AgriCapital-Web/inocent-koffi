@@ -1,43 +1,42 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Testimonials from "@/components/Testimonials";
 import { Helmet } from "react-helmet-async";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Users, Target, Calendar } from "lucide-react";
+import { Sprout, MapPin, Calendar, TrendingUp } from "lucide-react";
 
 const Projets = () => {
   const stats = [
     {
+      icon: Sprout,
+      value: "620 ha",
+      label: "Pépinière en Croissance Active",
+      description: "88 660 plants en production"
+    },
+    {
       icon: MapPin,
-      value: "360+",
-      label: "Localités Visitées",
-      description: "À travers 8 régions de Côte d'Ivoire"
+      value: "100+ ha",
+      label: "Terres Sécurisées",
+      description: "Déploiement immédiat"
     },
     {
-      icon: Users,
-      value: "30+",
-      label: "Villages Engagés",
-      description: "Communautés rurales mobilisées"
-    },
-    {
-      icon: Target,
-      value: "500+",
-      label: "Hectares Identifiés",
-      description: "Terres qualifiées pour le palmier"
+      icon: TrendingUp,
+      value: "1 000+ ha",
+      label: "Pipeline Foncier Mobilisable",
+      description: "Jusqu'à ~10 000 ha à terme"
     },
     {
       icon: Calendar,
-      value: "12",
-      label: "Années d'Expérience",
-      description: "Immersion terrain (2012-2024)"
+      value: "25 ans",
+      label: "Cycle Productif Garanti",
+      description: "Prix bord champ garanti par l'État ivoirien"
     }
   ];
 
   return (
     <>
       <Helmet>
-        <title>Projets & Témoignages - AGRICAPITAL | Transformation Agricole</title>
-        <meta name="description" content="Découvrez les projets et réalisations d'AGRICAPITAL SARL. Témoignages des producteurs agricoles partenaires en Côte d'Ivoire." />
+        <title>Nos Actifs & Chiffres Clés — AgriCapital</title>
+        <meta name="description" content="AgriCapital en chiffres : 620 ha de pépinière active, 100+ ha de terres sécurisées, pipeline foncier mobilisable jusqu'à ~10 000 ha et cycle productif garanti sur 25 ans." />
         <link rel="canonical" href="https://www.ikoffi.agricapital.ci/projets" />
       </Helmet>
       <div className="min-h-screen">
@@ -46,13 +45,13 @@ const Projets = () => {
           {/* Hero Section */}
           <section className="py-20 bg-gradient-to-br from-background via-secondary/30 to-background">
             <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto text-center">
-                <Badge variant="outline" className="mb-4">Projets & Réalisations</Badge>
-                <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-foreground">
-                  Notre <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Parcours</span>
+              <div className="max-w-4xl mx-auto">
+                <Badge variant="outline" className="mb-4">Nos Actifs & Notre Force de Frappe</Badge>
+                <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 text-foreground">
+                  AgriCapital en <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Chiffres</span>
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed">
-                  Un travail de fond sur le terrain, au plus près des communautés rurales et des producteurs agricoles
+                <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed text-justify">
+                  Une base opérationnelle tangible, un foncier mobilisable à grande échelle, un modèle conçu pour scaler.
                 </p>
               </div>
             </div>
@@ -68,16 +67,19 @@ const Projets = () => {
                     return (
                       <div 
                         key={index}
-                        className="p-6 rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 text-center"
+                        className="p-6 rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20"
                       >
-                        <Icon className="w-10 h-10 mx-auto mb-4 text-accent" />
-                        <p className="text-4xl font-bold mb-2">{stat.value}</p>
-                        <p className="text-lg font-semibold mb-2">{stat.label}</p>
+                        <Icon className="w-10 h-10 mb-4 text-accent" />
+                        <p className="text-3xl sm:text-4xl font-bold mb-2">{stat.value}</p>
+                        <p className="text-base sm:text-lg font-semibold mb-2">{stat.label}</p>
                         <p className="text-sm opacity-80">{stat.description}</p>
                       </div>
                     );
                   })}
                 </div>
+                <p className="mt-8 text-sm sm:text-base opacity-90 max-w-3xl">
+                  Pipeline foncier mobilisable : 1 000+ ha à court terme, jusqu'à ~10 000 ha à terme, grâce à notre force de mobilisation et à notre réseau territorial dans le Haut-Sassandra et au-delà.
+                </p>
               </div>
             </div>
           </section>
@@ -86,7 +88,7 @@ const Projets = () => {
           <section className="py-20 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-12 text-center text-foreground">
+                <h2 className="text-3xl lg:text-4xl font-bold mb-12 text-foreground">
                   En <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Images</span>
                 </h2>
 
@@ -100,8 +102,8 @@ const Projets = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
                       <div>
-                        <Badge className="mb-2 bg-accent text-accent-foreground">AGRICAPITAL</Badge>
-                        <p className="text-white text-lg font-medium">Le partenaire idéal des producteurs agricoles</p>
+                        <Badge className="mb-2 bg-accent text-accent-foreground">AgriCapital</Badge>
+                        <p className="text-white text-lg font-medium">Opérateur agricole intégré — palmier à huile clé en main</p>
                       </div>
                     </div>
                   </div>
@@ -133,9 +135,6 @@ const Projets = () => {
               </div>
             </div>
           </section>
-
-          {/* Testimonials */}
-          <Testimonials />
         </main>
         <Footer />
       </div>

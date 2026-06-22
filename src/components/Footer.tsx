@@ -11,7 +11,7 @@ const Footer = () => {
     { href: "/a-propos", label: "À Propos" },
     { href: "/vision", label: "Vision" },
     { href: "/agricapital", label: "AGRICAPITAL" },
-    { href: "/projets", label: "Projets" },
+    { href: "/projets", label: "Nos Actifs" },
     { href: "/partenariat", label: "Partenariat" },
     { href: "/portfolio", label: "Portfolio" },
     { href: "/blog", label: "Blog" },
