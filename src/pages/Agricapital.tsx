@@ -73,7 +73,7 @@ const Agricapital = () => {
                   <motion.img
                     src={logoAgricapital}
                     alt="AgriCapital Logo"
-                    className="h-14 sm:h-16 mb-6"
+                    className="h-20 sm:h-24 lg:h-28 mb-6 mx-auto block"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
