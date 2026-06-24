@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 import { Badge } from "@/components/ui/badge";
 import { Sprout, MapPin, Calendar, TrendingUp } from "lucide-react";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const Projets = () => {
   const stats = [
@@ -70,7 +71,9 @@ const Projets = () => {
                         className="p-6 rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20"
                       >
                         <Icon className="w-10 h-10 mb-4 text-accent" />
-                        <p className="text-3xl sm:text-4xl font-bold mb-2">{stat.value}</p>
+                        <p className="text-3xl sm:text-4xl font-bold mb-2">
+                          <AnimatedCounter value={stat.value} />
+                        </p>
                         <p className="text-base sm:text-lg font-semibold mb-2">{stat.label}</p>
                         <p className="text-sm opacity-80">{stat.description}</p>
                       </div>
