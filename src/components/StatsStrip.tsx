@@ -1,21 +1,22 @@
 import { motion } from "framer-motion";
 import { MapPin, Users, Calendar, Sprout } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const StatsStrip = () => {
   const { language } = useLanguage();
   const labels = {
-    fr: ["Régions parcourues", "Localités visitées", "Années d'expérience", "Modèle patrimonial"],
-    en: ["Regions covered", "Localities visited", "Years of experience", "Heritage model"],
-    es: ["Regiones recorridas", "Localidades visitadas", "Años de experiencia", "Modelo patrimonial"],
-    de: ["Bereiste Regionen", "Besuchte Orte", "Jahre Erfahrung", "Vermögensmodell"],
-    zh: ["走访地区", "走访地点", "年经验", "传承模式"],
-    ar: ["مناطق مغطاة", "بلدات زُرناها", "سنوات خبرة", "نموذج إرثي"],
-  }[language] || ["Régions parcourues", "Localités visitées", "Années d'expérience", "Modèle patrimonial"];
+    fr: ["Régions parcourues", "Localités visitées", "Années d'observation silencieuse", "Modèle patrimonial"],
+    en: ["Regions covered", "Localities visited", "Years of silent observation", "Heritage model"],
+    es: ["Regiones recorridas", "Localidades visitadas", "Años de observación silenciosa", "Modelo patrimonial"],
+    de: ["Bereiste Regionen", "Besuchte Orte", "Jahre stiller Beobachtung", "Vermögensmodell"],
+    zh: ["走访地区", "走访地点", "年沉默观察", "传承模式"],
+    ar: ["مناطق مغطاة", "بلدات زُرناها", "سنوات من الملاحظة الصامتة", "نموذج إرثي"],
+  }[language] || ["Régions parcourues", "Localités visitées", "Années d'observation silencieuse", "Modèle patrimonial"];
 
   const stats = [
     { icon: MapPin, value: "8", label: labels[0] },
-    { icon: Users, value: "360+", label: labels[1] },
+    { icon: Users, value: "100+", label: labels[1] },
     { icon: Calendar, value: "12+", label: labels[2] },
     { icon: Sprout, value: "28 ans", label: labels[3] },
   ];
@@ -42,7 +43,7 @@ const StatsStrip = () => {
                 </div>
                 <div className="min-w-0">
                   <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground leading-none tracking-tight">
-                    {s.value}
+                    <AnimatedCounter value={s.value} />
                   </div>
                   <div className="text-[11px] sm:text-xs uppercase tracking-[0.14em] text-muted-foreground mt-1.5 truncate">
                     {s.label}
