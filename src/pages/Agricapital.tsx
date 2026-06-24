@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Target, Users, Sprout, TrendingUp, MapPin, Calendar, Building, Shield, CheckCircle, Leaf, BarChart3, Globe, ArrowRight } from "lucide-react";
+import AnimatedCounter from "@/components/AnimatedCounter";
 import logoAgricapital from "@/assets/logo-agricapital.png";
 import plantationPhoto from "@/assets/plantation-cle-en-main.png.asset.json";
 import inocentKoffiPhoto from "@/assets/team/inocent-koffi.jpg";
@@ -259,7 +260,9 @@ const Agricapital = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                   {capacity.map((c, i) => (
                     <div key={i} className="p-4 sm:p-6 rounded-xl bg-primary-foreground/10 border border-primary-foreground/20">
-                      <p className="text-2xl sm:text-3xl font-bold mb-2">{c.value}</p>
+                      <p className="text-2xl sm:text-3xl font-bold mb-2">
+                        <AnimatedCounter value={c.value} />
+                      </p>
                       <p className="text-xs sm:text-sm opacity-90">{c.label}</p>
                     </div>
                   ))}
