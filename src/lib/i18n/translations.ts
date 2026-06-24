@@ -33,10 +33,10 @@ export const translations: Record<Language, Record<string, string>> = {
     // About
     'about.badge': 'À Propos',
     'about.title': 'Un Parcours au Service de l\'Agriculture',
-    'about.description': 'Depuis 2012, j\'ai parcouru plus de 360 localités dans 8 régions de Côte d\'Ivoire pour comprendre les réalités des producteurs agricoles.',
+    'about.description': 'Depuis 2012, j\'ai parcouru plus de 100 localités dans 8 régions de Côte d\'Ivoire pour comprendre les réalités des producteurs agricoles.',
     'about.experience': '12+ Années d\'Expérience',
     'about.regions': '8 Régions Parcourues',
-    'about.localities': '360+ Localités Visitées',
+    'about.localities': '100+ Localités Visitées',
     'about.producers': '500+ Producteurs Accompagnés',
     
     // Vision
@@ -109,7 +109,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq.q2': 'Comment puis-je devenir partenaire ?',
     'faq.a2': 'Vous pouvez devenir partenaire en remplissant le formulaire sur notre page Partenariat. Nous acceptons les partenaires investisseurs, techniques, institutionnels et distributeurs. Notre équipe vous contactera pour discuter des opportunités de collaboration.',
     'faq.q3': 'Quelles sont les zones d\'intervention d\'AGRICAPITAL ?',
-    'faq.a3': 'Nous intervenons principalement dans la région du Haut-Sassandra en Côte d\'Ivoire, avec notre siège à Daloa. Notre expertise couvre 8 régions et plus de 360 localités à travers le pays.',
+    'faq.a3': 'Nous intervenons principalement dans la région du Haut-Sassandra en Côte d\'Ivoire, avec notre siège à Daloa. Notre expertise couvre 8 régions et plus de 100 localités à travers le pays.',
     'faq.q4': 'Quelles cultures sont concernées par vos activités ?',
     'faq.a4': 'Notre pépinière de 50 hectares produit principalement des plants de palmier à huile de haute qualité. Nous accompagnons également les producteurs de cacao, de café et d\'autres cultures vivrières.',
     'faq.q5': 'Comment contacter Inocent KOFFI ?',
@@ -194,10 +194,10 @@ export const translations: Record<Language, Record<string, string>> = {
     // About
     'about.badge': 'About',
     'about.title': 'A Journey in Service of Agriculture',
-    'about.description': 'Since 2012, I have traveled through more than 360 localities in 8 regions of Côte d\'Ivoire to understand the realities of agricultural producers.',
+    'about.description': 'Since 2012, I have traveled through more than 100 localities in 8 regions of Côte d\'Ivoire to understand the realities of agricultural producers.',
     'about.experience': '12+ Years of Experience',
     'about.regions': '8 Regions Covered',
-    'about.localities': '360+ Localities Visited',
+    'about.localities': '100+ Localities Visited',
     'about.producers': '500+ Producers Supported',
     
     // Vision
@@ -270,7 +270,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq.q2': 'How can I become a partner?',
     'faq.a2': 'You can become a partner by filling out the form on our Partnership page. We accept investor, technical, institutional and distributor partners. Our team will contact you to discuss collaboration opportunities.',
     'faq.q3': 'What are AGRICAPITAL\'s areas of intervention?',
-    'faq.a3': 'We mainly operate in the Haut-Sassandra region of Côte d\'Ivoire, with our headquarters in Daloa. Our expertise covers 8 regions and more than 360 localities across the country.',
+    'faq.a3': 'We mainly operate in the Haut-Sassandra region of Côte d\'Ivoire, with our headquarters in Daloa. Our expertise covers 8 regions and more than 100 localities across the country.',
     'faq.q4': 'What crops are covered by your activities?',
     'faq.a4': 'Our 50-hectare nursery mainly produces high-quality oil palm seedlings. We also support cocoa, coffee and other food crop producers.',
     'faq.q5': 'How can I contact Inocent KOFFI?',
@@ -355,10 +355,10 @@ export const translations: Record<Language, Record<string, string>> = {
     // About
     'about.badge': 'Acerca de',
     'about.title': 'Un Recorrido al Servicio de la Agricultura',
-    'about.description': 'Desde 2012, he recorrido más de 360 localidades en 8 regiones de Costa de Marfil para comprender las realidades de los productores agrícolas.',
+    'about.description': 'Desde 2012, he recorrido más de 100 localidades en 8 regiones de Costa de Marfil para comprender las realidades de los productores agrícolas.',
     'about.experience': '12+ Años de Experiencia',
     'about.regions': '8 Regiones Recorridas',
-    'about.localities': '360+ Localidades Visitadas',
+    'about.localities': '100+ Localidades Visitadas',
     'about.producers': '500+ Productores Apoyados',
     
     // Vision
@@ -431,7 +431,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq.q2': '¿Cómo puedo convertirme en socio?',
     'faq.a2': 'Puede convertirse en socio completando el formulario en nuestra página de Asociación. Aceptamos socios inversores, técnicos, institucionales y distribuidores. Nuestro equipo se comunicará con usted para discutir oportunidades de colaboración.',
     'faq.q3': '¿Cuáles son las áreas de intervención de AGRICAPITAL?',
-    'faq.a3': 'Operamos principalmente en la región de Haut-Sassandra en Costa de Marfil, con nuestra sede en Daloa. Nuestra experiencia cubre 8 regiones y más de 360 localidades en todo el país.',
+    'faq.a3': 'Operamos principalmente en la región de Haut-Sassandra en Costa de Marfil, con nuestra sede en Daloa. Nuestra experiencia cubre 8 regiones y más de 100 localidades en todo el país.',
     'faq.q4': '¿Qué cultivos cubren sus actividades?',
     'faq.a4': 'Nuestro vivero de 50 hectáreas produce principalmente plántulas de palma aceitera de alta calidad. También apoyamos a productores de cacao, café y otros cultivos alimentarios.',
     'faq.q5': '¿Cómo puedo contactar a Inocent KOFFI?',
@@ -512,10 +512,10 @@ export const translations: Record<Language, Record<string, string>> = {
     // About
     'about.badge': 'Über uns',
     'about.title': 'Ein Weg im Dienste der Landwirtschaft',
-    'about.description': 'Seit 2012 habe ich mehr als 360 Ortschaften in 8 Regionen der Elfenbeinküste besucht, um die Realitäten der landwirtschaftlichen Produzenten zu verstehen.',
+    'about.description': 'Seit 2012 habe ich mehr als 100 Ortschaften in 8 Regionen der Elfenbeinküste besucht, um die Realitäten der landwirtschaftlichen Produzenten zu verstehen.',
     'about.experience': '12+ Jahre Erfahrung',
     'about.regions': '8 Regionen Bereist',
-    'about.localities': '360+ Ortschaften Besucht',
+    'about.localities': '100+ Ortschaften Besucht',
     'about.producers': '500+ Produzenten Unterstützt',
     
     // Vision
@@ -588,7 +588,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq.q2': 'Wie kann ich Partner werden?',
     'faq.a2': 'Sie können Partner werden, indem Sie das Formular auf unserer Partnerschaftsseite ausfüllen. Wir akzeptieren Investoren-, Technik-, institutionelle und Vertriebspartner. Unser Team wird Sie kontaktieren, um Kooperationsmöglichkeiten zu besprechen.',
     'faq.q3': 'Was sind die Interventionsbereiche von AGRICAPITAL?',
-    'faq.a3': 'Wir sind hauptsächlich in der Region Haut-Sassandra der Elfenbeinküste tätig, mit unserem Hauptsitz in Daloa. Unsere Expertise umfasst 8 Regionen und mehr als 360 Ortschaften im ganzen Land.',
+    'faq.a3': 'Wir sind hauptsächlich in der Region Haut-Sassandra der Elfenbeinküste tätig, mit unserem Hauptsitz in Daloa. Unsere Expertise umfasst 8 Regionen und mehr als 100 Ortschaften im ganzen Land.',
     'faq.q4': 'Welche Kulturen werden von Ihren Aktivitäten abgedeckt?',
     'faq.a4': 'Unsere 50 Hektar große Baumschule produziert hauptsächlich hochwertige Ölpalmsetzlinge. Wir unterstützen auch Kakao-, Kaffee- und andere Nahrungsmittelproduzenten.',
     'faq.q5': 'Wie kann ich Inocent KOFFI kontaktieren?',
@@ -640,7 +640,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'about.description': '自2012年以来，我走访了科特迪瓦8个地区的360多个地方，了解农业生产者的现实情况。',
     'about.experience': '12年以上经验',
     'about.regions': '覆盖8个地区',
-    'about.localities': '走访360多个地区',
+    'about.localities': '走访100多个地区',
     'about.producers': '支持500多名生产者',
     
     // Vision
@@ -762,10 +762,10 @@ export const translations: Record<Language, Record<string, string>> = {
     // About
     'about.badge': 'حول',
     'about.title': 'رحلة في خدمة الزراعة',
-    'about.description': 'منذ عام 2012، قمت بزيارة أكثر من 360 منطقة في 8 مناطق من ساحل العاج لفهم واقع المنتجين الزراعيين.',
+    'about.description': 'منذ عام 2012، قمت بزيارة أكثر من 100 منطقة في 8 مناطق من ساحل العاج لفهم واقع المنتجين الزراعيين.',
     'about.experience': '+12 سنة خبرة',
     'about.regions': '8 مناطق مغطاة',
-    'about.localities': '+360 منطقة تمت زيارتها',
+    'about.localities': '+100 منطقة تمت زيارتها',
     'about.producers': '+500 منتج تم دعمهم',
     
     // Vision
@@ -838,7 +838,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq.q2': 'كيف يمكنني أن أصبح شريكًا؟',
     'faq.a2': 'يمكنك أن تصبح شريكًا من خلال ملء النموذج في صفحة الشراكة. نحن نقبل شركاء المستثمرين والتقنيين والمؤسسيين والموزعين. سيتواصل فريقنا معك لمناقشة فرص التعاون.',
     'faq.q3': 'ما هي مناطق تدخل أجريكابيتال؟',
-    'faq.a3': 'نعمل بشكل رئيسي في منطقة هوت-ساساندرا في ساحل العاج، مع مقرنا الرئيسي في دالوا. خبرتنا تغطي 8 مناطق وأكثر من 360 منطقة في جميع أنحاء البلاد.',
+    'faq.a3': 'نعمل بشكل رئيسي في منطقة هوت-ساساندرا في ساحل العاج، مع مقرنا الرئيسي في دالوا. خبرتنا تغطي 8 مناطق وأكثر من 100 منطقة في جميع أنحاء البلاد.',
     'faq.q4': 'ما هي المحاصيل التي تغطيها أنشطتكم؟',
     'faq.a4': 'تنتج مشتلنا البالغة مساحتها 50 هكتارًا بشكل رئيسي شتلات نخيل الزيت عالية الجودة. نحن ندعم أيضًا منتجي الكاكاو والقهوة والمحاصيل الغذائية الأخرى.',
     'faq.q5': 'كيف يمكنني الاتصال بإينوسنت كوفي؟',

@@ -51,6 +51,22 @@ const SITES: Site[] = [
     image: "/images/showcase/ivoireprojet.png",
   },
   {
+    name: "MIPROJET+",
+    tag: "Incubation",
+    description:
+      "Plateforme premium d'accompagnement, structuration et suivi avancé de projets.",
+    url: "https://miprojetplus.ivoireprojet.com",
+    image: "/images/showcase/ivoireprojet.png",
+  },
+  {
+    name: "ANZRBO",
+    tag: "Plateforme",
+    description:
+      "Plateforme digitale — solution dédiée aux besoins métiers en Afrique.",
+    url: "https://anzrbo.vercel.app",
+    image: "/images/showcase/agricapital.png",
+  },
+  {
     name: "ASSOJEREB",
     tag: "Communauté",
     description:
@@ -67,12 +83,25 @@ const SITES: Site[] = [
   },
 ];
 
-// Live screenshot via thum.io — refreshed daily (no API key required).
-// Falls back to the static screenshot when the URL is missing or the live fetch fails.
-const liveScreenshot = (url?: string) =>
-  url
-    ? `https://image.thum.io/get/width/1200/crop/750/noanimate/refresh/86400/${url}`
-    : null;
+// Map UI language to a browser Accept-Language header so the live screenshot
+// reflects the visitor's language (fixes agricapital.ci rendering in English).
+const ACCEPT_LANGUAGE: Record<string, string> = {
+  fr: "fr-FR,fr;q=0.9",
+  en: "en-US,en;q=0.9",
+  es: "es-ES,es;q=0.9",
+  de: "de-DE,de;q=0.9",
+  zh: "zh-CN,zh;q=0.9",
+  ar: "ar-SA,ar;q=0.9",
+};
+
+// Live screenshot via thum.io — refreshed daily, with Accept-Language header
+// so the captured page uses the visitor's language.
+const liveScreenshot = (url: string | undefined, language: string) => {
+  if (!url) return null;
+  const lang = ACCEPT_LANGUAGE[language] || ACCEPT_LANGUAGE.fr;
+  const header = encodeURIComponent(`Accept-Language:${lang}`);
+  return `https://image.thum.io/get/width/1200/crop/750/noanimate/refresh/86400/headers/${header}/${url}`;
+};
 
 const EcosystemShowcase = () => {
   const { language } = useLanguage();
@@ -153,7 +182,7 @@ const EcosystemShowcase = () => {
                   >
                     <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                       <img
-                        src={liveScreenshot(site.url) || site.image}
+                        src={liveScreenshot(site.url, language) || site.image}
                         alt={`Aperçu ${site.name}`}
                         loading="lazy"
                         decoding="async"

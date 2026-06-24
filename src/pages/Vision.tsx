@@ -2,6 +2,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 import { Target, Heart, Users, Sprout, Globe, Award, Leaf, Shield } from "lucide-react";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import { MapPin, Calendar } from "lucide-react";
 
 const Vision = () => {
   const pillars = [
@@ -64,9 +66,31 @@ const Vision = () => {
                   La conviction qui nous anime
                 </h2>
                 <blockquote className="text-lg sm:text-xl lg:text-2xl leading-relaxed italic">
-                  "L'agriculture représente bien plus qu'une activité économique : c'est le fondement de tout patrimoine durable. Mon ambition est de permettre à quiconque le souhaite de posséder sa propre plantation agricole, dans un cadre sécurisé et professionnel."
+                  "L'agriculture représente bien plus qu'une activité économique : c'est le fondement de tout patrimoine durable. Notre ambition est de permettre à quiconque le souhaite de posséder sa propre plantation agricole, dans un cadre sécurisé et professionnel."
                 </blockquote>
-                <p className="mt-6 text-sm sm:text-base opacity-80">— Inocent KOFFI, Fondateur d'AGRICAPITAL SARL</p>
+                <p className="mt-6 text-sm sm:text-base opacity-80">— Inocent KOFFI, Gérant d'AGRICAPITAL SARL</p>
+
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-12 text-left">
+                  {[
+                    { icon: MapPin, value: "8", label: "Régions parcourues" },
+                    { icon: Users, value: "100+", label: "Localités visitées" },
+                    { icon: Calendar, value: "12+", label: "Années d'observation silencieuse" },
+                    { icon: Sprout, value: "28 ans", label: "Modèle patrimonial" },
+                  ].map((s, i) => {
+                    const Icon = s.icon;
+                    return (
+                      <div key={i} className="rounded-xl bg-primary-foreground/10 border border-primary-foreground/20 p-4 sm:p-5 backdrop-blur-sm">
+                        <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-accent mb-2" />
+                        <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-none">
+                          <AnimatedCounter value={s.value} />
+                        </div>
+                        <div className="text-[11px] sm:text-xs uppercase tracking-[0.14em] opacity-80 mt-2">
+                          {s.label}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </section>

@@ -31,10 +31,10 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
       { num: "05", title: "Remise de la Plantation", desc: "Plantation productive livrée clé en main. Suivi agronomique inclus, fourniture d'intrants et garantie d'achat." },
     ],
     capacity: [
-      { value: "120 ha", label: "de pépinière en croissance active" },
-      { value: "50 ha", label: "disponibles pour plantation immédiate" },
-      { value: "500+ ha", label: "de terres identifiées" },
-      { value: "25 ans", label: "de garantie d'achat et suivi" },
+      { value: "620 ha", label: "de pépinière en croissance active (88 660 plants)" },
+      { value: "100+ ha", label: "de terres sécurisées — déploiement immédiat" },
+      { value: "1 000+ ha", label: "de pipeline foncier mobilisable (jusqu'à ~10 000 ha)" },
+      { value: "25 ans", label: "de cycle productif garanti par l'État" },
     ],
     team: [
       { name: "Inocent KOFFI", role: "Directeur Général", desc: "Entrepreneur et stratège, vision globale et coordination du déploiement." },
@@ -72,10 +72,10 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
       { num: "05", title: "Plantation Handover", desc: "Productive plantation delivered turnkey. Agronomic follow-up, inputs supply and guaranteed buy-back included." },
     ],
     capacity: [
-      { value: "120 ha", label: "of nursery in active growth" },
-      { value: "50 ha", label: "available for immediate planting" },
-      { value: "500+ ha", label: "of identified land" },
-      { value: "25 years", label: "of buy-back guarantee and follow-up" },
+      { value: "620 ha", label: "of nursery in active growth (88,660 plants)" },
+      { value: "100+ ha", label: "of secured land — immediate deployment" },
+      { value: "1 000+ ha", label: "land pipeline (up to ~10,000 ha long term)" },
+      { value: "25 years", label: "guaranteed productive cycle (state-backed)" },
     ],
     team: [
       { name: "Inocent KOFFI", role: "Managing Director", desc: "Entrepreneur and strategist, overall vision and coordination of the deployment." },
@@ -113,10 +113,10 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
       { num: "05", title: "Entrega de la Plantación", desc: "Plantación productiva entregada llave en mano. Seguimiento agronómico, suministro de insumos y garantía de compra incluidos." },
     ],
     capacity: [
-      { value: "120 ha", label: "de vivero en crecimiento activo" },
-      { value: "50 ha", label: "disponibles para siembra inmediata" },
-      { value: "500+ ha", label: "de tierras identificadas" },
-      { value: "25 años", label: "de garantía de compra y seguimiento" },
+      { value: "620 ha", label: "de vivero en crecimiento activo (88 660 plantas)" },
+      { value: "100+ ha", label: "de tierras aseguradas — despliegue inmediato" },
+      { value: "1 000+ ha", label: "de cartera de tierras (hasta ~10 000 ha)" },
+      { value: "25 años", label: "de ciclo productivo garantizado" },
     ],
     team: [
       { name: "Inocent KOFFI", role: "Director General", desc: "Empresario y estratega, visión global y coordinación del despliegue." },
@@ -154,10 +154,10 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
       { num: "05", title: "Übergabe der Plantage", desc: "Produktive Plantage schlüsselfertig übergeben. Agronomische Begleitung, Lieferung von Betriebsmitteln und Abnahmegarantie inklusive." },
     ],
     capacity: [
-      { value: "120 ha", label: "Baumschule in aktivem Wachstum" },
-      { value: "50 ha", label: "sofort bepflanzbar" },
-      { value: "500+ ha", label: "identifiziertes Land" },
-      { value: "25 Jahre", label: "Abnahmegarantie und Betreuung" },
+      { value: "620 ha", label: "Baumschule in aktivem Wachstum (88 660 Pflanzen)" },
+      { value: "100+ ha", label: "gesicherte Flächen — sofortige Umsetzung" },
+      { value: "1 000+ ha", label: "mobilisierbares Land (bis ~10 000 ha)" },
+      { value: "25 Jahre", label: "garantierter Produktionszyklus" },
     ],
     team: [
       { name: "Inocent KOFFI", role: "Geschäftsführer", desc: "Unternehmer und Stratege, Gesamtvision und Koordination des Rollouts." },
@@ -195,10 +195,10 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
       { num: "05", title: "种植园交付", desc: "交钥匙式高产种植园,包含农艺跟踪、投入物供应及回购保证。" },
     ],
     capacity: [
-      { value: "120 公顷", label: "活跃成长中的苗圃" },
-      { value: "50 公顷", label: "可立即种植" },
-      { value: "500+ 公顷", label: "已识别的土地" },
-      { value: "25 年", label: "回购保证与跟进" },
+      { value: "620 公顷", label: "活跃成长中的苗圃（88 660 株）" },
+      { value: "100+ 公顷", label: "已确保土地——可立即部署" },
+      { value: "1 000+ 公顷", label: "可调动土地储备（最高 ~10 000 公顷）" },
+      { value: "25 年", label: "国家保障的生产周期" },
     ],
     team: [
       { name: "Inocent KOFFI", role: "总经理", desc: "企业家与战略家,负责整体愿景和部署协调。" },
@@ -236,10 +236,10 @@ export const agricapitalContent: Record<Language, AgricapitalContent> = {
       { num: "05", title: "تسليم المزرعة", desc: "مزرعة منتجة جاهزة للتشغيل تُسلّم بصيغة 'مفتاح في اليد'، مع متابعة زراعية، توفير المدخلات وضمان الشراء." },
     ],
     capacity: [
-      { value: "120 هكتار", label: "من المشتل في نمو نشط" },
-      { value: "50 هكتار", label: "متاحة للزراعة الفورية" },
-      { value: "+500 هكتار", label: "من الأراضي المحددة" },
-      { value: "25 سنة", label: "من ضمان الشراء والمتابعة" },
+      { value: "620 هكتار", label: "من المشتل في نمو نشط (88 660 شتلة)" },
+      { value: "100+ هكتار", label: "أراضٍ مؤمَّنة — جاهزة للنشر الفوري" },
+      { value: "1 000+ هكتار", label: "محفظة أراضٍ قابلة للتعبئة (حتى ~10 000 هكتار)" },
+      { value: "25 سنة", label: "دورة إنتاجية مضمونة" },
     ],
     team: [
       { name: "إينوسنت كوفي", role: "المدير العام", desc: "رائد أعمال واستراتيجي، رؤية شاملة وتنسيق الانتشار." },
