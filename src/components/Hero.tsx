@@ -3,6 +3,7 @@ import { MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.webp";
 import profilePhotoSm from "@/assets/profile-photo-sm.webp";
+import { Helmet } from "react-helmet-async";
 
 const LQIP = "data:image/webp;base64,UklGRtYAAABXRUJQVlA4IMoAAACQBQCdASoYAB4APxF8tFOsJ6SiqAqpgCIJZgC2yA6zaCeNZ4U40R24/OpqkXU0Yn/xyAT6wAD+jTe4LSXPHQtNsjVHCmoCVP5kclMk9MtWczDByWeIsnUkWtclirmj6KaR8cNklng2NHEjeQPyDCZ+7WMbhGR3pexaJEixd7A2uWuuVwAGOsfn7jK4fWA0SUydn/7a5K5pXysUyWbOMltgvti6Xq5jsT9fcPQr3eU4CwFTp9BzQ4/FakgfRuaFl+jFawYoyJXiVkAA";
 import SocialShare from "@/components/SocialShare";
@@ -65,6 +66,11 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[hsl(var(--background))]">
+      {/* Preload hashed founder photo so it appears instantly on production builds */}
+      <Helmet>
+        <link rel="preload" as="image" href={profilePhotoSm} type="image/webp" fetchPriority="high" />
+        <link rel="preload" as="image" href={profilePhoto} type="image/webp" fetchPriority="high" />
+      </Helmet>
       {/* Premium African visionary backdrop */}
       <div
         aria-hidden
