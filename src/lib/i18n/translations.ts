@@ -36,7 +36,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'about.description': 'Depuis 2012, j\'ai parcouru plus de 360 localités dans 8 régions de Côte d\'Ivoire pour comprendre les réalités des producteurs agricoles.',
     'about.experience': '12+ Années d\'Expérience',
     'about.regions': '8 Régions Parcourues',
-    'about.localities': '360+ Localités Visitées',
+    'about.localities': '100+ Localités Visitées',
     'about.producers': '500+ Producteurs Accompagnés',
     
     // Vision
@@ -197,7 +197,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'about.description': 'Since 2012, I have traveled through more than 360 localities in 8 regions of Côte d\'Ivoire to understand the realities of agricultural producers.',
     'about.experience': '12+ Years of Experience',
     'about.regions': '8 Regions Covered',
-    'about.localities': '360+ Localities Visited',
+    'about.localities': '100+ Localities Visited',
     'about.producers': '500+ Producers Supported',
     
     // Vision
@@ -358,7 +358,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'about.description': 'Desde 2012, he recorrido más de 360 localidades en 8 regiones de Costa de Marfil para comprender las realidades de los productores agrícolas.',
     'about.experience': '12+ Años de Experiencia',
     'about.regions': '8 Regiones Recorridas',
-    'about.localities': '360+ Localidades Visitadas',
+    'about.localities': '100+ Localidades Visitadas',
     'about.producers': '500+ Productores Apoyados',
     
     // Vision
@@ -515,7 +515,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'about.description': 'Seit 2012 habe ich mehr als 360 Ortschaften in 8 Regionen der Elfenbeinküste besucht, um die Realitäten der landwirtschaftlichen Produzenten zu verstehen.',
     'about.experience': '12+ Jahre Erfahrung',
     'about.regions': '8 Regionen Bereist',
-    'about.localities': '360+ Ortschaften Besucht',
+    'about.localities': '100+ Ortschaften Besucht',
     'about.producers': '500+ Produzenten Unterstützt',
     
     // Vision
@@ -640,7 +640,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'about.description': '自2012年以来，我走访了科特迪瓦8个地区的360多个地方，了解农业生产者的现实情况。',
     'about.experience': '12年以上经验',
     'about.regions': '覆盖8个地区',
-    'about.localities': '走访360多个地区',
+    'about.localities': '走访100多个地区',
     'about.producers': '支持500多名生产者',
     
     // Vision
@@ -765,7 +765,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'about.description': 'منذ عام 2012، قمت بزيارة أكثر من 360 منطقة في 8 مناطق من ساحل العاج لفهم واقع المنتجين الزراعيين.',
     'about.experience': '+12 سنة خبرة',
     'about.regions': '8 مناطق مغطاة',
-    'about.localities': '+360 منطقة تمت زيارتها',
+    'about.localities': '+100 منطقة تمت زيارتها',
     'about.producers': '+500 منتج تم دعمهم',
     
     // Vision
