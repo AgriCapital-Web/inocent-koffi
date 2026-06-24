@@ -1,31 +1,32 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, MapPin, Target } from "lucide-react";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const Portfolio = () => {
   const achievements = [
     {
       icon: <MapPin className="w-6 h-6" />,
-      title: "360+ Localités Visitées",
-      description: "12 années d'immersion terrain à travers 8 régions de Côte d'Ivoire",
+      title: "100+ Localités Visitées",
+      description: "12+ années d'observation silencieuse à travers 8 régions de Côte d'Ivoire",
       color: "from-blue-500 to-cyan-500",
     },
     {
       icon: <Users className="w-6 h-6" />,
-      title: "30+ Villages Engagés",
-      description: "Communautés rurales mobilisées pour un développement durable",
+      title: "400+ Familles Rencontrées",
+      description: "Communautés rurales mobilisées pour un développement agricole durable",
       color: "from-green-500 to-emerald-500",
     },
     {
       icon: <Target className="w-6 h-6" />,
-      title: "500+ Hectares Identifiés",
-      description: "Terres qualifiées pour la culture du palmier à huile",
+      title: "1 000+ Hectares Mobilisables",
+      description: "Pipeline foncier qualifié pour la culture du palmier à huile",
       color: "from-orange-500 to-amber-500",
     },
     {
       icon: <TrendingUp className="w-6 h-6" />,
-      title: "Objectif 2025-2030",
-      description: "250-500 producteurs accompagnés sur 500 hectares",
+      title: "25 ans de Cycle Garanti",
+      description: "Prix bord champ garanti par l'État ivoirien sur tout le cycle productif",
       color: "from-purple-500 to-pink-500",
     },
   ];
