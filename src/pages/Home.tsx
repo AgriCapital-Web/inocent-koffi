@@ -33,7 +33,7 @@ const Home = () => {
     const meta = {
       fr: {
         title: "Inocent KOFFI - Fondateur AGRICAPITAL SARL | Transformation Agricole",
-        description: "Inocent KOFFI, Fondateur d'AGRICAPITAL SARL. 12 ans d'expérience terrain auprès des producteurs agricoles en Côte d'Ivoire.",
+        description: "Inocent KOFFI, Gérant d'AGRICAPITAL SARL. Vision Agro-Impact — Transformation agricole pour une Afrique prospère.",
         keywords: "Inocent KOFFI, AGRICAPITAL, agriculture, Côte d'Ivoire, palmier à huile, transformation agricole, développement rural"
       },
       en: {
