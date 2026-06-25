@@ -83,22 +83,13 @@ const BlogArticle = () => {
     enabled: !!post?.id,
     refetchInterval: 15000,
     queryFn: async () => {
-      const [viewsRes, readsRes, sharesRes, reactionsRes] = await Promise.all([
-        supabase.from("article_views").select("id", { count: "exact", head: true }).eq("post_id", post.id),
-        supabase
-          .from("article_views")
-          .select("id", { count: "exact", head: true })
-          .eq("post_id", post.id)
-          .eq("finished_reading", true),
-        supabase.from("article_shares").select("id", { count: "exact", head: true }).eq("post_id", post.id),
-        supabase.from("blog_likes").select("id", { count: "exact", head: true }).eq("post_id", post.id),
-      ]);
-
+      const { data } = await supabase.rpc("get_article_engagement", { _post_id: post.id });
+      const row = Array.isArray(data) ? data[0] : data;
       return {
-        views: viewsRes.count || 0,
-        reads: readsRes.count || 0,
-        shares: sharesRes.count || 0,
-        reactions: reactionsRes.count || 0,
+        views: Number(row?.views ?? 0),
+        reads: Number(row?.reads ?? 0),
+        shares: Number(row?.shares ?? 0),
+        reactions: Number(row?.reactions ?? 0),
       };
     },
   });

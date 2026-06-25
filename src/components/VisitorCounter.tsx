@@ -24,22 +24,10 @@ const VisitorCounter = () => {
     };
 
     const fetchCounts = async () => {
-      // Total unique visitors
-      const { count: total } = await supabase
-        .from('site_visitors')
-        .select('id', { count: 'exact', head: true });
-      
-      setTotalCount(BASE_VISITORS + (total || 0));
-
-      // Online visitors (active in last 5 min)
-      const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
-      const { count: online } = await supabase
-        .from('site_visitors')
-        .select('id', { count: 'exact', head: true })
-        .eq('is_online', true)
-        .gte('last_active', fiveMinAgo);
-      
-      setOnlineCount(Math.max(1, online || 1));
+      const { data } = await supabase.rpc('get_visitor_counts');
+      const row = Array.isArray(data) ? data[0] : data;
+      setTotalCount(BASE_VISITORS + Number(row?.total_count ?? 0));
+      setOnlineCount(Math.max(1, Number(row?.online_count ?? 1)));
     };
 
     registerVisitor().then(fetchCounts);

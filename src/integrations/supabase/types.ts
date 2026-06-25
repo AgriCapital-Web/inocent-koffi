@@ -776,11 +776,27 @@ export type Database = {
       }
     }
     Functions: {
+      get_article_engagement: {
+        Args: { _post_id: string }
+        Returns: {
+          reactions: number
+          reads: number
+          shares: number
+          views: number
+        }[]
+      }
       get_post_by_short_code: {
         Args: { _num: number; _year_short: number }
         Returns: {
           id: string
           slug: string
+        }[]
+      }
+      get_visitor_counts: {
+        Args: never
+        Returns: {
+          online_count: number
+          total_count: number
         }[]
       }
       has_role: {
