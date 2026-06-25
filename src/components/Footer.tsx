@@ -21,7 +21,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: Facebook, href: "https://www.facebook.com/share/174mN1Fopy/", label: "Facebook" },
-    { icon: Linkedin, href: "https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=inocent-k-4a08b7159", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/inocent-k-4a08b7159/", label: "LinkedIn" },
   ];
 
   return (

@@ -115,14 +115,14 @@ const EcosystemShowcase = () => {
       eyebrow: "Écosystème",
       title: "L'univers Inocent KOFFI",
       desc:
-        "Un ensemble cohérent de plateformes et initiatives au service de l'agriculture, de l'entrepreneuriat et de la communauté en Afrique.",
+        "À l'intersection de l'entrepreneuriat, de l'agriculture et du numérique. J'accompagne la création et la structuration de projets à travers le développement de plateformes digitales, d'outils métiers et de solutions adaptées aux réalités africaines. Explorez une sélection de projets, plateformes et solutions conçus pour répondre à des besoins concrets d'entreprises, d'organisations et de porteurs de projets.",
       visit: "Visiter",
     },
     en: {
       eyebrow: "Ecosystem",
       title: "The Inocent KOFFI universe",
       desc:
-        "A coherent set of platforms and initiatives serving agriculture, entrepreneurship and community in Africa.",
+        "At the intersection of entrepreneurship, agriculture and digital. I support the creation and structuring of projects through digital platforms, business tools and solutions tailored to African realities. Explore a selection of projects, platforms and solutions designed to meet concrete needs of companies, organisations and project leaders.",
       visit: "Visit",
     },
   }[language === "fr" ? "fr" : "en"];
