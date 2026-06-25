@@ -86,7 +86,7 @@ const Contact = () => {
     {
       icon: Linkedin,
       label: "LinkedIn",
-      href: "https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=inocent-k-4a08b7159",
+      href: "https://www.linkedin.com/in/inocent-k-4a08b7159/",
       color: "hover:text-blue-700"
     }
   ];

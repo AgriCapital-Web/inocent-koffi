@@ -117,9 +117,11 @@ const Navbar = () => {
                 decoding="async"
               />
             </span>
-            <span className="hidden sm:flex flex-col leading-tight">
+            <span className="hidden sm:flex flex-col leading-tight max-w-[260px] lg:max-w-[360px]">
               <span className="text-sm sm:text-base font-bold text-foreground tracking-tight">Inocent KOFFI</span>
-              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Visionnaire Africain</span>
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-muted-foreground truncate">
+                Vision Agro-Impact · Gérant AGRICAPITAL SARL
+              </span>
             </span>
           </Link>
 
