@@ -53,8 +53,8 @@ const Contact = () => {
     {
       icon: Mail,
       label: "Email",
-      value: "Inocent.koffi@agricapital.ci",
-      href: "mailto:Inocent.koffi@agricapital.ci"
+      value: "inocent.koffi@agricapital.ci",
+      href: "mailto:inocent.koffi@agricapital.ci"
     },
     {
       icon: Phone,

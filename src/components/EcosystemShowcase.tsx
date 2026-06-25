@@ -158,7 +158,7 @@ const EcosystemShowcase = () => {
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3">
             {labels.title}
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground">{labels.desc}</p>
+          <p className="text-sm sm:text-base text-muted-foreground text-justify hyphens-auto">{labels.desc}</p>
         </div>
 
         <div
