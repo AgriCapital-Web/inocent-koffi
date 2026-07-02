@@ -15,7 +15,7 @@ const AdminSEO = () => {
   const [saving, setSaving] = useState(false);
 
   const [seoData, setSeoData] = useState({
-    site_title: "Inocent KOFFI - Fondateur AGRICAPITAL | Consultant Agricole",
+    site_title: "Inocent KOFFI - Gérant AGRICAPITAL | Consultant Agricole",
     meta_description: "Inocent KOFFI, Gérant d'AGRICAPITAL SARL. Vision Agro-Impact — Transformation Agricole pour une Afrique Prospère.",
     keywords: "Inocent KOFFI, AGRICAPITAL, agriculture Côte d'Ivoire",
     og_image: "https://ikoffi.agricapital.ci/og-image-profile.png",

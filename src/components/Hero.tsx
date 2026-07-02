@@ -23,26 +23,26 @@ const Hero = () => {
       discover: "Découvrir AGRICAPITAL"
     },
     en: {
-      founder: "Founder — AGRICAPITAL SARL",
+      founder: "Managing Director — AGRICAPITAL SARL",
       role: "Agro-Entrepreneur & Agricultural Strategist",
       tagline: "Building lasting agricultural wealth — land by land, generation after generation.",
-      description: "Agro-entrepreneur and agricultural development strategist. Founder of AGRICAPITAL SARL — an agricultural operator and promoter specialized in turnkey oil palm plantations in Côte d'Ivoire. 12+ years of field immersion serving agriculture and innovation.",
+      description: "Agro-entrepreneur and agricultural development strategist. Managing Director of AGRICAPITAL SARL — an agricultural operator and promoter specialized in turnkey oil palm plantations in Côte d'Ivoire. 12+ years of field immersion serving agriculture and innovation.",
       contact: "Contact Me",
       discover: "Discover AGRICAPITAL"
     },
     es: {
-      founder: "Fundador — AGRICAPITAL SARL",
+      founder: "Gerente — AGRICAPITAL SARL",
       role: "Agroemprendedor y Estratega Agrícola",
       tagline: "Construir un patrimonio agrícola duradero, tierra a tierra, generación tras generación.",
-      description: "Agroemprendedor y estratega en desarrollo agrícola. Fundador de AGRICAPITAL SARL, operador y promotor agrícola especializado en la creación de plantaciones de palma aceitera llave en mano en Costa de Marfil. Más de 12 años de inmersión sobre el terreno al servicio de la agricultura y la innovación.",
+      description: "Agroemprendedor y estratega en desarrollo agrícola. Gerente de AGRICAPITAL SARL, operador y promotor agrícola especializado en la creación de plantaciones de palma aceitera llave en mano en Costa de Marfil. Más de 12 años de inmersión sobre el terreno al servicio de la agricultura y la innovación.",
       contact: "Contactarme",
       discover: "Descubrir AGRICAPITAL"
     },
     de: {
-      founder: "Gründer — AGRICAPITAL SARL",
+      founder: "Geschäftsführer — AGRICAPITAL SARL",
       role: "Agro-Unternehmer & Agrarstratege",
       tagline: "Nachhaltiges landwirtschaftliches Vermögen aufbauen — Land für Land, Generation für Generation.",
-      description: "Agro-Unternehmer und Stratege für landwirtschaftliche Entwicklung. Gründer von AGRICAPITAL SARL — landwirtschaftlicher Betreiber und Projektentwickler, spezialisiert auf schlüsselfertige Ölpalmenplantagen in Côte d'Ivoire. Mehr als 12 Jahre Praxiserfahrung im Dienst von Landwirtschaft und Innovation.",
+      description: "Agro-Unternehmer und Stratege für landwirtschaftliche Entwicklung. Geschäftsführer von AGRICAPITAL SARL — landwirtschaftlicher Betreiber und Projektentwickler, spezialisiert auf schlüsselfertige Ölpalmenplantagen in Côte d'Ivoire. Mehr als 12 Jahre Praxiserfahrung im Dienst von Landwirtschaft und Innovation.",
       contact: "Kontaktieren",
       discover: "AGRICAPITAL entdecken"
     },
@@ -113,7 +113,7 @@ const Hero = () => {
                   src={profilePhoto}
                   srcSet={`${profilePhotoSm} 320w, ${profilePhoto} 600w`}
                   sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 448px"
-                  alt="Inocent KOFFI - Fondateur AGRICAPITAL SARL"
+                  alt="Inocent KOFFI - Gérant AGRICAPITAL SARL"
                   className="w-full h-auto max-w-[280px] sm:max-w-[350px] lg:max-w-md object-cover"
                   loading="eager"
                   fetchPriority="high"

@@ -240,7 +240,7 @@ const SearchResults = () => {
         <div class="signature">
           <strong>Inocent KOFFI</strong> — Innovation & Consultation<br/>
           <a href="https://ikoffi.agricapital.ci">ikoffi.agricapital.ci</a><br/>
-          <span>Fondateur AGRICAPITAL SARL | Développeur Web & Praticien IA</span>
+          <span>Gérant AGRICAPITAL SARL | Développeur Web & Praticien IA</span>
         </div>
       </body>
       </html>
@@ -414,7 +414,7 @@ const SearchResults = () => {
                 ikoffi.agricapital.ci
               </a>
               <p className="text-[10px] text-muted-foreground/30 mt-1">
-                Fondateur AGRICAPITAL SARL | Développeur Web & Praticien IA
+                Gérant AGRICAPITAL SARL | Développeur Web & Praticien IA
               </p>
             </div>
           </div>

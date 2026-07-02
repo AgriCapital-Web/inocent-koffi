@@ -14,7 +14,7 @@ export interface WhatsAppShareInput {
   locale?: string;
 }
 
-export const DEFAULT_SIGNATURE = "— Inocent KOFFI | Fondateur AGRICAPITAL SARL";
+export const DEFAULT_SIGNATURE = "— Inocent KOFFI | Gérant AGRICAPITAL SARL";
 
 /**
  * Auto-detect the dominant language/script of a text so we can pick the right
