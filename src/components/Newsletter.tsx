@@ -42,7 +42,13 @@ const Newsletter = () => {
     try {
       const { error } = await supabase
         .from('newsletter_subscribers')
-        .insert({ email, first_name: firstName, last_name: lastName });
+        .insert({
+          email: email.toLowerCase(),
+          first_name: firstName,
+          last_name: lastName,
+          status: 'confirmed',
+          confirmed_at: new Date().toISOString(),
+        });
 
       if (error) {
         if (error.code === '23505') {
