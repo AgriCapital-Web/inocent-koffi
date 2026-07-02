@@ -20,7 +20,7 @@ const About = () => {
     },
     en: {
       title: "About",
-      intro1: "Founder — AGRICAPITAL SARL",
+      intro1: "Managing Director — AGRICAPITAL SARL",
       intro2: "Agro-entrepreneur and agricultural development strategist",
       intro3: "Inocent KOFFI has over 12 years of field immersion in Côte d'Ivoire. This deep knowledge of the territory, agricultural realities and land potential is a major strategic asset for AgriCapital.",
       intro4: "AgriCapital is an agricultural operator and promoter that designs and deploys turnkey oil palm plantations, enabling individuals and businesses to access productive agriculture while being relieved of technical, land and organizational constraints.",
@@ -29,7 +29,7 @@ const About = () => {
     },
     es: {
       title: "Acerca de",
-      intro1: "Fundador — AGRICAPITAL SARL",
+      intro1: "Gerente — AGRICAPITAL SARL",
       intro2: "Agroemprendedor y estratega en desarrollo agrícola",
       intro3: "Inocent KOFFI acumula más de 12 años de inmersión de campo en Costa de Marfil. Este conocimiento profundo del territorio, de la realidad agrícola y del potencial de la tierra es una ventaja estratégica clave para AgriCapital.",
       intro4: "AgriCapital es un operador y promotor agrícola que diseña e implementa plantaciones de palma aceitera llave en mano, permitiendo a particulares y profesionales acceder a una agricultura productiva sin soportar las limitaciones técnicas, territoriales y organizativas.",
@@ -38,7 +38,7 @@ const About = () => {
     },
     de: {
       title: "Über uns",
-      intro1: "Gründer — AGRICAPITAL SARL",
+      intro1: "Geschäftsführer — AGRICAPITAL SARL",
       intro2: "Agro-Unternehmer und Stratege für landwirtschaftliche Entwicklung",
       intro3: "Inocent KOFFI verfügt über mehr als 12 Jahre Praxiserfahrung in Côte d'Ivoire. Dieses tiefe Wissen über Territorium, landwirtschaftliche Realitäten und Landpotenziale ist ein entscheidender strategischer Vorteil für AgriCapital.",
       intro4: "AgriCapital ist ein landwirtschaftlicher Betreiber und Projektentwickler, der schlüsselfertige Ölpalmenplantagen konzipiert und umsetzt. So erhalten Privatpersonen und Unternehmen Zugang zu produktiver Landwirtschaft, ohne technische, landbezogene und organisatorische Lasten zu tragen.",

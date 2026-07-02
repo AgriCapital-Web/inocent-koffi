@@ -109,7 +109,7 @@ Format de réponse en JSON:
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-lite",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Recherche approfondie, honnête et vérifiée sur : "${query}". IMPORTANT : Si cette question n'est PAS liée à l'agriculture, refuse catégoriquement.` },

@@ -67,6 +67,14 @@ const SITES: Site[] = [
     image: "/images/showcase/agricapital.png",
   },
   {
+    name: "ONPHACI",
+    tag: "Plateforme",
+    description:
+      "Plateforme dédiée à l'Organisation Nationale des Producteurs — écosystème Ivoireprojet.",
+    url: "https://onphaci.ivoireprojet.com",
+    image: "/images/showcase/ivoireprojet.png",
+  },
+  {
     name: "ASSOJEREB",
     tag: "Communauté",
     description:
