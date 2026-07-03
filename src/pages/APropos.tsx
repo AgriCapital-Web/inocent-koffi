@@ -8,7 +8,7 @@ const APropos = () => {
     <>
       <Helmet>
         <title>À Propos - Inocent KOFFI | Gérant AGRICAPITAL SARL</title>
-        <meta name="description" content="Découvrez le parcours d'Inocent KOFFI, fondateur d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole en Côte d'Ivoire." />
+        <meta name="description" content="Découvrez le parcours d'Inocent KOFFI, Gérant d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole en Côte d'Ivoire." />
         <link rel="canonical" href="https://www.ikoffi.agricapital.ci/a-propos" />
       </Helmet>
       <div className="min-h-screen">
@@ -62,16 +62,16 @@ const APropos = () => {
 
                     <div className="flex flex-wrap gap-3 sm:gap-4 pt-4">
                       <a 
-                        href="tel:+2250564551717" 
+                        href="tel:+2250759566087" 
                         className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm sm:text-base"
                       >
-                        <span className="font-medium">05 64 55 17 17</span>
+                        <span className="font-medium">+225 07 59 56 60 87</span>
                       </a>
                       <a 
-                        href="mailto:contact@agricapital.ci" 
+                        href="mailto:inocent.koffi@agricapital.ci" 
                         className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent-foreground rounded-lg hover:bg-accent/20 transition-colors text-sm sm:text-base"
                       >
-                        <span className="font-medium">contact@agricapital.ci</span>
+                        <span className="font-medium">inocent.koffi@agricapital.ci</span>
                       </a>
                     </div>
                   </div>

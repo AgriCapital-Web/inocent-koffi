@@ -7,8 +7,10 @@ import { Mail, Phone, MapPin, Globe, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 
 const contactInfo = [
-  { icon: Mail, label: "Email", value: "Inocent.koffi@agricapital.ci", href: "mailto:Inocent.koffi@agricapital.ci" },
-  { icon: Phone, label: "Téléphone", value: "07 59 56 60 87", href: "tel:+2250759566087" },
+  { icon: Mail, label: "Email pro", value: "inocent.koffi@agricapital.ci", href: "mailto:inocent.koffi@agricapital.ci" },
+  { icon: Mail, label: "Email perso", value: "innocentkoffi1@gmail.com", href: "mailto:innocentkoffi1@gmail.com" },
+  { icon: Mail, label: "Email projet", value: "inocent.koffi@ivoireprojet.com", href: "mailto:inocent.koffi@ivoireprojet.com" },
+  { icon: Phone, label: "Téléphone / WhatsApp", value: "+225 07 59 56 60 87", href: "tel:+2250759566087" },
   { icon: MapPin, label: "Adresse", value: "Daloa, Haut-Sassandra, Côte d'Ivoire", href: null },
   { icon: Globe, label: "Site Web", value: "www.agricapital.ci", href: "https://www.agricapital.ci" },
 ];
@@ -17,8 +19,8 @@ const Contact = () => {
   return (
     <>
       <Helmet>
-        <title>Contact - Inocent KOFFI | AGRICAPITAL SARL</title>
-        <meta name="description" content="Contactez Inocent KOFFI, fondateur d'AGRICAPITAL SARL. Daloa, Côte d'Ivoire. Email, téléphone et formulaire de contact." />
+        <title>Contact - Inocent KOFFI | Gérant AGRICAPITAL SARL</title>
+        <meta name="description" content="Contactez Inocent KOFFI, Gérant d'AGRICAPITAL SARL. Daloa, Côte d'Ivoire. Email, téléphone et formulaire de contact." />
         <link rel="canonical" href="https://www.ikoffi.agricapital.ci/contact" />
       </Helmet>
       <div className="min-h-screen">
