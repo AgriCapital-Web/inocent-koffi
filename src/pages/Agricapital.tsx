@@ -46,11 +46,11 @@ const Agricapital = () => {
         <meta property="og:title" content="AGRICAPITAL SARL — Plantations de palmier à huile clé en main" />
         <meta property="og:description" content="Opérateur agricole intégré en Côte d'Ivoire : sécurisation foncière, plantations clé en main, gestion et garantie d'écoulement sur 25 ans." />
         <meta property="og:url" content="https://www.ikoffi.agricapital.ci/agricapital" />
-        <meta property="og:image" content="https://www.ikoffi.agricapital.ci/images/founder-inocent-koffi.jpg" />
+        <meta property="og:image" content="https://ikoffi.agricapital.ci/og-image-profile.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="AGRICAPITAL SARL — Plantations de palmier à huile clé en main" />
         <meta name="twitter:description" content="Opérateur agricole intégré en Côte d'Ivoire : sécurisation foncière, plantations clé en main, gestion et garantie d'écoulement." />
-        <meta name="twitter:image" content="https://www.ikoffi.agricapital.ci/images/founder-inocent-koffi.jpg" />
+        <meta name="twitter:image" content="https://ikoffi.agricapital.ci/og-image-profile.png" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
