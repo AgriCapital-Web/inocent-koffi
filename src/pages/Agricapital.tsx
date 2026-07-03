@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NurserySection from "@/components/NurserySection";
+import AgriCapitalTreasures from "@/components/AgriCapitalTreasures";
 import AgriCapitalEcosystem from "@/components/AgriCapitalEcosystem";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
@@ -271,6 +272,7 @@ const Agricapital = () => {
             </div>
           </section>
 
+          <AgriCapitalTreasures />
           <NurserySection />
 
           <AgriCapitalEcosystem />
