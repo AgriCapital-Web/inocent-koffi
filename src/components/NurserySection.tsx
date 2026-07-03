@@ -4,25 +4,25 @@ import { Sprout, Calendar, TrendingUp, Target, Check } from "lucide-react";
 const NurserySection = () => {
   const milestones = [
     {
-      date: "Janvier 2025",
+      date: "Décembre 2025",
       title: "Lancement de la Pépinière",
       description: "Démarrage de la production de plants certifiés de palmier à huile",
       status: "completed"
     },
     {
-      date: "Février - Mars 2025",
+      date: "Février - Mars 2026",
       title: "Phase de Germination",
       description: "Suivi intensif des germinations et préparation des substrats",
       status: "in_progress"
     },
     {
-      date: "Avril - Juin 2025",
+      date: "Avril - Juillet 2026",
       title: "Croissance Pré-Pépinière",
       description: "Développement des plants en pré-pépinière avec irrigation contrôlée",
       status: "upcoming"
     },
     {
-      date: "Juillet - Décembre 2025",
+      date: "Août - Décembre 2026",
       title: "Maturation en Pépinière",
       description: "Plants prêts pour la mise en terre avec 12-14 feuilles développées",
       status: "upcoming"
@@ -30,9 +30,9 @@ const NurserySection = () => {
   ];
 
   const stats = [
-    { icon: Sprout, value: "10,000+", label: "Plants en Production" },
+    { icon: Sprout, value: "88 660+", label: "Plants en Production" },
     { icon: Target, value: "500 ha", label: "Surface Cible" },
-    { icon: TrendingUp, value: "250+", label: "Producteurs Accompagnés" }
+    { icon: TrendingUp, value: "Haut-Sassandra", label: "Zone de déploiement" }
   ];
 
   return (

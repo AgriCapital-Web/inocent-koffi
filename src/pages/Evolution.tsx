@@ -72,7 +72,7 @@ const Evolution = () => {
   ];
 
   const stats = [
-    { icon: Sprout, value: "10,000+", label: "Plants en Production" },
+    { icon: Sprout, value: "88 660+", label: "Plants en Production" },
     { icon: Target, value: "100+ ha", label: "Site de Pépinière" },
     { icon: Users, value: "250+", label: "Producteurs Accompagnés" },
     { icon: MapPin, value: "30+", label: "Villages Engagés" }

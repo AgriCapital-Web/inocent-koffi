@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Smartphone, Users } from "lucide-react";
+import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Smartphone, Users, Sprout, Sparkles, Building2, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -73,6 +73,52 @@ const projects = [
     category: "Fintech",
     icon: Smartphone,
     color: "from-amber-600 to-orange-700",
+  },
+  {
+    name: "AGRICAPITAL (Site officiel)",
+    url: "https://www.agricapital.ci",
+    description: "Site officiel AGRICAPITAL — opérateur & promoteur agricole : plantations de palmier à huile clé en main, valorisation foncière et gestion.",
+    tech: ["React", "TypeScript", "SEO", "Multilingue"],
+    category: "Agriculture",
+    icon: Sprout,
+    screenshot: "/images/showcase/agricapital.png",
+    color: "from-green-700 to-emerald-900",
+  },
+  {
+    name: "Portail Client AgriCapital",
+    url: "https://client.agricapital.ci",
+    description: "Portail de suivi des plantations, paiements, documents, rapports et communications avec AgriCapital.",
+    tech: ["React", "Supabase", "Espace client"],
+    category: "Portail Client",
+    icon: Smartphone,
+    color: "from-amber-600 to-orange-700",
+  },
+  {
+    name: "MIPROJET+",
+    url: "https://miprojetplus.ivoireprojet.com",
+    description: "Plateforme premium d'accompagnement, structuration et suivi avancé de projets — écosystème Ivoireprojet.",
+    tech: ["React", "Supabase", "ISO 21500"],
+    category: "Incubation",
+    icon: Rocket,
+    color: "from-emerald-700 to-emerald-900",
+  },
+  {
+    name: "ONPHACI",
+    url: "https://onphaci.ivoireprojet.com",
+    description: "Organisation Nationale des Producteurs — plateforme dédiée à l'écosystème agricole ivoirien.",
+    tech: ["React", "Supabase", "Gestion associative"],
+    category: "Plateforme",
+    icon: Building2,
+    color: "from-lime-700 to-green-800",
+  },
+  {
+    name: "ANZRBO",
+    url: "https://anzrbo.vercel.app",
+    description: "Plateforme digitale — solution dédiée aux besoins métiers en Afrique.",
+    tech: ["React", "Vercel", "SaaS"],
+    category: "Plateforme",
+    icon: Sparkles,
+    color: "from-fuchsia-700 to-purple-900",
   },
 ];
 
