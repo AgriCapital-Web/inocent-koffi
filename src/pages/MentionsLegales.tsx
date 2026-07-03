@@ -26,8 +26,8 @@ const MentionsLegales = () => {
                     Capital social : 5 000 000 FCFA<br />
                     Siège social : Daloa, Haut-Sassandra, Côte d'Ivoire<br />
                     RCCM : CI-01-DAL-2025-B12-13435<br />
-                    Email : Inocent.koffi@agricapital.ci<br />
-                    Téléphone : 07 59 56 60 87
+                    Email : inocent.koffi@agricapital.ci · innocentkoffi1@gmail.com · inocent.koffi@ivoireprojet.com<br />
+                    Téléphone / WhatsApp : +225 07 59 56 60 87
                   </p>
                 </section>
 
@@ -49,7 +49,7 @@ const MentionsLegales = () => {
                 <section className="mb-8">
                   <h2 className="text-2xl font-bold mb-4 text-foreground">Protection des données personnelles</h2>
                   <p className="text-muted-foreground">
-                    Les informations recueillies via les formulaires de contact, de témoignage et de partenariat sont destinées exclusivement à AGRICAPITAL SARL. Elles ne sont en aucun cas cédées à des tiers. Conformément à la réglementation en vigueur, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Pour exercer ce droit, veuillez nous contacter à l'adresse : Inocent.koffi@agricapital.ci
+                    Les informations recueillies via les formulaires de contact, de témoignage et de partenariat sont destinées exclusivement à AGRICAPITAL SARL. Elles ne sont en aucun cas cédées à des tiers. Conformément à la réglementation en vigueur, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Pour exercer ce droit, veuillez nous contacter à l'adresse : inocent.koffi@agricapital.ci
                   </p>
                 </section>
 
@@ -64,8 +64,8 @@ const MentionsLegales = () => {
                   <h2 className="text-2xl font-bold mb-4 text-foreground">Contact</h2>
                   <p className="text-muted-foreground">
                     Pour toute question relative aux présentes mentions légales, vous pouvez nous contacter :<br />
-                    Email : Inocent.koffi@agricapital.ci<br />
-                    Téléphone : 07 59 56 60 87
+                    Email : inocent.koffi@agricapital.ci · innocentkoffi1@gmail.com · inocent.koffi@ivoireprojet.com<br />
+                    Téléphone / WhatsApp : +225 07 59 56 60 87
                   </p>
                 </section>
               </div>

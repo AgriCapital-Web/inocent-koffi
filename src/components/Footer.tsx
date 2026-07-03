@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Linkedin, Mail, MapPin, Phone, ExternalLink } from "lucide-react";
+import { Facebook, Linkedin, Mail, MapPin, Phone, ExternalLink, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import logoAgricapital from "@/assets/logo-agricapital.png";
 
@@ -38,7 +38,7 @@ const Footer = () => {
           >
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Inocent KOFFI</h3>
             <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
-              Gérant d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole. Bâtisseur de patrimoine agricole durable en Côte d'Ivoire.
+              Gérant d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole. Promoteur d'actifs agricoles durables et de solutions d'investissement agricole.
             </p>
             <div className="flex gap-3 sm:gap-4 pt-2">
               {socialLinks.map((social, index) => {
@@ -122,14 +122,26 @@ const Footer = () => {
             <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm opacity-90">
               <div className="flex items-start gap-2 sm:gap-3">
                 <Mail className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" />
-                <a href="mailto:contact@agricapital.ci" className="hover:opacity-100 transition-opacity break-all">
-                  contact@agricapital.ci
+                <a href="mailto:inocent.koffi@agricapital.ci" className="hover:opacity-100 transition-opacity break-all">
+                  inocent.koffi@agricapital.ci
+                </a>
+              </div>
+              <div className="flex items-start gap-2 sm:gap-3">
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" />
+                <a href="mailto:innocentkoffi1@gmail.com" className="hover:opacity-100 transition-opacity break-all">
+                  innocentkoffi1@gmail.com
+                </a>
+              </div>
+              <div className="flex items-start gap-2 sm:gap-3">
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" />
+                <a href="mailto:inocent.koffi@ivoireprojet.com" className="hover:opacity-100 transition-opacity break-all">
+                  inocent.koffi@ivoireprojet.com
                 </a>
               </div>
               <div className="flex items-start gap-2 sm:gap-3">
                 <Phone className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" />
-                <a href="tel:+2250564551717" className="hover:opacity-100 transition-opacity">
-                  +225 05 64 55 17 17
+                <a href="tel:+2250759566087" className="hover:opacity-100 transition-opacity">
+                  +225 07 59 56 60 87
                 </a>
               </div>
               <div className="flex items-start gap-2 sm:gap-3">

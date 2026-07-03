@@ -59,7 +59,7 @@ const AgriCapitalEcosystem = () => {
                   </a>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <a href="https://wa.me/2250564551717" target="_blank" rel="noopener noreferrer">
+                  <a href="https://app.agricapital.ci/leads/public" target="_blank" rel="noopener noreferrer">
                     Parler à un conseiller
                   </a>
                 </Button>

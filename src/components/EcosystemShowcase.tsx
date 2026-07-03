@@ -35,6 +35,14 @@ const SITES: Site[] = [
     image: "/images/showcase/app-agricapital.png",
   },
   {
+    name: "Portail Client AgriCapital",
+    tag: "Portail Client",
+    description:
+      "Portail de suivi des plantations, paiements, documents, rapports et communications avec AgriCapital.",
+    url: "https://client.agricapital.ci",
+    image: "/images/showcase/app-agricapital.png",
+  },
+  {
     name: "Legal Form",
     tag: "Juridique",
     description:
