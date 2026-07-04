@@ -5,6 +5,17 @@ import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Sma
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+// Live preview URL builder — refresh every 60s, force French for agricapital
+const buildLivePreview = (rawUrl: string, tick: number) => {
+  const isAgricapital = /agricapital\.ci/i.test(rawUrl);
+  const target = isAgricapital
+    ? rawUrl + (rawUrl.includes("?") ? "&" : "?") + "lang=fr&hl=fr"
+    : rawUrl;
+  // refresh/60 = re-capture at most every 60s; `v=tick` busts browser cache each minute
+  return `https://image.thum.io/get/width/800/crop/500/noanimate/refresh/60/${target}#v=${tick}`;
+};
 
 const projects = [
   {
