@@ -5,6 +5,17 @@ import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Sma
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+// Live preview URL builder — refresh every 60s, force French for agricapital
+const buildLivePreview = (rawUrl: string, tick: number) => {
+  const isAgricapital = /agricapital\.ci/i.test(rawUrl);
+  const target = isAgricapital
+    ? rawUrl + (rawUrl.includes("?") ? "&" : "?") + "lang=fr&hl=fr"
+    : rawUrl;
+  // refresh/60 = re-capture at most every 60s; `v=tick` busts browser cache each minute
+  return `https://image.thum.io/get/width/800/crop/500/noanimate/refresh/60/${target}#v=${tick}`;
+};
 
 const projects = [
   {
@@ -141,6 +152,15 @@ const itemVariants = {
 };
 
 const Portfolio = () => {
+  // Bumps every 60s to force fresh thum.io captures in the background
+  const [previewTick, setPreviewTick] = useState(() => Math.floor(Date.now() / 60000));
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPreviewTick(Math.floor(Date.now() / 60000));
+    }, 60000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -232,7 +252,8 @@ const Portfolio = () => {
                     ) : project.url ? (
                       <div className="relative h-40 sm:h-48 overflow-hidden bg-muted">
                         <img
-                          src={`https://image.thum.io/get/width/800/crop/500/noanimate/refresh/86400/${project.url}`}
+                          key={previewTick}
+                          src={buildLivePreview(project.url, previewTick)}
                           alt={`${project.name} - Aperçu en direct`}
                           className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
                           loading="lazy"
