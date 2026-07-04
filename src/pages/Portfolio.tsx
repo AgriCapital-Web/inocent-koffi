@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Smartphone, Users, Sprout, Sparkles, Building2, Rocket } from "lucide-react";
+import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Smartphone, Users, Sprout, Sparkles, Building2, Rocket, CreditCard, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -67,14 +67,6 @@ const projects = [
     color: "from-indigo-700 to-purple-900",
   },
   {
-    name: "AGRICAPITAL Pay",
-    description: "Solution de paiement intégrée pour les opérations AGRICAPITAL. Transactions sécurisées et suivi financier.",
-    tech: ["React", "KkiaPay", "Supabase", "Fintech"],
-    category: "Fintech",
-    icon: Smartphone,
-    color: "from-amber-600 to-orange-700",
-  },
-  {
     name: "AGRICAPITAL (Site officiel)",
     url: "https://www.agricapital.ci",
     description: "Site officiel AGRICAPITAL — opérateur & promoteur agricole : plantations de palmier à huile clé en main, valorisation foncière et gestion.",
@@ -128,6 +120,8 @@ const services = [
   { icon: Brain, title: "Intégration IA", desc: "Chatbots, génération de contenu, automatisation intelligente" },
   { icon: BarChart3, title: "Dashboards & Analytics", desc: "Tableaux de bord, rapports, suivi en temps réel" },
   { icon: GraduationCap, title: "Formation & Accompagnement", desc: "Initiation et prise en main de vos plateformes" },
+  { icon: CreditCard, title: "Portail de Paiement Client", desc: "Espaces clients sécurisés : facturation, paiements Mobile Money, suivi financier et documents" },
+  { icon: Layers, title: "Projets Complexes & Multi-tenant", desc: "Dashboards avancés, architectures multi-tenant, RLS, rôles, workflows, API et intégrations sur mesure" },
 ];
 
 const techStack = [

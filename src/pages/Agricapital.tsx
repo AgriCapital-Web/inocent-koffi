@@ -291,7 +291,7 @@ const Agricapital = () => {
                   Leadership & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Écosystème</span>
                 </h2>
                 <p className="text-muted-foreground mb-10 max-w-2xl text-justify">
-                  AgriCapital est porté par une équipe fondatrice combinant expertise technique, expérience terrain et rigueur stratégique, soutenue par un réseau de partenaires experts.
+                  AgriCapital est porté par une équipe dirigeante combinant expertise technique, expérience terrain et rigueur stratégique, soutenue par un réseau de partenaires experts.
                 </p>
 
                 <h3 className="text-xl font-bold mb-6 text-foreground">Direction</h3>
