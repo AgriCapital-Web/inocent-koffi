@@ -252,7 +252,8 @@ const Portfolio = () => {
                     ) : project.url ? (
                       <div className="relative h-40 sm:h-48 overflow-hidden bg-muted">
                         <img
-                          src={`https://image.thum.io/get/width/800/crop/500/noanimate/refresh/86400/${project.url}`}
+                          key={previewTick}
+                          src={buildLivePreview(project.url, previewTick)}
                           alt={`${project.name} - Aperçu en direct`}
                           className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
                           loading="lazy"
