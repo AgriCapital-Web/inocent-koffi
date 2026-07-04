@@ -152,6 +152,15 @@ const itemVariants = {
 };
 
 const Portfolio = () => {
+  // Bumps every 60s to force fresh thum.io captures in the background
+  const [previewTick, setPreviewTick] = useState(() => Math.floor(Date.now() / 60000));
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPreviewTick(Math.floor(Date.now() / 60000));
+    }, 60000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <>
       <Helmet>
