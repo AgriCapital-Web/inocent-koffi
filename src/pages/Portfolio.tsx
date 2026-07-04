@@ -229,6 +229,24 @@ const Portfolio = () => {
                           </span>
                         </div>
                       </div>
+                    ) : project.url ? (
+                      <div className="relative h-40 sm:h-48 overflow-hidden bg-muted">
+                        <img
+                          src={`https://image.thum.io/get/width/800/crop/500/noanimate/refresh/86400/${project.url}`}
+                          alt={`${project.name} - Aperçu en direct`}
+                          className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                          loading="lazy"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent pointer-events-none" />
+                        <div className="absolute top-3 right-3">
+                          <span className="px-3 py-1 bg-background/90 backdrop-blur-sm text-xs font-semibold text-accent rounded-full border border-border/50">
+                            {project.category}
+                          </span>
+                        </div>
+                      </div>
                     ) : (
                       <div className={`relative h-40 sm:h-48 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
                         <Icon className="w-16 h-16 text-white/30" />
