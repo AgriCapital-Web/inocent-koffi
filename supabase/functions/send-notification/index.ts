@@ -18,6 +18,34 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // --- Anti-abuse: only accept requests coming from allowed origins.
+    // This prevents anonymous callers from directly hitting the function
+    // URL to flood admin inboxes with fake submissions. The public forms
+    // in the app always send an Origin header via supabase.functions.invoke.
+    const ALLOWED_ORIGINS = [
+      "https://inocent-koffi.lovable.app",
+      "https://ikoffi.agricapital.ci",
+      "https://agricapital.ci",
+      "https://www.agricapital.ci",
+    ];
+    const ALLOWED_ORIGIN_SUFFIXES = [".lovable.app", ".lovable.dev", ".agricapital.ci"];
+    const origin = req.headers.get("origin") || "";
+    const referer = req.headers.get("referer") || "";
+    const source = origin || (() => { try { return new URL(referer).origin; } catch { return ""; } })();
+    const isAllowed = source && (
+      ALLOWED_ORIGINS.includes(source) ||
+      ALLOWED_ORIGIN_SUFFIXES.some((s) => {
+        try { return new URL(source).hostname.endsWith(s); } catch { return false; }
+      })
+    );
+    if (!isAllowed) {
+      console.warn("Rejected notification request from origin:", source || "<none>");
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
     const { type, data: rawData }: NotificationRequest = await req.json();
 
     // --- Input hardening: HTML-escape and enforce length limits so a
