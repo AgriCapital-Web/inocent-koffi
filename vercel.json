@@ -45,6 +45,6 @@
       ],
       "destination": "https://mlatmyzmjsouxjpjzshd.supabase.co/functions/v1/og-article?slug=:slug"
     },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!.*\\.[a-zA-Z0-9]+$).*)", "destination": "/index.html" }
   ]
 }
