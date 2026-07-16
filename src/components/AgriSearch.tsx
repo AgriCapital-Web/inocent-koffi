@@ -78,6 +78,7 @@ const AgriSearch = () => {
             type="submit" 
             size="sm" 
             disabled={isSearching || !query.trim()}
+            aria-label="Rechercher"
             className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-5 bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground"
           >
             {isSearching ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Rechercher</>}

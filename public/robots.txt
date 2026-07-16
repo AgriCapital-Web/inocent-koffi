@@ -39,7 +39,7 @@ Disallow: /admin
 Disallow: /login
 
 # Sitemap location
-Sitemap: https://ikoffi.agricapital.ci/sitemap.xml
+Sitemap: https://inocent-koffi.lovable.app/sitemap.xml
 
 # Host
-Host: https://ikoffi.agricapital.ci
+Host: https://inocent-koffi.lovable.app
