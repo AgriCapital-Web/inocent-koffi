@@ -116,8 +116,8 @@ const Navbar = () => {
               />
             </span>
             <span className="hidden sm:flex flex-col leading-tight max-w-[260px] lg:max-w-[360px]">
-              <span className="text-sm sm:text-base font-bold text-foreground tracking-tight">Inocent KOFFI</span>
-              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-muted-foreground truncate">
+              <span className="font-display text-base sm:text-lg font-bold text-foreground tracking-tight-1">Inocent KOFFI</span>
+              <span className="eyebrow text-muted-foreground truncate">
                 Vision Agro-Impact · Gérant AGRICAPITAL SARL
               </span>
             </span>

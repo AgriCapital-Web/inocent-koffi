@@ -303,11 +303,19 @@ CONTRAINTE DE LONGUEUR (STRICTE):
 
 STRUCTURE ATTENDUE (compacte):
 1. Accroche directe (1 paragraphe, 2-3 phrases)
-2. 2 à 3 sections <h2> maximum, titres courts et concrets
-3. Listes <ul> à puces courtes quand cela accélère la lecture
-4. Tableau UNIQUEMENT si comparaison réelle utile
-5. Conclusion brève (2-3 phrases) avec une idée actionnable
-6. Section "📌 Sources vérifiées" OBLIGATOIRE en dernier
+2. 2 à 3 sections <h2> (titres courts, orientés bénéfice/lecteur, 40-70 car., contenant idéalement un mot-clé)
+3. Sous-sections <h3> quand une <h2> couvre plusieurs angles (jamais de <h2> sans contenu)
+4. Listes <ul> à puces courtes quand cela accélère la lecture
+5. Tableau UNIQUEMENT si comparaison réelle utile
+6. Conclusion brève (2-3 phrases) avec une idée actionnable
+7. Section "📌 Sources vérifiées" OBLIGATOIRE en dernier
+
+SEO ON-PAGE (OBLIGATOIRE):
+- meta_title: 50-60 caractères, mot-clé principal au début, ton attractif, sans clickbait.
+- meta_description: 140-160 caractères, résume la promesse + bénéfice + différenciateur, verbe d'action.
+- focus_keyword: 2-4 mots exprimant l'intention de recherche principale.
+- slug: en minuscules, sans accents, mots séparés par des tirets, 3-7 mots.
+- Le mot-clé principal apparaît dans le <h1>/title, la 1ère <h2>, le 1er paragraphe et 1-2 fois dans le corps.
 
 RÈGLES FORTES:
 - Éviter le ton "promotion AGRICAPITAL".
@@ -325,6 +333,10 @@ Retourne UNIQUEMENT ce JSON valide:
 {
   "title": "TITRE PROFESSIONNEL",
   "tagline": "Phrase d'accroche",
+  "meta_title": "Titre SEO 50-60 car.",
+  "meta_description": "Description SEO 140-160 car.",
+  "focus_keyword": "mot-clé principal",
+  "slug": "slug-seo-optimise",
   "content": "<h2>...</h2><p>...</p>...<h2>📌 Sources vérifiées</h2><ul><li><a href='...'>Source</a> — ...</li></ul>",
   "excerpt": "Résumé en 2 phrases",
   "hashtags": ["tag1","tag2","tag3","tag4","tag5"],

@@ -13,6 +13,17 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ["Fraunces", "Instrument Serif", "ui-serif", "Georgia", "serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        serif: ["Fraunces", "Instrument Serif", "ui-serif", "Georgia", "serif"],
+      },
+      letterSpacing: {
+        "tighter-2": "-0.03em",
+        "tight-1": "-0.02em",
+        "wide-brand": "0.14em",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

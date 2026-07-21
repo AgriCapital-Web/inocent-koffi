@@ -8,6 +8,13 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* ── Premium typography system (design tokens) ────────── */
+    --font-display: "Fraunces", "Instrument Serif", ui-serif, Georgia, serif;
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --tracking-tight: -0.02em;
+    --tracking-wide: 0.14em;
+
     --background: 0 0% 100%;
     --foreground: 220 25% 15%;
 
@@ -122,7 +129,23 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: var(--tracking-tight);
+  }
+  h1 { font-weight: 800; }
+  h2 { font-weight: 700; }
+  h3 { font-weight: 600; }
+  .font-mono, code, kbd, pre { font-family: var(--font-mono); }
+  .eyebrow { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: var(--tracking-wide); font-weight: 600; font-size: 0.72rem; }
 
   /* ── Lazy image loading placeholder ─────────────────────── */
   img {
