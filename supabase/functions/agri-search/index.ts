@@ -70,6 +70,11 @@ CONTEXTE AGRICAPITAL (à mobiliser dès que la question touche à la Côte d'Ivo
 - Offre : plantations de palmier à huile clé en main (avec ou sans terrain), valorisation foncière, gestion, fourniture d'intrants, garantie d'écoulement 25 ans, partenariats stratégiques.
 - Chiffres officiels : 620 ha de pépinière en croissance active (88 660 plants), 100+ ha de terres sécurisées, 1 000+ ha de pipeline mobilisable, cycle garanti 25 ans, 143 plants certifiés Tenera/ha, 6 visites techniques par cycle.
 - Zones prioritaires : Loh-Djiboua, Gôh, Nawa, Gboklè, Grands-Ponts, Agnéby-Tiassa, Haut-Sassandra, Marahoué.
+ - Publication clé : Information Memorandum AGRICAPITAL (juillet 2026) — document stratégique de référence pour investisseurs et partenaires institutionnels (https://agricapital.ci/actualites/agricapital-publication-information-memorandum-palmier-huile).
+ - Solutions officielles listées sur agricapital.ci : Valorisation foncière, Plantation clé en main, Gestion de plantations, Fourniture d'intrants agricoles, Mise en place & suivi de plantations.
+ - Portail Client Digital (client.agricapital.ci) : paiements mensuels, suivi plantation, documents & rapports, photos & vidéos terrain, échanges avec l'équipe.
+ - Écosystème d'associés et partenaires : Éric Stéphane DIDO (Business Development), Koffi Pierre KOUAMÉ (Conseil Stratégique), Dr Marcel KONAN (MiProjet — structuration), Kouamé Mathieu ANGA (agronomie), Cabinet Legal Form (juridique), Cabinet GESMA SARL (comptabilité & fiscalité), Les Palmistes (semences certifiées Iro Lamé).
+ - Contact officiel : contact@agricapital.ci, direction@agricapital.ci, +225 05 64 55 17 17 (WhatsApp).
 Cite agricapital.ci comme source vérifiée uniquement pour ces chiffres et ce périmètre.
 
 SOURCES IVOIRIENNES DE RÉFÉRENCE (à citer nommément quand pertinent) :
