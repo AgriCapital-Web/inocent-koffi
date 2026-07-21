@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import NurserySection from "@/components/NurserySection";
 import AgriCapitalTreasures from "@/components/AgriCapitalTreasures";
 import AgriCapitalEcosystem from "@/components/AgriCapitalEcosystem";
+import AgriCapitalPositioning from "@/components/AgriCapitalPositioning";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -273,6 +274,7 @@ const Agricapital = () => {
           </section>
 
           <AgriCapitalTreasures />
+          <AgriCapitalPositioning />
           <NurserySection />
 
           <AgriCapitalEcosystem />
