@@ -36,7 +36,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Inocent KOFFI</h3>
+            <h3 className="font-display text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 tracking-tight-1">Inocent KOFFI</h3>
             <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
               Gérant d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole. Promoteur d'actifs agricoles durables et de solutions d'investissement agricole.
             </p>
@@ -69,7 +69,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Navigation</h3>
+            <h3 className="font-display text-lg sm:text-xl font-bold mb-3 sm:mb-4">Navigation</h3>
             <ul className="space-y-1.5 sm:space-y-2 grid grid-cols-2 sm:grid-cols-1 gap-x-4">
               {footerLinks.map((link, index) => (
                 <li key={index}>
@@ -118,7 +118,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Contact</h3>
+            <h3 className="font-display text-lg sm:text-xl font-bold mb-3 sm:mb-4">Contact</h3>
             <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm opacity-90">
               <div className="flex items-start gap-2 sm:gap-3">
                 <Mail className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" />

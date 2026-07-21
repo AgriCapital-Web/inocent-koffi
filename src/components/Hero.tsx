@@ -161,7 +161,7 @@ const Hero = () => {
             </motion.div>
             
             <motion.h1 
-              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-foreground tracking-tight leading-[1.05]"
+              className="font-display text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold text-foreground tracking-tighter-2 leading-[1.02]"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
@@ -178,7 +178,7 @@ const Hero = () => {
             </motion.h1>
 
             <motion.p
-              className="text-lg sm:text-xl lg:text-2xl font-serif italic text-foreground/85 leading-snug max-w-xl mx-auto lg:mx-0 border-l-2 border-accent pl-4"
+              className="font-display text-xl sm:text-2xl lg:text-[1.65rem] italic text-foreground/85 leading-snug max-w-xl mx-auto lg:mx-0 border-l-2 border-accent pl-4"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.55 }}
