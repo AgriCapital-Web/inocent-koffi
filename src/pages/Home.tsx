@@ -20,6 +20,7 @@ const TeamPreview = lazy(() => import("@/components/TeamPreview"));
 const ContactCTA = lazy(() => import("@/components/ContactCTA"));
 const EcosystemShowcase = lazy(() => import("@/components/EcosystemShowcase"));
 const DataRoom = lazy(() => import("@/components/DataRoom"));
+const TrustBlock = lazy(() => import("@/components/TrustBlock"));
 
 const LoadingFallback = () => (
   <div className="min-h-[200px] flex items-center justify-center">
@@ -125,6 +126,9 @@ const Home = () => {
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <EcosystemShowcase />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <TrustBlock />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <DataRoom />
