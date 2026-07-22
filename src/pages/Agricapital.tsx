@@ -4,6 +4,7 @@ import NurserySection from "@/components/NurserySection";
 import AgriCapitalTreasures from "@/components/AgriCapitalTreasures";
 import AgriCapitalEcosystem from "@/components/AgriCapitalEcosystem";
 import AgriCapitalPositioning from "@/components/AgriCapitalPositioning";
+import TrustBlock from "@/components/TrustBlock";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -278,6 +279,7 @@ const Agricapital = () => {
           <NurserySection />
 
           <AgriCapitalEcosystem />
+          <TrustBlock />
 
           {/* Team & Partners */}
           <section id="equipe" className="py-14 sm:py-16 bg-background scroll-mt-24">
