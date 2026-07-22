@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import TrustBlock from "@/components/TrustBlock";
 import Partnership from "@/components/Partnership";
 import { Helmet } from "react-helmet-async";
 import { Badge } from "@/components/ui/badge";
@@ -176,6 +177,7 @@ const Partenariat = () => {
               </div>
             </div>
           </section>
+          <TrustBlock />
         </main>
         <Footer />
       </div>

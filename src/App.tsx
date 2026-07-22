@@ -26,6 +26,7 @@ import SearchResults from "./pages/SearchResults";
 import ShortRedirect from "./pages/ShortRedirect";
 import OGReport from "./pages/OGReport";
 import NotFound from "./pages/NotFound";
+import FAQPage from "./pages/FAQ";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const routes = [
   { path: "/recherche", element: <SearchResults /> },
   { path: "/new/:code", element: <ShortRedirect /> },
   { path: "/og-report", element: <OGReport /> },
+  { path: "/faq", element: <FAQPage /> },
 ];
 
 const languageCodes = ["fr", "en", "es", "de", "zh", "ar"];
