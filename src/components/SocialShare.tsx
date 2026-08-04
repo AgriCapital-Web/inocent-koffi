@@ -8,7 +8,7 @@ interface SocialShareProps {
 }
 
 const SocialShare = ({ 
-  url = typeof window !== 'undefined' ? window.location.href : 'https://www.ikoffi.agricapital.ci',
+  url = typeof window !== 'undefined' ? window.location.href : 'https://ikoffi.agricapital.ci',
   title = "Inocent KOFFI - AGRICAPITAL SARL",
   description = "Transformation agricole et accompagnement intégré en Côte d'Ivoire",
   className = ""

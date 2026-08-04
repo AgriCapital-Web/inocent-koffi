@@ -34,7 +34,7 @@ const Vision = () => {
       <Helmet>
         <title>Notre Vision - AGRICAPITAL | Patrimoine Agricole Durable</title>
         <meta name="description" content="La vision d'AgriCapital : bâtir un patrimoine agricole durable pour chaque partie prenante. Permettre à chacun de devenir planteur de palmier à huile." />
-        <link rel="canonical" href="https://www.ikoffi.agricapital.ci/vision" />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/vision" />
       </Helmet>
       <div className="min-h-screen">
         <Navbar />

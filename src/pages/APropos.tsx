@@ -9,7 +9,7 @@ const APropos = () => {
       <Helmet>
         <title>À Propos - Inocent KOFFI | Gérant AGRICAPITAL SARL</title>
         <meta name="description" content="Découvrez le parcours d'Inocent KOFFI, Gérant d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole en Côte d'Ivoire." />
-        <link rel="canonical" href="https://www.ikoffi.agricapital.ci/a-propos" />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/a-propos" />
       </Helmet>
       <div className="min-h-screen">
         <Navbar />

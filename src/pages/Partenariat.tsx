@@ -58,7 +58,7 @@ const Partenariat = () => {
       <Helmet>
         <title>Partenariats — AgriCapital | Construisons une agriculture performante & durable</title>
         <meta name="description" content="AgriCapital recherche des partenaires financiers, techniques, commerciaux et institutionnels engagés dans le développement durable de l'agriculture en Côte d'Ivoire." />
-        <link rel="canonical" href="https://www.ikoffi.agricapital.ci/partenariat" />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/partenariat" />
       </Helmet>
       <div className="min-h-screen">
         <Navbar />
