@@ -63,6 +63,22 @@
     <meta name="bingbot" content="index, follow" />
     <link rel="canonical" href="https://ikoffi.agricapital.ci" />
     
+    <!-- Single-domain indexing guard: any alias/preview host is de-indexed -->
+    <script>
+      (function () {
+        try {
+          if (location.hostname !== 'ikoffi.agricapital.ci') {
+            var m = document.querySelector('meta[name="robots"]');
+            if (!m) { m = document.createElement('meta'); m.setAttribute('name', 'robots'); document.head.appendChild(m); }
+            m.setAttribute('content', 'noindex, nofollow');
+            ['googlebot', 'bingbot'].forEach(function (n) {
+              var e = document.querySelector('meta[name="' + n + '"]');
+              if (e) e.setAttribute('content', 'noindex, nofollow');
+            });
+          }
+        } catch (e) {}
+      })();
+    </script>
     <!-- Performance & Compatibility -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="theme-color" content="#1a3a52" />
