@@ -211,30 +211,18 @@ const handler = async (req: Request): Promise<Response> => {
         break;
 
       case "contact":
-        subject = `📧 Nouveau message de ${data.name}`.slice(0, 200);
-        htmlContent = `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <div style="background: linear-gradient(135deg, #1a3a52, #2d5a3d); padding: 30px; text-align: center;">
-              <h1 style="color: white; margin: 0;">AGRICAPITAL</h1>
-              <p style="color: #f5a623; margin: 10px 0 0;">Nouveau Message de Contact</p>
-            </div>
-            <div style="padding: 30px; background: #f9f9f9;">
-              <h2 style="color: #1a3a52;">Informations de contact</h2>
-              <table style="width: 100%; border-collapse: collapse;">
-                <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Nom:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${data.name}</td></tr>
-                <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${data.email}</td></tr>
-                <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Téléphone:</strong></td><td style="padding: 10px; border-bottom: 1px solid #ddd;">${data.phone || 'Non renseigné'}</td></tr>
-              </table>
-              <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
-                <strong>Message:</strong>
-                <p style="margin: 10px 0 0;">${data.message}</p>
-              </div>
-            </div>
-            <div style="background: #1a3a52; color: white; padding: 20px; text-align: center;">
-              <p style="margin: 0;">© ${new Date().getFullYear()} AGRICAPITAL SARL</p>
-            </div>
-          </div>
-        `;
+        subject = `📧 Nouveau message / New message — ${data.name}`.slice(0, 200);
+        htmlContent = shell(
+          "Nouveau message de contact / New contact message",
+          `Notification interne · Internal notification (${lang.toUpperCase()})`,
+          rows([
+            ["Nom / Name", data.name],
+            ["Email", data.email],
+            ["Téléphone / Phone", data.phone || ""],
+            ["Langue / Language", lang === "en" ? "English" : "Français"],
+            ["Reçu le / Received", new Date().toISOString()],
+          ]) + block("Message", data.message),
+        );
         break;
 
       case "newsletter":
