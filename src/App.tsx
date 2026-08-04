@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
 import { trackPageView } from "@/lib/analytics";
 import { OrganizationJsonLd } from "@/components/SeoJsonLd";
+import SeoAlternates from "@/components/SeoAlternates";
 import Home from "./pages/Home";
 import APropos from "./pages/APropos";
 import Vision from "./pages/Vision";
@@ -117,6 +118,7 @@ const App = () => (
         <BrowserRouter>
           <LanguageProvider>
             <OrganizationJsonLd />
+            <SeoAlternates />
             <ScrollToTop />
             <AppRoutes />
           </LanguageProvider>
