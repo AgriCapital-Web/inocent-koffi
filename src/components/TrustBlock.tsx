@@ -3,6 +3,7 @@ import { Shield, FileCheck, Users, Sprout, Award, TrendingUp, ArrowRight } from 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { trackCta } from "@/lib/analytics";
 
 const pillars = [
   { icon: FileCheck, title: "Cadre juridique solide", desc: "AGRICAPITAL SARL — RCCM Daloa, statuts déposés, gouvernance formalisée avec Legal Form et GESMA." },
