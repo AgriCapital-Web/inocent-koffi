@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { MessageCircle, Mail, Send, ArrowRight, ShieldCheck } from "lucide-react
 import { useLanguage } from "@/hooks/useLanguage";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { trackCta, trackEvent, trackLead } from "@/lib/analytics";
 
 const WHATSAPP_NUMBER = "2250759566087";
 const EMAIL_PRIMARY = "Inocent.koffi@agricapital.ci";
@@ -21,6 +22,8 @@ const ContactCTA = () => {
   const [contact, setContact] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const mountedAt = useRef<number>(Date.now());
 
   const t = {
     fr: {
@@ -62,6 +65,26 @@ const ContactCTA = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !contact.trim() || !message.trim()) return;
+    if (honeypot) {
+      trackEvent("form_spam_blocked", { form_name: "contact_cta", reason: "honeypot" });
+      setName(""); setContact(""); setMessage("");
+      return;
+    }
+    if (Date.now() - mountedAt.current < 3000) {
+      trackEvent("form_spam_blocked", { form_name: "contact_cta", reason: "time_trap" });
+      return;
+    }
+    if (message.trim().length < 20 || /(https?:\/\/|www\.)\S+/i.test(message)) {
+      toast({
+        title: language === "fr" ? "Message incomplet" : "Incomplete message",
+        description:
+          language === "fr"
+            ? "Merci de détailler votre demande (20 caractères minimum, sans lien)."
+            : "Please detail your request (20 characters minimum, no links).",
+        variant: "destructive",
+      });
+      return;
+    }
     setLoading(true);
     try {
       const isEmail = contact.includes("@");
@@ -72,9 +95,11 @@ const ContactCTA = () => {
         message: message.trim(),
       });
       if (error) throw error;
+      trackLead("contact_cta");
       toast({ title: t.sent });
       setName(""); setContact(""); setMessage("");
     } catch (err) {
+      trackEvent("form_error", { form_name: "contact_cta" });
       toast({ title: t.err, variant: "destructive" });
     } finally {
       setLoading(false);
@@ -128,7 +153,13 @@ const ContactCTA = () => {
                 size="lg"
                 className="bg-[#25D366] hover:bg-[#20bf5a] text-white shadow-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-primary focus-visible:ring-accent"
               >
-                <a href={waUrl} target="_blank" rel="noopener noreferrer" aria-label={t.whatsapp}>
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t.whatsapp}
+                  onClick={() => trackCta("whatsapp", "contact_cta")}
+                >
                   <MessageCircle className="w-5 h-5 mr-2" aria-hidden="true" />
                   {t.whatsapp}
                   <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" />
@@ -140,7 +171,7 @@ const ContactCTA = () => {
                 variant="outline"
                 className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
-                <a href={MAILTO} aria-label={t.email}>
+                <a href={MAILTO} aria-label={t.email} onClick={() => trackCta("email", "contact_cta")}>
                   <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
                   {t.email}
                 </a>
@@ -207,6 +238,18 @@ const ContactCTA = () => {
                 <Send className="w-4 h-4 mr-2" aria-hidden="true" />
                 {loading ? "…" : t.send}
               </Button>
+              {/* Anti-spam honeypot */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="cta-company-url">Company URL</label>
+                <input
+                  id="cta-company-url"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
             </div>
           </motion.form>
         </div>
