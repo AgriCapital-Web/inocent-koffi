@@ -62,10 +62,10 @@ const FAQPage = () => {
       <Helmet>
         <title>FAQ AgriCapital — Plantations palmier à huile clé en main | Inocent KOFFI</title>
         <meta name="description" content="Toutes les réponses sur AGRICAPITAL SARL : offre plantation clé en main, sécurisation foncière, rendements, garantie d'écoulement 25 ans, investissement et partenariat." />
-        <link rel="canonical" href="https://inocent-koffi.lovable.app/faq" />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/faq" />
         <meta property="og:title" content="FAQ AgriCapital — Questions fréquentes" />
         <meta property="og:description" content="Rendements, sécurisation foncière, garantie d'écoulement, investissement : toutes les réponses AgriCapital." />
-        <meta property="og:url" content="https://inocent-koffi.lovable.app/faq" />
+        <meta property="og:url" content="https://ikoffi.agricapital.ci/faq" />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
