@@ -7,6 +7,8 @@ import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/hooks/useLanguage";
 import { useEffect } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
+import { trackPageView } from "@/lib/analytics";
+import { OrganizationJsonLd } from "@/components/SeoJsonLd";
 import Home from "./pages/Home";
 import APropos from "./pages/APropos";
 import Vision from "./pages/Vision";
@@ -59,6 +61,11 @@ const AppRoutes = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // GA4 page views on client-side navigation
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location.pathname, location.search]);
+
   // Normalize URLs typed manually (case, double slashes, trailing slash)
   useEffect(() => {
     const raw = location.pathname;
@@ -109,6 +116,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <LanguageProvider>
+            <OrganizationJsonLd />
             <ScrollToTop />
             <AppRoutes />
           </LanguageProvider>

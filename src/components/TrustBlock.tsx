@@ -52,16 +52,25 @@ const TrustBlock = () => {
 
           <div className="flex flex-wrap gap-3 justify-center">
             <Button asChild size="lg" className="bg-gradient-to-r from-primary to-accent">
-              <Link to="/agricapital">Découvrir AgriCapital <ArrowRight className="ml-2 w-4 h-4" /></Link>
+              <Link to="/agricapital" onClick={() => trackCta("decouvrir_agricapital", "trust_block")}>
+                Découvrir AgriCapital <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/faq">Consulter la FAQ</Link>
+              <Link to="/faq" onClick={() => trackCta("faq", "trust_block")}>Consulter la FAQ</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <a href="https://client.agricapital.ci" target="_blank" rel="noopener noreferrer">Portail Client</a>
+              <a
+                href="https://client.agricapital.ci"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackCta("portail_client", "trust_block")}
+              >
+                Portail Client
+              </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/contact">Nous contacter</Link>
+              <Link to="/contact" onClick={() => trackCta("contact", "trust_block")}>Nous contacter</Link>
             </Button>
           </div>
         </div>
