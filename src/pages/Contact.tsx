@@ -21,7 +21,7 @@ const Contact = () => {
       <Helmet>
         <title>Contact - Inocent KOFFI | Gérant AGRICAPITAL SARL</title>
         <meta name="description" content="Contactez Inocent KOFFI, Gérant d'AGRICAPITAL SARL. Daloa, Côte d'Ivoire. Email, téléphone et formulaire de contact." />
-        <link rel="canonical" href="https://www.ikoffi.agricapital.ci/contact" />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/contact" />
       </Helmet>
       <div className="min-h-screen">
         <Navbar />

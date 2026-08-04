@@ -38,7 +38,7 @@ const Projets = () => {
       <Helmet>
         <title>Nos Actifs & Chiffres Clés — AgriCapital</title>
         <meta name="description" content="AgriCapital en chiffres : 620 ha de pépinière active, 100+ ha de terres sécurisées, pipeline foncier mobilisable jusqu'à ~10 000 ha et cycle productif garanti sur 25 ans." />
-        <link rel="canonical" href="https://www.ikoffi.agricapital.ci/projets" />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/projets" />
       </Helmet>
       <div className="min-h-screen">
         <Navbar />

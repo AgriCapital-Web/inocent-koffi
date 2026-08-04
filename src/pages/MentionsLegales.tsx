@@ -8,7 +8,7 @@ const MentionsLegales = () => {
       <Helmet>
         <title>Mentions Légales - Inocent KOFFI | AGRICAPITAL SARL</title>
         <meta name="description" content="Mentions légales du site ikoffi.agricapital.ci. Informations sur l'éditeur, l'hébergement et les conditions d'utilisation." />
-        <link rel="canonical" href="https://www.ikoffi.agricapital.ci/mentions-legales" />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/mentions-legales" />
       </Helmet>
       <div className="min-h-screen">
         <Navbar />

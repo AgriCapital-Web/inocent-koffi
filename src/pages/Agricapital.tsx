@@ -44,11 +44,11 @@ const Agricapital = () => {
       <Helmet>
         <title>AGRICAPITAL SARL - Opérateur & Promoteur Agricole | Palmier à Huile Clé en Main</title>
         <meta name="description" content="AGRICAPITAL SARL, opérateur et promoteur agricole. Créez votre plantation de palmier à huile clé en main en Côte d'Ivoire. Patrimoine durable et sécurisé." />
-        <link rel="canonical" href="https://www.ikoffi.agricapital.ci/agricapital" />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/agricapital" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="AGRICAPITAL SARL — Plantations de palmier à huile clé en main" />
         <meta property="og:description" content="Opérateur agricole intégré en Côte d'Ivoire : sécurisation foncière, plantations clé en main, gestion et garantie d'écoulement sur 25 ans." />
-        <meta property="og:url" content="https://www.ikoffi.agricapital.ci/agricapital" />
+        <meta property="og:url" content="https://ikoffi.agricapital.ci/agricapital" />
         <meta property="og:image" content="https://ikoffi.agricapital.ci/og-image-profile.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="AGRICAPITAL SARL — Plantations de palmier à huile clé en main" />
@@ -59,7 +59,7 @@ const Agricapital = () => {
           "@type": "Organization",
           name: "AGRICAPITAL SARL",
           url: "https://www.agricapital.ci",
-          logo: "https://www.ikoffi.agricapital.ci/favicon.png",
+          logo: "https://ikoffi.agricapital.ci/favicon.png",
           founder: { "@type": "Person", name: "Inocent KOFFI" },
           foundingDate: "2025",
           address: { "@type": "PostalAddress", addressLocality: "Daloa", addressRegion: "Haut-Sassandra", addressCountry: "CI" },
