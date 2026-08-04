@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Send, CheckCircle2, ShieldCheck, MessageCircle } from "lucide-react";
 import { trackCta, trackEvent, trackLead } from "@/lib/analytics";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   Form,
   FormControl,
@@ -58,6 +59,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { language } = useLanguage();
   const mountedAt = useRef<number>(Date.now());
   const lastSubmitAt = useRef<number>(0);
 
@@ -129,7 +131,11 @@ const ContactForm = () => {
       // Send email notification
       try {
         await supabase.functions.invoke("send-notification", {
-          body: { type: "contact", data: insertData },
+          body: {
+            type: "contact",
+            lang: language === "en" ? "en" : "fr",
+            data: { ...insertData, subject: subjectLabels[data.subject] },
+          },
         });
       } catch (emailError) {
         console.error("Email notification failed:", emailError);
