@@ -505,6 +505,60 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          created_at: string
+          email: string
+          estimated_value: number | null
+          id: string
+          internal_notes: string | null
+          lang: string
+          message: string | null
+          name: string
+          page_url: string | null
+          phone: string | null
+          source: string
+          status: Database["public"]["Enums"]["lead_status"]
+          subject: string | null
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          estimated_value?: number | null
+          id?: string
+          internal_notes?: string | null
+          lang?: string
+          message?: string | null
+          name: string
+          page_url?: string | null
+          phone?: string | null
+          source?: string
+          status?: Database["public"]["Enums"]["lead_status"]
+          subject?: string | null
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          estimated_value?: number | null
+          id?: string
+          internal_notes?: string | null
+          lang?: string
+          message?: string | null
+          name?: string
+          page_url?: string | null
+          phone?: string | null
+          source?: string
+          status?: Database["public"]["Enums"]["lead_status"]
+          subject?: string | null
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           confirmed_at: string | null
@@ -841,6 +895,7 @@ export type Database = {
     }
     Enums: {
       app_role: "super_admin" | "admin" | "moderator" | "user"
+      lead_status: "nouveau" | "contacte" | "qualifie" | "gagne" | "perdu"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -969,6 +1024,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["super_admin", "admin", "moderator", "user"],
+      lead_status: ["nouveau", "contacte", "qualifie", "gagne", "perdu"],
     },
   },
 } as const
