@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import NewYearPopup from "@/components/NewYearPopup";
 import StatsStrip from "@/components/StatsStrip";
 import { useLanguage } from "@/hooks/useLanguage";
+import { FaqPageJsonLd, WebPageJsonLd } from "@/components/SeoJsonLd";
 
 // Lazy load components for better performance
 const About = lazy(() => import("@/components/About"));
@@ -21,6 +22,8 @@ const ContactCTA = lazy(() => import("@/components/ContactCTA"));
 const EcosystemShowcase = lazy(() => import("@/components/EcosystemShowcase"));
 const DataRoom = lazy(() => import("@/components/DataRoom"));
 const TrustBlock = lazy(() => import("@/components/TrustBlock"));
+const ActualitesPreview = lazy(() => import("@/components/ActualitesPreview"));
+const EcosystemUniverse = lazy(() => import("@/components/EcosystemUniverse"));
 
 const LoadingFallback = () => (
   <div className="min-h-[200px] flex items-center justify-center">
@@ -105,6 +108,36 @@ const Home = () => {
         <link rel="alternate" hrefLang="x-default" href={baseUrl} />
       </Helmet>
       
+      <WebPageJsonLd
+        path="/"
+        name="Inocent KOFFI — Fondateur & CEO AGRICAPITAL SARL"
+        description="Présence officielle d'Inocent KOFFI, agro-entrepreneur ivoirien et Fondateur & CEO d'AGRICAPITAL SARL."
+      />
+      <FaqPageJsonLd
+        items={[
+          {
+            q: "Qui est Inocent KOFFI ?",
+            a: "Inocent KOFFI est un agro-entrepreneur ivoirien, Fondateur & CEO d'AGRICAPITAL SARL, société qui structure, crée et gère des actifs agricoles durables en Côte d'Ivoire.",
+          },
+          {
+            q: "Que fait AGRICAPITAL SARL ?",
+            a: "AGRICAPITAL SARL conçoit et développe des plantations de palmier à huile clé en main, sécurise le foncier agricole, assure le suivi agronomique et une garantie d'écoulement sur 25 ans.",
+          },
+          {
+            q: "Où sont basées les activités ?",
+            a: "Les activités sont basées en Côte d'Ivoire, à Daloa (Haut-Sassandra), avec un bureau de proximité à Gonaté et des plantations dans plusieurs régions du pays.",
+          },
+          {
+            q: "Comment suivre sa plantation AgriCapital ?",
+            a: "Les clients suivent leur plantation, leurs paiements, documents, rapports, photos et vidéos de terrain depuis l'espace client sécurisé client.agricapital.ci.",
+          },
+          {
+            q: "Comment contacter Inocent KOFFI ?",
+            a: "Par e-mail à inocent.koffi@agricapital.ci, par téléphone ou WhatsApp au +225 07 59 56 60 87, ou via le formulaire de contact du site.",
+          },
+        ]}
+      />
+
       {/* New Year Popup */}
       <NewYearPopup />
       
@@ -123,6 +156,12 @@ const Home = () => {
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <TeamPreview />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <ActualitesPreview />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <EcosystemUniverse />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <EcosystemShowcase />

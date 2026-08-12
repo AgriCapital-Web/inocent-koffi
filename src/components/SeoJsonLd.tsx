@@ -23,6 +23,119 @@ export const BreadcrumbJsonLd = ({ items }: { items: Crumb[] }) => {
   );
 };
 
+
+/** WebPage JSON-LD for a specific route. */
+export const WebPageJsonLd = ({
+  path,
+  name,
+  description,
+}: {
+  path: string;
+  name: string;
+  description: string;
+}) => {
+  const url = `${SITE_URL}${path === "/" ? "/" : path}`;
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": url,
+    url,
+    name,
+    description,
+    inLanguage: "fr-CI",
+    isPartOf: { "@type": "WebSite", name: "Inocent KOFFI", url: SITE_URL },
+    about: { "@type": "Person", name: "Inocent KOFFI", url: SITE_URL },
+    publisher: { "@type": "Organization", name: "AGRICAPITAL SARL", url: "https://agricapital.ci" },
+  };
+  return (
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(data)}</script>
+    </Helmet>
+  );
+};
+
+/** Person JSON-LD — entité "Inocent KOFFI". */
+export const PersonJsonLd = () => {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${SITE_URL}/#inocent-koffi`,
+    name: "Inocent KOFFI",
+    givenName: "Inocent",
+    familyName: "KOFFI",
+    jobTitle: "Fondateur & CEO",
+    description:
+      "Inocent KOFFI est un agro-entrepreneur ivoirien, Fondateur & CEO d'AGRICAPITAL SARL. Il structure, crée et gère des actifs agricoles durables en Côte d'Ivoire : plantations de palmier à huile clé en main, pépinière, sécurisation foncière et accompagnement des investisseurs.",
+    url: SITE_URL,
+    mainEntityOfPage: `${SITE_URL}/`,
+    image: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/images/founder-inocent-koffi.jpg`,
+      caption: "Inocent KOFFI, Fondateur & CEO d'AGRICAPITAL SARL",
+      width: 1200,
+      height: 1200,
+    },
+    worksFor: {
+      "@type": "Organization",
+      name: "AGRICAPITAL SARL",
+      url: "https://agricapital.ci",
+    },
+    knowsAbout: [
+      "Entrepreneuriat agricole",
+      "Développement agricole",
+      "Palmier à huile",
+      "Plantation clé en main",
+      "Sécurisation foncière agricole",
+      "Investissement agricole",
+      "Développement rural en Côte d'Ivoire",
+      "Innovation et numérique agricole",
+    ],
+    knowsLanguage: ["fr", "en"],
+    nationality: { "@type": "Country", name: "Côte d'Ivoire" },
+    workLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Daloa",
+        addressRegion: "Haut-Sassandra",
+        addressCountry: "CI",
+      },
+    },
+    email: "mailto:inocent.koffi@agricapital.ci",
+    telephone: "+225-07-59-56-60-87",
+    sameAs: [
+      "https://www.linkedin.com/in/inocent-k-4a08b7159/",
+      "https://www.facebook.com/share/174mN1Fopy/",
+      "https://agricapital.ci",
+      "https://app.agricapital.ci",
+      "https://client.agricapital.ci",
+    ],
+  };
+  return (
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(data)}</script>
+    </Helmet>
+  );
+};
+
+/** FAQPage JSON-LD. */
+export const FaqPageJsonLd = ({ items }: { items: { q: string; a: string }[] }) => {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+  return (
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(data)}</script>
+    </Helmet>
+  );
+};
+
 /** Organization + ProfessionalService JSON-LD for AGRICAPITAL SARL. */
 export const OrganizationJsonLd = () => {
   const data = {
@@ -37,7 +150,7 @@ export const OrganizationJsonLd = () => {
     description:
       "AGRICAPITAL SARL structure, crée et gère des actifs agricoles durables en Côte d'Ivoire : plantations clé en main, pépinière de palmier à huile, valorisation du foncier rural et accompagnement des investisseurs et de la diaspora.",
     founder: { "@type": "Person", name: "Inocent KOFFI" },
-    employee: { "@type": "Person", name: "Inocent KOFFI", jobTitle: "Gérant" },
+    employee: { "@type": "Person", name: "Inocent KOFFI", jobTitle: "Fondateur & CEO" },
     areaServed: { "@type": "Country", name: "Côte d'Ivoire" },
     address: {
       "@type": "PostalAddress",
@@ -79,8 +192,10 @@ export const OrganizationJsonLd = () => {
       },
     ],
     sameAs: [
-      "https://www.agricapital.ci",
+      "https://agricapital.ci",
+      "https://app.agricapital.ci",
       "https://client.agricapital.ci",
+      "https://www.facebook.com/share/174mN1Fopy/",
       "https://www.linkedin.com/in/inocent-k-4a08b7159/",
     ],
   };
