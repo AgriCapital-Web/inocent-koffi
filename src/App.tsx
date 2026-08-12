@@ -8,7 +8,7 @@ import { LanguageProvider } from "@/hooks/useLanguage";
 import { useEffect } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
 import { trackPageView } from "@/lib/analytics";
-import { OrganizationJsonLd } from "@/components/SeoJsonLd";
+import { OrganizationJsonLd, PersonJsonLd } from "@/components/SeoJsonLd";
 import SeoAlternates from "@/components/SeoAlternates";
 import Home from "./pages/Home";
 import APropos from "./pages/APropos";
@@ -30,6 +30,8 @@ import ShortRedirect from "./pages/ShortRedirect";
 import OGReport from "./pages/OGReport";
 import NotFound from "./pages/NotFound";
 import FAQPage from "./pages/FAQ";
+import Actualites from "./pages/Actualites";
+import ActualiteDetail from "./pages/ActualiteDetail";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +43,8 @@ const routes = [
   { path: "/agricapital", element: <Agricapital /> },
   { path: "/projets", element: <Projets /> },
   { path: "/partenariat", element: <Partenariat /> },
+  { path: "/actualites", element: <Actualites /> },
+  { path: "/actualites/:slug", element: <ActualiteDetail /> },
   { path: "/blog", element: <Blog /> },
   { path: "/blog/:slug", element: <BlogArticle /> },
   { path: "/contact", element: <Contact /> },
@@ -118,6 +122,7 @@ const App = () => (
         <BrowserRouter>
           <LanguageProvider>
             <OrganizationJsonLd />
+            <PersonJsonLd />
             <SeoAlternates />
             <ScrollToTop />
             <AppRoutes />

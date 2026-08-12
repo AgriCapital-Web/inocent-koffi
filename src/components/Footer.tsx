@@ -14,6 +14,7 @@ const Footer = () => {
     { href: "/projets", label: "Nos Actifs" },
     { href: "/partenariat", label: "Partenariat" },
     { href: "/portfolio", label: "Portfolio" },
+    { href: "/actualites", label: "Actualités" },
     { href: "/blog", label: "Blog" },
     { href: "/forum", label: "Forum" },
     { href: "/contact", label: "Contact" },
@@ -38,7 +39,7 @@ const Footer = () => {
           >
             <h3 className="font-display text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 tracking-tight-1">Inocent KOFFI</h3>
             <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
-              Gérant d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole. Promoteur d'actifs agricoles durables et de solutions d'investissement agricole.
+              Fondateur &amp; CEO d'AGRICAPITAL SARL. Agro-entrepreneur et stratège en développement agricole. Promoteur d'actifs agricoles durables et de solutions d'investissement agricole.
             </p>
             <div className="flex gap-3 sm:gap-4 pt-2">
               {socialLinks.map((social, index) => {

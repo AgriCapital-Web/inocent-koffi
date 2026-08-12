@@ -170,7 +170,7 @@ const ActualiteDetail = () => {
                 </div>
                 <div className="mt-8">
                   <Button asChild variant="outline">
-                    <Link to="/parcours">
+                    <Link to="/a-propos">
                       Le parcours d'Inocent KOFFI
                       <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" />
                     </Link>

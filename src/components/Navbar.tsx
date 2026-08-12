@@ -49,12 +49,14 @@ const Navbar = () => {
         { href: "/agricapital#equipe", label: teamLabel },
         { href: "/projets", label: "Nos Actifs" },
         { href: "/partenariat", label: t("nav.partnership") },
+        { href: "/#ecosysteme", label: "Écosystème" },
         { href: "/faq", label: "FAQ" },
       ],
     },
     {
       label: "Communauté",
       children: [
+        { href: "/actualites", label: "Actualités" },
         { href: "/blog", label: t("nav.blog") },
         { href: "/forum", label: "Forum" },
       ],

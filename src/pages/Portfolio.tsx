@@ -165,7 +165,7 @@ const Portfolio = () => {
     <>
       <Helmet>
         <title>Portfolio - Inocent KOFFI | Développeur Web & Praticien IA</title>
-        <meta name="description" content="Portfolio d'Inocent KOFFI — Visionnaire, Entrepreneur Social, Développeur Web, Praticien IA & Formateur. Découvrez mes projets : LegalForm, AGRICAPITAL, IvoireProjet, ASSOJEREB et plus." />
+        <meta name="description" content="Portfolio d'Inocent KOFFI : plateformes numériques de l'écosystème AgriCapital et projets digitaux en Côte d'Ivoire." />
       </Helmet>
 
       <div className="min-h-screen">
