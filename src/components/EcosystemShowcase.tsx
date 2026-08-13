@@ -59,11 +59,35 @@ const SITES: Site[] = [
     image: "/images/showcase/ivoireprojet.png",
   },
   {
-    name: "MIPROJET+",
-    tag: "Incubation",
+    name: "MiPROJET+",
+    tag: "Structuration",
     description:
-      "Plateforme premium d'accompagnement, structuration et suivi avancé de projets.",
-    url: "https://miprojetplus.ivoireprojet.com",
+      "Structurez, pilotez et financez votre organisation : startups, PME, coopératives et organisations en croissance.",
+    url: "https://plus.ivoireprojet.com",
+    image: "/images/showcase/ivoireprojet.png",
+  },
+  {
+    name: "MiProjet Go",
+    tag: "Gestion TPE",
+    description:
+      "L'application de gestion des entrepreneurs, commerçants et TPE — simple, mobile et professionnelle.",
+    url: "https://go.ivoireprojet.com",
+    image: "/images/showcase/ivoireprojet.png",
+  },
+  {
+    name: "MiPROJET Invest",
+    tag: "Investissement",
+    description:
+      "Investir dans l'Afrique qui se construit : projets africains certifiés et mise en relation qualifiée avec les investisseurs.",
+    url: "https://invest.ivoireprojet.com",
+    image: "/images/showcase/ivoireprojet.png",
+  },
+  {
+    name: "IA Pour Tous",
+    tag: "Intelligence Artificielle",
+    description:
+      "Formation à l'intelligence artificielle en Côte d'Ivoire dès 2 500 FCFA — l'IA appliquée à tous les métiers.",
+    url: "https://iapourtous.ivoireprojet.com",
     image: "/images/showcase/ivoireprojet.png",
   },
   {

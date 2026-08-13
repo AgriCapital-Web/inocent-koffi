@@ -1,4 +1,4 @@
-import { Code, ExternalLink, ArrowRight, Brain, Globe, BarChart3, GraduationCap, Shield } from "lucide-react";
+import { Code, ExternalLink, ArrowRight, Brain, Globe, BarChart3, GraduationCap, Shield, Rocket, Store, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -9,6 +9,10 @@ const featuredProjects = [
   { name: "LegalForm CI", url: "https://www.legalform.ci", desc: "Création d'entreprises en ligne", icon: Shield, category: "LegalTech", screenshot: "/images/projects/legalform.png" },
   { name: "Scoly", desc: "E-commerce scolaire & bureautique", icon: GraduationCap, category: "E-commerce", screenshot: "/images/projects/scoly.png" },
   { name: "AGRICAPITAL App", url: "https://www.app.agricapital.ci", desc: "CRM & gestion agricole", icon: BarChart3, category: "CRM", screenshot: "/images/projects/agricapital-app.png" },
+  { name: "MiPROJET+", url: "https://plus.ivoireprojet.com", desc: "Structuration & financement d'organisations", icon: Rocket, category: "Structuration", screenshot: "" },
+  { name: "MiProjet Go", url: "https://go.ivoireprojet.com", desc: "Gestion des entrepreneurs, commerçants & TPE", icon: Store, category: "Gestion TPE", screenshot: "" },
+  { name: "MiPROJET Invest", url: "https://invest.ivoireprojet.com", desc: "Investir dans l'Afrique qui se construit", icon: Wallet, category: "Investissement", screenshot: "" },
+  { name: "IA Pour Tous", url: "https://iapourtous.ivoireprojet.com", desc: "Formation à l'IA dès 2 500 FCFA", icon: Brain, category: "Intelligence Artificielle", screenshot: "" },
 ];
 
 const PortfolioPreview = () => {
