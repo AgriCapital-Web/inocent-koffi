@@ -181,8 +181,25 @@ const Portfolio = () => {
   return (
     <>
       <Helmet>
-        <title>Portfolio - Inocent KOFFI | Développeur Web & Praticien IA</title>
-        <meta name="description" content="Portfolio d'Inocent KOFFI : plateformes numériques de l'écosystème AgriCapital et projets digitaux en Côte d'Ivoire." />
+        <title>Portfolio Inocent KOFFI | Plateformes web, IA & AgriCapital</title>
+        <meta name="description" content="Réalisations d'Inocent KOFFI, Gérant d'AGRICAPITAL SARL : AgriCapital, MiPROJET+, MiProjet Go, MiPROJET Invest, IA Pour Tous, LegalForm CI et plateformes digitales en Côte d'Ivoire." />
+        <meta property="og:title" content="Portfolio Inocent KOFFI | Plateformes web, IA & AgriCapital" />
+        <meta property="og:description" content="Plateformes numériques, CRM, portails clients et solutions IA conçus par Inocent KOFFI en Côte d'Ivoire." />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Réalisations d'Inocent KOFFI",
+            itemListElement: projects.map((p, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: p.name,
+              description: p.description,
+              ...(p.url ? { url: p.url } : {}),
+            })),
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen">
