@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Smartphone, Users, Sprout, Sparkles, Building2, Rocket, CreditCard, Layers } from "lucide-react";
+import { ExternalLink, Code, Brain, Globe, BarChart3, GraduationCap, Shield, Smartphone, Users, Sprout, Sparkles, Building2, Rocket, CreditCard, Layers, Store, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -69,12 +69,11 @@ const projects = [
   },
   {
     name: "IA Pour Tous",
-    url: "https://www.iapourtous.vercel.app",
-    description: "Plateforme de vulgarisation et d'accès à l'intelligence artificielle. Formations pratiques à partir de 500 FCFA/semaine. 11+ secteurs, 50+ modules.",
-    tech: ["React", "IA", "Vercel", "API OpenAI"],
+    url: "https://iapourtous.ivoireprojet.com",
+    description: "Formation à l'intelligence artificielle en Côte d'Ivoire dès 2 500 FCFA : apprentissage pratique de l'IA appliquée à tous les métiers.",
+    tech: ["React", "IA", "Supabase", "Formation en ligne"],
     category: "Intelligence Artificielle",
     icon: Brain,
-    screenshot: "/images/projects/iapourtous.png",
     color: "from-indigo-700 to-purple-900",
   },
   {
@@ -97,13 +96,31 @@ const projects = [
     color: "from-amber-600 to-orange-700",
   },
   {
-    name: "MIPROJET+",
-    url: "https://miprojetplus.ivoireprojet.com",
-    description: "Plateforme premium d'accompagnement, structuration et suivi avancé de projets — écosystème Ivoireprojet.",
+    name: "MiPROJET+",
+    url: "https://plus.ivoireprojet.com",
+    description: "Structurez. Pilotez. Financez votre organisation. Plateforme de structuration, de professionnalisation et de préparation au financement pour startups, PME, coopératives et organisations en croissance.",
     tech: ["React", "Supabase", "ISO 21500"],
-    category: "Incubation",
+    category: "Structuration",
     icon: Rocket,
     color: "from-emerald-700 to-emerald-900",
+  },
+  {
+    name: "MiProjet Go",
+    url: "https://go.ivoireprojet.com",
+    description: "L'application de gestion des entrepreneurs, commerçants et TPE : entrepreneuriat jeune, gestion simple et professionnelle de l'activité au quotidien.",
+    tech: ["React", "Supabase", "PWA", "Mobile first"],
+    category: "Gestion TPE",
+    icon: Store,
+    color: "from-orange-600 to-amber-700",
+  },
+  {
+    name: "MiPROJET Invest",
+    url: "https://invest.ivoireprojet.com",
+    description: "Investir dans l'Afrique qui se construit : projets africains certifiés issus de MiPROJET Go et MiPROJET+, avec mise en relation qualifiée (agriculture, énergie, fintech…).",
+    tech: ["React", "Supabase", "Mise en relation", "Multi-devises"],
+    category: "Investissement",
+    icon: Wallet,
+    color: "from-sky-700 to-blue-900",
   },
   {
     name: "ONPHACI",
@@ -164,8 +181,25 @@ const Portfolio = () => {
   return (
     <>
       <Helmet>
-        <title>Portfolio - Inocent KOFFI | Développeur Web & Praticien IA</title>
-        <meta name="description" content="Portfolio d'Inocent KOFFI : plateformes numériques de l'écosystème AgriCapital et projets digitaux en Côte d'Ivoire." />
+        <title>Portfolio Inocent KOFFI | Plateformes web, IA & AgriCapital</title>
+        <meta name="description" content="Réalisations d'Inocent KOFFI, Gérant d'AGRICAPITAL SARL : AgriCapital, MiPROJET+, MiProjet Go, MiPROJET Invest, IA Pour Tous, LegalForm CI et plateformes digitales en Côte d'Ivoire." />
+        <meta property="og:title" content="Portfolio Inocent KOFFI | Plateformes web, IA & AgriCapital" />
+        <meta property="og:description" content="Plateformes numériques, CRM, portails clients et solutions IA conçus par Inocent KOFFI en Côte d'Ivoire." />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Réalisations d'Inocent KOFFI",
+            itemListElement: projects.map((p, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: p.name,
+              description: p.description,
+              ...(p.url ? { url: p.url } : {}),
+            })),
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen">

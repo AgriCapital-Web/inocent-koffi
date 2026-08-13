@@ -34,10 +34,10 @@ export const actualites: Actualite[] = [
       "Premier bureau de proximité AgriCapital, inauguré le 1er août 2026 à Gonaté (département de Daloa).",
     content: [
       "Premier bureau de proximité AgriCapital, inauguré le 1er août 2026 à Gonaté (département de Daloa).",
-      "The opening of the Gonaté office marks the official launch of the operational rollout of our agricultural asset creation and management model, closer to rural territories.",
-      "A dedicated desk for information, support and contracting, close to landowners and subscribers.",
+      "L'ouverture du bureau de Gonaté marque le lancement officiel du déploiement opérationnel de notre modèle de création et de gestion d'actifs agricoles, au plus près des territoires ruraux.",
+      "Un espace dédié à l'information, à l'accompagnement et à la contractualisation, au plus près des propriétaires fonciers et des souscripteurs.",
     ],
-    image: "https://agricapital.ci/inauguration/bureau-gonate-enseigne.webp",
+    image: "/images/agricapital/bureau-gonate-enseigne.webp",
     imageAlt:
       "Enseigne du bureau de proximité AgriCapital à Gonaté, inauguré par Inocent KOFFI",
     sourceUrl: "https://agricapital.ci/actualites",
@@ -53,15 +53,15 @@ export const actualites: Actualite[] = [
     category: "Inauguration",
     date: "2026-08-01",
     dateLabel: "1er août 2026 — Gonaté",
-    title: "An official opening with our partners",
+    title: "Une ouverture officielle en présence de nos partenaires",
     excerpt:
-      "Local authorities, landowners, technical partners and clients gathered around the AgriCapital model.",
+      "Autorités locales, propriétaires fonciers, partenaires techniques et clients réunis autour du modèle AgriCapital.",
     content: [
-      "Local authorities, landowners, technical partners and clients gathered around the AgriCapital model.",
+      "Autorités locales, propriétaires fonciers, partenaires techniques et clients réunis autour du modèle AgriCapital.",
       "Une cérémonie très suivie.",
       "Présentation du modèle économique.",
     ],
-    image: "https://agricapital.ci/inauguration/inauguration-assemblee.webp",
+    image: "/images/agricapital/inauguration-assemblee.webp",
     imageAlt:
       "Cérémonie d'inauguration AgriCapital à Gonaté avec les autorités et partenaires",
     sourceUrl: "https://agricapital.ci",
@@ -71,15 +71,15 @@ export const actualites: Actualite[] = [
     category: "Vision & modèle",
     date: "2026-08-01",
     dateLabel: "1er août 2026",
-    title: "A model for creating and managing agricultural assets",
+    title: "Un modèle de création et de gestion d'actifs agricoles",
     excerpt:
-      "Land securing, plantation development and technical monitoring throughout the contract.",
+      "Sécurisation du foncier, développement de la plantation et suivi technique pendant toute la durée du contrat.",
     content: [
-      "Land securing, plantation development and technical monitoring throughout the contract.",
+      "Sécurisation du foncier, développement de la plantation et suivi technique pendant toute la durée du contrat.",
       "Présentation du modèle économique.",
       "Remise symbolique.",
     ],
-    image: "https://agricapital.ci/inauguration/inauguration-prise-parole.webp",
+    image: "/images/agricapital/inauguration-prise-parole.webp",
     imageAlt:
       "Inocent KOFFI présente le modèle économique AgriCapital lors de l'inauguration de Gonaté",
     sourceUrl: "https://agricapital.ci",
@@ -89,15 +89,15 @@ export const actualites: Actualite[] = [
     category: "Réseau commercial",
     date: "2026-07-20",
     dateLabel: "Juillet 2026",
-    title: "11 sales advisors join AgriCapital",
+    title: "11 conseillers commerciaux rejoignent AgriCapital",
     excerpt:
-      "First onboarding and training session for our sales network: history, vision, offers and standards.",
+      "Première session d'intégration et de formation de notre réseau commercial : histoire, vision, offres et standards.",
     content: [
-      "First onboarding and training session for our sales network: history, vision, offers and standards.",
-      "Building a sustainable company relies as much on its teams as on its business model.",
-      "Trained, committed and aligned teams.",
+      "Première session d'intégration et de formation de notre réseau commercial : histoire, vision, offres et standards.",
+      "Construire une entreprise durable repose autant sur ses équipes que sur son modèle économique.",
+      "Des équipes formées, engagées et alignées.",
     ],
-    image: "https://agricapital.ci/formation/formation-groupe-cohorte.webp",
+    image: "/images/agricapital/formation-groupe-cohorte.webp",
     imageAlt:
       "Session de formation des 11 conseillers commerciaux AgriCapital en Côte d'Ivoire",
     sourceUrl: "https://agricapital.ci",
@@ -107,15 +107,15 @@ export const actualites: Actualite[] = [
     category: "Nos équipes",
     date: "2026-08-01",
     dateLabel: "1er août 2026",
-    title: "A structured organisation rooted in the field",
+    title: "Une organisation structurée et ancrée sur le terrain",
     excerpt:
-      "AgriCapital is progressively building a solid organisation able to support its partners over the long term.",
+      "AgriCapital construit progressivement une organisation solide, capable d'accompagner ses partenaires sur le long terme.",
     content: [
-      "AgriCapital is progressively building a solid organisation able to support its partners over the long term.",
+      "AgriCapital construit progressivement une organisation solide, capable d'accompagner ses partenaires sur le long terme.",
       "L'équipe AgriCapital et ses partenaires.",
       "Accueil et accompagnement de proximité.",
     ],
-    image: "https://agricapital.ci/inauguration/inauguration-groupe.webp",
+    image: "/images/agricapital/inauguration-groupe.webp",
     imageAlt:
       "L'équipe AgriCapital et ses partenaires réunis à Gonaté autour d'Inocent KOFFI",
     sourceUrl: "https://agricapital.ci",
@@ -127,12 +127,12 @@ export const actualites: Actualite[] = [
     dateLabel: "1er août 2026",
     title: "Plus de 20 000 plants en pépinière",
     excerpt:
-      "Building your sustainable agricultural heritage — AgriCapital supports individuals and businesses in creating professional oil palm plantations in Côte d'Ivoire.",
+      "Bâtissons votre patrimoine agricole durable — AgriCapital accompagne les particuliers et les entreprises dans la création de plantations professionnelles de palmier à huile en Côte d'Ivoire.",
     content: [
       "Plus de 20 000 plants en pépinière.",
-      "AgriCapital supports individuals and businesses in creating professional oil palm plantations in Côte d'Ivoire.",
+      "AgriCapital accompagne les particuliers et les entreprises dans la création de plantations professionnelles de palmier à huile en Côte d'Ivoire.",
     ],
-    image: "https://agricapital.ci/inauguration/pepiniere-plants-palmier.webp",
+    image: "/images/agricapital/pepiniere-plants-palmier.webp",
     imageAlt:
       "Pépinière AgriCapital de plants de palmier à huile Tenera à Gonaté, Côte d'Ivoire",
     sourceUrl: "https://agricapital.ci",
@@ -150,7 +150,7 @@ export const actualites: Actualite[] = [
       "PalmInvest — AgriCapital sécurise le foncier et crée pour vous une plantation de palmier à huile clé en main, remise productive à 36 mois.",
       "TerraPalm — Votre foncier dort ? Nous le transformons en plantation productive. Vous restez propriétaire, nous assurons toute la mise en valeur.",
     ],
-    image: "https://agricapital.ci/formation/formation-presentation-offres.webp",
+    image: "/images/agricapital/formation-presentation-offres.webp",
     imageAlt:
       "Présentation des offres PalmInvest et TerraPalm d'AgriCapital par Inocent KOFFI",
     sourceUrl: "https://agricapital.ci",
@@ -166,7 +166,7 @@ export const actualites: Actualite[] = [
     content: [
       "Un bref essentiel pour comprendre pourquoi les terres africaines inexploitées peuvent devenir un patrimoine productif et transmissible.",
     ],
-    image: "https://agricapital.ci/assets/vavoua-land-2026-Dc1J-vmw.jpg",
+    image: "/images/agricapital/foncier-vavoua-2026.jpg",
     imageAlt:
       "Foncier agricole sécurisé par AgriCapital à Vavoua, Côte d'Ivoire",
     sourceUrl: "https://agricapital.ci/tresor-foncier",
@@ -182,7 +182,7 @@ export const actualites: Actualite[] = [
     content: [
       "Un bref clair sur un arbre stratégique, présent dans le quotidien, productif pendant des décennies et adapté au potentiel ivoirien.",
     ],
-    image: "https://agricapital.ci/assets/palm-mature-fruits-BH2YZTPx.jpg",
+    image: "/images/agricapital/regimes-palmier-huile.jpg",
     imageAlt:
       "Régimes de palmier à huile mûrs dans une plantation AgriCapital en Côte d'Ivoire",
     sourceUrl: "https://agricapital.ci/tresor-palmier",
@@ -199,7 +199,7 @@ export const actualites: Actualite[] = [
       "Un portail sécurisé vous permettant d'effectuer vos paiements mensuels, de suivre l'évolution de votre plantation, d'accéder à vos documents, rapports, photos et vidéos de terrain, et d'échanger avec nos équipes tout au long du cycle de production.",
       "Paiements mensuels · Suivi plantation · Documents & rapports · Photos & vidéos terrain · Échanges avec l'équipe.",
     ],
-    image: "https://agricapital.ci/inauguration/inauguration-accueil-client.webp",
+    image: "/images/agricapital/inauguration-accueil-client.webp",
     imageAlt:
       "Accueil et accompagnement de proximité des clients AgriCapital à Gonaté",
     sourceUrl: "https://client.agricapital.ci/",
@@ -223,7 +223,7 @@ export const offres = [
     ],
     cta: "Découvrir PalmInvest",
     url: "https://agricapital.ci/palminvest",
-    image: "https://agricapital.ci/assets/palm-mature-plantation-DcAJotdr.jpg",
+    image: "/images/agricapital/plantation-palmier-mature.jpg",
     imageAlt: "Plantation de palmier à huile mature développée par AgriCapital",
   },
   {
@@ -238,7 +238,7 @@ export const offres = [
     ],
     cta: "Découvrir TerraPalm",
     url: "https://agricapital.ci/terrapalm",
-    image: "https://agricapital.ci/assets/founder-palm-field-DBOAkeII.jpg",
+    image: "/images/agricapital/gerant-plantation-palmier.jpg",
     imageAlt:
       "Inocent KOFFI sur une parcelle de palmier à huile valorisée par AgriCapital",
   },
@@ -248,9 +248,9 @@ export const offres = [
 export const plateformes = [
   {
     name: "AGRICAPITAL.CI",
-    tagline: "AgriCapital — Agricultural Promoter & Integrated Services",
+    tagline: "AgriCapital — Promoteur agricole & services intégrés",
     description:
-      "AgriCapital addresses this dual challenge by developing a structured agricultural promotion model. The company designs and deploys turnkey plantations, enabling individuals and professionals to access productive farming, while being relieved of technical, land and organizational constraints.",
+      "AgriCapital répond à ce double défi en développant un modèle structuré de promotion agricole. L'entreprise conçoit et déploie des plantations clé en main, permettant aux particuliers et aux professionnels d'accéder à une agriculture productive, tout en étant déchargés des contraintes techniques, foncières et organisationnelles.",
     features: [
       "Plantation clé en main",
       "Sécurisation foncière",

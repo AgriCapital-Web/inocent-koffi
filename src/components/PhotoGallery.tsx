@@ -43,6 +43,23 @@ const galleryImages: GalleryImage[] = [
   { id: '23', src: '/images/gallery/nursery-2.webp', alt: 'Pépinière AgriCapital - Décembre 2025', category: 'nursery' },
   { id: '24', src: '/images/nursery-palm.jpg', alt: 'Plants de palmiers - Modèle inclusif', category: 'nursery' },
   { id: '25', src: '/images/palm-oil-production.jpg', alt: 'Production de palmiers - Évolution du projet', category: 'nursery' },
+  // Photos officielles importées d'agricapital.ci
+  { id: '26', src: '/images/agricapital/bureau-gonate-enseigne.webp', alt: 'Premier bureau de proximité AgriCapital à Gonaté (Daloa)', category: 'launch' },
+  { id: '27', src: '/images/agricapital/bureau-gonate-interieur.webp', alt: 'Espace d\u2019accueil du bureau de proximité AgriCapital à Gonaté', category: 'launch' },
+  { id: '28', src: '/images/agricapital/inauguration-assemblee.webp', alt: 'Cérémonie d\u2019inauguration AgriCapital avec les autorités et partenaires', category: 'launch' },
+  { id: '29', src: '/images/agricapital/inauguration-prise-parole.webp', alt: 'Inocent KOFFI présente le modèle économique AgriCapital à Gonaté', category: 'launch' },
+  { id: '30', src: '/images/agricapital/inauguration-remise-symbolique.webp', alt: 'Remise symbolique lors de l\u2019inauguration du bureau de Gonaté', category: 'launch' },
+  { id: '31', src: '/images/agricapital/inauguration-groupe.webp', alt: 'L\u2019équipe AgriCapital et ses partenaires réunis à Gonaté', category: 'community' },
+  { id: '32', src: '/images/agricapital/inauguration-accueil-client.webp', alt: 'Accueil et accompagnement de proximité des clients AgriCapital', category: 'community' },
+  { id: '33', src: '/images/agricapital/formation-groupe-cohorte.webp', alt: '11 conseillers commerciaux formés et intégrés chez AgriCapital', category: 'training' },
+  { id: '34', src: '/images/agricapital/formation-prise-parole.webp', alt: 'Session de formation des équipes commerciales AgriCapital', category: 'training' },
+  { id: '35', src: '/images/agricapital/formation-presentation-offres.webp', alt: 'Présentation des offres PalmInvest et TerraPalm aux conseillers', category: 'training' },
+  { id: '36', src: '/images/agricapital/pepiniere-plants-palmier.webp', alt: 'Plus de 20 000 plants de palmier à huile en pépinière à Gonaté', category: 'nursery' },
+  { id: '37', src: '/images/agricapital/pepiniere-avril-2026.jpg', alt: 'Pépinière AgriCapital de palmier à huile, avril 2026', category: 'nursery' },
+  { id: '38', src: '/images/agricapital/plantation-palmier-mature.jpg', alt: 'Plantation de palmier à huile mature développée par AgriCapital', category: 'nursery' },
+  { id: '39', src: '/images/agricapital/regimes-palmier-huile.jpg', alt: 'Régimes de palmier à huile mûrs en plantation AgriCapital', category: 'nursery' },
+  { id: '40', src: '/images/agricapital/foncier-vavoua-2026.jpg', alt: 'Foncier agricole sécurisé par AgriCapital à Vavoua', category: 'nursery' },
+  { id: '41', src: '/images/agricapital/gerant-plantation-palmier.jpg', alt: 'Inocent KOFFI, Gérant d\u2019AGRICAPITAL SARL, sur une parcelle de palmier à huile', category: 'community' },
 ];
 
 const filters = [
@@ -120,7 +137,8 @@ const PhotoGallery = () => {
             Galerie Photo
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
-            Découvrez les moments clés du lancement d'AGRICAPITAL SARL, le 19 novembre 2025.
+            Les moments clés d'AGRICAPITAL SARL : lancement, inauguration du bureau de
+            proximité de Gonaté, formation des équipes, pépinières et plantations de palmier à huile.
           </p>
         </div>
 
