@@ -386,6 +386,7 @@ const EvolutionEnhanced = () => {
             <Button
               variant="ghost"
               size="icon"
+              aria-label="Image précédente"
               className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white"
               onClick={() => navigateLightbox("prev")}
             >
@@ -394,6 +395,7 @@ const EvolutionEnhanced = () => {
             <Button
               variant="ghost"
               size="icon"
+              aria-label="Image suivante"
               className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white"
               onClick={() => navigateLightbox("next")}
             >
@@ -404,6 +406,7 @@ const EvolutionEnhanced = () => {
             <Button
               variant="ghost"
               size="icon"
+              aria-label="Fermer la galerie"
               className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black/50 hover:bg-black/70 text-white"
               onClick={() => setLightboxOpen(false)}
             >

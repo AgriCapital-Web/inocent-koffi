@@ -42,7 +42,7 @@ const Agricapital = () => {
   return (
     <>
       <Helmet>
-        <title>AGRICAPITAL SARL - Opérateur & Promoteur Agricole | Palmier à Huile Clé en Main</title>
+        <title>AGRICAPITAL SARL | Palmier à huile clé en main en Côte d'Ivoire</title>
         <meta name="description" content="AGRICAPITAL SARL, opérateur et promoteur agricole. Créez votre plantation de palmier à huile clé en main en Côte d'Ivoire. Patrimoine durable et sécurisé." />
         <link rel="canonical" href="https://ikoffi.agricapital.ci/agricapital" />
         <meta property="og:type" content="website" />
@@ -76,7 +76,7 @@ const Agricapital = () => {
               <div className="max-w-6xl mx-auto">
                 <motion.img
                   src={logoAgricapital}
-                  alt="AgriCapital Logo"
+                  alt="Logo AGRICAPITAL SARL"
                   className="h-28 sm:h-36 lg:h-44 mb-8 mx-auto block"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}

@@ -175,6 +175,9 @@ const Hero = () => {
               >
                 KOFFI
               </motion.span>
+              <span className="block font-sans text-base sm:text-lg lg:text-xl font-semibold tracking-normal text-muted-foreground mt-3">
+                {copy.role}
+              </span>
             </motion.h1>
 
             <motion.p

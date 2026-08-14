@@ -206,6 +206,7 @@ const Blog = () => {
                     {localSearch && (
                       <button
                         type="button"
+                        aria-label="Effacer la recherche"
                         onClick={() => {
                           setLocalSearch("");
                           const params = new URLSearchParams(searchParams);

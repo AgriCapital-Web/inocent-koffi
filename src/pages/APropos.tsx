@@ -20,7 +20,10 @@ const APropos = () => {
               <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-8 sm:mb-12">
                   <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 text-foreground">
-                    À <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Propos</span>
+                    À Propos d'<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Inocent KOFFI</span>
+                    <span className="block text-base sm:text-lg lg:text-2xl font-semibold text-muted-foreground mt-3">
+                      Parcours, expertise et engagement agricole
+                    </span>
                   </h1>
                 </div>
 

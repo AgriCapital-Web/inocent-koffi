@@ -37,12 +37,12 @@ const Home = () => {
   const getMetaContent = () => {
     const meta = {
       fr: {
-        title: "Inocent KOFFI - Gérant AGRICAPITAL SARL | Transformation Agricole",
+        title: "Inocent KOFFI | Gérant AGRICAPITAL — Vision Agro-Impact",
         description: "Inocent KOFFI, Gérant d'AGRICAPITAL SARL. Vision Agro-Impact — Transformation agricole pour une Afrique prospère.",
         keywords: "Inocent KOFFI, AGRICAPITAL, agriculture, Côte d'Ivoire, palmier à huile, transformation agricole, développement rural"
       },
       en: {
-        title: "Inocent KOFFI - Managing Director AGRICAPITAL SARL | Agricultural Transformation",
+        title: "Inocent KOFFI | Managing Director, AGRICAPITAL SARL",
         description: "Inocent KOFFI, Managing Director of AGRICAPITAL SARL. 12 years of field experience with agricultural producers in Côte d'Ivoire.",
         keywords: "Inocent KOFFI, AGRICAPITAL, agriculture, Ivory Coast, palm oil, agricultural transformation, rural development"
       },
@@ -52,7 +52,7 @@ const Home = () => {
         keywords: "Inocent KOFFI, AGRICAPITAL, agricultura, Costa de Marfil, aceite de palma, transformación agrícola"
       },
       de: {
-        title: "Inocent KOFFI - Geschäftsführer AGRICAPITAL SARL | Landwirtschaftliche Transformation",
+        title: "Inocent KOFFI | Geschäftsführer AGRICAPITAL SARL",
         description: "Inocent KOFFI, Geschäftsführer von AGRICAPITAL SARL. 12 Jahre Felderfahrung mit Landwirten in der Elfenbeinküste.",
         keywords: "Inocent KOFFI, AGRICAPITAL, Landwirtschaft, Elfenbeinküste, Palmöl, landwirtschaftliche Transformation"
       },
