@@ -7,17 +7,30 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CalendarDays, ExternalLink } from "lucide-react";
 import { actualites, getActualite } from "@/data/agricapitalUpdates";
+import { useSyncedActualites } from "@/hooks/useSyncedActualites";
 import { BreadcrumbJsonLd, SITE_URL } from "@/components/SeoJsonLd";
 import { trackCta } from "@/lib/analytics";
 
 const ActualiteDetail = () => {
   const { slug } = useParams();
-  const item = getActualite(slug);
+  const { data: synced, isLoading } = useSyncedActualites();
+  const item = getActualite(slug) ?? (synced ?? []).find((a) => a.slug === slug);
 
-  if (!item) return <NotFound />;
+  if (!item) {
+    if (isLoading) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      );
+    }
+    return <NotFound />;
+  }
 
   const url = `${SITE_URL}/actualites/${item.slug}`;
-  const related = actualites.filter((a) => a.slug !== item.slug).slice(0, 3);
+  const related = [...actualites, ...(synced ?? [])]
+    .filter((a) => a.slug !== item.slug)
+    .slice(0, 3);
 
   const newsJsonLd = {
     "@context": "https://schema.org",
