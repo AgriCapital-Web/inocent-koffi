@@ -10,6 +10,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { trackPageView } from "@/lib/analytics";
 import { OrganizationJsonLd, PersonJsonLd } from "@/components/SeoJsonLd";
 import SeoAlternates from "@/components/SeoAlternates";
+import { resolveLegacyRedirect } from "@/lib/legacyRedirects";
 import Home from "./pages/Home";
 import APropos from "./pages/APropos";
 import Vision from "./pages/Vision";
@@ -81,6 +82,13 @@ const AppRoutes = () => {
 
     if (raw !== normalized) {
       navigate(normalized || "/", { replace: true });
+      return;
+    }
+
+    // Redirections héritées (anciennes URL) — évite les 404 après changement d'URL
+    const legacy = resolveLegacyRedirect(normalized || "/");
+    if (legacy && legacy !== (normalized || "/")) {
+      navigate(legacy + location.search, { replace: true });
     }
   }, [location.pathname, navigate]);
 
