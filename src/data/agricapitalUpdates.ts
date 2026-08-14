@@ -166,7 +166,7 @@ export const actualites: Actualite[] = [
     content: [
       "Un bref essentiel pour comprendre pourquoi les terres africaines inexploitées peuvent devenir un patrimoine productif et transmissible.",
     ],
-    image: "/images/agricapital/foncier-vavoua-2026.jpg",
+    image: "/images/agricapital/foncier-vavoua-2026.webp",
     imageAlt:
       "Foncier agricole sécurisé par AgriCapital à Vavoua, Côte d'Ivoire",
     sourceUrl: "https://agricapital.ci/tresor-foncier",
@@ -182,7 +182,7 @@ export const actualites: Actualite[] = [
     content: [
       "Un bref clair sur un arbre stratégique, présent dans le quotidien, productif pendant des décennies et adapté au potentiel ivoirien.",
     ],
-    image: "/images/agricapital/regimes-palmier-huile.jpg",
+    image: "/images/agricapital/regimes-palmier-huile.webp",
     imageAlt:
       "Régimes de palmier à huile mûrs dans une plantation AgriCapital en Côte d'Ivoire",
     sourceUrl: "https://agricapital.ci/tresor-palmier",
@@ -223,7 +223,7 @@ export const offres = [
     ],
     cta: "Découvrir PalmInvest",
     url: "https://agricapital.ci/palminvest",
-    image: "/images/agricapital/plantation-palmier-mature.jpg",
+    image: "/images/agricapital/plantation-palmier-mature.webp",
     imageAlt: "Plantation de palmier à huile mature développée par AgriCapital",
   },
   {
@@ -238,7 +238,7 @@ export const offres = [
     ],
     cta: "Découvrir TerraPalm",
     url: "https://agricapital.ci/terrapalm",
-    image: "/images/agricapital/gerant-plantation-palmier.jpg",
+    image: "/images/agricapital/gerant-plantation-palmier.webp",
     imageAlt:
       "Inocent KOFFI sur une parcelle de palmier à huile valorisée par AgriCapital",
   },

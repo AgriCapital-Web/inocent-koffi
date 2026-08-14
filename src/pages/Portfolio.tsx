@@ -50,6 +50,7 @@ const projects = [
   },
   {
     name: "Scoly",
+    url: "https://www.scoly.ci",
     description: "Plateforme e-commerce scolaire & bureautique pour la Côte d'Ivoire. Catalogue complet, paiement Mobile Money (KkiaPay), livraison gratuite, module IA intégré.",
     tech: ["React 18", "TypeScript", "Supabase", "KkiaPay", "IA Gemini", "TipTap"],
     category: "E-commerce",

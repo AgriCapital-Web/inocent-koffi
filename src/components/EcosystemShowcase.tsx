@@ -118,7 +118,8 @@ const SITES: Site[] = [
     name: "Scoly",
     tag: "Éducation",
     description:
-      "Initiative dédiée à l'accompagnement et à l'équipement scolaire en Côte d'Ivoire.",
+      "Plateforme e-commerce scolaire & bureautique en Côte d'Ivoire : catalogue complet, paiement Mobile Money et livraison.",
+    url: "https://www.scoly.ci",
     image: "/images/showcase/scoly.png",
   },
 ];

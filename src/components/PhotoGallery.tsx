@@ -55,11 +55,11 @@ const galleryImages: GalleryImage[] = [
   { id: '34', src: '/images/agricapital/formation-prise-parole.webp', alt: 'Session de formation des équipes commerciales AgriCapital', category: 'training' },
   { id: '35', src: '/images/agricapital/formation-presentation-offres.webp', alt: 'Présentation des offres PalmInvest et TerraPalm aux conseillers', category: 'training' },
   { id: '36', src: '/images/agricapital/pepiniere-plants-palmier.webp', alt: 'Plus de 20 000 plants de palmier à huile en pépinière à Gonaté', category: 'nursery' },
-  { id: '37', src: '/images/agricapital/pepiniere-avril-2026.jpg', alt: 'Pépinière AgriCapital de palmier à huile, avril 2026', category: 'nursery' },
-  { id: '38', src: '/images/agricapital/plantation-palmier-mature.jpg', alt: 'Plantation de palmier à huile mature développée par AgriCapital', category: 'nursery' },
-  { id: '39', src: '/images/agricapital/regimes-palmier-huile.jpg', alt: 'Régimes de palmier à huile mûrs en plantation AgriCapital', category: 'nursery' },
-  { id: '40', src: '/images/agricapital/foncier-vavoua-2026.jpg', alt: 'Foncier agricole sécurisé par AgriCapital à Vavoua', category: 'nursery' },
-  { id: '41', src: '/images/agricapital/gerant-plantation-palmier.jpg', alt: 'Inocent KOFFI, Gérant d\u2019AGRICAPITAL SARL, sur une parcelle de palmier à huile', category: 'community' },
+  { id: '37', src: '/images/agricapital/pepiniere-avril-2026.webp', alt: 'Pépinière AgriCapital de palmier à huile, avril 2026', category: 'nursery' },
+  { id: '38', src: '/images/agricapital/plantation-palmier-mature.webp', alt: 'Plantation de palmier à huile mature développée par AgriCapital', category: 'nursery' },
+  { id: '39', src: '/images/agricapital/regimes-palmier-huile.webp', alt: 'Régimes de palmier à huile mûrs en plantation AgriCapital', category: 'nursery' },
+  { id: '40', src: '/images/agricapital/foncier-vavoua-2026.webp', alt: 'Foncier agricole sécurisé par AgriCapital à Vavoua', category: 'nursery' },
+  { id: '41', src: '/images/agricapital/gerant-plantation-palmier.webp', alt: 'Inocent KOFFI, Gérant d\u2019AGRICAPITAL SARL, sur une parcelle de palmier à huile', category: 'community' },
 ];
 
 const filters = [

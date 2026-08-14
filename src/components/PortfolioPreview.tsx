@@ -7,7 +7,7 @@ const featuredProjects = [
   { name: "IvoireProjet", url: "https://www.ivoireprojet.com", desc: "Structuration & orientation de projets", icon: Globe, category: "Portail", screenshot: "/images/projects/ivoireprojet.png" },
   { name: "ASSOJEREB", url: "https://assojereb.ivoireprojet.com", desc: "Plateforme associative communautaire", icon: Globe, category: "Associatif", screenshot: "/images/projects/assojereb.png" },
   { name: "LegalForm CI", url: "https://www.legalform.ci", desc: "Création d'entreprises en ligne", icon: Shield, category: "LegalTech", screenshot: "/images/projects/legalform.png" },
-  { name: "Scoly", desc: "E-commerce scolaire & bureautique", icon: GraduationCap, category: "E-commerce", screenshot: "/images/projects/scoly.png" },
+  { name: "Scoly", url: "https://www.scoly.ci", desc: "E-commerce scolaire & bureautique", icon: GraduationCap, category: "E-commerce", screenshot: "/images/projects/scoly.png" },
   { name: "AGRICAPITAL App", url: "https://www.app.agricapital.ci", desc: "CRM & gestion agricole", icon: BarChart3, category: "CRM", screenshot: "/images/projects/agricapital-app.png" },
   { name: "MiPROJET+", url: "https://plus.ivoireprojet.com", desc: "Structuration & financement d'organisations", icon: Rocket, category: "Structuration", screenshot: "" },
   { name: "MiProjet Go", url: "https://go.ivoireprojet.com", desc: "Gestion des entrepreneurs, commerçants & TPE", icon: Store, category: "Gestion TPE", screenshot: "" },
