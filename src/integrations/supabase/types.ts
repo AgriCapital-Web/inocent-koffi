@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      agricapital_news: {
+        Row: {
+          category: string
+          content: Json
+          created_at: string
+          date: string | null
+          date_label: string | null
+          excerpt: string | null
+          id: string
+          image: string | null
+          image_alt: string | null
+          is_published: boolean
+          slug: string
+          source_url: string | null
+          synced_at: string
+          title: string
+        }
+        Insert: {
+          category?: string
+          content?: Json
+          created_at?: string
+          date?: string | null
+          date_label?: string | null
+          excerpt?: string | null
+          id?: string
+          image?: string | null
+          image_alt?: string | null
+          is_published?: boolean
+          slug: string
+          source_url?: string | null
+          synced_at?: string
+          title: string
+        }
+        Update: {
+          category?: string
+          content?: Json
+          created_at?: string
+          date?: string | null
+          date_label?: string | null
+          excerpt?: string | null
+          id?: string
+          image?: string | null
+          image_alt?: string | null
+          is_published?: boolean
+          slug?: string
+          source_url?: string | null
+          synced_at?: string
+          title?: string
+        }
+        Relationships: []
+      }
       ai_cache: {
         Row: {
           cache_key: string

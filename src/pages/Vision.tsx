@@ -45,7 +45,7 @@ const Vision = () => {
             <div className="container mx-auto px-4 relative z-10">
               <div className="max-w-4xl mx-auto text-center">
                 <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-8 text-foreground">
-                  Notre <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Vision</span>
+                  Notre <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Vision</span> pour un patrimoine agricole durable
                 </h1>
                 
                 <div className="bg-card/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 md:p-12 border border-border/50 shadow-xl">

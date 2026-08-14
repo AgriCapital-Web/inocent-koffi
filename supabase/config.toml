@@ -14,3 +14,6 @@ verify_jwt = false
 
 [functions.og-routes-audit]
 verify_jwt = false
+
+[functions.sync-agricapital]
+verify_jwt = false
