@@ -8,22 +8,30 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, ExternalLink, ArrowRight } from "lucide-react";
 import { actualites, AGRICAPITAL_URL } from "@/data/agricapitalUpdates";
+import { useSyncedActualites } from "@/hooks/useSyncedActualites";
 import { BreadcrumbJsonLd, SITE_URL, WebPageJsonLd } from "@/components/SeoJsonLd";
 import { trackCta } from "@/lib/analytics";
 
 const Actualites = () => {
+  const { data: synced } = useSyncedActualites();
+
+  const allItems = useMemo(() => {
+    const known = new Set(actualites.map((a) => a.slug));
+    return [...actualites, ...(synced ?? []).filter((a) => !known.has(a.slug))];
+  }, [synced]);
+
   const categories = useMemo(
-    () => ["Toutes", ...Array.from(new Set(actualites.map((a) => a.category)))],
-    [],
+    () => ["Toutes", ...Array.from(new Set(allItems.map((a) => a.category)))],
+    [allItems],
   );
   const [active, setActive] = useState("Toutes");
-  const items = active === "Toutes" ? actualites : actualites.filter((a) => a.category === active);
+  const items = active === "Toutes" ? allItems : allItems.filter((a) => a.category === active);
 
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Actualités AgriCapital — Inocent KOFFI",
-    itemListElement: actualites.map((a, i) => ({
+    itemListElement: allItems.map((a, i) => ({
       "@type": "ListItem",
       position: i + 1,
       url: `${SITE_URL}/actualites/${a.slug}`,
@@ -34,7 +42,7 @@ const Actualites = () => {
   return (
     <>
       <Helmet>
-        <title>Actualités AgriCapital | Inocent KOFFI, Fondateur & CEO</title>
+        <title>Actualités AgriCapital | Inocent KOFFI, Gérant</title>
         <meta
           name="description"
           content="Actualités officielles d'AGRICAPITAL SARL suivies par Inocent KOFFI : bureau de Gonaté, pépinière, offres PalmInvest et TerraPalm, équipes et terrain."
@@ -45,7 +53,7 @@ const Actualites = () => {
         <meta property="og:url" content={`${SITE_URL}/actualites`} />
         <meta
           property="og:description"
-          content="Les actualités officielles d'AGRICAPITAL SARL, portées par Inocent KOFFI, Fondateur & CEO."
+          content="Les actualités officielles d'AGRICAPITAL SARL, portées par Inocent KOFFI, Gérant."
         />
         <script type="application/ld+json">{JSON.stringify(itemListJsonLd)}</script>
       </Helmet>
@@ -67,7 +75,7 @@ const Actualites = () => {
               </h1>
               <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
                 Les nouvelles officielles d'AGRICAPITAL SARL, l'entreprise que je dirige en tant que
-                Fondateur &amp; CEO. Les textes sont repris intégralement depuis agricapital.ci ; seule
+                Gérant. Les textes sont repris intégralement depuis agricapital.ci ; seule
                 la mise en page est adaptée à ce site.
               </p>
             </div>
