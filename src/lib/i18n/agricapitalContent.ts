@@ -16,7 +16,7 @@ export interface AgricapitalContent {
   };
 }
 
-export const agricapitalContent: Record<Language, AgricapitalContent> = {
+export const agricapitalContent: Partial<Record<Language, AgricapitalContent>> = {
   fr: {
     whyChoose: [
       { title: "Patrimoine Durable", description: "Constituez un actif agricole tangible qui prend de la valeur dans le temps. Une alternative concrète pour diversifier vos investissements." },

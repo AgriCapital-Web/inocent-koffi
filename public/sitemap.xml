@@ -16,6 +16,8 @@
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/zh" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/dyu" />
     <image:image>
       <image:loc>https://ikoffi.agricapital.ci/images/founder-inocent-koffi.jpg</image:loc>
       <image:title>Inocent KOFFI — Gérant AGRICAPITAL SARL</image:title>
@@ -32,6 +34,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/a-propos/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/a-propos/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/a-propos/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/a-propos/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/a-propos/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/a-propos" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -51,6 +55,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/vision/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/vision/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/vision/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/vision/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/vision/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/vision" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -66,6 +72,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/agricapital/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/agricapital/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/agricapital/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/agricapital/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/agricapital/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/agricapital" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -89,6 +97,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/projets/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/projets/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/projets/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/projets/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/projets/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/projets" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -108,6 +118,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/evolution/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/evolution/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/evolution/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/evolution/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/evolution/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/evolution" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -127,6 +139,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/partenariat/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/partenariat/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/partenariat/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/partenariat/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/partenariat/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/partenariat" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -142,6 +156,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/blog/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/blog/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/blog/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/blog/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/blog/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/blog" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>daily</changefreq>
@@ -157,6 +173,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/contact/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/contact/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/contact/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/contact/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/contact/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/contact" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -172,6 +190,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/mentions-legales/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/mentions-legales/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/mentions-legales/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/mentions-legales/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/mentions-legales/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/mentions-legales" />
     <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
@@ -187,6 +207,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/faq/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/faq/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/faq/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/faq/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/faq/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/faq" />
     <lastmod>2026-07-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -202,6 +224,8 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/blog/inauguration-premier-bureau-proximite-agricapital-gonate/de" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/blog/inauguration-premier-bureau-proximite-agricapital-gonate/zh" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/blog/inauguration-premier-bureau-proximite-agricapital-gonate/ar" />
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/blog/inauguration-premier-bureau-proximite-agricapital-gonate/bci" />
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/blog/inauguration-premier-bureau-proximite-agricapital-gonate/dyu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/blog/inauguration-premier-bureau-proximite-agricapital-gonate" />
     <lastmod>2026-08-03</lastmod>
     <changefreq>monthly</changefreq>

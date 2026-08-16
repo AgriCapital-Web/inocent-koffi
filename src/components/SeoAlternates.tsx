@@ -15,7 +15,7 @@ import { useLocation } from "react-router-dom";
  */
 const CANONICAL_HOST = "ikoffi.agricapital.ci";
 const CANONICAL_ORIGIN = `https://${CANONICAL_HOST}`;
-const LANGS = ["fr", "en", "es", "de", "zh", "ar"] as const;
+const LANGS = ["fr", "en", "es", "de", "zh", "ar", "bci", "dyu"] as const;
 const NOINDEX_PREFIXES = ["/admin", "/login", "/og-report", "/recherche", "/new/"];
 
 const upsertMeta = (name: string, content: string) => {

@@ -13,7 +13,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const detectLanguageFromPath = (pathname: string): Language | null => {
   const pathParts = pathname.split('/').filter(Boolean);
-  const langCodes: Language[] = ['fr', 'en', 'es', 'de', 'zh', 'ar'];
+  const langCodes: Language[] = ['fr', 'en', 'es', 'de', 'zh', 'ar', 'bci', 'dyu'];
   
   // Check if last segment is a language code
   const lastPart = pathParts[pathParts.length - 1];
@@ -32,7 +32,7 @@ const detectLanguageFromPath = (pathname: string): Language | null => {
 
 const detectBrowserLanguage = (): Language => {
   const browserLang = navigator.language.split('-')[0];
-  const supportedLangs: Language[] = ['fr', 'en', 'es', 'de', 'zh', 'ar'];
+  const supportedLangs: Language[] = ['fr', 'en', 'es', 'de', 'zh', 'ar', 'bci', 'dyu'];
   return supportedLangs.includes(browserLang as Language) ? (browserLang as Language) : 'fr';
 };
 
@@ -47,7 +47,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     
     // Then check localStorage
     const saved = localStorage.getItem('language');
-    if (saved && ['fr', 'en', 'es', 'de', 'zh', 'ar'].includes(saved)) {
+    if (saved && ['fr', 'en', 'es', 'de', 'zh', 'ar', 'bci', 'dyu'].includes(saved)) {
       return saved as Language;
     }
     
