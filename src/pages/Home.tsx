@@ -65,6 +65,16 @@ const Home = () => {
         title: "إنوسنت كوفي - مؤسس AGRICAPITAL SARL | التحول الزراعي",
         description: "إنوسنت كوفي، مؤسس AGRICAPITAL SARL. 12 عامًا من الخبرة الميدانية مع المنتجين الزراعيين في كوت ديفوار.",
         keywords: "إنوسنت كوفي، AGRICAPITAL، الزراعة، كوت ديفوار، زيت النخيل، التحول الزراعي"
+      },
+      bci: {
+        title: "Inocent KOFFI | AGRICAPITAL SARL i kpɛnngbɛn — Fie junman kacilɛ",
+        description: "Inocent KOFFI, AGRICAPITAL SARL i kpɛnngbɛn. Fie junman kacilɛ naan Afrika ɲan aɲanbeun.",
+        keywords: "Inocent KOFFI, AGRICAPITAL, fie junman, Côte d'Ivoire, mmɔ waka, klɔ mun ɲrun kɔlɛ"
+      },
+      dyu: {
+        title: "Inocent KOFFI | AGRICAPITAL SARL ɲɛmɔgɔ — Sɛnɛ yiriwali",
+        description: "Inocent KOFFI, AGRICAPITAL SARL ɲɛmɔgɔ. Sɛnɛ yiriwali walasa Afiriki ka nafolo sɔrɔ.",
+        keywords: "Inocent KOFFI, AGRICAPITAL, sɛnɛ, Kotidiwari, tulu-banan, togodaw yiriwali"
       }
     };
     return meta[language] || meta.fr;

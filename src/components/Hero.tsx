@@ -61,6 +61,22 @@ const Hero = () => {
       description: "رائد أعمال زراعي واستراتيجي في التنمية الزراعية. المدير العام لشركة AGRICAPITAL SARL، وهي جهة تشغيل وتطوير زراعي متخصصة في إنشاء مزارع نخيل زيت متكاملة في كوت ديفوار. أكثر من 12 سنة من الخبرة الميدانية في خدمة الزراعة والابتكار.",
       contact: "تواصل معي",
       discover: "اكتشف AGRICAPITAL"
+    },
+    bci: {
+      founder: "AGRICAPITAL SARL i kpɛnngbɛn",
+      role: "Fie junman difuɛ nin ɲrun nianfuɛ",
+      tagline: "Kplan fie aɲanbeun tititi, asiɛ kun kun, osu su osu.",
+      description: "Afuɛ blu tra su min di junman klɔ mun nun, i sɔ nun n nianniin Côte d’Ivoire fie junman ninnge kwlaa nun kpa. N ti fie junman difuɛ nin ɲrun nianfuɛ, AGRICAPITAL SARL i kpɛnngbɛn — e ta mmɔ waka fie kwlaa naan e fa man sran Haut-Sassandra nin Côte d’Ivoire lɔ.",
+      contact: "Flɛ min",
+      discover: "Nian AGRICAPITAL"
+    },
+    dyu: {
+      founder: "AGRICAPITAL SARL ɲɛmɔgɔ",
+      role: "Sɛnɛ baarakɛla ni hakilinata tigi",
+      tagline: "Ka sɛnɛ nafolo banbali jɔ, dugukolo kelen kelen, bɔnsɔn ni bɔnsɔn.",
+      description: "San tan ni kɔ ne ye baara kɛ togodaw la, o kɛra sababu ye ka Kotidiwari sɛnɛ fanga dɔn kosɛbɛ. Ne ye sɛnɛ baarakɛla ni sɛnɛ yiriwali hakilinata tigi ye, AGRICAPITAL SARL ɲɛmɔgɔ — an bɛ tulu-banan forow dilan pewu ka di mɔgɔw ma Haut-Sassandra ni Kotidiwari kɔnɔ.",
+      contact: "Ne weele",
+      discover: "AGRICAPITAL lajɛ"
     }
   }[language];
 

@@ -62,6 +62,34 @@ const About = () => {
       intro4: "AgriCapital جهة تشغيل وتطوير زراعي تصمم وتنفذ مزارع نخيل زيت متكاملة، بما يتيح للأفراد والمهنيين دخول الزراعة الإنتاجية دون تعقيدات تقنية أو عقارية أو تنظيمية.",
       intro5: "من 2012 إلى 2024 زار أكثر من 360 منطقة عبر 8 أقاليم في كوت ديفوار، وبقي على تواصل مباشر مع المجتمعات الريفية لتحديد أفضل الأراضي والتحقق منها لصالح عملاء AgriCapital.",
       values: [["مشغّل زراعي", "إنشاء مزارع نخيل زيت متكاملة مع الأرض أو بدونها."],["مرافقة شاملة", "من تأمين الأرض إلى التسويق بمتابعة صارمة وشفافة."],["أصل مستدام", "نموذج على 28 سنة لبناء أصل زراعي ملموس ومدر للدخل."],["أمان تعاقدي", "عقود موثقة وخرائط GPS وإطار قانوني قوي وضمان شراء لمدة 25 سنة."]]
+    },
+    bci: {
+      title: "Min su ndɛ",
+      intro1: "AGRICAPITAL SARL i kpɛnngbɛn",
+      intro2: "Fie junman difuɛ, ɲrun nianfuɛ klɔ sran mun nin fie junman ti",
+      intro3: "Afuɛ blu tra su min di junman Côte d’Ivoire klɔ mun nun. I sɔ ti’n, n si asiɛ’n, klɔ sran mun i afiɛn ninnge nin fie asiɛ nga be nunman su be liɛ’n. Ninnge sɔ mun yɛ be ti AGRICAPITAL i wunmiɛn dan.",
+      intro4: "AGRICAPITAL di fie junman nin junman ukalɛ. E ta mmɔ waka fie kwlaa — kɛ ɔ fin asiɛ’n i sielɛ kɔ mma bulɛ blɛ nun — naan sran nin junman sua mun be ɲan fie kpa, kɛ be di afiɛn kekle mun nun sa.",
+      intro5: "Kɛ ɔ fin afuɛ 2012 kɔ 2024, n sinnin klɔ 100 tra su, akpasua 8 nun Côte d’Ivoire lɔ, n nin awlobo kpanngban e kokoli. I sɔ yɛ ɔ kle min klɔ sran mun i afiɛn ninnge’n, fie asiɛ nga be nunman su’n, naan n kplan AGRICAPITAL i ajalɛ’n.",
+      values: [
+        ["Fie junman difuɛ", "Mmɔ waka fie kwlaa yolɛ, asiɛ o, asiɛ nunman lɛ o."],
+        ["Ukalɛ kwlaa", "Kɛ ɔ fin asiɛ sielɛ kɔ atɛ yolɛ, e nian su kpa nin nglo yilɛ nun."],
+        ["Aɲanbeun tititi", "Afuɛ 28 ajalɛ nga ɔ kplan fie aɲanbeun nin sika nga ɔ ba titi."],
+        ["Mmla su fɔundi", "Fluwa nga be sie i kpa, GPS nzɔliɛ, mmla wlɛlɛ nin afuɛ 25 atɛ tolɛ nda."]
+      ]
+    },
+    dyu: {
+      title: "N ka kunnafoni",
+      intro1: "AGRICAPITAL SARL ɲɛmɔgɔ",
+      intro2: "Sɛnɛ baarakɛla, sɛnɛ ni togodamɔgɔw yiriwali hakilinata tigi",
+      intro3: "San tan ni kɔ ne ye baara kɛ Kotidiwari togodaw la. O y’a to ne bɛ dugukolo, togodamɔgɔw ka koow ni jamana ka sɛnɛ fanga dɔn kosɛbɛ. O dɔnniya ye AGRICAPITAL ka fanga belebele ye bi.",
+      intro4: "AGRICAPITAL bɛ sɛnɛ jiidili ni baara dɛmɛ kɛ. An bɛ tulu-banan forow dilan pewu — kabini dugukolo lakana fo foro ka se a ka den bɔ — walasa mɔgɔw ni baarasoow ka se sɛnɛ nafama ma ni gɛlɛya si tɛ u kan.",
+      intro5: "Kabini san 2012 fo 2024, ne taara dugu 100 ni kɔ, mara 8 kɔnɔ Kotidiwari, ne ye baro kɛ ni denbaya caman ye. O y’a to ne ye togodaw ka koow faamu, ka sɛnɛ dugukolo minnu ma baara kɛ dɔn, ani ka AGRICAPITAL ka cogoya dilan.",
+      values: [
+        ["Sɛnɛ baarakɛla", "Tulu-banan foro dilanni pewu, ni dugukolo ye walima ni dugukolo tɛ."],
+        ["Dɛmɛ dafalen", "Kabini dugukolo lakana fo feereli, ni ɲɛnabɔli ni jɛlenya ye."],
+        ["Nafolo banbali", "San 28 cogoya min bɛ sɛnɛ nafolo yɛrɛyɛrɛ ni wari sɔrɔ jɔ."],
+        ["Sariya lakana", "Bɛnkan sɛbɛnnenw, GPS jaw, sariya sira jɔlen ani san 25 sanni layidu."]
+      ]
     }
   }[language];
   const values = [

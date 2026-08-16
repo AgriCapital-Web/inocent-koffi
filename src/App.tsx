@@ -61,7 +61,7 @@ const routes = [
   { path: "/faq", element: <FAQPage /> },
 ];
 
-const languageCodes = ["fr", "en", "es", "de", "zh", "ar"];
+const languageCodes = ["fr", "en", "es", "de", "zh", "ar", "bci", "dyu"];
 
 const AppRoutes = () => {
   const location = useLocation();
