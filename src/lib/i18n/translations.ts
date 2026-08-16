@@ -1,4 +1,4 @@
-export type Language = 'fr' | 'en' | 'es' | 'de' | 'zh' | 'ar';
+export type Language = 'fr' | 'en' | 'es' | 'de' | 'zh' | 'ar' | 'bci' | 'dyu';
 
 export const languages: { code: Language; name: string; flag: string }[] = [
   { code: 'fr', name: 'Français', flag: '🇫🇷' },
@@ -8,6 +8,12 @@ export const languages: { code: Language; name: string; flag: string }[] = [
   { code: 'zh', name: '中文', flag: '🇨🇳' },
   { code: 'ar', name: 'العربية', flag: '🇸🇦' },
 ];
+
+// Langues nationales de Côte d'Ivoire (orthographe officielle ivoirienne)
+languages.push(
+  { code: 'bci', name: 'Baoulé', flag: '🇨🇮' },
+  { code: 'dyu', name: 'Dioula', flag: '🇨🇮' },
+);
 
 export const translations: Record<Language, Record<string, string>> = {
   fr: {
