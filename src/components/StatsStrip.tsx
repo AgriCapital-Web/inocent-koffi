@@ -12,6 +12,8 @@ const StatsStrip = () => {
     de: ["Bereiste Regionen", "Besuchte Orte", "Jahre stiller Beobachtung", "Vermögensmodell"],
     zh: ["走访地区", "走访地点", "年沉默观察", "传承模式"],
     ar: ["مناطق مغطاة", "بلدات زُرناها", "سنوات من الملاحظة الصامتة", "نموذج إرثي"],
+    bci: ["Akpasua nga be sin be nun", "Klɔ nga be nian be su", "Afuɛ nianlɛ nglosɛ nun", "Aɲanbeun ajalɛ"],
+    dyu: ["Mara taamalenw", "Dugu lajɛlenw", "San lajɛli sumalen", "Nafolo cogoya"],
   }[language] || ["Régions parcourues", "Localités visitées", "Années d'observation silencieuse", "Modèle patrimonial"];
 
   const stats = [
