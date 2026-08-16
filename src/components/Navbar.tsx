@@ -22,6 +22,8 @@ const Navbar = () => {
     de: "AgriCapital-Team",
     zh: "AgriCapital 团队",
     ar: "فريق AgriCapital",
+    bci: "AGRICAPITAL sran mun",
+    dyu: "AGRICAPITAL jɛkulu"
   }[language];
 
   useEffect(() => {
