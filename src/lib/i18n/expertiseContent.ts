@@ -204,7 +204,7 @@ const fr: ExpertiseContent = {
   ],
   chain: {
     title: "Une approche de bout en bout",
-    lead: "Je ne me limite pas à utiliser des outils d’intelligence artificielle. J’intervenis sur l’ensemble de la chaîne :",
+    lead: "Je ne me limite pas à utiliser des outils d’intelligence artificielle. J’interviens sur l’ensemble de la chaîne :",
     steps: ["Réfléchir", "Structurer", "Écrire", "Créer", "Produire", "Monter", "Optimiser", "Diffuser"],
     note: "Parce qu’avant de produire une belle image ou une belle vidéo, il faut d’abord avoir une idée claire, un message pertinent et une bonne structure.",
   },
