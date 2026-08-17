@@ -25,6 +25,16 @@ const Navbar = () => {
     bci: "AGRICAPITAL sran mun",
     dyu: "AGRICAPITAL jɛkulu"
   }[language];
+  const expertiseLabel = {
+    fr: "Mes Expertises",
+    en: "My Expertise",
+    es: "Mis Especialidades",
+    de: "Meine Expertise",
+    zh: "我的专长",
+    ar: "خبراتي",
+    bci: "Ninnge nga n si be yo",
+    dyu: "N ka dɔnniyaw",
+  }[language] || "Mes Expertises";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,6 +51,7 @@ const Navbar = () => {
       children: [
         { href: "/a-propos", label: t("nav.about") },
         { href: "/vision", label: t("nav.vision") },
+        { href: "/expertises", label: expertiseLabel },
         { href: "/portfolio", label: "Portfolio" },
       ],
     },
