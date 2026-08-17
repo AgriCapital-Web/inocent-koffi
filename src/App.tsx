@@ -33,6 +33,7 @@ import NotFound from "./pages/NotFound";
 import FAQPage from "./pages/FAQ";
 import Actualites from "./pages/Actualites";
 import ActualiteDetail from "./pages/ActualiteDetail";
+import Expertises from "./pages/Expertises";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const routes = [
   { path: "/", element: <Home /> },
   { path: "/a-propos", element: <APropos /> },
   { path: "/vision", element: <Vision /> },
+  { path: "/expertises", element: <Expertises /> },
   { path: "/agricapital", element: <Agricapital /> },
   { path: "/projets", element: <Projets /> },
   { path: "/partenariat", element: <Partenariat /> },

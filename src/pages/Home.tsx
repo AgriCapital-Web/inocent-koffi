@@ -9,6 +9,7 @@ import { FaqPageJsonLd, WebPageJsonLd } from "@/components/SeoJsonLd";
 
 // Lazy load components for better performance
 const About = lazy(() => import("@/components/About"));
+const Expertise = lazy(() => import("@/components/Expertise"));
 const Services = lazy(() => import("@/components/Services"));
 const PortfolioPreview = lazy(() => import("@/components/PortfolioPreview"));
 const FeaturedPosts = lazy(() => import("@/components/FeaturedPosts"));
@@ -160,6 +161,9 @@ const Home = () => {
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <About />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <Expertise />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <Services />
