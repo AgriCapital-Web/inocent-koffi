@@ -292,4 +292,117 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <url>
+    <loc>https://ikoffi.agricapital.ci/expertises</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/expertises"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/expertises/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/expertises/es"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/expertises/de"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/expertises/zh"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/expertises/ar"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/expertises/bci"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/expertises/dyu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/expertises"/>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/expertises/en</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/expertises"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/expertises/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/expertises/es"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/expertises/de"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/expertises/zh"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/expertises/ar"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/expertises/bci"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/expertises/dyu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/expertises"/>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/expertises/es</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/expertises"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/expertises/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/expertises/es"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/expertises/de"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/expertises/zh"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/expertises/ar"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/expertises/bci"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/expertises/dyu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/expertises"/>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/expertises/de</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/expertises"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/expertises/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/expertises/es"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/expertises/de"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/expertises/zh"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/expertises/ar"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/expertises/bci"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/expertises/dyu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/expertises"/>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/expertises/zh</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/expertises"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/expertises/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/expertises/es"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/expertises/de"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/expertises/zh"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/expertises/ar"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/expertises/bci"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/expertises/dyu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/expertises"/>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/expertises/ar</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/expertises"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/expertises/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/expertises/es"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/expertises/de"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/expertises/zh"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/expertises/ar"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/expertises/bci"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/expertises/dyu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/expertises"/>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/expertises/bci</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/expertises"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/expertises/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/expertises/es"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/expertises/de"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/expertises/zh"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/expertises/ar"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/expertises/bci"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/expertises/dyu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/expertises"/>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/expertises/dyu</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/expertises"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/expertises/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/expertises/es"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/expertises/de"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/expertises/zh"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/expertises/ar"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/expertises/bci"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/expertises/dyu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/expertises"/>
+  </url>
 </urlset>
