@@ -1,0 +1,47 @@
+# Robots.txt — https://ikoffi.agricapital.ci
+# Inocent KOFFI - AGRICAPITAL SARL
+# Seul le domaine ikoffi.agricapital.ci doit être indexé.
+# Les alias (previews, *.lovable.app, *.vercel.app, *.netlify.app) renvoient
+# un meta robots "noindex, nofollow" côté application (voir SeoAlternates.tsx).
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /og-image.png
+Allow: /og-image-profile.png
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: *
+Allow: /
+Crawl-delay: 2
+Disallow: /admin
+Disallow: /login
+Disallow: /og-report
+Disallow: /recherche
+
+# Sitemap location
+Sitemap: https://ikoffi.agricapital.ci/sitemap.xml
+
+# Host
+Host: https://ikoffi.agricapital.ci

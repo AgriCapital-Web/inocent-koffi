@@ -1,0 +1,19 @@
+project_id = "mlatmyzmjsouxjpjzshd"
+
+[functions.send-notification]
+verify_jwt = false
+
+[functions.blog-ai-assistant]
+verify_jwt = false
+
+[functions.og-article]
+verify_jwt = false
+
+[functions.og-audit]
+verify_jwt = false
+
+[functions.og-routes-audit]
+verify_jwt = false
+
+[functions.sync-agricapital]
+verify_jwt = false

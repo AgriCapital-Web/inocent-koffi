@@ -1,0 +1,22 @@
+# Inocent KOFFI — AGRICAPITAL SARL
+
+> Site officiel d'Inocent KOFFI, Gérant d'AGRICAPITAL SARL. Vision Agro-Impact : transformation agricole durable pour une Afrique prospère, partenariats stratégiques et modèles agricoles innovants en Côte d'Ivoire.
+
+AGRICAPITAL SARL est une entreprise ivoirienne basée à Daloa (Haut-Sassandra) dédiée à la transformation durable de l'agriculture africaine : pépinières de palmier à huile, financement et accompagnement de producteurs, structuration de projets agro-industriels.
+
+## Pages
+
+- [Accueil](/): Vision Agro-Impact et présentation d'Inocent KOFFI.
+- [À propos](/a-propos): Parcours, expertise et engagement d'Inocent KOFFI.
+- [Vision](/vision): Stratégie de transformation agricole pour l'Afrique.
+- [AGRICAPITAL](/agricapital): Entreprise, activités et écosystème AGRICAPITAL SARL.
+- [Projets](/projets): Projets agricoles en cours et réalisations.
+- [Évolution](/evolution): Chronologie et jalons du projet AGRICAPITAL.
+- [Portfolio](/portfolio): Portfolio numérique et projets connexes.
+- [Partenariat](/partenariat): Opportunités de partenariat stratégique.
+- [Blog](/blog): Analyses, actualités et réflexions sur l'agriculture africaine.
+- [Contact](/contact): Coordonnées et formulaire de contact.
+
+## Optional
+
+- [Mentions légales](/mentions-legales): Informations légales.

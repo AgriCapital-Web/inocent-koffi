@@ -1,0 +1,151 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import { LanguageProvider } from "@/hooks/useLanguage";
+import { useEffect } from "react";
+import ScrollToTop from "@/components/ScrollToTop";
+import { trackPageView } from "@/lib/analytics";
+import { OrganizationJsonLd, PersonJsonLd } from "@/components/SeoJsonLd";
+import SeoAlternates from "@/components/SeoAlternates";
+import { resolveLegacyRedirect } from "@/lib/legacyRedirects";
+
+import Home from "./pages/Home";
+import APropos from "./pages/APropos";
+import Vision from "./pages/Vision";
+import Expertises from "./pages/Expertises";
+
+import Boutique from "./pages/Boutique";
+import Agricapital from "./pages/Agricapital";
+import Projets from "./pages/Projets";
+import Partenariat from "./pages/Partenariat";
+import Actualites from "./pages/Actualites";
+import ActualiteDetail from "./pages/ActualiteDetail";
+import Contact from "./pages/Contact";
+import Commande from "./pages/Commande";
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
+import MentionsLegales from "./pages/MentionsLegales";
+import Evolution from "./pages/EvolutionEnhanced";
+import Portfolio from "./pages/Portfolio";
+import Forum from "./pages/Forum";
+import SearchResults from "./pages/SearchResults";
+import ShortRedirect from "./pages/ShortRedirect";
+import NotFound from "./pages/NotFound";
+import FAQPage from "./pages/FAQ";
+import Studio from "./pages/Studio";
+import ClientPortal from "./pages/ClientPortal";
+
+const LegacyArticleRedirect = () => { const location = useLocation(); const slug = location.pathname.split("/").filter(Boolean).pop(); return <Navigate to={slug ? "/actualites/" + slug : "/actualites"} replace />; };
+
+const queryClient = new QueryClient();
+
+const routes = [
+  { path: "/", element: <Home /> },
+  { path: "/a-propos", element: <APropos /> },
+  { path: "/vision", element: <Vision /> },
+  { path: "/expertises", element: <Expertises /> },
+  { path: "/services", element: <Navigate to="/boutique" replace /> },
+  { path: "/boutique", element: <Boutique /> },
+  { path: "/agricapital", element: <Agricapital /> },
+  { path: "/projets", element: <Navigate to="/portfolio" replace /> },
+  { path: "/partenariat", element: <Partenariat /> },
+  { path: "/evolution", element: <Evolution /> },
+  { path: "/portfolio", element: <Portfolio /> },
+  { path: "/actualites", element: <Actualites /> },
+  { path: "/actualites/:slug", element: <ActualiteDetail /> },
+  { path: "/new", element: <Navigate to="/actualites" replace /> },
+  { path: "/new/:slug", element: <LegacyArticleRedirect /> },
+  { path: "/blog", element: <Navigate to="/actualites" replace /> },
+  { path: "/blog/:slug", element: <LegacyArticleRedirect /> },
+  { path: "/forum", element: <Forum /> },
+  { path: "/recherche", element: <SearchResults /> },
+  { path: "/contact", element: <Contact /> },
+  { path: "/commande", element: <Commande /> },
+  { path: "/login", element: <Login /> },
+  { path: "/client", element: <ClientPortal /> },
+  { path: "/admin", element: <Admin /> },
+  { path: "/studio", element: <Studio /> },
+  { path: "/mentions-legales", element: <MentionsLegales /> },
+  { path: "/faq", element: <FAQPage /> },
+  { path: "/n/:code", element: <ShortRedirect /> },
+];
+
+const languageCodes = ["fr", "en", "es", "de", "zh", "ar", "bci", "dyu"];
+
+const AppRoutes = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    const raw = location.pathname;
+    const normalized = raw
+      .replace(/\/{2,}/g, "/")
+      .replace(/\/$/, "")
+      .toLowerCase();
+
+    if (raw !== normalized) {
+      navigate(normalized || "/", { replace: true });
+      return;
+    }
+
+    const legacy = resolveLegacyRedirect(normalized || "/");
+    if (legacy && legacy !== (normalized || "/")) {
+      navigate(legacy + location.search, { replace: true });
+    }
+  }, [location.pathname, location.search, navigate]);
+
+  return (
+    <Routes>
+      {routes.map((route) => (
+        <Route key={route.path} path={route.path} element={route.element} />
+      ))}
+
+      {languageCodes.filter((lang) => lang !== "fr").map((lang) => (
+        <Route key={lang} path={`/${lang}`} element={<Home />} />
+      ))}
+
+      {routes
+        .filter((route) => !["/login", "/admin", "/n/:code"].includes(route.path))
+        .map((route) =>
+          languageCodes.filter((lang) => lang !== "fr").map((lang) => (
+            <Route
+              key={`${lang}${route.path}`}
+              path={route.path === "/" ? `/${lang}` : `/${lang}${route.path}`}
+              element={route.element}
+            />
+          )),
+        )}
+
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
+
+const App = () => (
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <LanguageProvider>
+            <OrganizationJsonLd />
+            <PersonJsonLd />
+            <SeoAlternates />
+            <ScrollToTop />
+            <AppRoutes />
+          </LanguageProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
+);
+
+export default App;

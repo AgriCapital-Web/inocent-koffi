@@ -1,0 +1,274 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(webp|avif|jpg|jpeg|png|gif|svg|woff2)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/about",
+      "destination": "/a-propos",
+      "permanent": true
+    },
+    {
+      "source": "/apropos",
+      "destination": "/a-propos",
+      "permanent": true
+    },
+    {
+      "source": "/a-propos-de-moi",
+      "destination": "/a-propos",
+      "permanent": true
+    },
+    {
+      "source": "/bio",
+      "destination": "/a-propos",
+      "permanent": true
+    },
+    {
+      "source": "/team",
+      "destination": "/a-propos",
+      "permanent": true
+    },
+    {
+      "source": "/equipe",
+      "destination": "/a-propos",
+      "permanent": true
+    },
+    {
+      "source": "/nos-actifs",
+      "destination": "/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/chiffres-cles",
+      "destination": "/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/projet",
+      "destination": "/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/projects",
+      "destination": "/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/realisations",
+      "destination": "/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/projets",
+      "destination": "/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/news",
+      "destination": "/actualites",
+      "permanent": true
+    },
+    {
+      "source": "/new",
+      "destination": "/actualites",
+      "permanent": true
+    },
+    {
+      "source": "/new/:slug",
+      "destination": "/actualites/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/actualite",
+      "destination": "/actualites",
+      "permanent": true
+    },
+    {
+      "source": "/actualite-agricapital",
+      "destination": "/actualites",
+      "permanent": true
+    },
+    {
+      "source": "/actualite/:slug",
+      "destination": "/actualites/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/articles",
+      "destination": "/actualites",
+      "permanent": true
+    },
+    {
+      "source": "/blogs",
+      "destination": "/actualites",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/actualites",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/actualites/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/article/:slug",
+      "destination": "/actualites/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/n/:code",
+      "destination": "/actualites",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/boutique",
+      "permanent": true
+    },
+    {
+      "source": "/agri-capital",
+      "destination": "/agricapital",
+      "permanent": true
+    },
+    {
+      "source": "/agricapital-sarl",
+      "destination": "/agricapital",
+      "permanent": true
+    },
+    {
+      "source": "/partenaires",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/partenariats",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/partnership",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/partenariat",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/galerie",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/timeline",
+      "destination": "/a-propos",
+      "permanent": true
+    },
+    {
+      "source": "/pepiniere",
+      "destination": "/agricapital",
+      "permanent": true
+    },
+    {
+      "source": "/evolution",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contactez-nous",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/legal",
+      "destination": "/mentions-legales",
+      "permanent": true
+    },
+    {
+      "source": "/mentions",
+      "destination": "/mentions-legales",
+      "permanent": true
+    },
+    {
+      "source": "/search",
+      "destination": "/recherche",
+      "permanent": true
+    },
+    {
+      "source": "/vision-agro-impact",
+      "destination": "/vision",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/actualites/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(facebookexternalhit|facebot|twitterbot|linkedinbot|whatsapp|slackbot|telegrambot|discordbot|pinterest|skypeuripreview|embedly|outbrain|vkshare|redditbot|applebot|yahoo|duckduckbot|baiduspider|tumblr|flipboardproxy|nuzzel|bitlybot|qwantify).*"
+        }
+      ],
+      "destination": "/api/og-article?slug=:slug"
+    },
+    {
+      "source": "/((?!.*\\.[a-zA-Z0-9]+$).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

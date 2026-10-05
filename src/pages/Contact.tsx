@@ -1,0 +1,125 @@
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ContactForm from "@/components/ContactForm";
+import { Helmet } from "react-helmet-async";
+import { Badge } from "@/components/ui/badge";
+import { Mail, Phone, MapPin, Globe, Clock } from "lucide-react";
+import { motion } from "framer-motion";
+
+const contactInfo = [
+  { icon: Mail, label: "Email pro", value: "inocent.koffi@agricapital.ci", href: "mailto:inocent.koffi@agricapital.ci" },
+  { icon: Mail, label: "Email perso", value: "innocentkoffi1@gmail.com", href: "mailto:innocentkoffi1@gmail.com" },
+  { icon: Mail, label: "Email projet", value: "inocent.koffi@ivoireprojet.com", href: "mailto:inocent.koffi@ivoireprojet.com" },
+  { icon: Phone, label: "Téléphone / WhatsApp", value: "+225 07 59 56 60 87", href: "tel:+2250759566087" },
+  { icon: MapPin, label: "Adresse", value: "Daloa, Haut-Sassandra, Côte d'Ivoire", href: null },
+  { icon: Globe, label: "Projet AgriCapital", value: "agricapital.ci", href: "https://www.agricapital.ci" },
+];
+
+const Contact = () => {
+  return (
+    <>
+      <Helmet>
+        <title>Contact | Inocent KOFFI</title>
+        <meta name="description" content="Contactez Inocent KOFFI pour un projet digital, web, IA, vidéo, audio ou une collaboration." />
+        <link rel="canonical" href="https://ikoffi.agricapital.ci/contact" />
+      </Helmet>
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="pt-20">
+          {/* Hero Section */}
+          <section className="py-20 bg-gradient-to-br from-background via-secondary/30 to-background">
+            <div className="container mx-auto px-4">
+              <motion.div 
+                className="max-w-4xl mx-auto text-center"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <Badge variant="outline" className="mb-4">Contact</Badge>
+                <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-foreground">
+                  Prenons <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Contact</span>
+                </h1>
+                <p className="text-xl text-muted-foreground leading-relaxed">
+                  Une question, une idée de collaboration ou simplement envie d'échanger ? N'hésitez pas à me contacter.
+                </p>
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Contact Info Cards */}
+          <section className="py-12 bg-background">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {contactInfo.map((info, index) => {
+                    const Icon = info.icon;
+                    const content = (
+                      <motion.div 
+                        className="p-6 rounded-xl bg-card border border-border/50 hover:border-accent/50 hover:shadow-lg transition-all text-center h-full"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                        whileHover={{ y: -4 }}
+                      >
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-4">
+                          <Icon className="w-6 h-6 text-white" />
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-1">{info.label}</p>
+                        <p className="font-medium text-foreground">{info.value}</p>
+                      </motion.div>
+                    );
+                    return info.href ? (
+                      <a key={index} href={info.href} target={info.href.startsWith('http') ? '_blank' : undefined} rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                        {content}
+                      </a>
+                    ) : (
+                      <div key={index}>{content}</div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Contact Form */}
+          <section className="py-12 bg-secondary/30">
+            <div className="container mx-auto px-4">
+              <motion.div 
+                className="max-w-2xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <ContactForm />
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Availability */}
+          <section className="py-12 bg-background">
+            <div className="container mx-auto px-4">
+              <motion.div 
+                className="max-w-2xl mx-auto text-center"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+              >
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <Clock className="w-5 h-5 text-accent" />
+                  <span className="text-muted-foreground">Disponibilité</span>
+                </div>
+                <p className="text-foreground">
+                  Je m'efforce de répondre à tous les messages dans un délai de <strong>24 à 48 heures</strong>.
+                </p>
+              </motion.div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    </>
+  );
+};
+
+export default Contact;
