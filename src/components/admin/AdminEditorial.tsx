@@ -109,7 +109,7 @@ export default function AdminEditorial() {
             })) as RelatedItem[],
         );
       } else {
-        const { data, error } = await supabase.rpc("find_related_news", {
+        const { data, error } = await (supabase as any).rpc("find_related_news", {
           p_news_id: null,
           p_title: title || null,
           p_excerpt: excerpt || null,
