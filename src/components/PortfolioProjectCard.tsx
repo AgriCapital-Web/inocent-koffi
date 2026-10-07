@@ -30,7 +30,7 @@ export default function PortfolioProjectCard({project,previewTick}:{project:Port
         <div className="mb-3 flex min-w-0 items-center gap-3"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent"><Icon className="h-5 w-5 text-primary-foreground"/></div><h3 className="min-w-0 text-lg font-bold leading-tight text-foreground">{project.title}</h3></div>
         <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{project.description||"Réalisation numérique conçue et publiée par Inocent KOFFI."}</p>
         <div className="mb-4 flex flex-wrap gap-1.5">{(project.technologies||[]).slice(0,6).map(t=><span key={t} className="rounded bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">{t}</span>)}</div>
-        <div className="mt-auto flex items-center justify-between gap-3"><span className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary">{project.url?"Visiter le site":"Projet interne"} {project.url&&<ExternalLink className="h-3.5 w-3.5"/>}</span>{project.updated_at&&<span className="whitespace-nowrap text-[10px] text-muted-foreground">Mis à jour {new Date(project.updated_at).toLocaleDateString("fr-FR")}</span>}</div>
+        <div className="mt-auto flex items-center justify-between gap-3"><span className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary">{project.url?"Visiter le site":"Projet interne"} {project.url&&<ExternalLink className="h-3.5 w-3.5"/>}</span>{(project as any).updated_at&&<span className="whitespace-nowrap text-[10px] text-muted-foreground">Mis à jour {new Date((project as any).updated_at).toLocaleDateString("fr-FR")}</span>}</div>
       </div>
     </a>
   </motion.article>;

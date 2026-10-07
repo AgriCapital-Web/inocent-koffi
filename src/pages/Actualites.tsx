@@ -20,7 +20,7 @@ const minutes=(t="")=>Math.max(1,Math.ceil(strip(t).split(/\s+/).filter(Boolean)
 
 export default function Actualites(){
  const {language,t}=useLanguage();const [cat,setCat]=useState("Toutes"),[q,setQ]=useState("");const [cinema,setCinema]=useState(true);
- const {data:items=[],isLoading}=useQuery({queryKey:["personal-news"],queryFn:async()=>{const {data,error}=await supabase.from("news").select("*").eq("is_published",true).order("published_at",{ascending:false}).limit(100);if(error)throw error;return data as NewsItem[];},staleTime:0,refetchOnWindowFocus:true});
+ const {data:items=[],isLoading}=useQuery({queryKey:["personal-news"],queryFn:async()=>{const {data,error}=await (supabase as any).from("news").select("*").eq("is_published",true).order("published_at",{ascending:false}).limit(100);if(error)throw error;return data as NewsItem[];},staleTime:0,refetchOnWindowFocus:true});
  const loc=(x:NewsItem,k:"title"|"excerpt"|"content")=>((x as any)[k+"_"+language]||x[k+"_fr"]||"").trim();
  const categories=useMemo(()=>["Toutes",...Array.from(new Set(items.map(i=>i.category?.trim()).filter(Boolean) as string[]))],[items]);
  const filtered=useMemo(()=>items.filter(i=>(cat==="Toutes"||i.category===cat)&&(!q||[loc(i,"title"),loc(i,"excerpt"),strip(loc(i,"content")),i.category].join(" ").toLowerCase().includes(q.toLowerCase()))),[items,cat,q,language]);
