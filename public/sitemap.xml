@@ -138,56 +138,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <url>
-    <loc>https://ikoffi.agricapital.ci/studio</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://ikoffi.agricapital.ci/studio"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ikoffi.agricapital.ci/studio/en"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://ikoffi.agricapital.ci/studio/es"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://ikoffi.agricapital.ci/studio/de"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://ikoffi.agricapital.ci/studio/zh"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://ikoffi.agricapital.ci/studio/ar"/>
-    <xhtml:link rel="alternate" hreflang="bci" href="https://ikoffi.agricapital.ci/studio/bci"/>
-    <xhtml:link rel="alternate" hreflang="dyu" href="https://ikoffi.agricapital.ci/studio/dyu"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ikoffi.agricapital.ci/studio"/>
-  </url>
-  <url>
-    <loc>https://ikoffi.agricapital.ci/studio/en</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://ikoffi.agricapital.ci/studio/es</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://ikoffi.agricapital.ci/studio/de</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://ikoffi.agricapital.ci/studio/zh</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://ikoffi.agricapital.ci/studio/ar</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://ikoffi.agricapital.ci/studio/bci</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://ikoffi.agricapital.ci/studio/dyu</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
   <url>
     <loc>https://ikoffi.agricapital.ci/expertises</loc>
     <changefreq>monthly</changefreq>
@@ -323,6 +273,16 @@
   <url>
     <loc>https://ikoffi.agricapital.ci/actualites/leve-topographique-prospection-terrain</loc>
     <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/realisations</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ikoffi.agricapital.ci/autres-projets</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>

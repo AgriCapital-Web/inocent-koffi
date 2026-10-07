@@ -21,7 +21,7 @@ const TrustBlock = () => (
         })}
       </div>
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link to="/portfolio" className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground">Voir les réalisations</Link>
+        <Link to="/realisations" className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground">Voir les réalisations</Link>
         <Link to="/contact" className="rounded-xl border border-border px-5 py-3 text-sm font-semibold text-foreground">Parler d'un projet</Link>
       </div>
     </div>

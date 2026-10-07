@@ -22,7 +22,7 @@ export default function PortfolioPreview(){
     {isLoading&&<div className="py-12 text-center text-muted-foreground">Chargement…</div>}
     {isError&&<div className="py-12 text-center text-muted-foreground">Impossible de charger les réalisations.</div>}
     {!isLoading&&!isError&&<div className="safe-grid">{featured.map(p=><PortfolioProjectCard key={p.id} project={p} previewTick={previewTick}/>)}</div>}
-    <div className="mt-9 text-center"><Button asChild><Link to="/portfolio">Voir toutes les réalisations</Link></Button></div>
+    <div className="mt-9 text-center"><Button asChild><Link to="/realisations">Voir toutes les réalisations</Link></Button></div>
    </div>
   </div>
  </section>

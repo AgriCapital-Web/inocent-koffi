@@ -33,7 +33,7 @@ const APropos = () => (
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link to="/expertises" className="inline-flex items-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground">Mes expertises <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                  <Link to="/portfolio" className="inline-flex items-center rounded-xl border border-border px-5 py-3 text-sm font-semibold text-foreground">Voir mes réalisations</Link>
+                  <Link to="/realisations" className="inline-flex items-center rounded-xl border border-border px-5 py-3 text-sm font-semibold text-foreground">Voir mes réalisations</Link>
                 </div>
               </div>
             </div>

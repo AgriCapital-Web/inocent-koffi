@@ -171,7 +171,7 @@ const TestimonialsDisplay = () => {
 
           {testimonials.length > 0 && (
             <Button variant="outline" size="lg" asChild className="border-2 hover:bg-accent/10 hover:border-accent transition-colors">
-              <Link to="/projets">
+              <Link to="/autres-projets">
                 Voir Tous les Témoignages
               </Link>
             </Button>

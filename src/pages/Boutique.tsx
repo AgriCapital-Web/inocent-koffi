@@ -31,7 +31,7 @@ const Boutique = () => {
             <Badge className="border-white/20 bg-white/10 text-white">Boutique digitale</Badge>
             <h1 className="mt-5 max-w-4xl font-display text-4xl font-extrabold tracking-tight sm:text-6xl">Une idée. Un produit. <span className="text-accent">En ligne.</span></h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">Des prestations configurables et actualisées depuis l’administration : web, IA, vidéo, audio et solutions sur mesure.</p>
-            <div className="mt-7 flex flex-wrap gap-3"><Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/commande">Démarrer une commande <ArrowRight className="ml-2 h-4 w-4"/></Link></Button><Button asChild variant="outline" className="border-white/25 bg-white/5 text-white hover:bg-white/10"><Link to="/portfolio">Voir les réalisations</Link></Button></div>
+            <div className="mt-7 flex flex-wrap gap-3"><Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/commande">Démarrer une commande <ArrowRight className="ml-2 h-4 w-4"/></Link></Button><Button asChild variant="outline" className="border-white/25 bg-white/5 text-white hover:bg-white/10"><Link to="/realisations">Voir les réalisations</Link></Button></div>
           </div>
         </section>
 
