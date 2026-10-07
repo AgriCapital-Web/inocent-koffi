@@ -80,32 +80,27 @@
     },
     {
       "source": "/nos-actifs",
-      "destination": "/portfolio",
+      "destination": "/realisations",
       "permanent": true
     },
     {
       "source": "/chiffres-cles",
-      "destination": "/portfolio",
+      "destination": "/realisations",
       "permanent": true
     },
     {
       "source": "/projet",
-      "destination": "/portfolio",
+      "destination": "/realisations",
       "permanent": true
     },
     {
       "source": "/projects",
-      "destination": "/portfolio",
-      "permanent": true
-    },
-    {
-      "source": "/realisations",
-      "destination": "/portfolio",
+      "destination": "/realisations",
       "permanent": true
     },
     {
       "source": "/projets",
-      "destination": "/portfolio",
+      "destination": "/autres-projets",
       "permanent": true
     },
     {
@@ -205,7 +200,7 @@
     },
     {
       "source": "/galerie",
-      "destination": "/studio",
+      "destination": "/realisations",
       "permanent": true
     },
     {
@@ -251,6 +246,16 @@
     {
       "source": "/vision-agro-impact",
       "destination": "/vision",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/realisations",
+      "permanent": true
+    },
+    {
+      "source": "/studio",
+      "destination": "/realisations",
       "permanent": true
     }
   ],
