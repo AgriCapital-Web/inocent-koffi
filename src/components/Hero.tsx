@@ -1,61 +1,72 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.webp";
 import profilePhotoSm from "@/assets/profile-photo-sm.webp";
-import SocialShare from "@/components/SocialShare";
-import AgriSearch from "@/components/AgriSearch";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { useLanguage } from "@/hooks/useLanguage";
+import { HERO, pickHomeLang } from "@/lib/i18n/homeContent";
 
 const Hero = () => {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const c = HERO[pickHomeLang(language)];
   return (
-  <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[hsl(var(--background))]">
-    <Helmet>
-      <link rel="preload" as="image" href={profilePhotoSm} type="image/webp" fetchPriority="high" />
-      <link rel="preload" as="image" href={profilePhoto} type="image/webp" fetchPriority="high" />
-    </Helmet>
-    <div aria-hidden className="absolute inset-0" style={{ background: "radial-gradient(80% 60% at 80% 0%, hsl(var(--accent) / 0.18) 0%, transparent 60%), radial-gradient(70% 50% at 0% 100%, hsl(var(--primary) / 0.18) 0%, transparent 60%), linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary)) 100%)" }} />
-    <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-
-    <div className="container relative z-10 mx-auto px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 sm:gap-12 lg:grid-cols-[5fr_6fr] lg:gap-16">
-        <motion.div className="order-2 flex justify-center lg:order-1" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
-          <div className="relative">
-            <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-tr from-primary/30 via-transparent to-accent/30 blur-3xl opacity-60" />
-            <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-accent via-accent/40 to-primary opacity-90" />
-            <motion.div className="relative overflow-hidden rounded-[1.75rem] bg-muted shadow-2xl ring-1 ring-foreground/5" whileHover={{ scale: 1.02 }}>
-              <img src={profilePhoto} srcSet={`${profilePhotoSm} 320w, ${profilePhoto} 600w`} sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 448px" alt="Inocent KOFFI" className="h-auto w-full max-w-[280px] object-cover sm:max-w-[350px] lg:max-w-md" loading="eager" fetchPriority="high" width="600" height="720" />
-            </motion.div>
-            <div className="absolute -bottom-5 -right-3 hidden items-center gap-3 rounded-2xl border border-border bg-background/95 px-4 py-3 shadow-xl backdrop-blur sm:flex lg:-right-6">
-              <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-accent" />
-              <div className="leading-tight"><div className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("hero.location")}</div><div className="text-sm font-semibold text-foreground">{t("hero.creator")}</div></div>
+    <section className="relative overflow-hidden bg-primary text-primary-foreground">
+      <Helmet>
+        <link rel="preload" as="image" href={profilePhoto} type="image/webp" />
+      </Helmet>
+      <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(60% 70% at 85% 20%, hsl(var(--accent) / 0.22) 0%, transparent 60%)" }} />
+      <div className="container relative mx-auto max-w-6xl px-4 pb-16 pt-28 sm:px-6 sm:pt-32 lg:px-8 lg:pb-24 lg:pt-36">
+        <div className="grid min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-[7fr_5fr] lg:gap-14">
+          <div className="min-w-0">
+            <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+              <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden /> <span className="min-w-0">{c.kicker}</span>
+            </motion.p>
+            <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="mt-5 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
+              Inocent <span className="text-accent">KOFFI</span>
+            </motion.h1>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} className="mt-5 text-sm font-medium leading-relaxed text-primary-foreground/75 sm:text-base">
+              {c.roles}
+            </motion.p>
+            <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-8 max-w-2xl border-l-4 border-accent pl-5 font-display text-2xl font-semibold leading-snug sm:text-3xl">
+              {c.tagline}
+            </motion.p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mt-6 max-w-2xl text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
+              {c.bio}
+            </motion.p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Button size="lg" asChild className="bg-accent font-semibold text-accent-foreground hover:bg-accent/90">
+                <Link to="/commande">{c.primary} <ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                <Link to="/realisations">{c.secondary}</Link>
+              </Button>
+              <Button size="lg" variant="ghost" asChild className="text-primary-foreground/85 hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                <Link to="/services">{c.services}</Link>
+              </Button>
             </div>
           </div>
-        </motion.div>
 
-        <div className="order-1 space-y-5 text-center lg:order-2 lg:text-left sm:space-y-7">
-          <motion.div className="flex flex-wrap justify-center gap-2 lg:justify-start" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className="inline-flex rounded-full border border-accent/30 bg-accent/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-foreground sm:px-4 sm:py-2 sm:text-xs">{t("hero.badge1")}</span>
-            <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary sm:px-4 sm:py-2 sm:text-xs">{t("hero.badge2")}</span>
+          <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="mx-auto w-full max-w-[320px] sm:max-w-[380px] lg:max-w-none">
+            <div className="relative">
+              <div aria-hidden className="absolute -right-3 -top-3 h-full w-full rounded-3xl border-2 border-accent/70" />
+              <img
+                src={profilePhoto}
+                srcSet={`${profilePhotoSm} 320w, ${profilePhoto} 600w`}
+                sizes="(max-width: 1024px) 380px, 440px"
+                alt="Portrait d'Inocent KOFFI"
+                className="relative aspect-[5/6] w-full rounded-3xl object-cover shadow-2xl"
+                loading="eager"
+                fetchPriority="high"
+                width="600"
+                height="720"
+              />
+            </div>
           </motion.div>
-          <motion.h1 className="font-display text-5xl font-extrabold leading-[1.02] tracking-tighter-2 text-foreground sm:text-6xl lg:text-[5.5rem]">Inocent<span className="mt-1 block bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent sm:mt-2">KOFFI</span></motion.h1>
-          <motion.p className="max-w-xl border-l-2 border-accent pl-4 font-display text-xl italic leading-snug text-foreground/85 sm:text-2xl lg:text-[1.65rem]">{t("hero.value")}</motion.p>
-          <motion.p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0">
-            {t("hero.description")}
-          </motion.p>
-          <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row lg:justify-start sm:pt-4">
-            <Button size="lg" asChild><Link to="/realisations">{t("hero.portfolio")} <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
-            <Button size="lg" variant="outline" asChild><Link to="/expertises">{t("hero.expertise")}</Link></Button>
-          </div>
-          <div className="pt-2 sm:pt-4"><SocialShare className="justify-center lg:justify-start" /></div>
         </div>
       </div>
-      <div className="mx-auto mt-10 max-w-6xl"><AgriSearch /></div>
-    </div>
-  </section>
+    </section>
   );
 };
 
