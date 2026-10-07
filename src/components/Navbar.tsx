@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/hooks/useLanguage";
+import { NAV, pickHomeLang } from "@/lib/i18n/homeContent";
+import profilePhotoSm from "@/assets/profile-photo-sm.webp";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { t } = useLanguage();
+  const { language } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -18,15 +20,15 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const n = NAV[pickHomeLang(language)];
   const navItems = [
-    { href: "/", label: t("nav.home") },
-    { href: "/a-propos", label: t("nav.about") },
-    { href: "/expertises", label: t("nav.expertise") },
-    { href: "/realisations", label: t("nav.portfolio") },
-    { href: "/realisations", label: t("nav.studio") },
-    { href: "/boutique", label: t("nav.shop") },
-    { href: "/actualites", label: t("nav.news") },
-    { href: "/contact", label: t("nav.contact") },
+    { href: "/", label: n.home },
+    { href: "/a-propos", label: n.about },
+    { href: "/services", label: n.services },
+    { href: "/realisations", label: n.work },
+    { href: "/autres-projets", label: n.other },
+    { href: "/actualites", label: n.news },
+    { href: "/contact", label: n.contact },
   ];
 
   const isActive = (path: string) =>
@@ -44,21 +46,21 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between sm:h-20">
           <Link to="/" onClick={closeMenu} className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-            <img src="/__l5e/assets-v1/9f7e51fe-8dc9-4fe4-bd88-86546364b463/logo-inocent-koffi.png" alt="Inocent KOFFI" className="h-10 w-auto max-w-[170px] object-contain sm:h-12" />
+            <img src={profilePhotoSm} alt="Inocent KOFFI" className="h-10 w-10 rounded-full object-cover ring-2 ring-accent sm:h-11 sm:w-11" />
             <span className="hidden flex-col leading-tight sm:flex">
               <span className="font-display text-base font-bold tracking-tight-1 text-foreground sm:text-lg">Inocent KOFFI</span>
-              <span className="text-xs text-muted-foreground">Entrepreneur Agro & Digital · Développeur web · Praticien IA</span>
+              <span className="text-xs text-muted-foreground">Entrepreneur digital · Praticien IA</span>
             </span>
           </Link>
 
-          <div className="hidden items-center gap-1 lg:flex">
+          <div className="hidden items-center gap-0.5 lg:flex">
             {navItems.map((item, i) => (
               <motion.div key={item.href} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 + i * 0.03 }}>
                 <Link
                   to={item.href}
                   onClick={closeMenu}
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`relative inline-flex whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${isActive(item.href) ? "text-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}
+                  className={`relative inline-flex whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${isActive(item.href) ? "text-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}
                 >
                   {item.label}
                   {isActive(item.href) && <span aria-hidden className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full" style={{ background: "var(--gradient-gold)" }} />}
@@ -67,7 +69,7 @@ const Navbar = () => {
             ))}
             <LanguageSelector />
             <Button asChild size="sm" className="ml-2 bg-accent font-semibold text-accent-foreground hover:bg-accent/90">
-              <Link to="/contact" onClick={closeMenu}>{t("nav.projectCta")} <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden /></Link>
+              <Link to="/commande" onClick={closeMenu}>{n.cta} <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden /></Link>
             </Button>
           </div>
 
@@ -89,7 +91,7 @@ const Navbar = () => {
                   </Link>
                 ))}
                 <Button asChild className="mt-3 w-full bg-accent font-semibold text-accent-foreground hover:bg-accent/90">
-                  <Link to="/contact" onClick={closeMenu}>Parler d'un projet <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden /></Link>
+                  <Link to="/commande" onClick={closeMenu}>{n.cta} <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden /></Link>
                 </Button>
               </div>
             </motion.div>
