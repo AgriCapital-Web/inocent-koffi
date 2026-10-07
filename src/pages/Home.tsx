@@ -25,7 +25,7 @@ const Home = () => {
   const { language } = useLanguage();
   const metaByLanguage = {
     fr: {
-      title: "Inocent KOFFI | Entrepreneur Agro & Digital · Développeur web · Praticien IA",
+      title: "Inocent KOFFI | Entrepreneur digital · Développeur web · Praticien IA",
       description: "Site officiel d'Inocent KOFFI : entrepreneur Agro & Digital, développeur web, praticien IA et créateur de solutions.",
     },
     en: {
@@ -33,7 +33,7 @@ const Home = () => {
       description: "Official website of Inocent KOFFI: Agro & Digital entrepreneur, web developer, AI practitioner and solution creator.",
     },
   } as const;
-  const meta = metaByLanguage[language === "en" ? "en" : "fr"];
+  const meta = metaByLanguage.fr; // même titre SEO pour toutes les langues
   const baseUrl = "https://ikoffi.agricapital.ci";
 
   return (
