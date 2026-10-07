@@ -47,7 +47,7 @@ const Hero = () => {
             {t("hero.description")}
           </motion.p>
           <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row lg:justify-start sm:pt-4">
-            <Button size="lg" asChild><Link to="/portfolio">{t("hero.portfolio")} <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
+            <Button size="lg" asChild><Link to="/realisations">{t("hero.portfolio")} <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
             <Button size="lg" variant="outline" asChild><Link to="/expertises">{t("hero.expertise")}</Link></Button>
           </div>
           <div className="pt-2 sm:pt-4"><SocialShare className="justify-center lg:justify-start" /></div>

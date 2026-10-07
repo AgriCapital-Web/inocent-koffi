@@ -35,7 +35,6 @@ import SearchResults from "./pages/SearchResults";
 import ShortRedirect from "./pages/ShortRedirect";
 import NotFound from "./pages/NotFound";
 import FAQPage from "./pages/FAQ";
-import Studio from "./pages/Studio";
 import ClientPortal from "./pages/ClientPortal";
 
 const LegacyArticleRedirect = () => { const location = useLocation(); const slug = location.pathname.split("/").filter(Boolean).pop(); return <Navigate to={slug ? "/actualites/" + slug : "/actualites"} replace />; };
@@ -47,13 +46,15 @@ const routes = [
   { path: "/a-propos", element: <APropos /> },
   { path: "/vision", element: <Vision /> },
   { path: "/expertises", element: <Expertises /> },
-  { path: "/services", element: <Navigate to="/boutique" replace /> },
+  { path: "/services", element: <Boutique /> },
   { path: "/boutique", element: <Boutique /> },
   { path: "/agricapital", element: <Agricapital /> },
-  { path: "/projets", element: <Navigate to="/portfolio" replace /> },
+  { path: "/autres-projets", element: <Projets /> },
+  { path: "/projets", element: <Navigate to="/autres-projets" replace /> },
   { path: "/partenariat", element: <Partenariat /> },
   { path: "/evolution", element: <Evolution /> },
-  { path: "/portfolio", element: <Portfolio /> },
+  { path: "/realisations", element: <Portfolio /> },
+  { path: "/portfolio", element: <Navigate to="/realisations" replace /> },
   { path: "/actualites", element: <Actualites /> },
   { path: "/actualites/:slug", element: <ActualiteDetail /> },
   { path: "/new", element: <Navigate to="/actualites" replace /> },
@@ -67,7 +68,7 @@ const routes = [
   { path: "/login", element: <Login /> },
   { path: "/client", element: <ClientPortal /> },
   { path: "/admin", element: <Admin /> },
-  { path: "/studio", element: <Studio /> },
+  { path: "/studio", element: <Navigate to="/realisations" replace /> },
   { path: "/mentions-legales", element: <MentionsLegales /> },
   { path: "/faq", element: <FAQPage /> },
   { path: "/n/:code", element: <ShortRedirect /> },
