@@ -54,7 +54,7 @@ export const siteTranslations: Record<SiteLanguage, Record<string, string>> = {
 // Compatibility keys used by older page components. They now follow the personal-site positioning.
 Object.assign(siteTranslations.fr, {
   "nav.vision":"Vision", "nav.agricapital":"AgriCapital", "nav.projects":"Réalisations", "nav.partnership":"Partenariats", "nav.blog":"Actualités", "nav.gallery":"Studio",
-  "hero.badge":"Entrepreneur Agro & Digital", "hero.title":"Inocent KOFFI", "hero.subtitle":"Développeur web · Praticien IA · Créateur de solutions", "hero.description":"Je transforme vos idées en solutions digitales et concrètes."
+  "hero.badge":"Entrepreneur Agro & Digital", "hero.title":"Inocent KOFFI", "hero.subtitle":"Entrepreneur Agro & Digital · Développeur web · Praticien IA · Créateur de solutions", "hero.description":"Je transforme vos idées en solutions digitales et concrètes."
 });
 Object.assign(siteTranslations.en, {
   "nav.vision":"Vision", "nav.agricapital":"AgriCapital", "nav.projects":"Work", "nav.partnership":"Partnerships", "nav.blog":"News", "nav.gallery":"Studio",
