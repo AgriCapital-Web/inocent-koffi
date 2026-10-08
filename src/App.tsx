@@ -168,6 +168,7 @@ const App = () => (
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
+  </AppErrorBoundary>
 );
 
 export default App;
