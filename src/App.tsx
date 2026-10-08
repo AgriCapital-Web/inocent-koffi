@@ -150,7 +150,8 @@ class AppErrorBoundary extends React.Component<React.PropsWithChildren, { hasErr
 }
 
 const App = () => (
-  <AppErrorBoundary>\n    <HelmetProvider>
+  <AppErrorBoundary>
+    <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
