@@ -1,20 +1,18 @@
 import { Link } from "react-router-dom";
 import { Facebook, Linkedin, Mail, Phone, MapPin, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
+import { NAV, HERO, pickHomeLang } from "@/lib/i18n/homeContent";
 import { useLanguage } from "@/hooks/useLanguage";
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const n = NAV[pickHomeLang(language)];
   const currentYear = new Date().getFullYear();
   const footerLinks = [
-    { href: "/", label: t("nav.home") },
-    { href: "/a-propos", label: t("nav.about") },
-    { href: "/expertises", label: t("nav.expertise") },
-    { href: "/realisations", label: t("nav.portfolio") },
-    { href: "/realisations", label: t("nav.studio") },
-    { href: "/boutique", label: t("nav.shop") },
-    { href: "/actualites", label: t("nav.news") },
-    { href: "/contact", label: t("nav.contact") },
+    { href: "/", label: n.home }, { href: "/a-propos", label: n.about },
+    { href: "/services", label: n.services }, { href: "/realisations", label: n.work },
+    { href: "/autres-projets", label: n.other }, { href: "/actualites", label: n.news },
+    { href: "/contact", label: n.contact },
   ];
   const socialLinks = [
     { icon: Facebook, href: "https://www.facebook.com/share/174mN1Fopy/", label: "Facebook" },
@@ -27,7 +25,7 @@ const Footer = () => {
         <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           <motion.div className="space-y-3 sm:col-span-2 lg:col-span-1" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="font-display text-2xl font-bold">Inocent KOFFI</h2>
-            <p className="text-sm leading-relaxed opacity-90">{t("footer.tagline")}</p>
+            <p className="text-sm leading-relaxed opacity-90">{HERO[pickHomeLang(language)].roles}</p>
             <div className="flex gap-3 pt-2">
               {socialLinks.map(({ icon: Icon, href, label }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/10 transition-colors hover:bg-primary-foreground/20"><Icon className="h-5 w-5" /></a>)}
             </div>
@@ -39,8 +37,8 @@ const Footer = () => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-            <h2 className="mb-4 font-display text-lg font-bold">{t("footer.otherProject")}</h2>
-            <p className="text-sm leading-relaxed opacity-90">{t("footer.agricapitalText")}</p>
+            <h2 className="mb-4 font-display text-lg font-bold">AgriCapital</h2>
+            <p className="text-sm leading-relaxed opacity-90">Mon initiative pour rendre l’agriculture productive plus accessible. Fondateur et gérant d’AgriCapital SARL.</p>
             <a href="https://www.agricapital.ci" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold opacity-95 hover:opacity-100"><ExternalLink className="h-4 w-4" /> Site officiel AgriCapital</a>
           </motion.div>
 

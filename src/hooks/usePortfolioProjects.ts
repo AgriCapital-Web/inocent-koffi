@@ -24,15 +24,28 @@ export const usePortfolioProjects = () =>
   useQuery({
     queryKey: ["portfolio-projects-public"],
     queryFn: async (): Promise<PortfolioProject[]> => {
-      const { data, error } = await (supabase as any)
-        .from("portfolio_projects")
-        .select(PORTFOLIO_FIELDS)
-        .eq("is_published", true)
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      return (data ?? []) as PortfolioProject[];
+      const [realisations, sites] = await Promise.all([
+        supabase.from("realisations").select("*").eq("is_published", true).order("sort_order"),
+        supabase.from("sites").select("*").eq("is_published", true).order("sort_order"),
+      ]);
+      if (realisations.error) throw realisations.error;
+      if (sites.error) throw sites.error;
+      const rows: PortfolioProject[] = (realisations.data ?? []).map(row => ({
+        id: row.id, title: row.title, slug: row.slug, category: row.category,
+        description: row.description, url: row.external_url, official_domain: null,
+        image_url: row.thumbnail_url, fallback_image_url: null, last_live_preview_url: null,
+        last_live_preview_at: null, live_preview_status: null, technologies: row.tags ?? [],
+      }));
+      const known = new Set(rows.map(row => row.url?.replace(/\/$/, "")));
+      for (const site of sites.data ?? []) {
+        if (known.has(site.url.replace(/\/$/, ""))) continue;
+        rows.push({ id: site.id, title: site.name, slug: site.name.toLowerCase().replace(/\s+/g, "-"),
+          category: site.url.includes("app.agricapital") ? "crm" : site.url.includes("client.agricapital") ? "applications" : "web",
+          description: site.description, url: site.url, official_domain: null, image_url: site.logo_url,
+          fallback_image_url: null, last_live_preview_url: null, last_live_preview_at: null,
+          live_preview_status: null, technologies: [], });
+      }
+      return rows.filter(row => !/nanan/i.test(row.title + " " + row.slug));
     },
     staleTime: 60_000,
     refetchInterval: 60_000,

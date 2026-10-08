@@ -89,19 +89,15 @@ export const useShopCatalog = () =>
   useQuery({
     queryKey: ["shop-catalog", "public"],
     queryFn: async (): Promise<ShopCategory[]> => {
-      const db = supabase as any;
-      const [categoriesRes, servicesRes] = await Promise.all([
-        db.from("service_categories").select("*").eq("is_published", true).order("sort_order", { ascending: true }),
-        db.from("services").select("*").eq("is_published", true).eq("is_orderable", true).order("sort_order", { ascending: true }),
-      ]);
-      if (categoriesRes.error) throw categoriesRes.error;
-      if (servicesRes.error) throw servicesRes.error;
-      return (categoriesRes.data ?? [])
-        .map((category: any) => ({
-          ...category,
-          services: (servicesRes.data ?? []).filter((service: any) => service.category_id === category.id),
-        }))
-        .filter((category: ShopCategory) => category.services.length > 0);
+      const { data, error } = await supabase.from("services").select("*")
+        .eq("is_published", true).eq("is_orderable", true).order("sort_order");
+      if (error) throw error;
+      const labels: Record<string, string> = { web: "Web & solutions digitales", video: "Vidéo & création digitale", audio: "Audio & musique", ia: "IA & automatisation", formation: "Formation & accompagnement" };
+      const rows = (data ?? []) as ServiceRow[];
+      return Array.from(new Set(rows.map(row => row.category))).map((key, index) => ({
+        id: key, slug: key, title: labels[key] ?? key, subtitle: null, icon: key,
+        sort_order: index, services: rows.filter(row => row.category === key),
+      }));
     },
     staleTime: 60_000,
   });
