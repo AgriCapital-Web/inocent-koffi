@@ -120,7 +120,9 @@ export const useRealisations = () =>
       }));
     },
     staleTime: 60_000,
-  });\n\nexport const useOtherProjects = () =>
+  });
+
+export const useOtherProjects = () =>
   useQuery({
     queryKey: ["other_projects", "public"],
     queryFn: async (): Promise<ProjectRow[]> => {
@@ -137,7 +139,9 @@ export const useRealisations = () =>
       }));
     },
     staleTime: 60_000,
-  });\n\nexport const useSites = () =>
+  });
+
+export const useSites = () =>
   useQuery({
     queryKey: ["sites", "public"],
     queryFn: async (): Promise<SiteRow[]> => {
@@ -154,7 +158,9 @@ export const useRealisations = () =>
       }));
     },
     staleTime: 60_000,
-  });\n\nexport const formatFcfa = (value: number) =>
+  });
+
+export const formatFcfa = (value: number) =>
   `${new Intl.NumberFormat("fr-FR").format(value)} FCFA`;
 
 export const servicePriceLabel = (s: Pick<ServiceRow, "price" | "price_note">) => {
