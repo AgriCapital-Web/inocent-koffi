@@ -14,7 +14,7 @@ export const NAV = {
 export const HERO = {
   fr: {
     kicker: "Site personnel · Daloa, Côte d'Ivoire",
-    roles: "Entrepreneur digital · Développeur web · Praticien IA · Créateur de solutions",
+    roles: "Entrepreneur Agro & Digital · Développeur web · Praticien IA · Créateur de solutions",
     tagline: "Je transforme vos idées en solutions digitales, créatives et concrètes.",
     bio: "Fondateur et gérant d'AgriCapital SARL, je conçois des sites, des applications, des contenus vidéo et audio et des outils d'intelligence artificielle pour les entreprises, les porteurs de projet et les institutions. Mon approche : comprendre le besoin réel, puis livrer une solution utile, de l'idée à la mise en ligne.",
     primary: "Démarrer un projet", secondary: "Voir mes réalisations", services: "Services & tarifs",
