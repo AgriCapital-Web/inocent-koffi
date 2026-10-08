@@ -4,7 +4,7 @@ import { ArrowRight, ExternalLink, Globe, LayoutDashboard, Sprout, Users } from 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import plantation from "@/assets/plantation-cle-en-main.png.asset.json";
+const plantation = { url: "/images/agricapital/plantation-cle-en-main.webp" };
 
 const interfaces = [
   { icon: Globe, title: "Le site officiel", label: "Découvrir AgriCapital", url: "https://www.agricapital.ci", domain: "www.agricapital.ci", text: "La vision, les offres et les informations officielles d’AgriCapital. Le point d’entrée pour découvrir l’entreprise et envisager un projet agricole." },
