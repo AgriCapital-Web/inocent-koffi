@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { AGRICAPITAL_URL, type Actualite } from "@/data/agricapitalUpdates";
 
-const FALLBACK_IMAGE = "/images/agricapital/plantation-1.webp";
+const FALLBACK_IMAGE = "/images/agricapital/plantation-cle-en-main.webp";
 
 /**
  * Actualités importées automatiquement depuis agricapital.ci (synchronisation
