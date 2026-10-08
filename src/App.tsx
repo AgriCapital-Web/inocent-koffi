@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/hooks/useLanguage";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
 import { trackPageView } from "@/lib/analytics";
 import { OrganizationJsonLd, PersonJsonLd } from "@/components/SeoJsonLd";
@@ -129,8 +129,28 @@ const AppRoutes = () => {
   );
 };
 
+
+class AppErrorBoundary extends React.Component<React.PropsWithChildren, { hasError: boolean }> {
+  state = { hasError: false };
+  static getDerivedStateFromError() { return { hasError: true }; }
+  componentDidCatch(error: Error) { console.error("Application render error:", error); }
+  render() {
+    if (!this.state.hasError) return this.props.children;
+    return (
+      <div className="min-h-screen bg-[#0b0d0c] text-white grid place-items-center px-6">
+        <div className="max-w-xl text-center">
+          <p className="text-xs font-bold uppercase tracking-[.25em] text-[#d4aa5a]">Inocent KOFFI</p>
+          <h1 className="mt-4 font-serif text-4xl sm:text-5xl">Un instant, la page se rétablit.</h1>
+          <p className="mt-4 text-white/60">Une erreur d’affichage a été détectée. Rechargez la page pour reprendre la navigation.</p>
+          <button onClick={() => window.location.reload()} className="mt-7 rounded-full bg-[#c99a4a] px-6 py-3 text-sm font-bold text-[#151515]">Recharger la page</button>
+        </div>
+      </div>
+    );
+  }
+}
+
 const App = () => (
-  <HelmetProvider>
+  <AppErrorBoundary>\n    <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
