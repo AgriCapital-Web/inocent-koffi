@@ -39,7 +39,7 @@ export default function Projets() {
             <Button asChild variant="link" className="mt-4 h-auto p-0"><Link to="/agricapital">En savoir plus sur l’initiative <ArrowRight className="ml-2 h-4 w-4"/></Link></Button>
           </div>
           <figure className="flex min-h-[320px] items-center justify-center overflow-hidden rounded-xl border border-border bg-muted/30 p-4">
-            <img src={plantation.url} alt="Plantation clé en main présentée par AgriCapital" width="800" height="600" className="h-[520px] w-full object-cover object-center-bottom" loading="lazy" decoding="async" onError={(e) => { e.currentTarget.src = patrimoine.url; }} />
+            <img src={plantation.url} alt="Plantation clé en main présentée par AgriCapital" width="800" height="600" className="h-[520px] w-full object-cover object-[center_bottom]" loading="lazy" decoding="async" onError={(e) => { e.currentTarget.src = patrimoine.url; }} />
           </figure>
         </div>
       </section>
