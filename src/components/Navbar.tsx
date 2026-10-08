@@ -34,6 +34,12 @@ const Navbar = () => {
   const isActive = (path: string) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
+  useEffect(() => { setIsMobileMenuOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setIsMobileMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
@@ -53,7 +59,7 @@ const Navbar = () => {
             </span>
           </Link>
 
-          <div className="hidden items-center gap-0.5 lg:flex">
+          <div className="hidden items-center gap-0.5 xl:flex">
             {navItems.map((item, i) => (
               <motion.div key={item.href} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 + i * 0.03 }}>
                 <Link
@@ -73,11 +79,11 @@ const Navbar = () => {
             </Button>
           </div>
 
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <LanguageSelector />
-            <button className="rounded-lg p-2 text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent" onClick={() => setIsMobileMenuOpen((open) => !open)} aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"} aria-expanded={isMobileMenuOpen} aria-controls="mobile-nav-panel">
+            <Button variant="ghost" size="icon" className="rounded-lg p-2 text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent" onClick={() => setIsMobileMenuOpen((open) => !open)} aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"} aria-expanded={isMobileMenuOpen} aria-controls="mobile-nav-panel">
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+            </Button>
           </div>
         </div>
 

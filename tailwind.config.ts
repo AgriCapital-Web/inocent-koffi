@@ -15,14 +15,14 @@ export default {
     extend: {
       fontFamily: {
         display: ["Sora", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
-        sans: ["Poppins", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["Manrope", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
         mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
         serif: ["Sora", "ui-sans-serif", "system-ui", "sans-serif"],
       },
 
       letterSpacing: {
-        "tighter-2": "-0.03em",
-        "tight-1": "-0.02em",
+        "tighter-2": "0",
+        "tight-1": "0",
         "wide-brand": "0.14em",
       },
       colors: {

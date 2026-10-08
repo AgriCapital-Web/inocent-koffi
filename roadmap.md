@@ -1,15 +1,12 @@
-# Roadmap — Site Inocent KOFFI
+# Roadmap — Finalisation de la refonte
 
-## Fait
-- Compte admin unique : innocentkoffi1@gmail.com (super_admin), anciens droits admin révoqués.
-- Outils de traitement (filigrane, compression, publication) déplacés dans l'onglet « Studio média » de /admin.
-- Page publique /studio réduite à une vitrine + galerie des publications.
-- Routes /services et /studio déclarées dans App.tsx (pas de 404).
+- [ ] Réserver Autres projets à AgriCapital et présenter site officiel, CRM équipe et portail client avec liens adaptés.
+- [ ] Présenter les sites clients dans Réalisations et intégrer les médias publiés du Studio.
+- [ ] Harmoniser accueil, navigation, pied de page et typographie ; vérifier les anciennes adresses.
+- [ ] Vérifier Services et Actualités, leurs médias et les métadonnées ; améliorer les traductions avec le glossaire existant sans inventer de validation linguistique.
+- [ ] Générer le favicon à partir du logo officiel existant.
+- [ ] Vérifier les pages et les contrôles aux différentes largeurs, sans débordement.
 
-## À faire
-1. Commande en ligne : formulaire par service (pré-rempli depuis /services), tables `service_orders` + `payments`, statuts de suivi.
-2. Paiement : intégration KKiaPay (clés en attente) + Stripe Checkout via fonctions edge.
-3. Espace client : connexion, liste des commandes, statut, factures.
-4. Admin : onglets Clients / Commandes / Paiements.
-5. Actualités : remplacer les images cassées par les vraies photos de l'inauguration AgriCapital.
-6. SEO page par page : title, description, OG, sitemap, hreflang + glossaire baoulé partout.
+## Dépendances externes
+- Paiements réels KKiaPay/Stripe : clés et configuration marchande requises ; ne pas simuler de paiement confirmé.
+- Validation des traductions baoulé/dioula : relecture par un locuteur et sources linguistiques vérifiables requises.

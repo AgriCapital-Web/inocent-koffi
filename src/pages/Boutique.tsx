@@ -18,20 +18,20 @@ const Boutique = () => {
 
   return <>
     <Helmet>
-      <title>Boutique digitale | Services Web, IA, Vidéo & Audio — Inocent KOFFI</title>
+      <title>Services & tarifs | Inocent KOFFI</title>
       <meta name="description" content="Découvrez et commandez les prestations numériques d’Inocent KOFFI : web, applications, IA, vidéo, audio et automatisation." />
-      <link rel="canonical" href="https://ikoffi.agricapital.ci/boutique" />
+      <link rel="canonical" href="https://ikoffi.agricapital.ci/services" />
     </Helmet>
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-20">
-        <section className="relative overflow-hidden px-4 py-16 sm:py-24" style={{ background: "var(--gradient-visionary)" }}>
-          <div className="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_15%_15%,hsl(var(--gold))_0%,transparent_35%),radial-gradient(circle_at_85%_85%,hsl(var(--terracotta))_0%,transparent_38%)]" />
+        <section className="relative overflow-hidden bg-primary px-4 py-16 sm:py-24">
+
           <div className="relative mx-auto max-w-6xl text-primary-foreground">
-            <Badge className="border-white/20 bg-white/10 text-white">Boutique digitale</Badge>
+            <Badge className="border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground">Services & tarifs</Badge>
             <h1 className="mt-5 max-w-4xl font-display text-4xl font-extrabold tracking-tight sm:text-6xl">Une idée. Un produit. <span className="text-accent">En ligne.</span></h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">Des prestations configurables et actualisées depuis l’administration : web, IA, vidéo, audio et solutions sur mesure.</p>
-            <div className="mt-7 flex flex-wrap gap-3"><Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/commande">Démarrer une commande <ArrowRight className="ml-2 h-4 w-4"/></Link></Button><Button asChild variant="outline" className="border-white/25 bg-white/5 text-white hover:bg-white/10"><Link to="/realisations">Voir les réalisations</Link></Button></div>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-primary-foreground/75 sm:text-lg">Sites web, applications, IA, vidéo, audio et formation : des solutions adaptées à votre projet.</p>
+            <div className="mt-7 flex flex-wrap gap-3"><Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/commande">Démarrer une commande <ArrowRight className="ml-2 h-4 w-4"/></Link></Button><Button asChild variant="outline" className="border-primary-foreground/25 bg-primary-foreground/5 text-primary-foreground hover:bg-primary-foreground/10"><Link to="/realisations">Voir les réalisations</Link></Button></div>
           </div>
         </section>
 
@@ -46,7 +46,7 @@ const Boutique = () => {
           </section>
           <section className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
             {visible.map((cat,index)=><CategorySection key={cat.id} category={cat} index={index}/>)}
-            {!categories.length && <div className="rounded-2xl border border-dashed p-12 text-center text-muted-foreground">Aucune prestation publiée pour le moment.</div>}
+            {!categories.length && <div className="rounded-lg border border-dashed p-12 text-center text-muted-foreground">Aucune prestation publiée pour le moment.</div>}
           </section>
         </>}
 
@@ -70,8 +70,8 @@ const CategorySection = ({category,index}:{category:ShopCategory;index:number}) 
   </div>;
 };
 
-const ServiceCard = ({service,index}:{service:ServiceRow;index:number}) => <motion.article initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:"-50px"}} transition={{delay:Math.min(index*0.05,0.2)}} whileHover={{y:-5}} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-xl">
-  {service.image_url && <div className="aspect-[16/9] overflow-hidden bg-muted"><img src={service.image_url} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src="/images/agricapital-poster.jpg";}}/></div>}
+const ServiceCard = ({service,index}:{service:ServiceRow;index:number}) => <motion.article initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:"-50px"}} transition={{delay:Math.min(index*0.05,0.2)}} whileHover={{y:-5}} className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-xl">
+  {service.image_url && <div className="aspect-[16/9] overflow-hidden bg-muted"><img src={service.image_url} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src="/placeholder.svg";}}/></div>}
   <div className="flex flex-1 flex-col p-5">
     <div className="flex items-start justify-between gap-3"><h3 className="font-display text-lg font-bold leading-tight">{service.title}</h3><ShoppingBag className="h-5 w-5 shrink-0 text-accent opacity-70"/></div>
     {service.description && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.description}</p>}
