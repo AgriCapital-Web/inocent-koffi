@@ -106,66 +106,55 @@ export const useRealisations = () =>
   useQuery({
     queryKey: ["realisations", "public"],
     queryFn: async (): Promise<RealisationRow[]> => {
-      const { data, error } = await supabase
-        .from("portfolio_projects")
-        .select("id,title,slug,category,description,image_url,technologies,url,is_published,sort_order")
-        .eq("is_published", true)
-        .order("sort_order", { ascending: true });
+      const db = supabase as any;
+      const { data, error } = await db.from("portfolio_projects")
+        .select("id,title,slug,category,description,image_url,fallback_image_url,last_live_preview_url,url,technologies,is_published,sort_order")
+        .eq("is_published", true).order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []).map(row => ({
-        id: row.id,
-        title: row.title,
-        slug: row.slug,
-        category: row.category,
+      return ((data ?? []) as any[]).map((row) => ({
+        id: row.id, title: row.title, slug: row.slug, category: row.category ?? "web",
         description: row.description,
-        thumbnail_url: row.image_url,
-        media: [],
-        tags: row.technologies ?? [],
-        external_url: row.url,
-        is_published: row.is_published,
-        sort_order: row.sort_order,
+        thumbnail_url: row.image_url || row.fallback_image_url || row.last_live_preview_url || null,
+        media: [], tags: row.technologies ?? [], external_url: row.url,
+        is_published: row.is_published, sort_order: row.sort_order ?? 0,
       }));
     },
     staleTime: 60_000,
-  });
-
-export const useOtherProjects = () =>
+  });\n\nexport const useOtherProjects = () =>
   useQuery({
     queryKey: ["other_projects", "public"],
     queryFn: async (): Promise<ProjectRow[]> => {
-      const { data, error } = await supabase
-        .from("portfolio_projects")
-        .select("id,name:title,slug,description,content:description,image_url,external_url:url,category,status:live_preview_status,is_published,sort_order")
-        .eq("is_published", true)
-        .order("sort_order", { ascending: true });
+      const db = supabase as any;
+      const { data, error } = await db.from("portfolio_projects")
+        .select("id,title,slug,description,url,image_url,fallback_image_url,last_live_preview_url,category,is_published,sort_order")
+        .eq("is_published", true).order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []).map(row => ({
-        ...row,
-        status: row.status ?? "published",
-      })) as ProjectRow[];
+      return ((data ?? []) as any[]).map((row) => ({
+        id: row.id, name: row.title, slug: row.slug, description: row.description, content: null,
+        image_url: row.image_url || row.fallback_image_url || row.last_live_preview_url || null,
+        external_url: row.url, category: row.category, status: "published",
+        is_published: row.is_published, sort_order: row.sort_order ?? 0,
+      }));
     },
     staleTime: 60_000,
-  });
-
-export const useSites = () =>
+  });\n\nexport const useSites = () =>
   useQuery({
     queryKey: ["sites", "public"],
     queryFn: async (): Promise<SiteRow[]> => {
-      const { data, error } = await supabase
-        .from("portfolio_projects")
-        .select("id,name:title,description,url,logo_url:image_url,category,status:live_preview_status,is_published,sort_order")
-        .eq("is_published", true)
-        .order("sort_order", { ascending: true });
+      const db = supabase as any;
+      const { data, error } = await db.from("portfolio_projects")
+        .select("id,title,description,url,image_url,fallback_image_url,last_live_preview_url,category,is_published,sort_order")
+        .eq("is_published", true).order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []).map(row => ({
-        ...row,
-        status: row.status ?? "published",
-      })) as SiteRow[];
+      return ((data ?? []) as any[]).map((row) => ({
+        id: row.id, name: row.title, description: row.description, url: row.url,
+        logo_url: row.image_url || row.fallback_image_url || row.last_live_preview_url || null,
+        category: row.category, status: "published", is_published: row.is_published,
+        sort_order: row.sort_order ?? 0,
+      }));
     },
     staleTime: 60_000,
-  });
-
-export const formatFcfa = (value: number) =>
+  });\n\nexport const formatFcfa = (value: number) =>
   `${new Intl.NumberFormat("fr-FR").format(value)} FCFA`;
 
 export const servicePriceLabel = (s: Pick<ServiceRow, "price" | "price_note">) => {
