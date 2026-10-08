@@ -55,7 +55,7 @@ const Navbar = () => {
             <img src={profilePhotoSm} alt="Inocent KOFFI" className="h-10 w-10 rounded-full object-cover ring-2 ring-accent sm:h-11 sm:w-11" />
             <span className="hidden flex-col leading-tight sm:flex">
               <span className="font-display text-base font-bold tracking-tight-1 text-foreground sm:text-lg">Inocent KOFFI</span>
-              <span className="text-xs text-muted-foreground">Entrepreneur digital · Praticien IA</span>
+              <span className="text-xs text-muted-foreground">Entrepreneur Agro & Digital · Praticien IA</span>
             </span>
           </Link>
 
