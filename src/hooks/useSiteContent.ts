@@ -107,12 +107,24 @@ export const useRealisations = () =>
     queryKey: ["realisations", "public"],
     queryFn: async (): Promise<RealisationRow[]> => {
       const { data, error } = await supabase
-        .from("realisations")
-        .select("*")
+        .from("portfolio_projects")
+        .select("id,title,slug,category,description,image_url,technologies,url,is_published,sort_order")
         .eq("is_published", true)
         .order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []) as RealisationRow[];
+      return (data ?? []).map(row => ({
+        id: row.id,
+        title: row.title,
+        slug: row.slug,
+        category: row.category,
+        description: row.description,
+        thumbnail_url: row.image_url,
+        media: [],
+        tags: row.technologies ?? [],
+        external_url: row.url,
+        is_published: row.is_published,
+        sort_order: row.sort_order,
+      }));
     },
     staleTime: 60_000,
   });
@@ -122,12 +134,15 @@ export const useOtherProjects = () =>
     queryKey: ["other_projects", "public"],
     queryFn: async (): Promise<ProjectRow[]> => {
       const { data, error } = await supabase
-        .from("other_projects")
-        .select("*")
+        .from("portfolio_projects")
+        .select("id,name:title,slug,description,content:description,image_url,external_url:url,category,status:live_preview_status,is_published,sort_order")
         .eq("is_published", true)
         .order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []) as ProjectRow[];
+      return (data ?? []).map(row => ({
+        ...row,
+        status: row.status ?? "published",
+      })) as ProjectRow[];
     },
     staleTime: 60_000,
   });
@@ -137,12 +152,15 @@ export const useSites = () =>
     queryKey: ["sites", "public"],
     queryFn: async (): Promise<SiteRow[]> => {
       const { data, error } = await supabase
-        .from("sites")
-        .select("*")
+        .from("portfolio_projects")
+        .select("id,name:title,description,url,logo_url:image_url,category,status:live_preview_status,is_published,sort_order")
         .eq("is_published", true)
         .order("sort_order", { ascending: true });
       if (error) throw error;
-      return (data ?? []) as SiteRow[];
+      return (data ?? []).map(row => ({
+        ...row,
+        status: row.status ?? "published",
+      })) as SiteRow[];
     },
     staleTime: 60_000,
   });
