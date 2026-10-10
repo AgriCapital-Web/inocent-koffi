@@ -56,7 +56,44 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="app-boot" style="min-height:100vh;display:grid;place-items:center;background:#f4f1ea;color:#151515;font-family:Manrope,Arial,sans-serif;padding:24px;text-align:center">
+        <div>
+          <div style="width:34px;height:34px;border:3px solid rgba(0,100,62,.18);border-top-color:#006442;border-radius:50%;animation:app-boot-spin .8s linear infinite;margin:0 auto 18px"></div>
+          <p style="font-size:14px;font-weight:600;letter-spacing:.02em;margin:0">Chargement du site…</p>
+          <p style="font-size:12px;color:#666;margin:8px 0 0">Inocent KOFFI · Agri & Digital</p>
+        </div>
+      </div>
+      <style>@keyframes app-boot-spin{to{transform:rotate(360deg)}}</style>
+    </div>
+    <script>
+      (function () {
+        var retryKey = "ikoffi-startup-retry-at";
+        function showFailure() {
+          var root = document.getElementById("root");
+          if (!root || document.getElementById("app-boot-failure")) return;
+          root.innerHTML = '<div id="app-boot-failure" style="min-height:100vh;display:grid;place-items:center;background:#f4f1ea;color:#151515;font-family:Arial,sans-serif;padding:24px;text-align:center"><div><h1 style="font-size:24px;margin:0 0 12px">Le site rencontre un délai de chargement.</h1><p style="color:#555;line-height:1.6">La page n’a pas pu démarrer correctement. Réessayez dans un instant.</p><button onclick="sessionStorage.removeItem(\'ikoffi-startup-retry-at\');location.reload()" style="border:0;border-radius:999px;background:#006442;color:white;padding:12px 20px;font-weight:700;cursor:pointer">Réessayer</button></div></div>';
+        }
+        function recover() {
+          try {
+            var last = Number(sessionStorage.getItem(retryKey) || 0);
+            if (!last || Date.now() - last > 30000) {
+              sessionStorage.setItem(retryKey, String(Date.now()));
+              location.reload();
+              return;
+            }
+          } catch (e) {}
+          showFailure();
+        }
+        window.addEventListener("error", function (event) {
+          if (event && event.target && event.target.tagName === "SCRIPT") recover();
+        }, true);
+        window.setTimeout(function () {
+          var root = document.getElementById("root");
+          if (root && document.getElementById("app-boot")) recover();
+        }, 12000);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
