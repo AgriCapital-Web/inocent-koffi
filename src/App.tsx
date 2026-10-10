@@ -133,7 +133,20 @@ const AppRoutes = () => {
 class AppErrorBoundary extends React.Component<React.PropsWithChildren, { hasError: boolean }> {
   state = { hasError: false };
   static getDerivedStateFromError() { return { hasError: true }; }
-  componentDidCatch(error: Error) { console.error("Application render error:", error); }
+  componentDidCatch(error: Error) {
+    console.error("Application render error:", error);
+    // Recover once from transient startup/render failures without creating a reload loop.
+    try {
+      const key = "ikoffi-render-retry-at";
+      const lastRetry = Number(sessionStorage.getItem(key) || 0);
+      if (!lastRetry || Date.now() - lastRetry > 30000) {
+        sessionStorage.setItem(key, String(Date.now()));
+        window.location.reload();
+      }
+    } catch {
+      // The visible error fallback below remains available if browser storage is blocked.
+    }
+  }
   render() {
     if (!this.state.hasError) return this.props.children;
     return (
