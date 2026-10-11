@@ -6,14 +6,14 @@ import { useLocation } from "react-router-dom";
  * canonical + hreflang tags for every localized route.
  *
  * - Any other host/alias (preview, lovable.app, netlify, vercel, www variants)
- *   gets `noindex, nofollow` so only ikoffi.agricapital.ci is indexed.
+ *   gets `noindex, nofollow` so only www.ikoffi.agricapital.ci is indexed.
  * - Canonical always points to the current localized URL on the canonical host.
  * - hreflang alternates are generated for all 8 supported languages + x-default.
  *
  * DOM is patched directly (instead of Helmet) so existing per-page canonical
  * tags are *updated* rather than duplicated.
  */
-const CANONICAL_HOST = "ikoffi.agricapital.ci";
+const CANONICAL_HOST = "www.ikoffi.agricapital.ci";
 const CANONICAL_ORIGIN = `https://${CANONICAL_HOST}`;
 const LANGS = ["fr", "en", "es", "de", "zh", "ar", "bci", "dyu"] as const;
 const NOINDEX_PREFIXES = ["/admin", "/login", "/og-report", "/recherche"];
