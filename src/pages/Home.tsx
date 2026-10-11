@@ -25,8 +25,8 @@ const Home = () => {
   const { language } = useLanguage();
   const metaByLanguage = {
     fr: {
-      title: "Inocent KOFFI | Entrepreneur digital · Développeur web · Praticien IA",
-      description: "Site officiel d'Inocent KOFFI : entrepreneur Agro & Digital, développeur web, praticien IA et créateur de solutions.",
+      title: "Inocent KOFFI | Fondateur d’AgriCapital · Investissement agricole & solutions digitales",
+      description: "Inocent KOFFI est entrepreneur ivoirien, fondateur et gérant d’AgriCapital SARL. Il développe des projets d’investissement agricole, de patrimoine agricole et de plantation de palmier à huile en Côte d’Ivoire, ainsi que des solutions numériques et d’intelligence artificielle.",
     },
     en: {
       title: "Inocent KOFFI | Agro & Digital Entrepreneur · Web Developer · AI Practitioner",
@@ -42,6 +42,7 @@ const Home = () => {
         <html lang={language} dir={language === "ar" ? "rtl" : "ltr"} />
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
+        <meta name="keywords" content="Inocent KOFFI, fondateur AgriCapital, AgriCapital SARL, entrepreneur ivoirien, investissement agricole, patrimoine agricole, actif agricole, actifs réels, foncier agricole, plantation clé en main, palmier à huile, plantation de palmier à huile, agriculture Côte d’Ivoire, développement agricole, valorisation du foncier, création de plantation, Daloa, Gonaté, Haut-Sassandra, Côte d’Ivoire, entrepreneur digital, développeur web, développement web, intelligence artificielle, automatisation, applications web, solutions digitales, transformation numérique, création de solutions, gestion de projets, entrepreneuriat, ikoffi.agricapital.ci" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={baseUrl} />
         <meta property="og:title" content={meta.title} />
@@ -59,7 +60,7 @@ const Home = () => {
 
       <WebPageJsonLd
         path="/"
-        name="Inocent KOFFI — Entrepreneur Agro & Digital & créateur de solutions"
+        name="Inocent KOFFI — Fondateur d’AgriCapital, entrepreneur Agro & Digital"
         description={meta.description}
       />
 
