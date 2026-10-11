@@ -34,7 +34,7 @@ const Home = () => {
     },
   } as const;
   const meta = metaByLanguage.fr; // même titre SEO pour toutes les langues
-  const baseUrl = "https://ikoffi.agricapital.ci";
+  const baseUrl = "https://www.ikoffi.agricapital.ci";
 
   return (
     <>
