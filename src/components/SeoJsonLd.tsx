@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-export const SITE_URL = "https://ikoffi.agricapital.ci";
+export const SITE_URL = "https://www.ikoffi.agricapital.ci";
 
 type Crumb = { name: string; path: string };
 
