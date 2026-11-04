@@ -91,6 +91,14 @@ const AppRoutes = () => {
       .replace(/\/$/, "")
       .toLowerCase();
 
+    // French is canonical on unprefixed paths. Recover legacy /fr URLs
+    // instead of letting React Router render the NotFound page.
+    if (normalized === "/fr" || normalized.startsWith("/fr/")) {
+      const frenchCanonicalPath = normalized.slice(3) || "/";
+      navigate(frenchCanonicalPath + location.search, { replace: true });
+      return;
+    }
+
     if (raw !== normalized) {
       navigate(normalized || "/", { replace: true });
       return;
