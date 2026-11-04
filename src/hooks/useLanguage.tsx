@@ -41,7 +41,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
     // French is the canonical unprefixed version. Non-French languages use
     // their explicit /{lang}/ URL, which preserves the visitor's selection.
-    const privatePath = /^\\/(admin|login|client)(\\/|$)/.test(location.pathname);
+    const firstPathSegment = location.pathname.split('/').filter(Boolean)[0] ?? '';
+    const privatePath = ['admin', 'login', 'client'].includes(firstPathSegment);
     if (!pathLang && language !== 'fr' && !privatePath) {
       navigate(`/${language}${location.pathname === '/' ? '' : location.pathname}${location.search}`, { replace: true });
     }
