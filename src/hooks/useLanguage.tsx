@@ -20,20 +20,14 @@ const detectLanguageFromPath = (pathname: string): Language | null => {
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [language, setLanguageState] = useState<Language>(() => {
     // An explicit language in the URL always takes precedence.
     const pathLang = detectLanguageFromPath(location.pathname);
     if (pathLang) return pathLang;
-    
-    // Preserve a language explicitly selected by the visitor.
-    const saved = localStorage.getItem('language');
-    if (saved && ['fr', 'en', 'es', 'de', 'zh', 'ar', 'bci', 'dyu'].includes(saved)) {
-      return saved as Language;
-    }
-    
-    // French is the site's default language. Do not let the browser's
-    // interface language silently switch the site to English.
+
+    // The unprefixed site is always French, regardless of a stale browser
+    // preference. Other languages remain available through their URL prefix.
     return 'fr';
   });
 
@@ -45,16 +39,15 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    // Keep every public internal navigation in the active language.
-    // French is the canonical unprefixed version.
-    const privatePath = /^\/(admin|login|client)(\/|$)/.test(location.pathname);
+    // French is the canonical unprefixed version. Non-French languages use
+    // their explicit /{lang}/ URL, which preserves the visitor's selection.
+    const privatePath = /^\\/(admin|login|client)(\\/|$)/.test(location.pathname);
     if (!pathLang && language !== 'fr' && !privatePath) {
       navigate(`/${language}${location.pathname === '/' ? '' : location.pathname}${location.search}`, { replace: true });
     }
   }, [location.pathname, location.search, language, navigate]);
 
   useEffect(() => {
-    // Set document direction for RTL languages
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
   }, [language]);
@@ -65,7 +58,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
     const parts = location.pathname.split('/').filter(Boolean);
     const first = parts[0];
-    const hasLangPrefix = !!first && ['fr','en','es','de','zh','ar','bci','dyu'].includes(first);
+    const hasLangPrefix = !!first && ['fr', 'en', 'es', 'de', 'zh', 'ar', 'bci', 'dyu'].includes(first);
     const baseParts = hasLangPrefix ? parts.slice(1) : parts;
     const basePath = '/' + baseParts.join('/');
 
@@ -75,7 +68,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       : (basePath === '/' ? '/' + lang : '/' + lang + basePath);
 
     navigate(newPath || '/');
-  };  const t = (key: string) => getTranslation(language, key);
+  };
+
+  const t = (key: string) => getTranslation(language, key);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t, languages }}>
