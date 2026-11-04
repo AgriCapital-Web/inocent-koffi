@@ -47,7 +47,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
     // Keep every public internal navigation in the active language.
     // French is the canonical unprefixed version.
-    const privatePath = /^\\/(admin|login|client)(\\/|$)/.test(location.pathname);
+    const privatePath = /^\/(admin|login|client)(\/|$)/.test(location.pathname);
     if (!pathLang && language !== 'fr' && !privatePath) {
       navigate(`/${language}${location.pathname === '/' ? '' : location.pathname}${location.search}`, { replace: true });
     }
