@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { usePortfolioProjects } from "@/hooks/usePortfolioProjects";
 import PortfolioProjectCard from "@/components/PortfolioProjectCard";
+import StudioMediaPreview from "@/components/StudioMediaPreview";
 import { useMemo, useEffect, useState } from "react";
 
 const GROUPS=[{id:"tous",label:"Tous"},{id:"web",label:"Web"},{id:"applications",label:"Applications"},{id:"crm",label:"CRM"},{id:"video",label:"Vidéo"},{id:"audio",label:"Audio"},{id:"musique",label:"Musique"},{id:"ia",label:"IA"},{id:"projets",label:"Projets"}] as const;
@@ -24,6 +25,7 @@ export default function Portfolio(){
  {isLoading&&<p className="py-12 text-center text-muted-foreground">Chargement…</p>}{isError&&<p className="py-12 text-center text-muted-foreground">Les réalisations sont temporairement indisponibles.</p>}
  {!isLoading&&!isError&&<motion.div key={active} initial={{opacity:0}} animate={{opacity:1}} className="safe-grid">{visible.map(p=><PortfolioProjectCard key={p.id} project={p} previewTick={tick}/>)}</motion.div>}
  </div></div></main>
+ <StudioMediaPreview />
  <section className="section-space bg-secondary/30"><div className="site-container"><div className="content-measure"><h2 className="mb-8 text-center text-2xl sm:text-3xl">Services <span className="text-accent">proposés</span></h2><div className="safe-grid">{services.map(s=>{const I=s.icon;return <article key={s.title} className="rounded-2xl border bg-card p-6 text-center"><div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent"><I className="h-6 w-6 text-primary-foreground"/></div><h3 className="text-base sm:text-lg">{s.title}</h3><p className="mt-2 text-sm text-muted-foreground">{s.desc}</p></article>})}</div></div></div></section>
  <section className="section-space"><div className="site-container"><div className="content-measure text-center"><h2 className="text-2xl sm:text-3xl">Stack <span className="text-accent">technique</span></h2><div className="mt-6 flex flex-wrap justify-center gap-2">{techStack.map(t=><span key={t} className="rounded-full border bg-secondary px-3 py-1.5 text-xs font-medium sm:text-sm">{t}</span>)}</div></div></div></section>
  <section className="bg-gradient-to-r from-primary to-primary/80 py-14 text-center"><div className="site-container"><h2 className="text-2xl text-primary-foreground sm:text-3xl">Un projet en tête ?</h2><p className="mx-auto mt-3 max-w-2xl text-primary-foreground/75">Disponible pour vos projets locaux ou à distance.</p><Button className="mt-6" variant="secondary" asChild><Link to="/contact">Me contacter</Link></Button></div></section>

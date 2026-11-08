@@ -67,7 +67,7 @@ const Studio = () => {
           content="Vidéo, audio, musique et visuels produits par le studio média d'Inocent KOFFI."
         />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://ikoffi.agricapital.ci/studio" />
+        <link rel="canonical" href="https://www.ikoffi.agricapital.ci/studio" />
       </Helmet>
 
       <div className="min-h-screen">
