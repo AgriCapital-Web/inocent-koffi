@@ -11,7 +11,7 @@ const Footer = () => {
   const footerLinks = [
     { href: "/", label: n.home }, { href: "/a-propos", label: n.about },
     { href: "/services", label: n.services }, { href: "/realisations", label: n.work },
-    { href: "/autres-projets", label: n.other }, { href: "/studio", label: "Studio média" }, { href: "/actualites", label: n.news },
+    { href: "/autres-projets", label: n.other }, { href: "/actualites", label: n.news },
     { href: "/contact", label: n.contact },
   ];
   const socialLinks = [
