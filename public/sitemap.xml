@@ -285,21 +285,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <!-- Studio Média -->
-  <url>
-    <loc>https://www.ikoffi.agricapital.ci/studio</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ikoffi.agricapital.ci/studio"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.ikoffi.agricapital.ci/en/studio"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.ikoffi.agricapital.ci/es/studio"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.ikoffi.agricapital.ci/de/studio"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.ikoffi.agricapital.ci/zh/studio"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.ikoffi.agricapital.ci/ar/studio"/>
-    <xhtml:link rel="alternate" hreflang="bci" href="https://www.ikoffi.agricapital.ci/bci/studio"/>
-    <xhtml:link rel="alternate" hreflang="dyu" href="https://www.ikoffi.agricapital.ci/dyu/studio"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ikoffi.agricapital.ci/studio"/>
-  </url>
   <!-- Services -->
   <url>
     <loc>https://www.ikoffi.agricapital.ci/services</loc>
