@@ -37,6 +37,7 @@ Allow: /
 Crawl-delay: 2
 Disallow: /admin
 Disallow: /login
+Disallow: /client
 Disallow: /og-report
 Disallow: /recherche
 

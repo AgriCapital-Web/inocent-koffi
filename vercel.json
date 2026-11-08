@@ -164,11 +164,6 @@
       "permanent": true
     },
     {
-      "source": "/services",
-      "destination": "/boutique",
-      "permanent": true
-    },
-    {
       "source": "/agri-capital",
       "destination": "/agricapital",
       "permanent": true
@@ -194,11 +189,6 @@
       "permanent": true
     },
     {
-      "source": "/partenariat",
-      "destination": "/contact",
-      "permanent": true
-    },
-    {
       "source": "/galerie",
       "destination": "/realisations",
       "permanent": true
@@ -211,11 +201,6 @@
     {
       "source": "/pepiniere",
       "destination": "/agricapital",
-      "permanent": true
-    },
-    {
-      "source": "/evolution",
-      "destination": "/contact",
       "permanent": true
     },
     {
@@ -250,11 +235,6 @@
     },
     {
       "source": "/portfolio",
-      "destination": "/realisations",
-      "permanent": true
-    },
-    {
-      "source": "/studio",
       "destination": "/realisations",
       "permanent": true
     }

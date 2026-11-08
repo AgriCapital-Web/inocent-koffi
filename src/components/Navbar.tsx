@@ -31,8 +31,15 @@ const Navbar = () => {
     { href: "/contact", label: n.contact },
   ];
 
-  const isActive = (path: string) =>
-    path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
+  const isActive = (path: string) => {
+    const segments = location.pathname.split("/").filter(Boolean);
+    const languageCodes = ["fr", "en", "es", "de", "zh", "ar", "bci", "dyu"];
+    const currentPath = segments[0] && languageCodes.includes(segments[0])
+      ? "/" + segments.slice(1).join("/")
+      : location.pathname;
+    const normalizedPath = currentPath || "/";
+    return path === "/" ? normalizedPath === "/" : normalizedPath === path || normalizedPath.startsWith(path + "/");
+  };
 
   useEffect(() => { setIsMobileMenuOpen(false); }, [location.pathname]);
   useEffect(() => {

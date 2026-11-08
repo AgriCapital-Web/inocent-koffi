@@ -1,4 +1,4 @@
-const SITE_URL = "https://ikoffi.agricapital.ci";
+const SITE_URL = "https://www.ikoffi.agricapital.ci";
 
 function escapeHtml(value: string): string {
   return value
@@ -15,14 +15,14 @@ function stripHtml(value: string): string {
 
 function firstImage(value: unknown, fallback: string | null): string | null {
   if (Array.isArray(value)) {
-    const first = value.find((item): item is string => typeof item === "string" && item.trim());
+    const first = value.find((item): item is string => typeof item === "string" && item.trim().length > 0);
     return first || fallback;
   }
   if (typeof value === "string") {
     try {
       const parsed = JSON.parse(value);
       if (Array.isArray(parsed)) {
-        const first = parsed.find((item): item is string => typeof item === "string" && item.trim());
+        const first = parsed.find((item): item is string => typeof item === "string" && item.trim().length > 0);
         return first || fallback;
       }
     } catch {
@@ -78,7 +78,7 @@ export async function GET(request: Request) {
     "Actualités, analyses et publications d'Inocent KOFFI."
   );
   const image = firstImage(article.images, article.featured_image);
-  const canonical = SITE_URL + "/new/" + encodeURIComponent(article.slug);
+  const canonical = SITE_URL + "/actualites/" + encodeURIComponent(article.slug);
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description.slice(0, 300));
   const safeCanonical = escapeHtml(canonical);

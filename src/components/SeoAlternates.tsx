@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
 const CANONICAL_HOST = "www.ikoffi.agricapital.ci";
 const CANONICAL_ORIGIN = `https://${CANONICAL_HOST}`;
 const LANGS = ["fr", "en", "es", "de", "zh", "ar", "bci", "dyu"] as const;
-const NOINDEX_PREFIXES = ["/admin", "/login", "/og-report", "/recherche"];
+const NOINDEX_PREFIXES = ["/admin", "/login", "/client", "/og-report", "/recherche"];
 
 const upsertMeta = (name: string, content: string) => {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
@@ -28,7 +28,7 @@ const upsertMeta = (name: string, content: string) => {
   el.setAttribute("content", content);
 };
 
-/** Splits "/contact/en" into { base: "/contact", lang: "en" }. */
+/** Splits "/en/contact" into { base: "/contact", lang: "en" }. */
 export const splitLocalizedPath = (pathname: string) => {
   const parts = pathname.split("/").filter(Boolean);
   const first = parts[0];
@@ -49,7 +49,7 @@ const SeoAlternates = () => {
   useEffect(() => {
     const apply = () => {
       const { base, lang } = splitLocalizedPath(location.pathname);
-      const isPrivate = NOINDEX_PREFIXES.some((p) => base.startsWith(p));
+      const isPrivate = NOINDEX_PREFIXES.some((p) => base === p || base.startsWith(p + "/"));
       const isNewsPath = base === "/new" || base.startsWith("/new/");
       const isCanonicalHost =
         typeof window !== "undefined" && window.location.hostname === CANONICAL_HOST;

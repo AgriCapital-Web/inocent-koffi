@@ -68,7 +68,7 @@ const routes = [
   { path: "/login", element: <Login /> },
   { path: "/client", element: <ClientPortal /> },
   { path: "/admin", element: <Admin /> },
-  { path: "/studio", element: <Navigate to="/realisations" replace /> },
+  { path: "/studio", element: <Navigate to="/realisations#studio-media" replace /> },
   { path: "/mentions-legales", element: <MentionsLegales /> },
   { path: "/faq", element: <FAQPage /> },
   { path: "/n/:code", element: <ShortRedirect /> },
