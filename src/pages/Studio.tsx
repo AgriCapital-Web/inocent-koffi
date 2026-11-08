@@ -156,7 +156,7 @@ const Studio = () => {
               <h2 className="text-2xl sm:text-3xl font-bold text-center text-foreground mb-8">
                 Dernières <span className="text-accent">publications</span>
               </h2>
-              <div className="grid gap-5 grid-cols-2 sm:grid-cols-3">
+              <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {gallery.map((item) => (
                   <figure
                     key={item.name}
