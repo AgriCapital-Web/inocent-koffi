@@ -11,8 +11,10 @@
 - [ ] Vérifier les pages et les contrôles aux différentes largeurs, sans débordement.
 
 ## Contrôles restant à effectuer avant mise en production
-- [ ] Exécuter `npm run build` et `npm run lint` dans l'environnement du projet.
-- [ ] Tester les parcours, les liens externes et les pages à différentes largeurs d'écran.
+- [x] Build de production Vite exécuté avec succès sur l'aperçu Vercel de la branche.
+- [ ] Exécuter `npm run lint` et traiter les éventuelles erreurs de lint.
+- [ ] Tester les parcours, les liens externes et les pages à différentes largeurs d'écran dans un navigateur réel.
+- [ ] Optimiser le bundle principal (environ 1,8 Mo avant gzip) et actualiser les données Browserslist ; le build reste fonctionnel.
 - [ ] Vérifier les médias réellement présents dans le bucket public `blog-media/studio` et les autorisations de lecture.
 - [ ] Contrôler les métadonnées et les traductions page par page ; faire relire le baoulé et le dioula par des locuteurs.
 
