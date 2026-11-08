@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { Film, Music, Sparkles, Wand2 } from "lucide-react";
+import { Film, FileText, Image as ImageIcon, Music, Sparkles, Wand2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -29,28 +29,44 @@ const PILLARS = [
   },
 ];
 
+type StudioMediaKind = "image" | "video" | "audio" | "file";
+type StudioGalleryItem = { name: string; url: string; kind: StudioMediaKind };
+
+const mediaKind = (name: string, mimeType: string): StudioMediaKind => {
+  if (mimeType.startsWith("image/") || /\\.(avif|gif|jpe?g|png|webp)$/i.test(name)) return "image";
+  if (mimeType.startsWith("video/") || /\\.(mp4|webm|mov|m4v)$/i.test(name)) return "video";
+  if (mimeType.startsWith("audio/") || /\\.(mp3|m4a|wav|ogg|aac)$/i.test(name)) return "audio";
+  return "file";
+};
+
 const Studio = () => {
-  const [gallery, setGallery] = useState<{ name: string; url: string }[]>([]);
+  const [gallery, setGallery] = useState<StudioGalleryItem[]>([]);
 
   useEffect(() => {
     let active = true;
-    supabase.storage
-      .from(BUCKET)
-      .list(FOLDER, { limit: 24, sortBy: { column: "created_at", order: "desc" } })
-      .then(({ data }) => {
-        if (!active) return;
-        setGallery(
-          (data ?? [])
-            .filter((f) => f.name && !f.name.startsWith("."))
-            .map((f) => ({
-              name: f.name,
-              url: supabase.storage.from(BUCKET).getPublicUrl(`${FOLDER}/${f.name}`).data.publicUrl,
-            })),
-        );
-      });
-    return () => {
-      active = false;
+    const load = async () => {
+      try {
+        const { data, error } = await supabase.storage
+          .from(BUCKET)
+          .list(FOLDER, { limit: 24, sortBy: { column: "created_at", order: "desc" } });
+        if (error) throw error;
+        const files: StudioGalleryItem[] = (data ?? [])
+          .filter((file) => Boolean(file.id && file.name && !file.name.startsWith(".")))
+          .map((file) => {
+            const metadata = (file as unknown as { metadata?: { mimetype?: string } }).metadata;
+            return {
+              name: file.name,
+              url: supabase.storage.from(BUCKET).getPublicUrl(`${FOLDER}/${file.name}`).data.publicUrl,
+              kind: mediaKind(file.name, metadata?.mimetype ?? ""),
+            };
+          });
+        if (active) setGallery(files);
+      } catch {
+        if (active) setGallery([]);
+      }
     };
+    void load();
+    return () => { active = false; };
   }, []);
 
   return (
@@ -146,12 +162,30 @@ const Studio = () => {
                     key={item.name}
                     className="bg-card border border-border rounded-2xl overflow-hidden"
                   >
-                    <img
-                      src={item.url}
-                      alt={`Publication du studio média d'Inocent KOFFI : ${item.name.replace(/[-_]/g, " ")}`}
-                      className="w-full h-40 sm:h-48 object-cover"
-                      loading="lazy"
-                    />
+                    {item.kind === "image" && (
+                      <img
+                        src={item.url}
+                        alt={`Publication du studio média d'Inocent KOFFI : ${item.name.replace(/[-_]/g, " ")}`}
+                        className="w-full h-40 sm:h-48 object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    )}
+                    {item.kind === "video" && (
+                      <video src={item.url} controls preload="metadata" className="w-full aspect-video bg-black" aria-label={`Vidéo du Studio : ${item.name}`} />
+                    )}
+                    {item.kind === "audio" && (
+                      <div className="flex min-h-40 flex-col items-center justify-center gap-4 bg-secondary p-5">
+                        <Music className="h-8 w-8 text-accent" />
+                        <audio src={item.url} controls preload="none" className="w-full" />
+                      </div>
+                    )}
+                    {item.kind === "file" && (
+                      <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex min-h-40 flex-col items-center justify-center gap-3 bg-secondary p-5 text-muted-foreground hover:text-foreground">
+                        <FileText className="h-8 w-8" />
+                        <span className="text-sm font-semibold">Ouvrir le document</span>
+                      </a>
+                    )}
                   </figure>
                 ))}
               </div>
