@@ -15,14 +15,14 @@ function stripHtml(value: string): string {
 
 function firstImage(value: unknown, fallback: string | null): string | null {
   if (Array.isArray(value)) {
-    const first = value.find((item): item is string => typeof item === "string" && item.trim().length > 0);
+    const first = value.find((item): item is string => typeof item === "string" && item.trim().length > 0.length > 0);
     return first || fallback;
   }
   if (typeof value === "string") {
     try {
       const parsed = JSON.parse(value);
       if (Array.isArray(parsed)) {
-        const first = parsed.find((item): item is string => typeof item === "string" && item.trim());
+        const first = parsed.find((item): item is string => typeof item === "string" && item.trim().length > 0);
         return first || fallback;
       }
     } catch {

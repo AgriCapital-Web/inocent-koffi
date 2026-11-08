@@ -300,4 +300,49 @@
     <xhtml:link rel="alternate" hreflang="dyu" href="https://www.ikoffi.agricapital.ci/dyu/studio"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ikoffi.agricapital.ci/studio"/>
   </url>
+  <!-- Services -->
+  <url>
+    <loc>https://www.ikoffi.agricapital.ci/services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ikoffi.agricapital.ci/services"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ikoffi.agricapital.ci/en/services"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ikoffi.agricapital.ci/es/services"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.ikoffi.agricapital.ci/de/services"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.ikoffi.agricapital.ci/zh/services"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.ikoffi.agricapital.ci/ar/services"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://www.ikoffi.agricapital.ci/bci/services"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://www.ikoffi.agricapital.ci/dyu/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ikoffi.agricapital.ci/services"/>
+  </url>
+  <!-- Partenariat -->
+  <url>
+    <loc>https://www.ikoffi.agricapital.ci/partenariat</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ikoffi.agricapital.ci/partenariat"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ikoffi.agricapital.ci/en/partenariat"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ikoffi.agricapital.ci/es/partenariat"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.ikoffi.agricapital.ci/de/partenariat"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.ikoffi.agricapital.ci/zh/partenariat"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.ikoffi.agricapital.ci/ar/partenariat"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://www.ikoffi.agricapital.ci/bci/partenariat"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://www.ikoffi.agricapital.ci/dyu/partenariat"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ikoffi.agricapital.ci/partenariat"/>
+  </url>
+  <!-- Évolution -->
+  <url>
+    <loc>https://www.ikoffi.agricapital.ci/evolution</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.ikoffi.agricapital.ci/evolution"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ikoffi.agricapital.ci/en/evolution"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.ikoffi.agricapital.ci/es/evolution"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.ikoffi.agricapital.ci/de/evolution"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.ikoffi.agricapital.ci/zh/evolution"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.ikoffi.agricapital.ci/ar/evolution"/>
+    <xhtml:link rel="alternate" hreflang="bci" href="https://www.ikoffi.agricapital.ci/bci/evolution"/>
+    <xhtml:link rel="alternate" hreflang="dyu" href="https://www.ikoffi.agricapital.ci/dyu/evolution"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.ikoffi.agricapital.ci/evolution"/>
+  </url>
 </urlset>

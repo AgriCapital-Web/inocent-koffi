@@ -4,6 +4,7 @@
 - [x] Intégrer les médias publiés du Studio dans Réalisations.
 - [ ] Vérifier que les fiches des sites clients sont renseignées, publiées et correctement illustrées dans `portfolio_projects`.
 - [x] Harmoniser la navigation et le pied de page ; conserver les composants et la typographie existants.
+- [x] Retirer les anciennes redirections serveur qui masquaient les pages actives `/services`, `/partenariat`, `/evolution` et `/studio`.
 - [ ] Vérifier visuellement toutes les pages et confirmer les anciennes adresses par des tests de navigation.
 - [ ] Vérifier Services et Actualités, leurs médias et les métadonnées ; améliorer les traductions avec le glossaire existant sans inventer de validation linguistique.
 - [x] Vérifier le favicon : le fichier PNG existe déjà dans `public/` et est référencé dans `index.html`.
