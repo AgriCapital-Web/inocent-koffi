@@ -36,7 +36,6 @@ import ShortRedirect from "./pages/ShortRedirect";
 import NotFound from "./pages/NotFound";
 import FAQPage from "./pages/FAQ";
 import ClientPortal from "./pages/ClientPortal";
-import Studio from "./pages/Studio";
 
 const LegacyArticleRedirect = () => { const location = useLocation(); const slug = location.pathname.split("/").filter(Boolean).pop(); return <Navigate to={slug ? "/actualites/" + slug : "/actualites"} replace />; };
 
@@ -69,7 +68,7 @@ const routes = [
   { path: "/login", element: <Login /> },
   { path: "/client", element: <ClientPortal /> },
   { path: "/admin", element: <Admin /> },
-  { path: "/studio", element: <Studio /> },
+  { path: "/studio", element: <Navigate to="/realisations#studio-media" replace /> },
   { path: "/mentions-legales", element: <MentionsLegales /> },
   { path: "/faq", element: <FAQPage /> },
   { path: "/n/:code", element: <ShortRedirect /> },
