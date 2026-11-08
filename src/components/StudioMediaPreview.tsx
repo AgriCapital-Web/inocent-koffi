@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { ExternalLink, FileText, Film, Image as ImageIcon, Music2, Sparkles } from "lucide-react";
+import { FileText, Film, Image as ImageIcon, Music2, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 type MediaKind = "image" | "video" | "audio" | "file";
@@ -58,7 +57,7 @@ const StudioMediaPreview = () => {
   if (loading || items.length === 0) return null;
 
   return (
-    <section className="section-space bg-secondary/30" aria-labelledby="studio-publications-title">
+    <section id="studio-media" className="section-space scroll-mt-24 bg-secondary/30" aria-labelledby="studio-publications-title">
       <div className="site-container">
         <div className="content-measure">
           <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -70,12 +69,9 @@ const StudioMediaPreview = () => {
                 Créations & publications
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                Une sélection de contenus vidéo, audio et visuels publiés par le Studio.
+                Les créations vidéo, audio, musicales et visuelles viennent compléter les projets numériques présentés sur cette page.
               </p>
             </div>
-            <Link to="/studio" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
-              Découvrir le Studio <ExternalLink className="h-4 w-4" />
-            </Link>
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
