@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { Film, FileText, Image as ImageIcon, Music, Sparkles, Wand2 } from "lucide-react";
+import { Film, FileText, Music, Sparkles, Wand2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -33,9 +33,9 @@ type StudioMediaKind = "image" | "video" | "audio" | "file";
 type StudioGalleryItem = { name: string; url: string; kind: StudioMediaKind };
 
 const mediaKind = (name: string, mimeType: string): StudioMediaKind => {
-  if (mimeType.startsWith("image/") || /\\.(avif|gif|jpe?g|png|webp)$/i.test(name)) return "image";
-  if (mimeType.startsWith("video/") || /\\.(mp4|webm|mov|m4v)$/i.test(name)) return "video";
-  if (mimeType.startsWith("audio/") || /\\.(mp3|m4a|wav|ogg|aac)$/i.test(name)) return "audio";
+  if (mimeType.startsWith("image/") || /\.(avif|gif|jpe?g|png|webp)$/i.test(name)) return "image";
+  if (mimeType.startsWith("video/") || /\.(mp4|webm|mov|m4v)$/i.test(name)) return "video";
+  if (mimeType.startsWith("audio/") || /\.(mp3|m4a|wav|ogg|aac)$/i.test(name)) return "audio";
   return "file";
 };
 
