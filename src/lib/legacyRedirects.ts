@@ -9,7 +9,6 @@ export const LEGACY_REDIRECTS: Record<string, string> = {
   "/projet": "/realisations",
   "/projects": "/realisations",
   "/portfolio": "/realisations",
-  "/studio": "/realisations",
   "/projets": "/autres-projets",
   "/news": "/actualites",
   "/new": "/actualites",

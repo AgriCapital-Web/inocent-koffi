@@ -2,7 +2,8 @@
 
 - [x] Réserver Autres projets à AgriCapital et présenter site officiel, CRM équipe et portail client avec liens adaptés.
 - [x] Présenter les sites clients dans Réalisations et intégrer les médias publiés du Studio.
-- [x] Harmoniser accueil, navigation, pied de page et typographie ; vérifier les anciennes adresses.
+- [x] Harmoniser la navigation et le pied de page ; conserver les composants et la typographie existants.
+- [ ] Vérifier visuellement toutes les pages et confirmer les anciennes adresses par des tests de navigation.
 - [ ] Vérifier Services et Actualités, leurs médias et les métadonnées ; améliorer les traductions avec le glossaire existant sans inventer de validation linguistique.
 - [x] Vérifier le favicon : le fichier PNG existe déjà dans `public/` et est référencé dans `index.html`.
 - [ ] Vérifier les pages et les contrôles aux différentes largeurs, sans débordement.

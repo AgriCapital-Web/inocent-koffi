@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ExternalLink, FileText, Film, Image as ImageIcon, Music2, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -72,9 +73,9 @@ const StudioMediaPreview = () => {
                 Une sélection de contenus vidéo, audio et visuels publiés par le Studio.
               </p>
             </div>
-            <a href="/studio" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
+            <Link to="/studio" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
               Découvrir le Studio <ExternalLink className="h-4 w-4" />
-            </a>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
