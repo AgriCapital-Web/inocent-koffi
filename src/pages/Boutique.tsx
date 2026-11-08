@@ -20,7 +20,7 @@ const Boutique = () => {
     <Helmet>
       <title>Services & tarifs | Inocent KOFFI</title>
       <meta name="description" content="Découvrez et commandez les prestations numériques d’Inocent KOFFI : web, applications, IA, vidéo, audio et automatisation." />
-      <link rel="canonical" href="https://ikoffi.agricapital.ci/services" />
+      <link rel="canonical" href="https://www.ikoffi.agricapital.ci/services" />
     </Helmet>
     <div className="min-h-screen bg-background">
       <Navbar />
