@@ -15,7 +15,7 @@ declare global {
 
 let initialized = false;
 
-export const isAnalyticsEnabled = () => Boolean(MEASUREMENT_ID);
+const hasAnalyticsConsent = () => { try { return localStorage.getItem("agricapital_analytics_consent") === "accepted"; } catch { return false; } };\n\nexport const isAnalyticsEnabled = () => Boolean(MEASUREMENT_ID) && hasAnalyticsConsent();
 
 export const gtag = (...args: unknown[]) => {
   if (typeof window === "undefined") return;
@@ -24,7 +24,7 @@ export const gtag = (...args: unknown[]) => {
 };
 
 export const initAnalytics = () => {
-  if (initialized || !MEASUREMENT_ID || typeof document === "undefined") return;
+  if (initialized || !MEASUREMENT_ID || typeof document === "undefined" || !hasAnalyticsConsent()) return;
   initialized = true;
 
   const script = document.createElement("script");
@@ -46,7 +46,7 @@ export const trackPageView = (path: string, title?: string) => {
 };
 
 export const trackEvent = (name: string, params: Record<string, unknown> = {}) => {
-  if (!MEASUREMENT_ID) {
+  if (!isAnalyticsEnabled()) {
     if (import.meta.env.DEV) console.debug("[analytics:noop]", name, params);
     return;
   }
