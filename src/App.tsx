@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from
 import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/hooks/useLanguage";
 import React, { useEffect } from "react";
-import ScrollToTop from "@/components/ScrollToTop";\nimport CookieConsent from "@/components/CookieConsent";
+import ScrollToTop from "@/components/ScrollToTop";
+import CookieConsent from "@/components/CookieConsent";
 import { trackPageView } from "@/lib/analytics";
 import { OrganizationJsonLd, PersonJsonLd } from "@/components/SeoJsonLd";
 import SeoAlternates from "@/components/SeoAlternates";
@@ -27,7 +28,8 @@ import Contact from "./pages/Contact";
 import Commande from "./pages/Commande";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
-import MentionsLegales from "./pages/MentionsLegales";\nimport ConditionsUtilisation from "./pages/ConditionsUtilisation";
+import MentionsLegales from "./pages/MentionsLegales";
+import ConditionsUtilisation from "./pages/ConditionsUtilisation";
 import Evolution from "./pages/EvolutionEnhanced";
 import Portfolio from "./pages/Portfolio";
 import Forum from "./pages/Forum";
@@ -69,7 +71,8 @@ const routes = [
   { path: "/client", element: <ClientPortal /> },
   { path: "/admin", element: <Admin /> },
   { path: "/studio", element: <Navigate to="/realisations#studio-media" replace /> },
-  { path: "/mentions-legales", element: <MentionsLegales /> },\n  { path: "/conditions-utilisation", element: <ConditionsUtilisation /> },
+  { path: "/mentions-legales", element: <MentionsLegales /> },
+  { path: "/conditions-utilisation", element: <ConditionsUtilisation /> },
   { path: "/faq", element: <FAQPage /> },
   { path: "/n/:code", element: <ShortRedirect /> },
 ];
@@ -183,7 +186,8 @@ const App = () => (
             <PersonJsonLd />
             <SeoAlternates />
             <ScrollToTop />
-            <AppRoutes />\n            <CookieConsent />
+            <AppRoutes />
+            <CookieConsent />
           </LanguageProvider>
         </BrowserRouter>
       </TooltipProvider>
