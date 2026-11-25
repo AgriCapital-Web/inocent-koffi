@@ -34,8 +34,7 @@ const MentionsLegales = () => {
                 <section className="mb-8">
                   <h2 className="text-2xl font-bold mb-4 text-foreground">Hébergement</h2>
                   <p className="text-muted-foreground">
-                    Ce site est hébergé par Lovable (GPT Engineer, Inc.)<br />
-                    San Francisco, CA, USA
+                    Ce site est hébergé et diffusé par Vercel Inc. Les services de base de données et certaines fonctions applicatives reposent sur Supabase.
                   </p>
                 </section>
 
