@@ -43,7 +43,7 @@ export const initAnalytics = () => {
   gtag("config", MEASUREMENT_ID, { send_page_view: false });
 };
 
-export const trackPageView = (path: string, title?: string) => {
+export const disableAnalytics = () => {\n  if (typeof document !== "undefined") {\n    gtag("consent", "update", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });\n    document.cookie.split(";").forEach((part) => {\n      const name = part.trim().split("=")[0];\n      if (name.startsWith("_ga")) {\n        document.cookie = `${name}=; Max-Age=0; path=/`;\n        document.cookie = `${name}=; Max-Age=0; path=/; domain=.ikoffi.agricapital.ci`;\n      }\n    });\n  }\n};\n\nexport const trackPageView = (path: string, title?: string) => {
   if (!isAnalyticsEnabled()) return;
   initAnalytics();
   gtag("event", "page_view", {
