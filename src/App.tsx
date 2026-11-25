@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from
 import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/hooks/useLanguage";
 import React, { useEffect } from "react";
-import ScrollToTop from "@/components/ScrollToTop";
+import ScrollToTop from "@/components/ScrollToTop";\nimport CookieConsent from "@/components/CookieConsent";
 import { trackPageView } from "@/lib/analytics";
 import { OrganizationJsonLd, PersonJsonLd } from "@/components/SeoJsonLd";
 import SeoAlternates from "@/components/SeoAlternates";
@@ -183,7 +183,7 @@ const App = () => (
             <PersonJsonLd />
             <SeoAlternates />
             <ScrollToTop />
-            <AppRoutes />
+            <AppRoutes />\n            <CookieConsent />
           </LanguageProvider>
         </BrowserRouter>
       </TooltipProvider>
