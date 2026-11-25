@@ -31,7 +31,11 @@ export const gtag = (...args: unknown[]) => {
 };
 
 export const initAnalytics = () => {
-  if (initialized || !MEASUREMENT_ID || typeof document === "undefined" || !hasAnalyticsConsent()) return;
+  if (!MEASUREMENT_ID || typeof document === "undefined" || !hasAnalyticsConsent()) return;
+  if (initialized) {
+    gtag("consent", "update", { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+    return;
+  }
   initialized = true;
 
   const script = document.createElement("script");
@@ -40,7 +44,8 @@ export const initAnalytics = () => {
   document.head.appendChild(script);
 
   gtag("js", new Date());
-  gtag("config", MEASUREMENT_ID, { send_page_view: false });\n  gtag("consent", "update", { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+  gtag("config", MEASUREMENT_ID, { send_page_view: false });
+  gtag("consent", "update", { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
 };
 
 export const disableAnalytics = () => {
