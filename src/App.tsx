@@ -27,7 +27,7 @@ import Contact from "./pages/Contact";
 import Commande from "./pages/Commande";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
-import MentionsLegales from "./pages/MentionsLegales";
+import MentionsLegales from "./pages/MentionsLegales";\nimport ConditionsUtilisation from "./pages/ConditionsUtilisation";
 import Evolution from "./pages/EvolutionEnhanced";
 import Portfolio from "./pages/Portfolio";
 import Forum from "./pages/Forum";
@@ -69,7 +69,7 @@ const routes = [
   { path: "/client", element: <ClientPortal /> },
   { path: "/admin", element: <Admin /> },
   { path: "/studio", element: <Navigate to="/realisations#studio-media" replace /> },
-  { path: "/mentions-legales", element: <MentionsLegales /> },
+  { path: "/mentions-legales", element: <MentionsLegales /> },\n  { path: "/conditions-utilisation", element: <ConditionsUtilisation /> },
   { path: "/faq", element: <FAQPage /> },
   { path: "/n/:code", element: <ShortRedirect /> },
 ];
