@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import CountryPhoneInput from "@/components/common/CountryPhoneInput";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -252,7 +253,7 @@ const ContactForm = () => {
                 <FormItem>
                   <FormLabel>Téléphone (optionnel)</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+225 XX XX XX XX XX" {...field} />
+                    <CountryPhoneInput value={field.value || ""} onChange={field.onChange} onBlur={field.onBlur} name={field.name} placeholder="+Indicatif et numéro" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
