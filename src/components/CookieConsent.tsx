@@ -21,7 +21,8 @@ const CookieConsent = () => {
   const saveChoice = (next: "accepted" | "rejected") => {
     try { localStorage.setItem(CONSENT_KEY, next); } catch { /* Keep analytics disabled if storage is unavailable. */ }
     setVisible(false);
-    if (next === "rejected") disableAnalytics();\n    if (next === "accepted") {
+    if (next === "rejected") disableAnalytics();
+    if (next === "accepted") {
       initAnalytics();
       trackPageView(location.pathname + location.search);
     }
