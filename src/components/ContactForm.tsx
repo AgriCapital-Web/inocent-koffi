@@ -253,7 +253,7 @@ const ContactForm = () => {
                 <FormItem>
                   <FormLabel>Téléphone (optionnel)</FormLabel>
                   <FormControl>
-                    <CountryPhoneInput value={field.value || ""} onChange={field.onChange} placeholder="+Indicatif et numéro" />
+                    <CountryPhoneInput value={field.value || ""} onChange={field.onChange} onBlur={field.onBlur} name={field.name} placeholder="+Indicatif et numéro" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
