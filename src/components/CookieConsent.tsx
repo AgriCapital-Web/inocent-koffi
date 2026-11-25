@@ -10,7 +10,6 @@ const readChoice = () => {
 
 const CookieConsent = () => {
   const location = useLocation();
-  const [choice, setChoice] = useState<string | null>(() => readChoice());
   const [visible, setVisible] = useState(() => readChoice() === null);
 
   useEffect(() => {
@@ -21,7 +20,6 @@ const CookieConsent = () => {
 
   const saveChoice = (next: "accepted" | "rejected") => {
     try { localStorage.setItem(CONSENT_KEY, next); } catch { /* Keep analytics disabled if storage is unavailable. */ }
-    setChoice(next);
     setVisible(false);
     if (next === "accepted") {
       initAnalytics();
