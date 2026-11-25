@@ -52,7 +52,7 @@ const Footer = () => {
           </motion.div>
         </div>
         <div className="border-t border-primary-foreground/20 pt-6">
-          <div className="flex flex-col items-center justify-between gap-3 text-xs opacity-80 sm:flex-row sm:text-sm"><p>© {currentYear} Inocent KOFFI. {t("footer.rights")}.</p><Link to="/mentions-legales" className="hover:opacity-100">{t("footer.legal")}</Link></div>
+          <div className="flex flex-col items-center justify-between gap-3 text-xs opacity-80 sm:flex-row sm:text-sm"><p>© {currentYear} Inocent KOFFI. {t("footer.rights")}.</p><div className="flex flex-wrap items-center gap-4"><Link to="/mentions-legales" className="hover:opacity-100">{t("footer.legal")}</Link><Link to="/conditions-utilisation" className="hover:opacity-100">Conditions d’utilisation</Link><button type="button" onClick={() => window.dispatchEvent(new Event("agricapital:show-consent"))} className="hover:opacity-100">Gérer les cookies</button></div></div>
         </div>
       </div>
     </footer>

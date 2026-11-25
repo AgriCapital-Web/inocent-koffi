@@ -34,8 +34,7 @@ const MentionsLegales = () => {
                 <section className="mb-8">
                   <h2 className="text-2xl font-bold mb-4 text-foreground">Hébergement</h2>
                   <p className="text-muted-foreground">
-                    Ce site est hébergé par Lovable (GPT Engineer, Inc.)<br />
-                    San Francisco, CA, USA
+                    Ce site est hébergé et diffusé par Vercel Inc. Les services de base de données et certaines fonctions applicatives reposent sur Supabase.
                   </p>
                 </section>
 
@@ -49,14 +48,14 @@ const MentionsLegales = () => {
                 <section className="mb-8">
                   <h2 className="text-2xl font-bold mb-4 text-foreground">Protection des données personnelles</h2>
                   <p className="text-muted-foreground">
-                    Les informations recueillies via les formulaires de contact, de témoignage et de partenariat sont destinées exclusivement à AGRICAPITAL SARL. Elles ne sont en aucun cas cédées à des tiers. Conformément à la réglementation en vigueur, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Pour exercer ce droit, veuillez nous contacter à l'adresse : inocent.koffi@agricapital.ci
+                    Les données transmises via les formulaires (identité, coordonnées et contenu de la demande) sont utilisées pour répondre aux sollicitations et gérer la relation correspondante. Les demandes de commande et l’espace client peuvent nécessiter des traitements supplémentaires décrits dans les documents contractuels et notices applicables. Les prestataires techniques nécessaires à l’hébergement et à la base de données, notamment Vercel et Supabase, peuvent traiter les informations nécessaires au service. Les polices peuvent être chargées depuis Google Fonts. Google Analytics ne reçoit des données de navigation qu’après votre accord. Pour exercer vos droits d’accès, de rectification, d’opposition ou de suppression, contactez inocent.koffi@agricapital.ci.
                   </p>
                 </section>
 
                 <section className="mb-8">
                   <h2 className="text-2xl font-bold mb-4 text-foreground">Cookies</h2>
                   <p className="text-muted-foreground">
-                    Ce site utilise des cookies techniques nécessaires à son bon fonctionnement. Ces cookies ne collectent aucune donnée personnelle à des fins publicitaires.
+                    Les statistiques Google Analytics, lorsqu’elles sont configurées, restent désactivées tant que vous n’avez pas accepté leur utilisation. Votre choix est enregistré dans le navigateur. Vous pouvez refuser ou modifier ce choix à tout moment avec le lien « Gérer les cookies » en bas de page. Le refus des statistiques n’empêche pas la navigation.
                   </p>
                 </section>
 
