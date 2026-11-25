@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin, Facebook, Linkedin, MessageCircle } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import CountryPhoneInput from "@/components/common/CountryPhoneInput";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -154,7 +155,7 @@ const Contact = () => {
                         <FormItem>
                           <FormLabel>Téléphone (optionnel)</FormLabel>
                           <FormControl>
-                            <Input type="tel" placeholder="+225 XX XX XX XX XX" {...field} />
+                            <CountryPhoneInput value={field.value || ""} onChange={field.onChange} placeholder="+Indicatif et numéro" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
