@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { initAnalytics, trackPageView } from "@/lib/analytics";
+import { disableAnalytics, initAnalytics, trackPageView } from "@/lib/analytics";
 
 const CONSENT_KEY = "agricapital_analytics_consent";
 
@@ -21,7 +21,7 @@ const CookieConsent = () => {
   const saveChoice = (next: "accepted" | "rejected") => {
     try { localStorage.setItem(CONSENT_KEY, next); } catch { /* Keep analytics disabled if storage is unavailable. */ }
     setVisible(false);
-    if (next === "accepted") {
+    if (next === "rejected") disableAnalytics();\n    if (next === "accepted") {
       initAnalytics();
       trackPageView(location.pathname + location.search);
     }
