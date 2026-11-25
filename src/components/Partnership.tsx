@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import CountryPhoneInput from "@/components/common/CountryPhoneInput";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -189,7 +190,7 @@ const Partnership = () => {
                 <FormItem>
                   <FormLabel>Téléphone *</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+225 XX XX XX XX XX" {...field} />
+                    <CountryPhoneInput value={field.value || ""} onChange={field.onChange} placeholder="+Indicatif et numéro" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
