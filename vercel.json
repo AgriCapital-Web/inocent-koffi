@@ -107,6 +107,15 @@
           "value": "noindex, nofollow, noarchive, nosnippet"
         }
       ]
+    },
+    {
+      "source": "/recherche",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive, nosnippet"
+        }
+      ]
     }
   ],
   "redirects": [
