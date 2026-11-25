@@ -33,7 +33,7 @@ export const initAnalytics = () => {
   document.head.appendChild(script);
 
   gtag("js", new Date());
-  gtag("config", MEASUREMENT_ID, { send_page_view: true });
+  gtag("config", MEASUREMENT_ID, { send_page_view: false });
 };
 
 export const trackPageView = (path: string, title?: string) => {
