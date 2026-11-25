@@ -49,7 +49,7 @@ const MentionsLegales = () => {
                 <section className="mb-8">
                   <h2 className="text-2xl font-bold mb-4 text-foreground">Protection des données personnelles</h2>
                   <p className="text-muted-foreground">
-                    Les données transmises via les formulaires (identité, coordonnées et contenu de la demande) sont utilisées pour répondre aux sollicitations et gérer la relation correspondante. Les demandes de commande et l’espace client peuvent nécessiter des traitements supplémentaires décrits dans les documents contractuels et notices applicables. Les prestataires techniques nécessaires à l’hébergement, à la base de données et aux services demandés peuvent traiter ces informations. Pour exercer vos droits d’accès, de rectification, d’opposition ou de suppression, contactez inocent.koffi@agricapital.ci.
+                    Les données transmises via les formulaires (identité, coordonnées et contenu de la demande) sont utilisées pour répondre aux sollicitations et gérer la relation correspondante. Les demandes de commande et l’espace client peuvent nécessiter des traitements supplémentaires décrits dans les documents contractuels et notices applicables. Les prestataires techniques nécessaires à l’hébergement et à la base de données, notamment Vercel et Supabase, peuvent traiter les informations nécessaires au service. Les polices peuvent être chargées depuis Google Fonts. Google Analytics ne reçoit des données de navigation qu’après votre accord. Pour exercer vos droits d’accès, de rectification, d’opposition ou de suppression, contactez inocent.koffi@agricapital.ci.
                   </p>
                 </section>
 
