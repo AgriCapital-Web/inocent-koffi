@@ -1,6 +1,5 @@
 /**
- * GA4 analytics — safe no-op when no measurement ID is configured.
- * Measurement ID comes from the Google Analytics connector env var.
+ * GA4 analytics — no-op until the visitor has explicitly accepted statistics.
  */
 const MEASUREMENT_ID =
   (import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY as string | undefined) ||
@@ -15,7 +14,15 @@ declare global {
 
 let initialized = false;
 
-const hasAnalyticsConsent = () => { try { return localStorage.getItem("agricapital_analytics_consent") === "accepted"; } catch { return false; } };\n\nexport const isAnalyticsEnabled = () => Boolean(MEASUREMENT_ID) && hasAnalyticsConsent();
+const hasAnalyticsConsent = () => {
+  try {
+    return localStorage.getItem("agricapital_analytics_consent") === "accepted";
+  } catch {
+    return false;
+  }
+};
+
+export const isAnalyticsEnabled = () => Boolean(MEASUREMENT_ID) && hasAnalyticsConsent();
 
 export const gtag = (...args: unknown[]) => {
   if (typeof window === "undefined") return;
@@ -37,7 +44,8 @@ export const initAnalytics = () => {
 };
 
 export const trackPageView = (path: string, title?: string) => {
-  if (!MEASUREMENT_ID) return;
+  if (!isAnalyticsEnabled()) return;
+  initAnalytics();
   gtag("event", "page_view", {
     page_path: path,
     page_location: typeof window !== "undefined" ? window.location.href : undefined,
@@ -50,14 +58,13 @@ export const trackEvent = (name: string, params: Record<string, unknown> = {}) =
     if (import.meta.env.DEV) console.debug("[analytics:noop]", name, params);
     return;
   }
+  initAnalytics();
   gtag("event", name, params);
 };
 
-/** CTA click: `location` = page/section, `label` = which CTA. */
 export const trackCta = (label: string, location: string, extra: Record<string, unknown> = {}) =>
   trackEvent("cta_click", { cta_label: label, cta_location: location, ...extra });
 
-/** Lead form submitted successfully. */
 export const trackLead = (formName: string, extra: Record<string, unknown> = {}) => {
   trackEvent("generate_lead", { form_name: formName, ...extra });
   trackEvent("form_submit", { form_name: formName, ...extra });
