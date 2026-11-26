@@ -48,8 +48,8 @@ import AdminArticleStats from "@/components/admin/AdminArticleStats";
 import AdminOGAudit from "@/components/admin/AdminOGAudit";
 import AdminRoutesAudit from "@/components/admin/AdminRoutesAudit";
 import AdminStudio from "@/components/admin/AdminStudio";
-import AdminBoutique from "@/components/admin/AdminBoutique";
-import { AdminOrders } from "@/components/admin/AdminOrders";
+import { AdminOrders, AdminPayments } from "@/components/admin/AdminOrders";
+import { AdminServicesPrices, AdminRealisations, AdminSites } from "@/components/admin/AdminContent";
 
 interface Testimonial {
   id: string;
@@ -292,8 +292,11 @@ const Admin = () => {
     { id: "comments", icon: <MessageSquare className="h-4 w-4" />, label: "Commentaires" },
     { id: "media", icon: <Image className="h-4 w-4" />, label: "Médias" },
     { id: "studio", icon: <Clapperboard className="h-4 w-4" />, label: "Studio média" },
-    { id: "boutique", icon: <ShoppingBag className="h-4 w-4" />, label: "Boutique" },
+    { id: "boutique", icon: <ShoppingBag className="h-4 w-4" />, label: "Services & prix" },
+    { id: "realisations", icon: <Image className="h-4 w-4" />, label: "Réalisations" },
+    { id: "sites", icon: <Globe className="h-4 w-4" />, label: "Sites clients" },
     { id: "orders", icon: <Receipt className="h-4 w-4" />, label: "Commandes" },
+    { id: "payments", icon: <Receipt className="h-4 w-4" />, label: "Paiements" },
     { id: "database", icon: <Database className="h-4 w-4" />, label: "Base de données" },
     { id: "analytics", icon: <BarChart3 className="h-4 w-4" />, label: "Analytiques" },
     { id: "article-stats", icon: <Eye className="h-4 w-4" />, label: "Stats Articles" },
@@ -844,7 +847,10 @@ const Admin = () => {
             {/* Settings */}
             {activeTab === "studio" && <AdminStudio />}
 
-            {activeTab === "boutique" && <AdminBoutique />}
+            {activeTab === "boutique" && <AdminServicesPrices />}
+            {activeTab === "realisations" && <AdminRealisations />}
+            {activeTab === "sites" && <AdminSites />}
+            {activeTab === "payments" && <AdminPayments />}
             {activeTab === "orders" && <AdminOrders />}
 
             {activeTab === "settings" && <AdminSettings />}

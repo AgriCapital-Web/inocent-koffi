@@ -9,8 +9,8 @@ const patrimoine = { url: "https://dmmcy0pwk6bqi.cloudfront.net/0c4c37cc51ecc3be
 
 const interfaces = [
   { icon: Globe, title: "Le site officiel", label: "Découvrir AgriCapital", url: "https://www.agricapital.ci", domain: "www.agricapital.ci", text: "La vision, les offres et les informations officielles d’AgriCapital. Le point d’entrée pour découvrir l’entreprise et envisager un projet agricole." },
-  { icon: LayoutDashboard, title: "L’application métier", label: "Accéder à l’espace de gestion", url: "https://app.agricapital.ci", domain: "app.agricapital.ci", text: "Un outil métier et CRM que j’ai développé pour les besoins opérationnels d’AgriCapital. Un environnement réservé aux équipes pour organiser et accompagner le développement de ses activités." },
-  { icon: Users, title: "Le portail client", label: "Accéder à mon espace client", url: "https://client.agricapital.ci", domain: "client.agricapital.ci", text: "Un espace personnalisé que j’ai développé pour nos clients : suivi en temps réel de leur plantation et échanges transparents avec l’équipe opérationnelle." },
+  { icon: LayoutDashboard, title: "Espace de gestion — CRM", label: "Accéder à l’espace de gestion", url: "https://app.agricapital.ci", domain: "app.agricapital.ci", text: "Réservé aux équipes AgriCapital : l’outil de gestion que j’ai développé pour organiser et suivre les activités opérationnelles." },
+  { icon: Users, title: "Le portail client", label: "Accéder à mon espace client", url: "https://client.agricapital.ci", domain: "client.agricapital.ci", text: "Le suivi en temps réel de leur plantation et la possibilité d’échanger en toute transparence avec l’équipe opérationnelle." },
 ];
 export default function Projets() {
   const title = "Autres projets — AgriCapital | Inocent KOFFI";

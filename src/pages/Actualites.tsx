@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE_URL, BreadcrumbJsonLd, WebPageJsonLd } from "@/components/SeoJsonLd";
 import { useLanguage } from "@/hooks/useLanguage";
+import { pagesFor } from "@/lib/i18n/pageContent";
 
 type NewsItem = { id: string; slug: string; title_fr: string; excerpt_fr?: string | null; content_fr?: string | null; category?: string | null; featured_image?: string | null; images?: unknown; videos?: unknown; is_featured?: boolean; published_at?: string | null; created_at: string; views_count?: number | null; };
 
@@ -21,6 +22,7 @@ const minutes = (t = "") => Math.max(1, Math.ceil(strip(t).split(/\s+/).filter(B
 
 export default function Actualites() {
   const { language, t } = useLanguage();
+  const N = pagesFor(language).news;
   const [cat, setCat] = useState("Toutes");
   const [q, setQ] = useState("");
   const [cinema, setCinema] = useState(true);
@@ -70,10 +72,10 @@ export default function Actualites() {
                   </div>
                   <h1 className="mt-5 max-w-6xl font-serif text-[clamp(2.8rem,7vw,8rem)] font-semibold leading-[.88] tracking-[-.035em] text-balance">{loc(featured, "title")}</h1>
                   <p className="mt-6 max-w-3xl text-sm leading-6 text-white/75 sm:text-lg sm:leading-8">{loc(featured, "excerpt") || strip(loc(featured, "content")).slice(0, 280)}</p>
-                  <Link to={"/actualites/" + featured.slug} className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#c99a4a] px-5 py-3 text-sm font-bold text-[#151515] shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e1b96e]">Lire le reportage <ArrowRight className="h-4 w-4" /></Link>
+                  <Link to={"/actualites/" + featured.slug} className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#c99a4a] px-5 py-3 text-sm font-bold text-[#151515] shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e1b96e]">{N.read} <ArrowRight className="h-4 w-4" /></Link>
                 </div>
               ) : (
-                <div><Sparkles className="h-8 w-8 text-[#c99a4a]" /><h1 className="mt-4 font-serif text-5xl sm:text-7xl">Journal</h1><p className="mt-4 text-white/60">Aucune publication pour le moment.</p></div>
+                <div><Sparkles className="h-8 w-8 text-[#c99a4a]" /><h1 className="mt-4 font-serif text-5xl sm:text-7xl">{N.title}</h1><p className="mt-4 text-white/60">{N.empty}</p></div>
               )}
             </div>
             <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[10px] uppercase tracking-[.3em] text-white/45"><span className="h-px w-10 bg-white/25" /><span>Inocent KOFFI · Journal</span><span className="h-px w-10 bg-white/25" /></div>

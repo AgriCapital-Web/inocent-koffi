@@ -21,28 +21,12 @@ export const usePortfolioProjects = () =>
   useQuery({
     queryKey: ["portfolio-projects-public"],
     queryFn: async (): Promise<PortfolioProject[]> => {
-      const { data, error } = await supabase
-        .from("portfolio_projects")
-        .select("id,title,slug,category,description,url,official_domain,image_url,fallback_image_url,last_live_preview_url,last_live_preview_at,live_preview_status,technologies")
-        .eq("is_published", true)
-        .order("sort_order", { ascending: true });
-
+      const { data, error } = await supabase.from("sites").select("*").eq("is_published", true).order("sort_order", { ascending: true });
       if (error) throw error;
-
       return (data ?? []).map(row => ({
-        id: row.id,
-        title: row.title,
-        slug: row.slug,
-        category: row.category,
-        description: row.description,
-        url: row.url,
-        official_domain: row.official_domain,
-        image_url: row.image_url,
-        fallback_image_url: row.fallback_image_url,
-        last_live_preview_url: row.last_live_preview_url,
-        last_live_preview_at: row.last_live_preview_at,
-        live_preview_status: row.live_preview_status,
-        technologies: row.technologies ?? [],
+        id: row.id, title: row.name, slug: row.id, category: row.category ?? "web", description: row.description,
+        url: row.url, official_domain: row.url, image_url: row.logo_url, fallback_image_url: row.logo_url,
+        last_live_preview_url: null, last_live_preview_at: row.updated_at, live_preview_status: row.status, technologies: [],
       }));
     },
     staleTime: 60_000,

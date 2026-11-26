@@ -7,6 +7,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/hooks/useLanguage";
+import { pagesFor } from "@/lib/i18n/pageContent";
 import { useShopCatalog, servicePriceLabel, type ShopCategory, type ServiceRow } from "@/hooks/useSiteContent";
 
 const icons = { web: Code2, video: Film, audio: Music2, ia: Sparkles };
@@ -14,6 +16,8 @@ const icons = { web: Code2, video: Film, audio: Music2, ia: Sparkles };
 const Boutique = () => {
   const { data: categories = [], isLoading, isError } = useShopCatalog();
   const [category, setCategory] = useState("all");
+  const { language } = useLanguage();
+  const P = pagesFor(language).services;
   const visible = useMemo(() => category === "all" ? categories : categories.filter(c => c.id === category), [categories, category]);
 
   return <>
@@ -28,10 +32,10 @@ const Boutique = () => {
         <section className="relative overflow-hidden bg-primary px-4 py-16 sm:py-24">
 
           <div className="relative mx-auto max-w-6xl text-primary-foreground">
-            <Badge className="border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground">Services & tarifs</Badge>
-            <h1 className="mt-5 max-w-4xl font-display text-4xl font-extrabold tracking-tight sm:text-6xl">Une idée. Un produit. <span className="text-accent">En ligne.</span></h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-primary-foreground/75 sm:text-lg">Sites web, applications, IA, vidéo, audio et formation : des solutions adaptées à votre projet.</p>
-            <div className="mt-7 flex flex-wrap gap-3"><Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/commande">Démarrer une commande <ArrowRight className="ml-2 h-4 w-4"/></Link></Button><Button asChild variant="outline" className="border-primary-foreground/25 bg-primary-foreground/5 text-primary-foreground hover:bg-primary-foreground/10"><Link to="/realisations">Voir les réalisations</Link></Button></div>
+            <Badge className="border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground">{P.kicker}</Badge>
+            <h1 className="mt-5 max-w-4xl font-display text-4xl font-extrabold tracking-tight sm:text-6xl">{P.title} <span className="text-accent">{P.accent}</span></h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-primary-foreground/75 sm:text-lg">{P.lead}</p>
+            <div className="mt-7 flex flex-wrap gap-3"><Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/commande">{P.order} <ArrowRight className="ml-2 h-4 w-4"/></Link></Button><Button asChild variant="outline" className="border-primary-foreground/25 bg-primary-foreground/5 text-primary-foreground hover:bg-primary-foreground/10"><Link to="/realisations">{P.work}</Link></Button></div>
           </div>
         </section>
 
