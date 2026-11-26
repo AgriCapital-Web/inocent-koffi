@@ -9,13 +9,15 @@ import { usePortfolioProjects } from "@/hooks/usePortfolioProjects";
 import PortfolioProjectCard from "@/components/PortfolioProjectCard";
 import StudioMediaPreview from "@/components/StudioMediaPreview";
 import { useMemo, useEffect, useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
+import { pagesFor } from "@/lib/i18n/pageContent";
 
 const GROUPS=[{id:"tous",label:"Tous"},{id:"web",label:"Web"},{id:"applications",label:"Applications"},{id:"crm",label:"CRM"},{id:"video",label:"Vidéo"},{id:"audio",label:"Audio"},{id:"musique",label:"Musique"},{id:"ia",label:"IA"},{id:"projets",label:"Projets"}] as const;
 const services=[{icon:Globe,title:"Sites Web & E-commerce",desc:"Boutiques en ligne, vitrines, marketplaces — conception sur mesure"},{icon:Code,title:"Applications & CRM",desc:"Outils métier sur mesure, gestion interne, automatisation"},{icon:Brain,title:"Intégration IA",desc:"Chatbots, génération de contenu, automatisation intelligente"},{icon:BarChart3,title:"Dashboards & Analytics",desc:"Tableaux de bord, rapports, suivi en temps réel"},{icon:GraduationCap,title:"Formation & Accompagnement",desc:"Initiation et prise en main de vos plateformes"},{icon:CreditCard,title:"Portails clients & paiements",desc:"Espaces clients sécurisés, suivi financier et documents"},{icon:Layers,title:"Projets complexes",desc:"Architectures multi-tenant, RLS, rôles, workflows et API"}];
 const techStack=["React","TypeScript","Vite","Tailwind CSS","Shadcn/ui","Supabase","PostgreSQL","Edge Functions","KkiaPay","Framer Motion","React Query","IA Gemini / GPT","Node.js","REST API","Vercel","PWA"];
 
 export default function Portfolio(){
- const [active,setActive]=useState("tous"),[tick,setTick]=useState(Date.now()); const {data:projects=[],isLoading,isError}=usePortfolioProjects();
+ const { language } = useLanguage(); const P = pagesFor(language).work; const [active,setActive]=useState("tous"),[tick,setTick]=useState(Date.now()); const {data:projects=[],isLoading,isError}=usePortfolioProjects();
  useEffect(()=>{const id=window.setInterval(()=>setTick(Date.now()),30000);return()=>window.clearInterval(id)},[]);
  const visible=useMemo(()=>active==="tous"?projects:projects.filter(p=>p.category===active),[active,projects]);
  return <><Helmet><title>Réalisations | Inocent KOFFI</title><meta name="description" content="Réalisations web, IA, applications et projets conçus par Inocent KOFFI."/></Helmet><div className="min-h-screen"><Navbar/>
